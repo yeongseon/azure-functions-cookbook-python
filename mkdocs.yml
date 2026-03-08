@@ -1,0 +1,44 @@
+site_name: Azure Functions Python Cookbook
+site_description: Practical recipes and examples for Azure Functions Python
+site_author: Yeongseon Choe
+repo_url: https://github.com/yeongseon/azure-functions-python-cookbook
+edit_uri: edit/main/docs/
+
+theme:
+  name: material
+  features:
+    - navigation.tabs
+    - content.code.copy
+
+nav:
+  - Home: index.md
+  - Recipes: recipes.md
+  - Architecture: architecture.md
+  - Roadmap: roadmap.md
+  - Security: security.md
+  - Changelog: changelog.md
+  - Contributing: contributing.md
+
+markdown_extensions:
+  - admonition
+  - codehilite
+  - toc:
+      permalink: true
+      toc_depth: 3
+  - tables
+  - pymdownx.superfences
+  - pymdownx.highlight
+  - pymdownx.tabbed
+  - pymdownx.details
+  - pymdownx.inlinehilite
+  - pymdownx.emoji
+
+plugins:
+  - search
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/yeongseon/azure-functions-python-cookbook
+  copyright: |
+    © 2026 Yeongseon Choe – MIT Licensed
