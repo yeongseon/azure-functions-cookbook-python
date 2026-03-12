@@ -1,127 +1,328 @@
 # Recipes
 
-Recipes are curated implementation patterns for common Azure Functions scenarios. They provide a structured approach to building, deploying, and maintaining serverless applications using the Azure Functions Python v2 programming model. Each recipe addresses a specific workload or integration pattern, offering a production-ready starting point that incorporates best practices for performance, security, and scalability.
+This page maps each cookbook recipe to a concrete Azure Functions Python v2 implementation pattern. Every example uses decorator-based bindings with `func.FunctionApp()` and focuses on production concerns: validation, explicit response contracts, idempotency, and clear trigger semantics.
 
 ## Recipe Catalog
 
-The following table summarizes the recipes available in this cookbook. Each recipe is designed to be self-contained and easily adaptable to your specific project requirements.
+| Recipe | Trigger | Primary Use Case |
+|--------|---------|------------------|
+| HTTP API Basic | HTTP | CRUD-style endpoints with lightweight validation |
+| HTTP API with OpenAPI | HTTP | Documented APIs with generated contracts |
+| GitHub Webhook Receiver | HTTP | Signed event ingestion and event dispatch |
+| Queue Worker | Queue | Asynchronous background processing |
+| Timer Scheduled Job | Timer | Scheduled maintenance and synchronization |
 
-| Recipe | Trigger | Use Case |
-|--------|---------|----------|
-| HTTP API Basic | HTTP | REST endpoints, CRUD operations |
-| HTTP API with OpenAPI | HTTP | API with auto-generated documentation |
-| GitHub Webhook Receiver | HTTP | Event-driven webhook processing |
-| Queue Worker | Queue | Background job processing |
-| Timer Scheduled Job | Timer | Periodic task execution |
+## HTTP API Basic
 
-### HTTP API Basic
+Use this pattern for simple REST endpoints when you need predictable request handling and typed payload validation without introducing extra framework layers.
 
-This recipe demonstrates how to build a standard RESTful API using HTTP triggers. It covers handling different HTTP methods, parsing request bodies, and returning appropriate JSON responses with correct status codes.
+```python
+import json
 
-When to use:
-- Building simple microservices that expose REST endpoints.
-- Implementing CRUD operations for a data store or backend service.
-- Creating lightweight web APIs for mobile or web applications.
+import azure.functions as func
+from pydantic import BaseModel
 
-Key concepts:
-- Mapping HTTP routes to specific Python functions.
-- Extracting parameters from query strings and request bodies.
-- Using the standard Azure Functions HttpRequest and HttpResponse objects.
 
-Reference the full recipe file: [recipes/http_api_basic.md](../recipes/http_api_basic.md)
+class ItemCreateRequest(BaseModel):
+    name: str
+    quantity: int
 
-### HTTP API with OpenAPI
 
-This recipe extends the basic HTTP API by integrating OpenAPI (Swagger) documentation. It shows how to use decorators or configuration to automatically generate an interactive API console and specification file.
+app = func.FunctionApp(http_auth_level=func.AuthLevel.FUNCTION)
 
-When to use:
-- Building APIs that will be consumed by external developers or teams.
-- Requiring a standardized way to document and test API endpoints.
-- Integrating with API management tools that rely on OpenAPI specifications.
 
-Key concepts:
-- Defining request and response schemas for API documentation.
-- Using OpenAPI decorators to describe endpoint functionality and parameters.
-- Serving the Swagger UI directly from the Azure Function app.
+@app.route(route="items", methods=["POST"])
+def create_item(req: func.HttpRequest) -> func.HttpResponse:
+    try:
+        payload = ItemCreateRequest.model_validate_json(req.get_body())
+    except Exception:
+        return func.HttpResponse("Invalid request body", status_code=400)
 
-Reference the full recipe file: [recipes/http_api_openapi.md](../recipes/http_api_openapi.md)
+    response = {"id": "item-001", "name": payload.name, "quantity": payload.quantity}
+    return func.HttpResponse(json.dumps(response), mimetype="application/json", status_code=201)
+```
 
-### GitHub Webhook Receiver
+```python
+import json
 
-This recipe focuses on processing incoming webhooks from GitHub. It includes validation logic to ensure that requests are authentic and demonstrates how to handle various event types asynchronously.
+import azure.functions as func
+from pydantic import BaseModel
 
-When to use:
-- Automating workflows in response to GitHub events like pull requests or pushes.
-- Building custom integrations with GitHub Actions or other CI/CD tools.
-- Real-time monitoring of repository activity or issue management.
 
-Key concepts:
-- Verifying GitHub webhook signatures for security and authenticity.
-- Parsing complex JSON payloads from diverse GitHub event types.
-- Implementing logic to branch based on specific event actions.
+class ItemResponse(BaseModel):
+    id: str
+    name: str
+    quantity: int
 
-Reference the full recipe file: [recipes/github_webhook.md](../recipes/github_webhook.md)
 
-### Queue Worker
+app = func.FunctionApp(http_auth_level=func.AuthLevel.FUNCTION)
 
-This recipe illustrates the producer-consumer pattern using Azure Storage Queues. It shows how to trigger a function whenever a new message is added to a queue, allowing for decoupled background processing.
 
-When to use:
-- Handling long-running tasks that shouldn't block an HTTP request.
-- Offloading heavy processing workloads to background workers.
-- Implementing reliable message-based communication between different services.
+@app.route(route="items/{item_id}", methods=["GET"])
+def get_item(req: func.HttpRequest) -> func.HttpResponse:
+    item_id = req.route_params.get("item_id", "")
+    result = ItemResponse(id=item_id, name="sample", quantity=1)
+    return func.HttpResponse(result.model_dump_json(), mimetype="application/json", status_code=200)
+```
 
-Key concepts:
-- Configuring queue triggers to process messages as they arrive.
-- Managing visibility timeouts and handling message retries.
-- Scaling the number of worker instances based on the queue depth.
+Reference: [recipes/http-api-basic.md](https://github.com/yeongseonchoe/azure-functions-python-cookbook/blob/main/recipes/http-api-basic.md)
 
-Reference the full recipe file: [recipes/queue_worker.md](../recipes/queue_worker.md)
+## HTTP API with OpenAPI
 
-### Timer Scheduled Job
+Use this pattern when your API requires a browsable contract and stable schemas for consumers. Keep schema models near handler code so docs evolve with behavior.
 
-This recipe shows how to run Python code on a fixed schedule using cron expressions. It is ideal for periodic maintenance tasks, report generation, or data synchronization routines.
+```python
+import azure.functions as func
+from azure_functions_openapi import OpenAPI
+from pydantic import BaseModel
 
-When to use:
-- Performing nightly data backups or cleanup operations.
-- Generating and sending periodic reports or notifications.
-- Syncing data between external systems at regular intervals.
 
-Key concepts:
-- Defining execution schedules using standard NCrontab expressions.
-- Ensuring singleton execution of scheduled tasks across multiple instances.
-- Monitoring execution history and handling missed occurrences.
+class ProductResponse(BaseModel):
+    id: str
+    name: str
+    price: float
 
-Reference the full recipe file: [recipes/timer_trigger.md](../recipes/timer_trigger.md)
+
+app = func.FunctionApp(http_auth_level=func.AuthLevel.FUNCTION)
+openapi = OpenAPI(app=app)
+
+
+@app.route(route="products/{product_id}", methods=["GET"])
+@openapi.doc(
+    summary="Get a product",
+    params={"product_id": "Product identifier"},
+    responses={200: {"description": "Product details"}},
+)
+def get_product(req: func.HttpRequest) -> func.HttpResponse:
+    product_id = req.route_params.get("product_id", "")
+    payload = ProductResponse(id=product_id, name="starter", price=9.99)
+    return func.HttpResponse(payload.model_dump_json(), mimetype="application/json", status_code=200)
+```
+
+```python
+import azure.functions as func
+from azure_functions_openapi import OpenAPI
+from pydantic import BaseModel
+
+
+class ProductCreateRequest(BaseModel):
+    name: str
+    price: float
+
+
+app = func.FunctionApp(http_auth_level=func.AuthLevel.FUNCTION)
+openapi = OpenAPI(app=app)
+
+
+@app.route(route="products", methods=["POST"])
+@openapi.doc(
+    summary="Create a product",
+    request_body={"description": "Product payload"},
+    responses={201: {"description": "Created"}},
+)
+def create_product(req: func.HttpRequest) -> func.HttpResponse:
+    payload = ProductCreateRequest.model_validate_json(req.get_body())
+    body = {"id": "generated-id", "name": payload.name, "price": payload.price}
+    return func.HttpResponse(str(body).replace("'", '"'), mimetype="application/json", status_code=201)
+```
+
+Reference: [recipes/http-api-openapi.md](https://github.com/yeongseonchoe/azure-functions-python-cookbook/blob/main/recipes/http-api-openapi.md)
+
+## GitHub Webhook Receiver
+
+Use this pattern for event-driven automation from GitHub. The core requirements are signature validation, event routing, and safe repeated processing.
+
+```python
+import hashlib
+import hmac
+import json
+import os
+
+import azure.functions as func
+from pydantic import BaseModel
+
+
+class PullRequestEvent(BaseModel):
+    action: str
+    number: int
+
+
+app = func.FunctionApp(http_auth_level=func.AuthLevel.FUNCTION)
+
+
+def is_valid_signature(payload: bytes, header_signature: str | None) -> bool:
+    if not header_signature:
+        return False
+    secret = os.getenv("GITHUB_WEBHOOK_SECRET", "").encode("utf-8")
+    digest = hmac.new(secret, payload, hashlib.sha256).hexdigest()
+    expected = f"sha256={digest}"
+    return hmac.compare_digest(expected, header_signature)
+
+
+@app.route(route="github/webhook", methods=["POST"])
+def github_webhook(req: func.HttpRequest) -> func.HttpResponse:
+    payload = req.get_body()
+    signature = req.headers.get("X-Hub-Signature-256")
+    if not is_valid_signature(payload, signature):
+        return func.HttpResponse("Invalid signature", status_code=401)
+
+    event_name = req.headers.get("X-GitHub-Event", "unknown")
+    body = json.loads(payload.decode("utf-8"))
+    if event_name == "pull_request":
+        event = PullRequestEvent.model_validate(body)
+        return func.HttpResponse(f"Handled pull request #{event.number}", status_code=200)
+
+    return func.HttpResponse("Event ignored", status_code=202)
+```
+
+```python
+import azure.functions as func
+from pydantic import BaseModel
+
+
+class DeliveryRecord(BaseModel):
+    delivery_id: str
+    event: str
+
+
+app = func.FunctionApp(http_auth_level=func.AuthLevel.FUNCTION)
+
+
+def record_delivery(record: DeliveryRecord) -> None:
+    _ = record
+
+
+@app.route(route="github/webhook/ingest", methods=["POST"])
+def ingest_webhook(req: func.HttpRequest) -> func.HttpResponse:
+    delivery_id = req.headers.get("X-GitHub-Delivery", "")
+    event = req.headers.get("X-GitHub-Event", "")
+    record_delivery(DeliveryRecord(delivery_id=delivery_id, event=event))
+    return func.HttpResponse("Accepted", status_code=202)
+```
+
+Reference: [recipes/github-webhook.md](https://github.com/yeongseonchoe/azure-functions-python-cookbook/blob/main/recipes/github-webhook.md)
+
+## Queue Worker
+
+Use this pattern to decouple user-facing requests from expensive background work. Messages should carry minimal, validated payloads and handlers should be idempotent.
+
+```python
+import json
+import logging
+
+import azure.functions as func
+from pydantic import BaseModel
+
+
+class WorkItem(BaseModel):
+    job_id: str
+    operation: str
+
+
+app = func.FunctionApp()
+
+
+@app.queue_trigger(arg_name="msg", queue_name="work-items", connection="AzureWebJobsStorage")
+def process_queue_message(msg: func.QueueMessage) -> None:
+    raw = msg.get_body().decode("utf-8")
+    payload = WorkItem.model_validate(json.loads(raw))
+    logging.info("Processing job_id=%s operation=%s", payload.job_id, payload.operation)
+```
+
+```python
+import azure.functions as func
+from pydantic import BaseModel
+
+
+class RetryPolicy(BaseModel):
+    max_attempts: int
+    delay_seconds: int
+
+
+app = func.FunctionApp()
+
+
+def should_retry(dequeue_count: int, policy: RetryPolicy) -> bool:
+    return dequeue_count < policy.max_attempts
+
+
+@app.queue_trigger(arg_name="msg", queue_name="work-items", connection="AzureWebJobsStorage")
+def queue_with_retry(msg: func.QueueMessage) -> None:
+    policy = RetryPolicy(max_attempts=5, delay_seconds=30)
+    dequeue_count = int(msg.dequeue_count)
+    if not should_retry(dequeue_count, policy):
+        raise RuntimeError("Exceeded retry policy")
+```
+
+Reference: [recipes/queue-worker.md](https://github.com/yeongseonchoe/azure-functions-python-cookbook/blob/main/recipes/queue-worker.md)
+
+## Timer Scheduled Job
+
+Use this pattern for periodic workloads such as cleanup, synchronization, and reconciliation. Keep timer handlers deterministic and safe to re-run.
+
+```python
+import datetime
+import logging
+
+import azure.functions as func
+from pydantic import BaseModel
+
+
+class JobContext(BaseModel):
+    job_name: str
+    started_at_utc: str
+
+
+app = func.FunctionApp()
+
+
+@app.timer_trigger(schedule="0 */10 * * * *", arg_name="timer", run_on_startup=False, use_monitor=True)
+def run_scheduled_job(timer: func.TimerRequest) -> None:
+    if timer.past_due:
+        logging.warning("Timer is past due")
+    context = JobContext(
+        job_name="sync-catalog",
+        started_at_utc=datetime.datetime.now(datetime.UTC).isoformat(),
+    )
+    logging.info("Running %s at %s", context.job_name, context.started_at_utc)
+```
+
+```python
+import azure.functions as func
+from pydantic import BaseModel
+
+
+class MaintenanceTask(BaseModel):
+    name: str
+    enabled: bool
+
+
+app = func.FunctionApp()
+
+
+def execute(task: MaintenanceTask) -> None:
+    if not task.enabled:
+        return
+
+
+@app.timer_trigger(schedule="0 0 2 * * *", arg_name="timer", run_on_startup=False, use_monitor=True)
+def nightly_maintenance(timer: func.TimerRequest) -> None:
+    _ = timer
+    execute(MaintenanceTask(name="cleanup-expired-records", enabled=True))
+```
+
+Reference: [recipes/timer-job.md](https://github.com/yeongseonchoe/azure-functions-python-cookbook/blob/main/recipes/timer-job.md)
 
 ## Recipe Contract
 
-Every recipe in this cookbook follows a standard structure to ensure consistency and ease of use. This contract guarantees that you will find all the necessary information to understand and implement the pattern effectively.
+Every recipe should keep the same section contract so readers can move quickly between patterns:
 
-- **Overview**: A concise, one-paragraph problem statement that describes the challenge the recipe aims to solve and the high-level approach taken.
-- **When to Use**: A detailed set of scenarios where this specific pattern applies, helping you decide if the recipe is right for your current project.
-- **Architecture**: A clear explanation of the main flow and moving parts, often including a description of how data moves through the system.
-- **Project Structure**: A visual and textual layout of the file structure, showing where configuration, code, and tests should reside.
-- **Run Locally**: Step-by-step commands and instructions for testing the recipe on your local machine using the Azure Functions Core Tools.
-- **Production Considerations**: Critical guidance on scaling, retries, idempotency, and observability to ensure the solution is robust and production-ready.
-- **Scaffold Starter**: Detailed instructions on how to generate the initial project structure using the `azure-functions-scaffold` tool, saving you time on boilerplate setup.
+- Overview
+- When to Use
+- Architecture
+- Project Structure
+- Run Locally
+- Production Considerations
+- Scaffold Starter
 
-## Writing a New Recipe
-
-We welcome contributions of new recipes that solve common problems for Python developers on Azure Functions. If you have a pattern you'd like to share, please follow the established structure to maintain consistency across the cookbook.
-
-To create a new recipe:
-1. Copy the `recipes/_template.md` file to a new file in the `recipes/` directory.
-2. Fill out all sections defined in the Recipe Contract, ensuring clear and concise language.
-3. Include a representative code sample that uses the Python v2 programming model.
-4. Add a summary of your new recipe to the catalog table in this file.
-
-Following this template ensures that your contribution integrates seamlessly and provides the same level of value as existing entries.
-
----
-
-The recipe documentation is designed to be a living resource. As the Azure Functions platform evolves and new patterns emerge, we will continue to update and expand this catalog to serve the needs of the Python community. Each entry represents a distilled version of real-world implementation experience, aimed at reducing the time from idea to production for serverless applications.
-
-Whether you are building a simple HTTP endpoint or a complex event-driven system, these recipes provide the building blocks you need. By following the standardized contract, you can trust that each implementation has considered the essential aspects of serverless development, from local debugging to global scale.
-
-We encourage you to explore the catalog, try out the recipes in your own projects, and provide feedback on how they can be improved. Together, we can build a comprehensive guide for Python developers leveraging the power of Azure Functions.
+For a new recipe, start from `recipes/_template.md`, add at least one runnable Python v2 example, and keep models explicit with `BaseModel` when payload validation is part of the flow.

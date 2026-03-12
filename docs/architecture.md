@@ -2,139 +2,171 @@
 
 ## Overview
 
-Azure Functions Python Cookbook is a content-first repository. It is not a library,
-CLI tool, or framework. Its purpose is to provide curated, production-quality
-recipes for building serverless applications with Azure Functions and the
-Python v2 programming model.
+The cookbook is a documentation-focused repository that standardizes how Azure Functions Python v2 patterns are explained. The architecture is intentionally simple: recipe source documents define the contract, published docs curate the reader journey, and runnable examples demonstrate execution behavior.
 
-Each recipe documents a complete implementation pattern: the problem it solves,
-the architecture behind it, the file layout, and the production considerations
-that matter when the code runs at scale.
+## Layer Model
 
-## Ecosystem Positioning
+The architecture has three layers with clear responsibilities:
 
-The cookbook sits at the discovery layer of the Azure Functions Python workflow.
-It helps developers choose the right pattern before committing to a project
-structure.
+- `recipes/`: canonical implementation narratives and trigger-specific guidance.
+- `docs/`: reader-friendly pages that aggregate patterns and provide onboarding.
+- `examples/`: runnable projects that validate recipe claims in code.
 
-```text
-Cookbook       ->    Scaffold       ->    Development
-(discover)         (generate)            (build)
+This separation allows recipe depth to grow without making onboarding pages noisy.
+
+## Repository Structure Example
+
+Use a structure that preserves one recipe-to-example mapping and keeps documentation discoverable.
+
+```python
+from pathlib import Path
+
+import azure.functions as func
+from pydantic import BaseModel
+
+
+class RepositoryLayout(BaseModel):
+    root: str
+    docs: list[str]
+    recipes: list[str]
+    examples: list[str]
+
+
+layout = RepositoryLayout(
+    root=str(Path(".")),
+    docs=["index.md", "recipes.md", "architecture.md", "contributing.md"],
+    recipes=[
+        "http-api-basic.md",
+        "http-api-openapi.md",
+        "github-webhook.md",
+        "queue-worker.md",
+        "timer-job.md",
+    ],
+    examples=["http-api-basic/", "http-api-openapi/", "github-webhook/", "queue-worker/", "timer-job/"],
+)
+
+app = func.FunctionApp()
+_ = app
+print(layout.model_dump())
 ```
 
-- **Cookbook**: Browse recipes, understand tradeoffs, pick a pattern.
-- **Scaffold**: Generate a project from the chosen pattern using
-  `azure-functions-scaffold`.
-- **Development**: Build the application with supporting libraries
-  (`azure-functions-validation`, `azure-functions-openapi`,
-  `azure-functions-logging`, `azure-functions-doctor`).
+## Function App Composition
 
-The cookbook feeds into scaffold templates. When a recipe includes a
-"Scaffold Starter" section, it maps directly to a scaffold template that
-generates the corresponding project structure.
+A recipe should present code in composition units that can be split later with Blueprints, while still starting from a single `FunctionApp` entry point.
 
-## Information Architecture
+```python
+import azure.functions as func
+from pydantic import BaseModel
 
-The repository is organized into three layers, each serving a distinct role.
 
-### recipes/
+class AppMetadata(BaseModel):
+    service: str
+    version: str
 
-Source recipe documents written in Markdown. Each file covers one scenario
-end-to-end: overview, when to use, architecture, project structure, local
-run instructions, production considerations, and scaffold guidance.
 
-Recipe files are the canonical source of truth for implementation patterns.
-The published documentation references these files but does not duplicate them.
+metadata = AppMetadata(service="cookbook-sample", version="1.0.0")
+app = func.FunctionApp(http_auth_level=func.AuthLevel.FUNCTION)
 
-### examples/
 
-Runnable or near-runnable Azure Functions projects. Each example corresponds
-to a recipe and provides working code that developers can clone, run locally
-with `func start`, and deploy to Azure.
+@app.route(route="health", methods=["GET"])
+def health(_: func.HttpRequest) -> func.HttpResponse:
+    return func.HttpResponse(metadata.model_dump_json(), mimetype="application/json", status_code=200)
+```
 
-Examples follow the Azure Functions Python v2 programming model using
-decorator-based `func.FunctionApp()` applications.
+## Module Layout Example
 
-### docs/
+A production recipe can scale from one file to multiple modules while preserving the v2 decorator model.
 
-The published documentation site built with MkDocs and the Material theme.
-This layer provides navigation, cross-referencing, and a searchable index
-over the recipe catalog.
+```python
+from dataclasses import dataclass
 
-Documentation pages reference recipes and examples but keep their own
-editorial structure for readability.
+import azure.functions as func
+from pydantic import BaseModel
 
-## Recipe Structure
 
-Every recipe follows a standard contract defined in `recipes/_template.md`.
-This consistency makes recipes predictable and easy to navigate.
+class HttpContract(BaseModel):
+    route: str
+    methods: list[str]
 
-| Section | Purpose |
-|---------|---------|
-| Overview | One-paragraph problem statement and what the recipe demonstrates |
-| When to Use | Concrete scenarios where this pattern applies |
-| Architecture | Request flow, moving parts, and an ASCII diagram |
-| Project Structure | File layout with annotations |
-| Run Locally | Step-by-step commands to test locally |
-| Production Considerations | Scaling, retries, idempotency, observability, security |
-| Scaffold Starter | Command to generate the project with azure-functions-scaffold |
 
-Each section exists for a reason:
+@dataclass(slots=True)
+class ModulePlan:
+    entrypoint: str
+    modules: list[str]
+    contract: HttpContract
 
-- **Overview** anchors the reader in the problem space before showing the solution.
-- **When to Use** prevents misapplication of patterns.
-- **Architecture** builds mental models before code appears.
-- **Project Structure** sets expectations for file organization.
-- **Run Locally** ensures every recipe is testable without deployment.
-- **Production Considerations** bridges the gap between demo and production.
-- **Scaffold Starter** connects discovery to action.
 
-## Design Principles
+plan = ModulePlan(
+    entrypoint="function_app.py",
+    modules=["handlers/http.py", "handlers/queue.py", "handlers/timer.py"],
+    contract=HttpContract(route="jobs", methods=["POST"]),
+)
 
-These principles guide all content decisions in the cookbook.
+app = func.FunctionApp()
+_ = (app, plan)
+```
 
-1. **Start from a developer problem, not a library feature.** Recipes answer
-   "How do I build X?" rather than "Here is what library Y can do."
+## Trigger Isolation Pattern
 
-2. **Keep recipes focused on one use case and one architectural story.**
-   A recipe that tries to cover multiple patterns becomes hard to follow
-   and harder to maintain.
+Each trigger should have one focused function and one payload model. This keeps validation local and limits blast radius during changes.
 
-3. **Pair each recipe with a runnable example.** Documentation without
-   working code is incomplete. Every recipe should have a corresponding
-   project in `examples/` that a developer can clone and run.
+```python
+import json
 
-4. **Preserve independence from other repositories at the documentation level.**
-   Recipes reference ecosystem tools (scaffold, validation, openapi) but do
-   not require them. Each recipe stands on its own.
+import azure.functions as func
+from pydantic import BaseModel
 
-5. **Keep examples grounded in real Azure Functions Python v2 patterns.**
-   Examples use the decorator-based `func.FunctionApp()` API, not legacy
-   function.json definitions.
 
-## Technology Stack
+class QueuePayload(BaseModel):
+    task_id: str
+    kind: str
 
-| Component | Technology |
-|-----------|------------|
-| Language | Python 3.10+ |
-| Functions model | Azure Functions Python v2 (decorator-based) |
-| Documentation | MkDocs with Material theme |
-| Build system | Hatch |
-| Linting | Ruff |
-| Formatting | Black |
-| Type checking | Mypy |
-| Testing | Pytest |
-| Security scanning | Bandit |
 
-## Future Extension Points
+app = func.FunctionApp()
 
-The following capabilities are planned but not yet implemented:
 
-- **Recipe search and tagging**: metadata-driven discovery by trigger type,
-  complexity, or use case.
-- **Scaffold command mapping**: direct links from recipes to scaffold
-  templates for one-command project generation.
-- **Static gallery**: a richer landing experience with visual recipe cards
-  and filtering.
-- **Automated example validation**: CI-driven verification that all example
-  projects build, pass tests, and match their recipe descriptions.
+@app.queue_trigger(arg_name="msg", queue_name="jobs", connection="AzureWebJobsStorage")
+def process_job(msg: func.QueueMessage) -> None:
+    payload = QueuePayload.model_validate(json.loads(msg.get_body().decode("utf-8")))
+    print(payload.task_id, payload.kind)
+```
+
+```python
+import datetime
+
+import azure.functions as func
+from pydantic import BaseModel
+
+
+class TimerPayload(BaseModel):
+    name: str
+    fired_at: str
+
+
+app = func.FunctionApp()
+
+
+@app.timer_trigger(schedule="0 */15 * * * *", arg_name="timer", run_on_startup=False, use_monitor=True)
+def run_timer(timer: func.TimerRequest) -> None:
+    _ = timer
+    payload = TimerPayload(name="refresh-cache", fired_at=datetime.datetime.now(datetime.UTC).isoformat())
+    print(payload.model_dump_json())
+```
+
+## Operational Contracts
+
+Recipe architecture should always expose operational assumptions in code examples:
+
+- Validation path: parse request payloads with explicit models.
+- Failure path: return deterministic status codes or raise for retry semantics.
+- Idempotency path: include a stable operation key for webhook and queue flows.
+- Observability path: include log fields that make retries and latency traceable.
+
+## Evolution Strategy
+
+As recipes expand, keep compatibility by evolving contracts rather than replacing them:
+
+- Add fields as optional first, then enforce in a later version.
+- Keep existing route names stable unless migration guidance is documented.
+- Add new trigger recipes as additive pages to avoid breaking reader workflows.
+- Keep code examples executable and parseable with Python 3.10+ syntax.
