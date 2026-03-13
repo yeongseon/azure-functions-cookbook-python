@@ -59,6 +59,13 @@ make docs
 - Design principles: `DESIGN.md`
 - Contributing guide: `CONTRIBUTING.md`
 
+## Ecosystem
+
+- [azure-functions-validation](https://github.com/yeongseon/azure-functions-validation) — Request and response validation
+- [azure-functions-openapi](https://github.com/yeongseon/azure-functions-openapi) — OpenAPI and Swagger UI
+- [azure-functions-logging](https://github.com/yeongseon/azure-functions-logging) — Structured logging
+- [azure-functions-doctor](https://github.com/yeongseon/azure-functions-doctor) — Diagnostic CLI
+- [azure-functions-scaffold](https://github.com/yeongseon/azure-functions-scaffold) — Project scaffolding
 ## Disclaimer
 
 This project is an independent community project and is not affiliated with,
