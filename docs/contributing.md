@@ -35,7 +35,7 @@ We use a Makefile to provide a consistent interface for common tasks. Use the fo
 | Command | Description |
 |---------|-------------|
 | make install | Install dependencies and set up environment |
-| make format | Format code with ruff and black |
+| make format | Format code with ruff |
 | make lint | Run linter and type checker |
 | make test | Run test suite |
 | make check-all | Run all checks (lint, test, security) |

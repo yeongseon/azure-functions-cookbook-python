@@ -138,18 +138,24 @@ endif
 release-patch: ensure-hatch
 	@$(HATCH) version patch
 	@VERSION=$$($(HATCH) version | tail -n1); \
+	 git add "$(PACKAGE_INIT)" && \
+	 git commit -m "build: bump version to $$VERSION" && \
 	 $(MAKE) release-core VERSION=$$VERSION
 
 .PHONY: release-minor
 release-minor: ensure-hatch
 	@$(HATCH) version minor
 	@VERSION=$$($(HATCH) version | tail -n1); \
+	 git add "$(PACKAGE_INIT)" && \
+	 git commit -m "build: bump version to $$VERSION" && \
 	 $(MAKE) release-core VERSION=$$VERSION
 
 .PHONY: release-major
 release-major: ensure-hatch
 	@$(HATCH) version major
 	@VERSION=$$($(HATCH) version | tail -n1); \
+	 git add "$(PACKAGE_INIT)" && \
+	 git commit -m "build: bump version to $$VERSION" && \
 	 $(MAKE) release-core VERSION=$$VERSION
 
 .PHONY: publish-test
@@ -195,3 +201,8 @@ clean-all: clean
 help:
 	@echo "Available commands:" && \
 	grep -E '^\.PHONY: ' Makefile | cut -d ':' -f2 | xargs -n1 echo "  - make"
+
+.PHONY: doctor
+doctor: ensure-hatch
+	@echo "Checking project health..."
+	@$(MAKE) check-all && echo "All checks passed." || echo "Some checks failed."
