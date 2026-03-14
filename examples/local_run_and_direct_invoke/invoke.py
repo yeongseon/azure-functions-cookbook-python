@@ -1,4 +1,4 @@
-"""Direct invocation script - call function handlers without the Azure runtime.
+"""Direct invocation script - call function handlers as regular Python functions.
 
 Usage:
     python invoke.py
@@ -13,7 +13,8 @@ from __future__ import annotations
 import json
 
 import azure.functions as func
-from function_app import greet
+
+from app.functions.greet import greet
 
 
 def main() -> None:

@@ -1,0 +1,20 @@
+[project]
+name = "output-binding-vs-sdk"
+version = "0.1.0"
+description = "Compare queue output binding with direct Azure Storage Queue SDK usage"
+requires-python = ">=3.10"
+dependencies = ["azure-functions", "azure-storage-queue>=12.9.0"]
+
+[project.optional-dependencies]
+dev = ["pytest", "ruff"]
+
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+[tool.pytest.ini_options]
+pythonpath = ["."]

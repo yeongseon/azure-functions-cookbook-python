@@ -3,9 +3,13 @@
 from __future__ import annotations
 
 import azure.functions as func
-from bp_health import bp as health_bp
-from bp_users import bp as users_bp
+
+from app.core.logging import configure_logging
+from app.functions.health import health_blueprint
+from app.functions.users import users_blueprint
+
+configure_logging()
 
 app = func.FunctionApp()
-app.register_blueprint(health_bp)
-app.register_blueprint(users_bp)
+app.register_functions(health_blueprint)
+app.register_functions(users_blueprint)

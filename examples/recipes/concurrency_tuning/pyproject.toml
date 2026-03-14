@@ -1,0 +1,20 @@
+[project]
+name = "concurrency-tuning"
+version = "0.1.0"
+description = "Queue-triggered function demonstrating dynamic concurrency settings"
+requires-python = ">=3.10"
+dependencies = ["azure-functions"]
+
+[project.optional-dependencies]
+dev = ["pytest", "ruff"]
+
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
