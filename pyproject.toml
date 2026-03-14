@@ -24,7 +24,11 @@ dependencies = []
 [project.optional-dependencies]
 dev = [
     "azure-functions",
+    "azure-functions-durable",
     "azure-functions-openapi",
+    "azure-identity",
+    "azure-storage-blob",
+    "azure-storage-queue",
     "bandit==1.9.4",
     "build",
     "coverage",

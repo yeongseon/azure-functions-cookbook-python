@@ -16,13 +16,53 @@ nav:
   - Getting Started:
       - Installation: installation.md
       - Getting Started: getting-started.md
+  - Concepts:
+      - Python v2 Programming Model: concepts/python-v2-programming-model.md
+      - Triggers and Bindings: concepts/triggers-and-bindings-overview.md
+      - Durable Functions: concepts/durable-functions-overview.md
+      - Identity-Based Connections: concepts/identity-based-connections.md
+      - Deployment Patterns: concepts/deployment-patterns.md
   - Recipes:
       - Overview: recipes/index.md
-      - HTTP API Basic: recipes/http-api-basic.md
-      - HTTP API with OpenAPI: recipes/http-api-openapi.md
-      - GitHub Webhook: recipes/github-webhook.md
-      - Queue Worker: recipes/queue-worker.md
-      - Timer Job: recipes/timer-job.md
+      - HTTP:
+          - Hello HTTP Minimal: recipes/hello-http-minimal.md
+          - HTTP Routing, Query, and Body: recipes/http-routing-query-body.md
+          - HTTP Auth Levels: recipes/http-auth-levels.md
+          - GitHub Webhook: recipes/webhook-github.md
+      - Timer:
+          - Timer Cron Job: recipes/timer-cron-job.md
+      - Queue:
+          - Queue Producer: recipes/queue-producer.md
+          - Queue Consumer: recipes/queue-consumer.md
+      - Blob:
+          - Blob Upload Processor: recipes/blob-upload-processor.md
+          - Blob Event Grid Trigger: recipes/blob-eventgrid-trigger.md
+      - Service Bus:
+          - Service Bus Worker: recipes/servicebus-worker.md
+      - Event Hub:
+          - Event Hub Consumer: recipes/eventhub-consumer.md
+      - Cosmos DB:
+          - Change Feed Processor: recipes/change-feed-processor.md
+      - Patterns:
+          - Blueprint Modular App: recipes/blueprint-modular-app.md
+          - Retry and Idempotency: recipes/retry-and-idempotency.md
+          - Output Binding vs SDK: recipes/output-binding-vs-sdk.md
+          - Managed Identity (Storage): recipes/managed-identity-storage.md
+          - Managed Identity (Service Bus): recipes/managed-identity-servicebus.md
+          - host.json Tuning: recipes/host-json-tuning.md
+          - Concurrency Tuning: recipes/concurrency-tuning.md
+      - Durable Functions:
+          - Hello Sequence: recipes/durable-hello-sequence.md
+          - Fan-Out / Fan-In: recipes/durable-fan-out-fan-in.md
+          - Human Interaction: recipes/durable-human-interaction.md
+          - Entity Counter: recipes/durable-entity-counter.md
+          - Retry Pattern: recipes/durable-retry-pattern.md
+          - Determinism Gotchas: recipes/durable-determinism-gotchas.md
+          - Unit Testing: recipes/durable-unit-testing.md
+      - AI:
+          - MCP Server: recipes/mcp-server-example.md
+      - Local Development:
+          - Local Run and Direct Invoke: recipes/local-run-and-direct-invoke.md
   - User Guide:
       - Usage: usage.md
       - Architecture: architecture.md

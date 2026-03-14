@@ -1,0 +1,12 @@
+{
+  "version": "2.0",
+  "retry": {
+    "strategy": "fixedDelay",
+    "maxRetryCount": 5,
+    "delayInterval": "00:00:10"
+  },
+  "extensionBundle": {
+    "id": "Microsoft.Azure.Functions.ExtensionBundle",
+    "version": "[4.*, 5.0.0)"
+  }
+}

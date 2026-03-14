@@ -1,1 +1,0 @@
-"""Queue worker example package."""
