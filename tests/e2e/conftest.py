@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from contextlib import contextmanager
+import importlib
 import json
 import os
 from pathlib import Path
@@ -10,8 +11,10 @@ import shutil
 import signal
 import socket
 import subprocess
+import sys
 import tempfile
 import time
+from types import ModuleType
 from typing import Generator
 
 import pytest
@@ -274,3 +277,51 @@ def poll_durable_status(
 
     pytest.fail(f"Durable orchestration did not complete within {timeout}s: {status_url}")
     return {}  # unreachable but satisfies type checker
+
+
+# ---------------------------------------------------------------------------
+# Module import helper (shared by smoke & durable tests)
+# ---------------------------------------------------------------------------
+
+
+def import_function_app(example_path: str) -> ModuleType:
+    """Import a function_app.py module from an example directory.
+
+    Uses importlib to load the module by file path, avoiding sys.path
+    pollution and module name collisions between examples.
+    """
+    example_dir = EXAMPLES_ROOT / example_path
+    function_app_file = example_dir / "function_app.py"
+
+    if not function_app_file.exists():
+        pytest.fail(f"function_app.py not found: {function_app_file}")
+
+    example_dir_str = str(example_dir)
+    original_path = sys.path.copy()
+    original_modules = set(sys.modules.keys())
+
+    try:
+        sys.path.insert(0, example_dir_str)
+
+        # Clear any cached 'app' module to avoid cross-example conflicts
+        modules_to_remove = [k for k in sys.modules if k == "app" or k.startswith("app.")]
+        for mod_key in modules_to_remove:
+            del sys.modules[mod_key]
+
+        spec = importlib.util.spec_from_file_location(
+            f"function_app_{example_path.replace('/', '_')}",
+            function_app_file,
+        )
+        if spec is None or spec.loader is None:
+            pytest.fail(f"Could not create import spec for {function_app_file}")
+
+        module = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(module)
+        return module
+    finally:
+        sys.path = original_path
+        # Clean up loaded app.* modules to prevent leakage
+        new_modules = set(sys.modules.keys()) - original_modules
+        for mod_key in new_modules:
+            if mod_key == "app" or mod_key.startswith("app."):
+                del sys.modules[mod_key]
