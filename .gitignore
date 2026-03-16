@@ -12,3 +12,4 @@ coverage.xml
 htmlcov/
 site/
 local.settings.json
+.venv-review/
