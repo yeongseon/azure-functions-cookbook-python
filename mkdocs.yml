@@ -22,7 +22,7 @@ nav:
       - Durable Functions: concepts/durable-functions-overview.md
       - Identity-Based Connections: concepts/identity-based-connections.md
       - Deployment Patterns: concepts/deployment-patterns.md
-  - Recipes:
+      - IaC Reference Snippets: concepts/iac-snippets.md
       - Overview: recipes/index.md
       - HTTP:
           - Hello HTTP Minimal: recipes/hello-http-minimal.md

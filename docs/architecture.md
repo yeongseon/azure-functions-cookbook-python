@@ -193,3 +193,92 @@ As recipes expand, keep compatibility by evolving contracts rather than replacin
 - Keep existing route names stable unless migration guidance is documented.
 - Add new trigger recipes as additive pages to avoid breaking reader workflows.
 - Keep code examples executable and parseable with Python 3.10+ syntax.
+
+## Reference Production Shapes
+
+These are common deployment topologies for Azure Functions Python apps. They are not prescriptive — choose based on scale, latency, and team complexity.
+
+### Shape A: Single Function App (HTTP + async triggers)
+
+The simplest production shape. One Function App handles HTTP routes and async triggers. Suitable for most teams getting started or running moderate traffic.
+
+```mermaid
+graph TD
+    Client(["Client / External System"])
+    APIM["Azure API Management\n(optional)"]
+    FA["Function App\nfunction_app.py"]
+    ST["Azure Storage\n(Queue + Blob)"]
+    SB["Service Bus\n(optional)"]
+    DB["Cosmos DB / SQL\n(optional)"]
+    AI["Application Insights"]
+
+    Client --> APIM
+    APIM --> FA
+    FA -- "queue trigger" --> ST
+    FA -- "blob trigger" --> ST
+    FA -- "servicebus trigger" --> SB
+    FA -- "read / write" --> DB
+    FA -- "telemetry" --> AI
+```
+
+**When to use**: Single-team apps, event-driven workloads, moderate traffic.
+
+### Shape B: Multi-App with Event Bus
+
+Split functions by domain into separate Function Apps. Use Service Bus or Event Hubs as the event bus between them. Suitable when teams own separate domains or retry/DLQ isolation matters.
+
+```mermaid
+graph TD
+    Ingest["Ingestion App\nHTTP + Blob triggers"]
+    Bus["Service Bus / Event Hubs\n(event bus)"]
+    Worker["Worker App\nQueue + SB triggers"]
+    Notifier["Notifier App\nTimer + SB triggers"]
+    DB["Shared Datastore"]
+    AI["Application Insights"]
+
+    Ingest -- "publish" --> Bus
+    Bus -- "consume" --> Worker
+    Bus -- "consume" --> Notifier
+    Worker --> DB
+    Notifier --> DB
+    Ingest --> AI
+    Worker --> AI
+    Notifier --> AI
+```
+
+**When to move from A → B**: Independent deployability becomes necessary, DLQ isolation per domain is required, or different scaling profiles are needed per domain.
+
+### Shape C: Container Apps + Functions Hybrid
+
+Long-running or compute-heavy logic moves to Container Apps. Azure Functions handles event ingestion and lightweight triggers. Use when cold starts or timeout limits become a constraint.
+
+```mermaid
+graph TD
+    EH["Event Hubs / Queue"]
+    FA["Function App\nevent ingestion"]
+    CA["Container Apps\nlong-running workers"]
+    FA2["Function App\nresult callbacks"]
+    DB["Datastore"]
+    AI["Application Insights"]
+
+    EH -- "trigger" --> FA
+    FA -- "enqueue job" --> CA
+    CA -- "write result" --> DB
+    CA -- "callback" --> FA2
+    FA2 --> DB
+    FA --> AI
+    CA --> AI
+```
+
+**When to move from B → C**: Functions hit 10-minute timeout limits, workers need persistent connections or stateful streaming, or GPU/memory requirements exceed Function App limits.
+
+### Shape progression summary
+
+```mermaid
+flowchart LR
+    A["Shape A\nSingle App"] --> B["Shape B\nMulti-App + Event Bus"]
+    B --> C["Shape C\nContainer Apps Hybrid"]
+
+    A -. "trigger: team/domain split" .-> B
+    B -. "trigger: timeout / memory limits" .-> C
+```

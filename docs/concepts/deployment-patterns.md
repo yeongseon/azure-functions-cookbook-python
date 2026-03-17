@@ -14,17 +14,19 @@ A reliable deployment process should provide:
 
 ## Build artifact strategy
 
-For Python Functions, a common pattern is:
+The cookbook examples use `pyproject.toml` (hatch/hatchling) as the canonical packaging format. This aligns with modern Python tooling and avoids the dual-maintenance overhead of keeping `requirements.txt` in sync with `pyproject.toml`.
 
-1. Restore dependencies from `requirements.txt`.
-2. Package app files and dependencies.
-3. Deploy via zip package (or remote build) to target app.
+**Recommended path: `pyproject.toml` + remote build**
+
+1. Define dependencies in `pyproject.toml` under `[project] dependencies`.
+2. Let Azure Functions remote build resolve them during deployment (no manual pip step needed).
+3. Deploy via zip package to the target Function App.
 
 Important files:
 
 - `host.json`
 - `function_app.py` and Python modules
-- `requirements.txt`
+- `pyproject.toml` (dependency declaration)
 - Optional `local.settings.json` only for local dev (never deploy secrets from local file)
 
 ## Pattern 1: Azure CLI deployment
@@ -85,7 +87,7 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
-      - run: pip install -r requirements.txt
+      - run: pip install -e .
       - run: pytest -q
       - uses: Azure/functions-action@v1
         with:
