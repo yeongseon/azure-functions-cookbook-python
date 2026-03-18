@@ -22,36 +22,54 @@ gap by pairing clear recipe narratives with runnable examples.
 
 ## Recipe cards
 
-### HTTP API Basic
+### HTTP
 
-- Trigger: HTTP
-- Best for: minimal CRUD APIs and route handling
-- Learn more: [HTTP API Basic](recipes/http-api-basic.md)
+- [Hello HTTP Minimal](recipes/hello-http-minimal.md) — minimal route handler
+- [HTTP Routing, Query, and Body](recipes/http-routing-query-body.md) — parse params and JSON body
+- [HTTP Auth Levels](recipes/http-auth-levels.md) — function vs anonymous vs admin keys
+- [GitHub Webhook](recipes/webhook-github.md) — secure signed event ingestion
 
-### HTTP API with OpenAPI
+### Queue & Service Bus
 
-- Trigger: HTTP
-- Best for: contract-first docs and Swagger UI
-- Learn more: [HTTP API with OpenAPI](recipes/http-api-openapi.md)
+- [Queue Producer](recipes/queue-producer.md) — enqueue messages via output binding
+- [Queue Consumer](recipes/queue-consumer.md) — process messages with retry semantics
+- [Service Bus Worker](recipes/servicebus-worker.md) — durable message processing
 
-### GitHub Webhook
+### Blob & Event Hub & Cosmos DB
 
-- Trigger: HTTP
-- Best for: secure signed event ingestion from GitHub
-- Learn more: [GitHub Webhook](recipes/github-webhook.md)
+- [Blob Upload Processor](recipes/blob-upload-processor.md) — react to new blob arrivals
+- [Blob Event Grid Trigger](recipes/blob-eventgrid-trigger.md) — Event Grid-backed blob trigger
+- [Event Hub Consumer](recipes/eventhub-consumer.md) — high-throughput stream processing
+- [Change Feed Processor](recipes/change-feed-processor.md) — Cosmos DB downstream sync
 
-### Queue Worker
+### Timer
 
-- Trigger: Queue
-- Best for: asynchronous background processing
-- Learn more: [Queue Worker](recipes/queue-worker.md)
+- [Timer Cron Job](recipes/timer-cron-job.md) — scheduled maintenance and periodic automation
 
-### Timer Job
+### Patterns
 
-- Trigger: Timer
-- Best for: scheduled maintenance and periodic automation
-- Learn more: [Timer Job](recipes/timer-job.md)
+- [Blueprint Modular App](recipes/blueprint-modular-app.md) — split handlers across modules
+- [Retry and Idempotency](recipes/retry-and-idempotency.md) — safe retries and deduplication
+- [Output Binding vs SDK](recipes/output-binding-vs-sdk.md) — when to use bindings vs direct calls
+- [Managed Identity (Storage)](recipes/managed-identity-storage.md) — keyless storage access
+- [Managed Identity (Service Bus)](recipes/managed-identity-servicebus.md) — keyless bus access
+- [host.json Tuning](recipes/host-json-tuning.md) — concurrency and retry knobs
+- [Concurrency Tuning](recipes/concurrency-tuning.md) — worker process and thread settings
 
+### Durable Functions
+
+- [Hello Sequence](recipes/durable-hello-sequence.md) — basic orchestration chain
+- [Fan-Out / Fan-In](recipes/durable-fan-out-fan-in.md) — parallel activity execution
+- [Human Interaction](recipes/durable-human-interaction.md) — approval and wait patterns
+- [Entity Counter](recipes/durable-entity-counter.md) — stateful entity pattern
+- [Retry Pattern](recipes/durable-retry-pattern.md) — activity-level retry strategies
+- [Determinism Gotchas](recipes/durable-determinism-gotchas.md) — pitfalls to avoid
+- [Unit Testing](recipes/durable-unit-testing.md) — test orchestrations without a host
+
+### AI & Local Dev
+
+- [MCP Server](recipes/mcp-server-example.md) — Model Context Protocol server example
+- [Local Run and Direct Invoke](recipes/local-run-and-direct-invoke.md) — test without deploying
 ## Quick start
 
 ```bash
@@ -64,8 +82,8 @@ source .venv/bin/activate
 Run one example:
 
 ```bash
-cd examples/http_api_basic
-pip install -r requirements.txt
+cd examples/http/hello_http_minimal
+pip install -e .
 func start
 ```
 
