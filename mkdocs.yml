@@ -47,6 +47,8 @@ nav:
           - Event Hub Consumer: recipes/eventhub-consumer.md
       - Cosmos DB:
           - Change Feed Processor: recipes/change-feed-processor.md
+      - Database:
+          - DB Input and Output: recipes/db-input-output.md
       - Patterns:
           - Blueprint Modular App: recipes/blueprint-modular-app.md
           - Retry and Idempotency: recipes/retry-and-idempotency.md
@@ -65,8 +67,11 @@ nav:
           - Unit Testing: recipes/durable-unit-testing.md
       - AI:
           - MCP Server: recipes/mcp-server-example.md
+          - LangGraph Agent: recipes/langgraph-agent.md
       - Local Development:
           - Local Run and Direct Invoke: recipes/local-run-and-direct-invoke.md
+      - Toolkit:
+          - Scaffold Quick Start: recipes/scaffold-quick-start.md
   - User Guide:
       - Usage: usage.md
       - Configuration: configuration.md
