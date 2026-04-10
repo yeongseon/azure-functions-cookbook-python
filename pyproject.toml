@@ -131,7 +131,7 @@ exclude = ["tests/e2e/"]
 [tool.pytest.ini_options]
 addopts = "--cov=src/azure_functions_python_cookbook --cov-report=xml --cov-report=term-missing -ra -q -m 'not (e2e or smoke)'"
 testpaths = ["tests"]
-pythonpath = ["src"]
+pythonpath = ["src", "."]
 markers = [
     "e2e: End-to-end tests requiring Azurite and func host",
     "smoke: Module-import smoke tests for non-emulatable triggers",
