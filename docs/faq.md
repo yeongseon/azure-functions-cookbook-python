@@ -46,16 +46,16 @@ func start
 
 Example names:
 
-- `http/hello_http_minimal`
-- `http/http_routing_query_body`
-- `http/webhook_github`
-- `queue/queue_consumer`
-- `timer/timer_cron_job`
-- ... and 23 more (see [Recipes Overview](recipes/index.md))
+- `apis-and-ingress/hello_http_minimal`
+- `apis-and-ingress/http_routing_query_body`
+- `apis-and-ingress/webhook_github`
+- `messaging/queue_consumer`
+- `timer-and-scheduling/timer_cron_job`
+- ... and 55+ more (see [Patterns Overview](patterns/index.md))
 
 ## What is the difference between recipes and examples?
 
-- `recipes/`: narrative pattern docs (why/how/architecture/operations)
+- `docs/patterns/`: narrative pattern docs (why/how/architecture/operations)
 - `examples/`: executable function apps that implement those patterns
 
 Use both together. Recipes explain intent; examples prove execution.
@@ -74,15 +74,14 @@ Start from trigger and operational requirement:
 
 ## Where is the recipe template for adding new patterns?
 
-Use `recipes/_template.md` as the contract for new recipe pages.
+Follow the canonical template structure used in existing pattern pages under `docs/patterns/`.
 
 ## How do I contribute a new recipe?
 
-1. Add a recipe file under `recipes/` using `_template.md`.
-2. Add a matching runnable example under `examples/`.
-3. Add docs page under `docs/recipes/`.
-4. Add navigation entry in `mkdocs.yml`.
-5. Run checks and open a PR.
+1. Add a pattern doc under `docs/patterns/<category>/` following the canonical template.
+2. Add a matching runnable example under `examples/<category>/`.
+3. Add navigation entry in `mkdocs.yml`.
+4. Run checks and open a PR.
 
 See [Contributing Guidelines](contributing.md) for details.
 
@@ -97,7 +96,7 @@ baseline code stays readable.
 Yes! The cookbook includes 7 Durable Functions recipes covering orchestration
 chaining, fan-out/fan-in, human interaction, entity state, retry patterns,
 determinism gotchas, and unit testing. See the [Durable Functions
-recipes](recipes/index.md#durable-functions) for the full list.
+Durable Functions patterns](patterns/orchestration-and-workflows/index.md) for the full list.
 
 ## Is OpenAPI support built into Azure Functions Python?
 
@@ -128,10 +127,13 @@ See [Troubleshooting](troubleshooting.md) for a full checklist.
 - `azure-functions-openapi`
 - `azure-functions-logging`
 - `azure-functions-doctor`
+- `azure-functions-db`
+- `azure-functions-knowledge`
+- `azure-functions-langgraph`
 
 They complement this cookbook; they do not replace recipe guidance.
 
 ## Where should I start if I am new?
 
 Begin with [Installation](installation.md), then [Getting Started](getting-started.md),
-then [Recipes Overview](recipes/index.md).
+then [Patterns Overview](patterns/index.md).

@@ -1,0 +1,4 @@
+azure-functions
+azure-functions-logging
+azure-functions-openapi
+azure-functions-validation

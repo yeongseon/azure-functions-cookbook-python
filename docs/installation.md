@@ -75,26 +75,16 @@ azurite --queuePort 10001
 
 ```text
 azure-functions-python-cookbook/
-  docs/                 Published documentation site content
-  recipes/              Source recipe documents (pattern narratives)
+  docs/
+    foundations/         Core concepts (execution model, triggers & bindings)
+    patterns/           Pattern deep-dives organized by category
+    reference/          Reference pages
+    guides/             Practical guides
   examples/             Runnable Azure Functions sample apps
-    http/               HTTP trigger examples
-      hello_http_minimal/
-      http_routing_query_body/
-      http_auth_levels/
-      webhook_github/
-    timer/              Timer trigger examples
-      timer_cron_job/
-    queue/              Queue trigger examples
-      queue_producer/
-      queue_consumer/
-    blob/               Blob trigger examples
-    servicebus/         Service Bus examples
-    eventhub/           Event Hub examples
-    cosmosdb/           Cosmos DB examples
-    durable/            Durable Functions examples
-    ai/                 AI integration examples
-    recipes/            Pattern examples
+    apis-and-ingress/   HTTP trigger examples
+    messaging-and-pubsub/  Queue and Service Bus examples
+    orchestration-and-workflows/  Durable Functions examples
+    ...                 13 category directories
   src/                  Internal package metadata and tooling support
   tests/                Repository test suite
   mkdocs.yml            Documentation site navigation and config
@@ -104,7 +94,7 @@ azure-functions-python-cookbook/
 ## Run a First Example
 
 ```bash
-cd examples/http/hello_http_minimal
+cd examples/apis-and-ingress/hello_http_minimal
 pip install -e .
 func start
 ```
@@ -118,8 +108,8 @@ curl http://localhost:7071/api/hello
 ## What to Read Next
 
 - Start with [Getting Started](getting-started.md)
-- Compare recipes in [Recipes Overview](recipes/index.md)
-- Understand the architecture in [Architecture](architecture.md)
+- Browse patterns in [Patterns Overview](patterns/index.md)
+- Understand the architecture in [Foundations](foundations/index.md)
 
 !!! tip "New contributors"
     If you want to improve cookbook content, continue with

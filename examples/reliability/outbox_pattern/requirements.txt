@@ -1,0 +1,4 @@
+azure-functions
+azure-cosmos>=4.5.1
+azure-functions-db
+azure-functions-logging

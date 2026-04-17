@@ -66,7 +66,7 @@ Each recipe has a runnable app under `examples/`:
 - `recipes/webhook-github.md` -> `examples/http/webhook_github`
 - `recipes/queue-consumer.md` -> `examples/queue/queue_consumer`
 - `recipes/timer-cron-job.md` -> `examples/timer/timer_cron_job`
-- ... and 26 more. See [Recipes Overview](recipes/index.md) for the full list.
+- ... and many more. See [Patterns Overview](patterns/index.md) for the full list.
 
 !!! tip
     Keep docs and example code aligned in the same pull request.
@@ -76,9 +76,9 @@ Each recipe has a runnable app under `examples/`:
 
 ### Pattern discovery
 
-- Start with [Recipes Overview](recipes/index.md)
+- Start with [Patterns Overview](patterns/index.md)
 - Select by trigger and operational needs
-- Open the deep-dive recipe page
+- Open the deep-dive pattern page
 
 ### Prototype quickly
 
@@ -131,4 +131,4 @@ incrementally as your app matures.
 - Start here: [Getting Started](getting-started.md)
 - Build and test: [Development](development.md), [Testing](testing.md)
 - Diagnose problems: [Troubleshooting](troubleshooting.md)
-- Read all recipes: [Recipes Overview](recipes/index.md)
+- Read all patterns: [Patterns Overview](patterns/index.md)

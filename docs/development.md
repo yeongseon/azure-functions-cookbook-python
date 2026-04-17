@@ -22,9 +22,9 @@ pip install -e ".[dev,docs]"
 ## Development workflow
 
 1. Pick a recipe-driven change.
-2. Update the recipe narrative in `recipes/`.
-3. Update matching runnable example in `examples/`.
-4. Update docs in `docs/` (overview pages and recipe pages).
+2. Update the pattern narrative in `docs/patterns/<category>/`.
+3. Update matching runnable example in `examples/<category>/`.
+4. Update docs in `docs/` (overview pages and pattern pages).
 5. Run checks and docs build.
 
 !!! tip

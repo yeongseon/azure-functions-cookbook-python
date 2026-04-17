@@ -1,0 +1,6 @@
+azure-functions
+azure-functions-logging
+azure-functions-validation
+azure-functions-openapi
+azure-functions-db
+pydantic>=2.0

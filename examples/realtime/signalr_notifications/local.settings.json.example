@@ -1,0 +1,10 @@
+{
+  "IsEncrypted": false,
+  "Values": {
+    "AzureWebJobsStorage": "UseDevelopmentStorage=true",
+    "FUNCTIONS_WORKER_RUNTIME": "python",
+    "AzureSignalRConnectionString": "Endpoint=https://your-signalr.service.signalr.net;AccessKey=<access-key>;Version=1.0;",
+    "SIGNALR_HUB_NAME": "notifications",
+    "SIGNALR_NEGOTIATE_USER_ID": "local-user"
+  }
+}

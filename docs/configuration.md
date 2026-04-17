@@ -26,7 +26,7 @@ Each recipe's README notes any additional environment variables required.
 
 ## Recipe-Specific Configuration
 
-See individual recipe documentation under [Recipes](recipes/index.md) for trigger-specific and binding-specific configuration examples.
+See individual pattern documentation under [Patterns](patterns/index.md) for trigger-specific and binding-specific configuration examples.
 
 ## Related Documents
 

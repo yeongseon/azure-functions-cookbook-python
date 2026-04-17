@@ -1,0 +1,10 @@
+{
+  "IsEncrypted": false,
+  "Values": {
+    "AzureWebJobsStorage": "UseDevelopmentStorage=true",
+    "FUNCTIONS_WORKER_RUNTIME": "python",
+    "DOWNSTREAM_API_BASE_URL": "https://httpstat.us",
+    "CIRCUIT_BREAKER_FAILURE_THRESHOLD": "3",
+    "CIRCUIT_BREAKER_COOLDOWN_SECONDS": "15"
+  }
+}

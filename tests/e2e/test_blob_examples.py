@@ -23,7 +23,7 @@ pytestmark = pytest.mark.e2e
 class TestBlobUploadProcessor:
     """Blob trigger on container 'uploads'."""
 
-    EXAMPLE = "blob/blob_upload_processor"
+    EXAMPLE = "blob-and-file-triggers/blob_upload_processor"
 
     def test_blob_trigger_fires(self, azurite) -> None:  # noqa: ARG002
         """Upload a blob to 'uploads' and verify the func host stays healthy."""
@@ -58,7 +58,7 @@ class TestBlobEventGridTrigger:
     We verify the function host loads and the container is accessible.
     """
 
-    EXAMPLE = "blob/blob_eventgrid_trigger"
+    EXAMPLE = "blob-and-file-triggers/blob_eventgrid_trigger"
 
     def test_function_host_loads(self, azurite) -> None:  # noqa: ARG002
         """Verify the func host starts without errors for this example."""

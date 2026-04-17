@@ -4,8 +4,8 @@ This guide shows the fastest path from clone to running recipe-aligned
 Azure Functions examples locally.
 
 !!! info "What you are using"
-    This repository is a cookbook. You consume it by reading recipes in
-    `recipes/` and running matching sample apps in `examples/`.
+    This repository is a cookbook. You consume it by reading patterns in
+    `docs/patterns/` and running matching sample apps in `examples/`.
 
 ## 1) Clone and set up the environment
 
@@ -34,11 +34,11 @@ Use this quick map:
 
 | Need | Recipe | Example |
 | --- | --- | --- |
-| Basic HTTP endpoint | `recipes/hello-http-minimal.md` | `examples/http/hello_http_minimal` |
-| Full CRUD with routing | `recipes/http-routing-query-body.md` | `examples/http/http_routing_query_body` |
-| GitHub event ingestion | `recipes/webhook-github.md` | `examples/http/webhook_github` |
-| Async queue processing | `recipes/queue-consumer.md` | `examples/queue/queue_consumer` |
-| Scheduled jobs | `recipes/timer-cron-job.md` | `examples/timer/timer_cron_job` |
+| Basic HTTP endpoint | `patterns/apis-and-ingress/hello-http-minimal.md` | `examples/apis-and-ingress/hello_http_minimal` |
+| Full CRUD with routing | `patterns/apis-and-ingress/http-routing-query-body.md` | `examples/apis-and-ingress/http_routing_query_body` |
+| GitHub event ingestion | `patterns/apis-and-ingress/webhook-github.md` | `examples/apis-and-ingress/webhook_github` |
+| Async queue processing | `patterns/messaging-and-pubsub/queue-consumer.md` | `examples/messaging-and-pubsub/queue_consumer` |
+| Scheduled jobs | `patterns/scheduled-and-background/timer-cron-job.md` | `examples/scheduled-and-background/timer_cron_job` |
 
 ## 3) Read the recipe first
 
@@ -58,7 +58,7 @@ Each recipe describes:
 ### Hello HTTP Minimal
 
 ```bash
-cd examples/http/hello_http_minimal
+cd examples/apis-and-ingress/hello_http_minimal
 pip install -e .
 func start
 ```
@@ -73,7 +73,7 @@ curl "http://localhost:7071/api/hello?name=Azure"
 ### GitHub Webhook Receiver
 
 ```bash
-cd examples/http/webhook_github
+cd examples/apis-and-ingress/webhook_github
 pip install -e .
 func start
 ```
@@ -83,7 +83,7 @@ Set `GITHUB_WEBHOOK_SECRET` before receiving signed webhook traffic.
 ### Queue Consumer
 
 ```bash
-cd examples/queue/queue_consumer
+cd examples/messaging-and-pubsub/queue_consumer
 pip install -e .
 func start
 ```
@@ -99,7 +99,7 @@ Set local storage connection to `UseDevelopmentStorage=true`.
 ### Timer Cron Job
 
 ```bash
-cd examples/timer/timer_cron_job
+cd examples/scheduled-and-background/timer_cron_job
 pip install -e .
 func start
 ```
@@ -131,14 +131,19 @@ This verifies linting, typing, tests, security scan, and docs build.
 
 ## Common first-week workflow
 
-```text
-Choose recipe -> Run sample -> Confirm endpoint/trigger behavior ->
-Customize code -> Add tests -> Re-run checks -> Document changes
+```mermaid
+flowchart LR
+    A[Choose recipe] --> B[Run sample]
+    B --> C[Confirm endpoint/trigger behavior]
+    C --> D[Customize code]
+    D --> E[Add tests]
+    E --> F[Re-run checks]
+    F --> G[Document changes]
 ```
 
 ## Where to go next
 
-- Pattern orientation: [Recipes Overview](recipes/index.md)
+- Pattern orientation: [Pattern Catalog](patterns/index.md)
 - Contributor workflow: [Development](development.md)
 - Test strategy: [Testing](testing.md)
 - Frequent issues: [Troubleshooting](troubleshooting.md)

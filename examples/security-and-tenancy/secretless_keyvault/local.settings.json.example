@@ -1,0 +1,10 @@
+{
+  "IsEncrypted": false,
+  "Values": {
+    "AzureWebJobsStorage": "UseDevelopmentStorage=true",
+    "FUNCTIONS_WORKER_RUNTIME": "python",
+    "UPSTREAM_APP_NAME": "sample-upstream",
+    "UPSTREAM_SECRET_NAME": "demo-api-key",
+    "UPSTREAM_API_KEY": "local-dev-placeholder"
+  }
+}

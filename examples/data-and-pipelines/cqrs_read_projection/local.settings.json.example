@@ -1,0 +1,9 @@
+{
+  "IsEncrypted": false,
+  "Values": {
+    "AzureWebJobsStorage": "UseDevelopmentStorage=true",
+    "FUNCTIONS_WORKER_RUNTIME": "python",
+    "CosmosDBConnection": "AccountEndpoint=https://<account>.documents.azure.com:443/;AccountKey=<key>;",
+    "READ_DB_URL": "sqlite:///readmodels.db"
+  }
+}

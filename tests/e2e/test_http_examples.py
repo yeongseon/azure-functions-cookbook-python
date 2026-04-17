@@ -26,7 +26,7 @@ pytestmark = pytest.mark.e2e
 class TestHelloHttpMinimal:
     """GET /api/hello — minimal HTTP trigger."""
 
-    EXAMPLE = "http/hello_http_minimal"
+    EXAMPLE = "apis-and-ingress/hello_http_minimal"
 
     def test_hello_default(self) -> None:
         with run_func_host(self.EXAMPLE) as base_url:
@@ -49,7 +49,7 @@ class TestHelloHttpMinimal:
 class TestHttpRoutingQueryBody:
     """CRUD routes at /api/users and /api/search."""
 
-    EXAMPLE = "http/http_routing_query_body"
+    EXAMPLE = "apis-and-ingress/http_routing_query_body"
 
     def test_list_users(self) -> None:
         with run_func_host(self.EXAMPLE) as base_url:
@@ -79,7 +79,7 @@ class TestHttpRoutingQueryBody:
 class TestHttpAuthLevels:
     """Anonymous, Function, and Admin auth levels."""
 
-    EXAMPLE = "http/http_auth_levels"
+    EXAMPLE = "apis-and-ingress/http_auth_levels"
 
     def test_public_endpoint_accessible(self) -> None:
         """Anonymous endpoint should return 200."""
@@ -110,7 +110,7 @@ class TestHttpAuthLevels:
 class TestWebhookGitHub:
     """POST /api/github/webhook with HMAC-SHA256."""
 
-    EXAMPLE = "http/webhook_github"
+    EXAMPLE = "apis-and-ingress/webhook_github"
     WEBHOOK_SECRET = "test-secret-key"
 
     def _sign_payload(self, payload: bytes) -> str:
@@ -190,7 +190,7 @@ class TestWebhookGitHub:
 class TestLocalRunAndDirectInvoke:
     """GET/POST /api/greet."""
 
-    EXAMPLE = "local_run_and_direct_invoke"
+    EXAMPLE = "guides/local_run_and_direct_invoke"
 
     def test_greet_with_query_param(self) -> None:
         with run_func_host(self.EXAMPLE) as base_url:
@@ -222,7 +222,7 @@ class TestLocalRunAndDirectInvoke:
 class TestBlueprintModularApp:
     """Health + Users endpoints."""
 
-    EXAMPLE = "recipes/blueprint_modular_app"
+    EXAMPLE = "runtime-and-ops/blueprint_modular_app"
 
     def test_health_endpoint(self) -> None:
         with run_func_host(self.EXAMPLE) as base_url:

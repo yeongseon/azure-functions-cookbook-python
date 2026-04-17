@@ -166,7 +166,7 @@ def run_func_host(
     Parameters
     ----------
     example_path:
-        Relative path under ``examples/`` (e.g. ``"http/hello_http_minimal"``).
+        Relative path under ``examples/`` (e.g. ``"apis-and-ingress/hello_http_minimal"``).
     port:
         HTTP port for the host.  Auto-allocated when *None*.
     timeout:

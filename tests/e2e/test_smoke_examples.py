@@ -30,7 +30,7 @@ pytestmark = pytest.mark.smoke
 
 class TestServiceBusWorkerSmoke:
     def test_module_imports(self) -> None:
-        module = import_function_app("servicebus/servicebus_worker")
+        module = import_function_app("messaging-and-pubsub/servicebus_worker")
         assert hasattr(module, "app")
 
 
@@ -41,7 +41,7 @@ class TestServiceBusWorkerSmoke:
 
 class TestEventHubConsumerSmoke:
     def test_module_imports(self) -> None:
-        module = import_function_app("eventhub/eventhub_consumer")
+        module = import_function_app("streams-and-telemetry/eventhub_consumer")
         assert hasattr(module, "app")
 
 
@@ -52,7 +52,7 @@ class TestEventHubConsumerSmoke:
 
 class TestChangeFeedProcessorSmoke:
     def test_module_imports(self) -> None:
-        module = import_function_app("cosmosdb/change_feed_processor")
+        module = import_function_app("data-and-pipelines/change_feed_processor")
         assert hasattr(module, "app")
 
 
@@ -63,7 +63,7 @@ class TestChangeFeedProcessorSmoke:
 
 class TestTimerCronJobSmoke:
     def test_module_imports(self) -> None:
-        module = import_function_app("timer/timer_cron_job")
+        module = import_function_app("scheduled-and-background/timer_cron_job")
         assert hasattr(module, "app")
 
 
@@ -74,13 +74,13 @@ class TestTimerCronJobSmoke:
 
 class TestManagedIdentityStorageSmoke:
     def test_module_imports(self) -> None:
-        module = import_function_app("recipes/managed_identity_storage")
+        module = import_function_app("security-and-tenancy/managed_identity_storage")
         assert hasattr(module, "app")
 
 
 class TestManagedIdentityServiceBusSmoke:
     def test_module_imports(self) -> None:
-        module = import_function_app("recipes/managed_identity_servicebus")
+        module = import_function_app("security-and-tenancy/managed_identity_servicebus")
         assert hasattr(module, "app")
 
 
@@ -91,13 +91,13 @@ class TestManagedIdentityServiceBusSmoke:
 
 class TestHostJsonTuningSmoke:
     def test_module_imports(self) -> None:
-        module = import_function_app("recipes/host_json_tuning")
+        module = import_function_app("runtime-and-ops/host_json_tuning")
         assert hasattr(module, "app")
 
 
 class TestConcurrencyTuningSmoke:
     def test_module_imports(self) -> None:
-        module = import_function_app("recipes/concurrency_tuning")
+        module = import_function_app("runtime-and-ops/concurrency_tuning")
         assert hasattr(module, "app")
 
 
@@ -108,7 +108,7 @@ class TestConcurrencyTuningSmoke:
 
 class TestRetryAndIdempotencySmoke:
     def test_module_imports(self) -> None:
-        module = import_function_app("recipes/retry_and_idempotency")
+        module = import_function_app("reliability/retry_and_idempotency")
         assert hasattr(module, "app")
 
 
@@ -119,5 +119,5 @@ class TestRetryAndIdempotencySmoke:
 
 class TestMcpServerSmoke:
     def test_module_imports(self) -> None:
-        module = import_function_app("ai/mcp_server_example")
+        module = import_function_app("ai-and-agents/mcp_server_example")
         assert hasattr(module, "app")

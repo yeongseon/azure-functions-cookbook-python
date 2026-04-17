@@ -23,7 +23,7 @@ pytestmark = pytest.mark.e2e
 class TestQueueProducer:
     """POST /api/enqueue → writes to 'outbound-tasks' queue."""
 
-    EXAMPLE = "queue/queue_producer"
+    EXAMPLE = "messaging-and-pubsub/queue_producer"
 
     def test_enqueue_valid_payload(self, azurite) -> None:  # noqa: ARG002
         ensure_azurite_queue("outbound-tasks")
@@ -58,7 +58,7 @@ class TestQueueProducer:
 class TestOutputBindingVsSdk:
     """POST /api/enqueue/binding and POST /api/enqueue/sdk."""
 
-    EXAMPLE = "recipes/output_binding_vs_sdk"
+    EXAMPLE = "runtime-and-ops/output_binding_vs_sdk"
 
     def test_enqueue_via_binding(self, azurite) -> None:  # noqa: ARG002
         ensure_azurite_queue("work-items")

@@ -1,0 +1,9 @@
+{
+  "IsEncrypted": false,
+  "Values": {
+    "AzureWebJobsStorage": "UseDevelopmentStorage=true",
+    "FUNCTIONS_WORKER_RUNTIME": "python",
+    "RATE_LIMIT_CAPACITY": "5",
+    "RATE_LIMIT_REFILL_PER_SECOND": "1"
+  }
+}

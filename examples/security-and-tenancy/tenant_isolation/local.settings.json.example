@@ -1,0 +1,9 @@
+{
+  "IsEncrypted": false,
+  "Values": {
+    "AzureWebJobsStorage": "UseDevelopmentStorage=true",
+    "FUNCTIONS_WORKER_RUNTIME": "python",
+    "TENANT_TENANT_A_DB_URL": "postgresql+psycopg://user:pass@localhost:5432/tenant_a",
+    "TENANT_TENANT_B_DB_URL": "postgresql+psycopg://user:pass@localhost:5432/tenant_b"
+  }
+}

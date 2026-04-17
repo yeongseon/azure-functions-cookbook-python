@@ -14,77 +14,127 @@ theme:
 
 nav:
   - Home: index.md
-  - Getting Started:
-      - Installation: installation.md
-      - Getting Started: getting-started.md
-  - Concepts:
-      - Python v2 Programming Model: concepts/python-v2-programming-model.md
-      - Triggers and Bindings: concepts/triggers-and-bindings-overview.md
-      - Durable Functions: concepts/durable-functions-overview.md
-      - Identity-Based Connections: concepts/identity-based-connections.md
-      - Deployment Patterns: concepts/deployment-patterns.md
-      - IaC Reference Snippets: concepts/iac-snippets.md
-      - Overview: recipes/index.md
-      - HTTP:
-          - Hello HTTP Minimal: recipes/hello-http-minimal.md
-          - HTTP Routing, Query, and Body: recipes/http-routing-query-body.md
-          - HTTP Auth Levels: recipes/http-auth-levels.md
-          - GitHub Webhook: recipes/webhook-github.md
-          - EasyAuth Claims: recipes/auth-easyauth-claims.md
-          - JWT Bearer Validation: recipes/auth-jwt-validation.md
-          - Multi-Tenant Auth: recipes/auth-multitenant.md
-      - Timer:
-          - Timer Cron Job: recipes/timer-cron-job.md
-      - Queue:
-          - Queue Producer: recipes/queue-producer.md
-          - Queue Consumer: recipes/queue-consumer.md
-      - Blob:
-          - Blob Upload Processor: recipes/blob-upload-processor.md
-          - Blob Event Grid Trigger: recipes/blob-eventgrid-trigger.md
-      - Service Bus:
-          - Service Bus Worker: recipes/servicebus-worker.md
-      - Event Hub:
-          - Event Hub Consumer: recipes/eventhub-consumer.md
-      - Cosmos DB:
-          - Change Feed Processor: recipes/change-feed-processor.md
-      - Database:
-          - DB Input and Output: recipes/db-input-output.md
-      - Patterns:
-          - Blueprint Modular App: recipes/blueprint-modular-app.md
-          - Retry and Idempotency: recipes/retry-and-idempotency.md
-          - Output Binding vs SDK: recipes/output-binding-vs-sdk.md
-          - Managed Identity (Storage): recipes/managed-identity-storage.md
-          - Managed Identity (Service Bus): recipes/managed-identity-servicebus.md
-          - host.json Tuning: recipes/host-json-tuning.md
-          - Concurrency Tuning: recipes/concurrency-tuning.md
-      - Durable Functions:
-          - Hello Sequence: recipes/durable-hello-sequence.md
-          - Fan-Out / Fan-In: recipes/durable-fan-out-fan-in.md
-          - Human Interaction: recipes/durable-human-interaction.md
-          - Entity Counter: recipes/durable-entity-counter.md
-          - Retry Pattern: recipes/durable-retry-pattern.md
-          - Determinism Gotchas: recipes/durable-determinism-gotchas.md
-          - Unit Testing: recipes/durable-unit-testing.md
-      - AI:
-          - MCP Server: recipes/mcp-server-example.md
-          - LangGraph Agent: recipes/langgraph-agent.md
-      - Local Development:
-          - Local Run and Direct Invoke: recipes/local-run-and-direct-invoke.md
-      - Toolkit:
-          - Scaffold Quick Start: recipes/scaffold-quick-start.md
-  - User Guide:
-      - Usage: usage.md
-      - Configuration: configuration.md
-      - Architecture: architecture.md
-      - API Reference: api.md
-      - Roadmap: roadmap.md
+  - Foundations:
+      - Overview: foundations/index.md
+      - Execution Model: foundations/execution-model.md
+      - Triggers & Bindings: foundations/triggers-bindings-overview.md
+      - Pattern Chooser: foundations/pattern-chooser.md
+      - Delivery Guarantees: foundations/delivery-guarantees.md
+      - Hosting & Scale: foundations/hosting-and-scale.md
+  - Patterns:
+      - Overview: patterns/index.md
+      - APIs & Ingress:
+          - Overview: patterns/apis-and-ingress/index.md
+          - Hello HTTP Minimal: patterns/apis-and-ingress/hello-http-minimal.md
+          - HTTP Routing Query Body: patterns/apis-and-ingress/http-routing-query-body.md
+          - HTTP Auth Levels: patterns/apis-and-ingress/http-auth-levels.md
+          - Webhook GitHub: patterns/apis-and-ingress/webhook-github.md
+          - EasyAuth Claims Extraction: patterns/apis-and-ingress/auth-easyauth-claims.md
+          - JWT Bearer Validation: patterns/apis-and-ingress/auth-jwt-validation.md
+          - Multi-Tenant Auth: patterns/apis-and-ingress/auth-multitenant.md
+          - BFF Facade API: patterns/apis-and-ingress/bff-facade-api.md
+          - Full-Stack CRUD API: patterns/apis-and-ingress/full-stack-crud-api.md
+      - Scheduled & Background:
+          - Overview: patterns/scheduled-and-background/index.md
+          - Timer Cron Job: patterns/scheduled-and-background/timer-cron-job.md
+      - Blob & File Triggers:
+          - Overview: patterns/blob-and-file-triggers/index.md
+          - Blob Upload Processor: patterns/blob-and-file-triggers/blob-upload-processor.md
+          - Blob Event Grid Trigger: patterns/blob-and-file-triggers/blob-eventgrid-trigger.md
+      - Async APIs & Jobs:
+          - Overview: patterns/async-apis-and-jobs/index.md
+          - Async HTTP 202 Polling: patterns/async-apis-and-jobs/async-http-202-polling.md
+          - Queue-Backed Job: patterns/async-apis-and-jobs/queue-backed-job.md
+          - Callback Completion: patterns/async-apis-and-jobs/callback-completion.md
+          - Async Job Lifecycle: patterns/orchestration-and-workflows/async-job-lifecycle.md
+      - Messaging & Pub/Sub:
+          - Overview: patterns/messaging-and-pubsub/index.md
+          - Queue Producer: patterns/messaging-and-pubsub/queue-producer.md
+          - Queue Consumer: patterns/messaging-and-pubsub/queue-consumer.md
+          - Service Bus Worker: patterns/messaging-and-pubsub/servicebus-worker.md
+          - Event Grid Event Router: patterns/messaging-and-pubsub/eventgrid-event-router.md
+          - Service Bus Topic Fanout: patterns/messaging-and-pubsub/servicebus-topic-fanout.md
+          - Service Bus Sessions: patterns/messaging-and-pubsub/servicebus-sessions.md
+          - Service Bus DLQ Replay: patterns/messaging-and-pubsub/servicebus-dlq-replay.md
+          - Event Grid Domain Events: patterns/messaging-and-pubsub/eventgrid-domain-events.md
+      - Streams & Telemetry:
+          - Overview: patterns/streams-and-telemetry/index.md
+          - Event Hub Consumer: patterns/streams-and-telemetry/eventhub-consumer.md
+          - Event Hub Batch Window: patterns/streams-and-telemetry/eventhub-batch-window.md
+          - Event Hub Checkpoint Replay: patterns/streams-and-telemetry/eventhub-checkpoint-replay.md
+      - Data & Pipelines:
+          - Overview: patterns/data-and-pipelines/index.md
+          - Change Feed Processor: patterns/data-and-pipelines/change-feed-processor.md
+          - DB Input and Output Bindings: patterns/data-and-pipelines/db-input-output.md
+          - File Processing Pipeline: patterns/data-and-pipelines/file-processing-pipeline.md
+          - CQRS Read Projection: patterns/data-and-pipelines/cqrs-read-projection.md
+          - SQLAlchemy REST Pagination: patterns/data-and-pipelines/sqlalchemy-rest-pagination.md
+          - ETL Enrichment: patterns/data-and-pipelines/etl-enrichment.md
+      - Orchestration & Workflows:
+          - Overview: patterns/orchestration-and-workflows/index.md
+          - Durable Hello Sequence: patterns/orchestration-and-workflows/durable-hello-sequence.md
+          - Durable Fan-Out Fan-In: patterns/orchestration-and-workflows/durable-fan-out-fan-in.md
+          - Durable Human Interaction: patterns/orchestration-and-workflows/durable-human-interaction.md
+          - Durable Entity Counter: patterns/orchestration-and-workflows/durable-entity-counter.md
+          - Durable Retry Pattern: patterns/orchestration-and-workflows/durable-retry-pattern.md
+          - Durable Determinism Gotchas: patterns/orchestration-and-workflows/durable-determinism-gotchas.md
+          - Durable Unit Testing: patterns/orchestration-and-workflows/durable-unit-testing.md
+          - Saga Compensation: patterns/orchestration-and-workflows/saga-compensation.md
+          - Sub-Orchestration: patterns/orchestration-and-workflows/sub-orchestration.md
+      - Reliability:
+          - Overview: patterns/reliability/index.md
+          - Retry and Idempotency: patterns/reliability/retry-and-idempotency.md
+          - Circuit Breaker: patterns/reliability/circuit-breaker.md
+          - Poison Message Handling: patterns/reliability/poison-message-handling.md
+          - Outbox Pattern: patterns/reliability/outbox-pattern.md
+          - Rate Limiting Throttle: patterns/reliability/rate-limiting-throttle.md
+      - Security & Tenancy:
+          - Overview: patterns/security-and-tenancy/index.md
+          - Managed Identity Storage: patterns/security-and-tenancy/managed-identity-storage.md
+          - Managed Identity Service Bus: patterns/security-and-tenancy/managed-identity-servicebus.md
+          - Secretless Key Vault: patterns/security-and-tenancy/secretless-keyvault.md
+          - Tenant Isolation: patterns/security-and-tenancy/tenant-isolation.md
+      - Runtime & Ops:
+          - Overview: patterns/runtime-and-ops/index.md
+          - Blueprint Modular App: patterns/runtime-and-ops/blueprint-modular-app.md
+          - Output Binding vs SDK: patterns/runtime-and-ops/output-binding-vs-sdk.md
+          - host.json Tuning: patterns/runtime-and-ops/host-json-tuning.md
+          - Concurrency Tuning: patterns/runtime-and-ops/concurrency-tuning.md
+          - Observability Tracing: patterns/runtime-and-ops/observability-tracing.md
+          - Cold Start Mitigation: patterns/runtime-and-ops/cold-start-mitigation.md
+      - Realtime:
+          - Overview: patterns/realtime/index.md
+          - SignalR Notifications: patterns/realtime/signalr-notifications.md
+      - AI & Agents:
+          - Overview: patterns/ai-and-agents/index.md
+          - MCP Server Example: patterns/ai-and-agents/mcp-server-example.md
+          - LangGraph Agent: patterns/ai-and-agents/langgraph-agent.md
+          - RAG Knowledge API: patterns/ai-and-agents/rag-knowledge-api.md
+          - LangGraph RAG Agent: patterns/ai-and-agents/langgraph-rag-agent.md
+  - Reference:
+      - Overview: reference/index.md
+      - HTTP: reference/http.md
+      - Timer: reference/timer.md
+      - Queue Storage: reference/queue-storage.md
+      - Blob Storage: reference/blob-storage.md
+      - Event Grid: reference/event-grid.md
+      - Service Bus: reference/service-bus.md
+      - Event Hub: reference/event-hub.md
+      - Cosmos DB: reference/cosmos-db.md
+      - SignalR: reference/signalr.md
+      - SQL: reference/sql.md
+      - Durable Functions: reference/durable.md
+  - Guides:
+      - Local Run and Direct Invoke: guides/local-run-and-direct-invoke.md
+      - Scaffold Quick Start: guides/scaffold-quick-start.md
+      - Identity-Based Connections: guides/identity-based-connections.md
+      - Deployment Patterns: guides/deployment-patterns.md
+      - IaC Snippets: guides/iac-snippets.md
   - Contributing:
       - Development: development.md
       - Testing: testing.md
       - Guidelines: contributing.md
-  - Troubleshooting: troubleshooting.md
   - FAQ: faq.md
-  - Security: security.md
   - Changelog: changelog.md
 
 markdown_extensions:

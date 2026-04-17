@@ -4,9 +4,9 @@
 
 ## What this project provides
 
-- **Recipes** — 28 production-ready pattern documents under `recipes/` and `docs/recipes/`.
-- **Concepts** — In-depth explanations of cross-cutting topics under `docs/concepts/`.
-- **Runnable examples** — 28 executable Azure Functions projects under `examples/`, organized by trigger category.
+- **Patterns** — 60+ production-ready pattern documents under `docs/patterns/`, organized by category.
+- **Foundations** — In-depth explanations of cross-cutting topics under `docs/foundations/`.
+- **Runnable examples** — 60+ executable Azure Functions projects under `examples/`, organized by category.
 
 !!! info "This is not a pip package"
     While the repository uses `pyproject.toml` for development tooling (linting, testing, docs), it is **not** intended to be installed as a runtime dependency in your application. You consume it by reading recipes and copying example patterns into your own projects.
@@ -16,7 +16,7 @@
 Each example is a self-contained Azure Functions project. Clone the repo, navigate to an example, and run it:
 
 ```bash
-cd examples/http/hello_http_minimal
+cd examples/apis-and-ingress/hello_http_minimal
 pip install -e .
 func start
 ```
@@ -51,5 +51,5 @@ This is used internally for versioning and is **not** a public API.
 
 - [Getting Started](getting-started.md)
 - [Usage](usage.md)
-- [Recipes](recipes/index.md)
-- [Architecture](architecture.md)
+- [Patterns](patterns/index.md)
+- [Foundations](foundations/index.md)

@@ -1,0 +1,15 @@
+{
+  "IsEncrypted": false,
+  "Values": {
+    "AzureWebJobsStorage": "UseDevelopmentStorage=true",
+    "FUNCTIONS_WORKER_RUNTIME": "python",
+    "CosmosDBConnection": "AccountEndpoint=https://<account>.documents.azure.com:443/;AccountKey=<key>;",
+    "COSMOS_DB_ENDPOINT": "https://<account>.documents.azure.com:443/",
+    "COSMOS_DB_KEY": "<key>",
+    "COSMOS_DB_DATABASE_NAME": "outboxdb",
+    "COSMOS_DB_CONTAINER_NAME": "orders",
+    "DISPATCH_DB_URL": "sqlite:///relay.db",
+    "OUTBOX_BROKER_NAME": "log-broker",
+    "OUTBOX_EVENT_TTL_SECONDS": "86400"
+  }
+}

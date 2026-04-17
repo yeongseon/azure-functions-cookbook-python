@@ -1,0 +1,7 @@
+azure-functions
+azure-functions-langgraph
+azure-functions-logging
+azure-functions-validation
+azure-functions-openapi
+pydantic>=2.0
+langgraph>=0.2.0

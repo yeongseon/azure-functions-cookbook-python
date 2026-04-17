@@ -25,7 +25,7 @@ class TestDurableHelloSequence:
     """Verify durable_hello_sequence imports cleanly."""
 
     def test_module_imports(self) -> None:
-        module = import_function_app("durable/durable_hello_sequence")
+        module = import_function_app("orchestration-and-workflows/durable_hello_sequence")
         assert hasattr(module, "app")
 
 
@@ -38,7 +38,7 @@ class TestDurableFanOutFanIn:
     """Verify durable_fan_out_fan_in imports cleanly."""
 
     def test_module_imports(self) -> None:
-        module = import_function_app("durable/durable_fan_out_fan_in")
+        module = import_function_app("orchestration-and-workflows/durable_fan_out_fan_in")
         assert hasattr(module, "app")
 
 
@@ -51,7 +51,7 @@ class TestDurableHumanInteraction:
     """Verify durable_human_interaction imports cleanly."""
 
     def test_module_imports(self) -> None:
-        module = import_function_app("durable/durable_human_interaction")
+        module = import_function_app("orchestration-and-workflows/durable_human_interaction")
         assert hasattr(module, "app")
 
 
@@ -64,7 +64,7 @@ class TestDurableEntityCounter:
     """Verify durable_entity_counter imports cleanly."""
 
     def test_module_imports(self) -> None:
-        module = import_function_app("durable/durable_entity_counter")
+        module = import_function_app("orchestration-and-workflows/durable_entity_counter")
         assert hasattr(module, "app")
 
 
@@ -77,7 +77,7 @@ class TestDurableRetryPattern:
     """Verify durable_retry_pattern imports cleanly."""
 
     def test_module_imports(self) -> None:
-        module = import_function_app("durable/durable_retry_pattern")
+        module = import_function_app("orchestration-and-workflows/durable_retry_pattern")
         assert hasattr(module, "app")
 
 
@@ -90,7 +90,7 @@ class TestDurableDeterminismGotchas:
     """Verify durable_determinism_gotchas imports cleanly."""
 
     def test_module_imports(self) -> None:
-        module = import_function_app("durable/durable_determinism_gotchas")
+        module = import_function_app("orchestration-and-workflows/durable_determinism_gotchas")
         assert hasattr(module, "app")
 
 
@@ -103,5 +103,5 @@ class TestDurableUnitTesting:
     """Verify durable_unit_testing imports cleanly."""
 
     def test_module_imports(self) -> None:
-        module = import_function_app("durable/durable_unit_testing")
+        module = import_function_app("orchestration-and-workflows/durable_unit_testing")
         assert hasattr(module, "app")

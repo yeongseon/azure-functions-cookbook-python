@@ -1,0 +1,9 @@
+{
+  "IsEncrypted": false,
+  "Values": {
+    "AzureWebJobsStorage": "UseDevelopmentStorage=true",
+    "FUNCTIONS_WORKER_RUNTIME": "python",
+    "JOB_QUEUE_NAME": "job-requests",
+    "JOB_STATUS_CONTAINER": "job-status"
+  }
+}

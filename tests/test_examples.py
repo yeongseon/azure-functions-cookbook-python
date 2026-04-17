@@ -38,7 +38,7 @@ def _load_example_module(example_path: str) -> Any:
     """Import an example's function_app.py and return the module.
 
     ``example_path`` uses forward-slash separators for nested examples,
-    e.g. ``"http/hello_http_minimal"`` or ``"local_run_and_direct_invoke"``.
+    e.g. ``"apis-and-ingress/hello_http_minimal"`` or ``"guides/local_run_and_direct_invoke"``.
     """
     module_path = EXAMPLES_DIR / example_path / "function_app.py"
     module_name = f"cookbook_example_{example_path.replace('/', '_')}"
@@ -80,7 +80,7 @@ def _import_service(example_path: str, service_module: str) -> Any:
     already been executed.
 
     Args:
-        example_path: Relative example path, e.g. ``"http/hello_http_minimal"``.
+        example_path: Relative example path, e.g. ``"apis-and-ingress/hello_http_minimal"``.
         service_module: Fully-qualified module name,
             e.g. ``"app.services.hello_service"``.
     """
@@ -133,17 +133,17 @@ class TestHelloHttpMinimal:
     """Smoke tests for examples/http/hello_http_minimal."""
 
     def test_module_loads(self) -> None:
-        module = _load_example_module("http/hello_http_minimal")
+        module = _load_example_module("apis-and-ingress/hello_http_minimal")
         assert hasattr(module, "app")
 
     def test_build_greeting_default(self) -> None:
-        _load_example_module("http/hello_http_minimal")
-        svc = _import_service("http/hello_http_minimal", "app.services.hello_service")
+        _load_example_module("apis-and-ingress/hello_http_minimal")
+        svc = _import_service("apis-and-ingress/hello_http_minimal", "app.services.hello_service")
         assert svc.build_greeting("World") == "Hello, World!"
 
     def test_build_greeting_with_name(self) -> None:
-        _load_example_module("http/hello_http_minimal")
-        svc = _import_service("http/hello_http_minimal", "app.services.hello_service")
+        _load_example_module("apis-and-ingress/hello_http_minimal")
+        svc = _import_service("apis-and-ingress/hello_http_minimal", "app.services.hello_service")
         assert svc.build_greeting("Ada") == "Hello, Ada!"
 
 
@@ -156,32 +156,40 @@ class TestHttpRoutingQueryBody:
     """Smoke tests for examples/http/http_routing_query_body."""
 
     def test_module_loads(self) -> None:
-        module = _load_example_module("http/http_routing_query_body")
+        module = _load_example_module("apis-and-ingress/http_routing_query_body")
         assert hasattr(module, "app")
 
     def test_list_all_users(self) -> None:
-        _load_example_module("http/http_routing_query_body")
-        svc = _import_service("http/http_routing_query_body", "app.services.user_service")
+        _load_example_module("apis-and-ingress/http_routing_query_body")
+        svc = _import_service(
+            "apis-and-ingress/http_routing_query_body", "app.services.user_service"
+        )
         result = svc.list_all_users()
         assert "users" in result
         assert isinstance(result["users"], list)
 
     def test_get_user_found(self) -> None:
-        _load_example_module("http/http_routing_query_body")
-        svc = _import_service("http/http_routing_query_body", "app.services.user_service")
+        _load_example_module("apis-and-ingress/http_routing_query_body")
+        svc = _import_service(
+            "apis-and-ingress/http_routing_query_body", "app.services.user_service"
+        )
         user = svc.get_user_by_id("1")
         assert user is not None
         assert user["id"] == "1"
 
     def test_get_user_not_found(self) -> None:
-        _load_example_module("http/http_routing_query_body")
-        svc = _import_service("http/http_routing_query_body", "app.services.user_service")
+        _load_example_module("apis-and-ingress/http_routing_query_body")
+        svc = _import_service(
+            "apis-and-ingress/http_routing_query_body", "app.services.user_service"
+        )
         user = svc.get_user_by_id("999")
         assert user is None
 
     def test_create_user(self) -> None:
-        _load_example_module("http/http_routing_query_body")
-        svc = _import_service("http/http_routing_query_body", "app.services.user_service")
+        _load_example_module("apis-and-ingress/http_routing_query_body")
+        svc = _import_service(
+            "apis-and-ingress/http_routing_query_body", "app.services.user_service"
+        )
         result, status = svc.create_user(
             {"id": "99", "name": "Test User", "email": "test@example.com"}
         )
@@ -189,20 +197,26 @@ class TestHttpRoutingQueryBody:
         assert result["name"] == "Test User"
 
     def test_create_user_missing_fields(self) -> None:
-        _load_example_module("http/http_routing_query_body")
-        svc = _import_service("http/http_routing_query_body", "app.services.user_service")
+        _load_example_module("apis-and-ingress/http_routing_query_body")
+        svc = _import_service(
+            "apis-and-ingress/http_routing_query_body", "app.services.user_service"
+        )
         result, status = svc.create_user({})
         assert status == 400
 
     def test_search_users(self) -> None:
-        _load_example_module("http/http_routing_query_body")
-        svc = _import_service("http/http_routing_query_body", "app.services.user_service")
+        _load_example_module("apis-and-ingress/http_routing_query_body")
+        svc = _import_service(
+            "apis-and-ingress/http_routing_query_body", "app.services.user_service"
+        )
         result = svc.search_users("ada", 10)
         assert "results" in result
 
     def test_delete_user(self) -> None:
-        _load_example_module("http/http_routing_query_body")
-        svc = _import_service("http/http_routing_query_body", "app.services.user_service")
+        _load_example_module("apis-and-ingress/http_routing_query_body")
+        svc = _import_service(
+            "apis-and-ingress/http_routing_query_body", "app.services.user_service"
+        )
         _result, status = svc.delete_user("1")
         assert status == 204
 
@@ -216,24 +230,24 @@ class TestHttpAuthLevels:
     """Smoke tests for examples/http/http_auth_levels."""
 
     def test_module_loads(self) -> None:
-        module = _load_example_module("http/http_auth_levels")
+        module = _load_example_module("apis-and-ingress/http_auth_levels")
         assert hasattr(module, "app")
 
     def test_public_message(self) -> None:
-        _load_example_module("http/http_auth_levels")
-        svc = _import_service("http/http_auth_levels", "app.services.auth_service")
+        _load_example_module("apis-and-ingress/http_auth_levels")
+        svc = _import_service("apis-and-ingress/http_auth_levels", "app.services.auth_service")
         msg = svc.get_public_message()
         assert "public" in msg.lower()
 
     def test_protected_message(self) -> None:
-        _load_example_module("http/http_auth_levels")
-        svc = _import_service("http/http_auth_levels", "app.services.auth_service")
+        _load_example_module("apis-and-ingress/http_auth_levels")
+        svc = _import_service("apis-and-ingress/http_auth_levels", "app.services.auth_service")
         msg = svc.get_protected_message()
         assert isinstance(msg, str)
 
     def test_admin_message(self) -> None:
-        _load_example_module("http/http_auth_levels")
-        svc = _import_service("http/http_auth_levels", "app.services.auth_service")
+        _load_example_module("apis-and-ingress/http_auth_levels")
+        svc = _import_service("apis-and-ingress/http_auth_levels", "app.services.auth_service")
         msg = svc.get_admin_message()
         assert isinstance(msg, str)
 
@@ -247,12 +261,12 @@ class TestWebhookGithub:
     """Smoke tests for examples/http/webhook_github."""
 
     def test_module_loads(self) -> None:
-        module = _load_example_module("http/webhook_github")
+        module = _load_example_module("apis-and-ingress/webhook_github")
         assert hasattr(module, "app")
 
     def test_missing_secret_returns_500(self) -> None:
-        _load_example_module("http/webhook_github")
-        fn = _import_function_module("http/webhook_github", "app.functions.webhook")
+        _load_example_module("apis-and-ingress/webhook_github")
+        fn = _import_function_module("apis-and-ingress/webhook_github", "app.functions.webhook")
         env_backup = os.environ.pop("GITHUB_WEBHOOK_SECRET", None)
         try:
             req = func.HttpRequest(
@@ -268,8 +282,8 @@ class TestWebhookGithub:
                 os.environ["GITHUB_WEBHOOK_SECRET"] = env_backup
 
     def test_invalid_signature_rejected(self) -> None:
-        _load_example_module("http/webhook_github")
-        fn = _import_function_module("http/webhook_github", "app.functions.webhook")
+        _load_example_module("apis-and-ingress/webhook_github")
+        fn = _import_function_module("apis-and-ingress/webhook_github", "app.functions.webhook")
         os.environ["GITHUB_WEBHOOK_SECRET"] = "test-secret"
         try:
             req = func.HttpRequest(
@@ -287,8 +301,8 @@ class TestWebhookGithub:
             os.environ.pop("GITHUB_WEBHOOK_SECRET", None)
 
     def test_valid_push_event(self) -> None:
-        _load_example_module("http/webhook_github")
-        fn = _import_function_module("http/webhook_github", "app.functions.webhook")
+        _load_example_module("apis-and-ingress/webhook_github")
+        fn = _import_function_module("apis-and-ingress/webhook_github", "app.functions.webhook")
         secret = "test-secret"
         os.environ["GITHUB_WEBHOOK_SECRET"] = secret
         try:
@@ -317,8 +331,8 @@ class TestWebhookGithub:
             os.environ.pop("GITHUB_WEBHOOK_SECRET", None)
 
     def test_handle_push_helper(self) -> None:
-        _load_example_module("http/webhook_github")
-        svc = _import_service("http/webhook_github", "app.services.webhook_service")
+        _load_example_module("apis-and-ingress/webhook_github")
+        svc = _import_service("apis-and-ingress/webhook_github", "app.services.webhook_service")
         result = svc._handle_push(
             {
                 "ref": "refs/heads/main",
@@ -330,8 +344,8 @@ class TestWebhookGithub:
         assert result["commits"] == 1
 
     def test_handle_pull_request_helper(self) -> None:
-        _load_example_module("http/webhook_github")
-        svc = _import_service("http/webhook_github", "app.services.webhook_service")
+        _load_example_module("apis-and-ingress/webhook_github")
+        svc = _import_service("apis-and-ingress/webhook_github", "app.services.webhook_service")
         result = svc._handle_pull_request(
             {
                 "action": "opened",
@@ -342,8 +356,8 @@ class TestWebhookGithub:
         assert result["number"] == 42
 
     def test_handle_issues_helper(self) -> None:
-        _load_example_module("http/webhook_github")
-        svc = _import_service("http/webhook_github", "app.services.webhook_service")
+        _load_example_module("apis-and-ingress/webhook_github")
+        svc = _import_service("apis-and-ingress/webhook_github", "app.services.webhook_service")
         result = svc._handle_issues(
             {
                 "action": "closed",
@@ -363,12 +377,14 @@ class TestTimerCronJob:
     """Smoke tests for examples/timer/timer_cron_job."""
 
     def test_module_loads(self) -> None:
-        module = _load_example_module("timer/timer_cron_job")
+        module = _load_example_module("scheduled-and-background/timer_cron_job")
         assert hasattr(module, "app")
 
     def test_perform_maintenance_helper(self) -> None:
-        _load_example_module("timer/timer_cron_job")
-        svc = _import_service("timer/timer_cron_job", "app.services.maintenance_service")
+        _load_example_module("scheduled-and-background/timer_cron_job")
+        svc = _import_service(
+            "scheduled-and-background/timer_cron_job", "app.services.maintenance_service"
+        )
         result = svc.perform_maintenance()
         assert "complete" in result.lower()
 
@@ -382,19 +398,19 @@ class TestQueueProducer:
     """Smoke tests for examples/queue/queue_producer."""
 
     def test_module_loads(self) -> None:
-        module = _load_example_module("queue/queue_producer")
+        module = _load_example_module("messaging-and-pubsub/queue_producer")
         assert hasattr(module, "app")
 
     def test_validate_payload_valid(self) -> None:
-        _load_example_module("queue/queue_producer")
-        svc = _import_service("queue/queue_producer", "app.services.enqueue_service")
+        _load_example_module("messaging-and-pubsub/queue_producer")
+        svc = _import_service("messaging-and-pubsub/queue_producer", "app.services.enqueue_service")
         is_valid, error = svc.validate_payload({"task_type": "email", "payload": {}})
         assert is_valid is True
         assert error == ""
 
     def test_validate_payload_missing_task_type(self) -> None:
-        _load_example_module("queue/queue_producer")
-        svc = _import_service("queue/queue_producer", "app.services.enqueue_service")
+        _load_example_module("messaging-and-pubsub/queue_producer")
+        svc = _import_service("messaging-and-pubsub/queue_producer", "app.services.enqueue_service")
         is_valid, error = svc.validate_payload({})
         assert is_valid is False
         assert "task_type" in error
@@ -409,12 +425,12 @@ class TestQueueConsumer:
     """Smoke tests for examples/queue/queue_consumer."""
 
     def test_module_loads(self) -> None:
-        module = _load_example_module("queue/queue_consumer")
+        module = _load_example_module("messaging-and-pubsub/queue_consumer")
         assert hasattr(module, "app")
 
     def test_process_task_helper(self) -> None:
-        _load_example_module("queue/queue_consumer")
-        svc = _import_service("queue/queue_consumer", "app.services.task_service")
+        _load_example_module("messaging-and-pubsub/queue_consumer")
+        svc = _import_service("messaging-and-pubsub/queue_consumer", "app.services.task_service")
         result = svc.process_task({"task_type": "email", "payload": {"to": "a@b.com"}})
         assert "email" in result
 
@@ -428,12 +444,14 @@ class TestBlobUploadProcessor:
     """Smoke tests for examples/blob/blob_upload_processor."""
 
     def test_module_loads(self) -> None:
-        module = _load_example_module("blob/blob_upload_processor")
+        module = _load_example_module("blob-and-file-triggers/blob_upload_processor")
         assert hasattr(module, "app")
 
     def test_process_blob_helper(self) -> None:
-        _load_example_module("blob/blob_upload_processor")
-        svc = _import_service("blob/blob_upload_processor", "app.services.blob_service")
+        _load_example_module("blob-and-file-triggers/blob_upload_processor")
+        svc = _import_service(
+            "blob-and-file-triggers/blob_upload_processor", "app.services.blob_service"
+        )
         result = svc.process_blob(
             blob_name="test.txt",
             blob_size=100,
@@ -453,7 +471,7 @@ class TestBlobEventgridTrigger:
     """Smoke tests for examples/blob/blob_eventgrid_trigger."""
 
     def test_module_loads(self) -> None:
-        module = _load_example_module("blob/blob_eventgrid_trigger")
+        module = _load_example_module("blob-and-file-triggers/blob_eventgrid_trigger")
         assert hasattr(module, "app")
 
 
@@ -466,12 +484,14 @@ class TestServicebusWorker:
     """Smoke tests for examples/servicebus/servicebus_worker."""
 
     def test_module_loads(self) -> None:
-        module = _load_example_module("servicebus/servicebus_worker")
+        module = _load_example_module("messaging-and-pubsub/servicebus_worker")
         assert hasattr(module, "app")
 
     def test_process_message_helper(self) -> None:
-        _load_example_module("servicebus/servicebus_worker")
-        svc = _import_service("servicebus/servicebus_worker", "app.services.servicebus_service")
+        _load_example_module("messaging-and-pubsub/servicebus_worker")
+        svc = _import_service(
+            "messaging-and-pubsub/servicebus_worker", "app.services.servicebus_service"
+        )
         result = svc.process_message({"task": "send", "priority": "high"})
         assert "send" in result
         assert "high" in result
@@ -486,12 +506,14 @@ class TestEventhubConsumer:
     """Smoke tests for examples/eventhub/eventhub_consumer."""
 
     def test_module_loads(self) -> None:
-        module = _load_example_module("eventhub/eventhub_consumer")
+        module = _load_example_module("streams-and-telemetry/eventhub_consumer")
         assert hasattr(module, "app")
 
     def test_process_telemetry_helper(self) -> None:
-        _load_example_module("eventhub/eventhub_consumer")
-        svc = _import_service("eventhub/eventhub_consumer", "app.services.telemetry_service")
+        _load_example_module("streams-and-telemetry/eventhub_consumer")
+        svc = _import_service(
+            "streams-and-telemetry/eventhub_consumer", "app.services.telemetry_service"
+        )
         result = svc.process_telemetry({"metric": "cpu_usage", "value": 42.5})
         assert "cpu_usage" in result
         assert "42.5" in result
@@ -506,12 +528,14 @@ class TestChangeFeedProcessor:
     """Smoke tests for examples/cosmosdb/change_feed_processor."""
 
     def test_module_loads(self) -> None:
-        module = _load_example_module("cosmosdb/change_feed_processor")
+        module = _load_example_module("data-and-pipelines/change_feed_processor")
         assert hasattr(module, "app")
 
     def test_process_change_helper(self) -> None:
-        _load_example_module("cosmosdb/change_feed_processor")
-        svc = _import_service("cosmosdb/change_feed_processor", "app.services.change_service")
+        _load_example_module("data-and-pipelines/change_feed_processor")
+        svc = _import_service(
+            "data-and-pipelines/change_feed_processor", "app.services.change_service"
+        )
         result = svc.process_change({"id": "doc-1", "category": "orders"})
         assert "doc-1" in result
         assert "orders" in result
@@ -526,18 +550,20 @@ class TestBlueprintModularApp:
     """Smoke tests for examples/recipes/blueprint_modular_app."""
 
     def test_module_loads(self) -> None:
-        module = _load_example_module("recipes/blueprint_modular_app")
+        module = _load_example_module("runtime-and-ops/blueprint_modular_app")
         assert hasattr(module, "app")
 
     def test_health_service(self) -> None:
-        _load_example_module("recipes/blueprint_modular_app")
-        svc = _import_service("recipes/blueprint_modular_app", "app.services.health_service")
+        _load_example_module("runtime-and-ops/blueprint_modular_app")
+        svc = _import_service(
+            "runtime-and-ops/blueprint_modular_app", "app.services.health_service"
+        )
         payload = svc.get_health_payload()
         assert payload["status"] == "healthy"
 
     def test_user_service_list(self) -> None:
-        _load_example_module("recipes/blueprint_modular_app")
-        svc = _import_service("recipes/blueprint_modular_app", "app.services.user_service")
+        _load_example_module("runtime-and-ops/blueprint_modular_app")
+        svc = _import_service("runtime-and-ops/blueprint_modular_app", "app.services.user_service")
         users = svc.list_users()
         assert isinstance(users, list)
 
@@ -551,7 +577,7 @@ class TestRetryAndIdempotency:
     """Smoke tests for examples/recipes/retry_and_idempotency."""
 
     def test_module_loads(self) -> None:
-        module = _load_example_module("recipes/retry_and_idempotency")
+        module = _load_example_module("reliability/retry_and_idempotency")
         assert hasattr(module, "app")
 
 
@@ -564,12 +590,14 @@ class TestOutputBindingVsSdk:
     """Smoke tests for examples/recipes/output_binding_vs_sdk."""
 
     def test_module_loads(self) -> None:
-        module = _load_example_module("recipes/output_binding_vs_sdk")
+        module = _load_example_module("runtime-and-ops/output_binding_vs_sdk")
         assert hasattr(module, "app")
 
     def test_build_payload_helper(self) -> None:
-        _load_example_module("recipes/output_binding_vs_sdk")
-        svc = _import_service("recipes/output_binding_vs_sdk", "app.services.payload_service")
+        _load_example_module("runtime-and-ops/output_binding_vs_sdk")
+        svc = _import_service(
+            "runtime-and-ops/output_binding_vs_sdk", "app.services.payload_service"
+        )
         req = func.HttpRequest(
             method="POST",
             url="/api/enqueue/binding",
@@ -590,7 +618,7 @@ class TestManagedIdentityStorage:
     """Smoke tests for examples/recipes/managed_identity_storage."""
 
     def test_module_loads(self) -> None:
-        module = _load_example_module("recipes/managed_identity_storage")
+        module = _load_example_module("security-and-tenancy/managed_identity_storage")
         assert hasattr(module, "app")
 
 
@@ -603,7 +631,7 @@ class TestManagedIdentityServicebus:
     """Smoke tests for examples/recipes/managed_identity_servicebus."""
 
     def test_module_loads(self) -> None:
-        module = _load_example_module("recipes/managed_identity_servicebus")
+        module = _load_example_module("security-and-tenancy/managed_identity_servicebus")
         assert hasattr(module, "app")
 
 
@@ -616,7 +644,7 @@ class TestHostJsonTuning:
     """Smoke tests for examples/recipes/host_json_tuning."""
 
     def test_module_loads(self) -> None:
-        module = _load_example_module("recipes/host_json_tuning")
+        module = _load_example_module("runtime-and-ops/host_json_tuning")
         assert hasattr(module, "app")
 
 
@@ -629,7 +657,7 @@ class TestConcurrencyTuning:
     """Smoke tests for examples/recipes/concurrency_tuning."""
 
     def test_module_loads(self) -> None:
-        module = _load_example_module("recipes/concurrency_tuning")
+        module = _load_example_module("runtime-and-ops/concurrency_tuning")
         assert hasattr(module, "app")
 
 
@@ -642,12 +670,14 @@ class TestDurableHelloSequence:
     """Smoke tests for examples/durable/durable_hello_sequence."""
 
     def test_module_loads(self) -> None:
-        module = _load_example_module("durable/durable_hello_sequence")
+        module = _load_example_module("orchestration-and-workflows/durable_hello_sequence")
         assert hasattr(module, "app")
 
     def test_greet_activity(self) -> None:
-        _load_example_module("durable/durable_hello_sequence")
-        svc = _import_service("durable/durable_hello_sequence", "app.services.greeting_service")
+        _load_example_module("orchestration-and-workflows/durable_hello_sequence")
+        svc = _import_service(
+            "orchestration-and-workflows/durable_hello_sequence", "app.services.greeting_service"
+        )
         result = svc.greet("Tokyo")
         assert result == "Hello Tokyo!"
 
@@ -661,12 +691,14 @@ class TestDurableFanOutFanIn:
     """Smoke tests for examples/durable/durable_fan_out_fan_in."""
 
     def test_module_loads(self) -> None:
-        module = _load_example_module("durable/durable_fan_out_fan_in")
+        module = _load_example_module("orchestration-and-workflows/durable_fan_out_fan_in")
         assert hasattr(module, "app")
 
     def test_process_item_activity(self) -> None:
-        _load_example_module("durable/durable_fan_out_fan_in")
-        svc = _import_service("durable/durable_fan_out_fan_in", "app.services.processing_service")
+        _load_example_module("orchestration-and-workflows/durable_fan_out_fan_in")
+        svc = _import_service(
+            "orchestration-and-workflows/durable_fan_out_fan_in", "app.services.processing_service"
+        )
         result = svc.process_item("item-1")
         assert result == "Processed item-1"
 
@@ -680,7 +712,7 @@ class TestDurableHumanInteraction:
     """Smoke tests for examples/durable/durable_human_interaction."""
 
     def test_module_loads(self) -> None:
-        module = _load_example_module("durable/durable_human_interaction")
+        module = _load_example_module("orchestration-and-workflows/durable_human_interaction")
         assert hasattr(module, "app")
 
 
@@ -693,7 +725,7 @@ class TestDurableEntityCounter:
     """Smoke tests for examples/durable/durable_entity_counter."""
 
     def test_module_loads(self) -> None:
-        module = _load_example_module("durable/durable_entity_counter")
+        module = _load_example_module("orchestration-and-workflows/durable_entity_counter")
         assert hasattr(module, "app")
 
 
@@ -706,7 +738,7 @@ class TestDurableRetryPattern:
     """Smoke tests for examples/durable/durable_retry_pattern."""
 
     def test_module_loads(self) -> None:
-        module = _load_example_module("durable/durable_retry_pattern")
+        module = _load_example_module("orchestration-and-workflows/durable_retry_pattern")
         assert hasattr(module, "app")
 
 
@@ -719,12 +751,14 @@ class TestDurableDeterminismGotchas:
     """Smoke tests for examples/durable/durable_determinism_gotchas."""
 
     def test_module_loads(self) -> None:
-        module = _load_example_module("durable/durable_determinism_gotchas")
+        module = _load_example_module("orchestration-and-workflows/durable_determinism_gotchas")
         assert hasattr(module, "app")
 
     def test_fetch_data_activity(self) -> None:
-        _load_example_module("durable/durable_determinism_gotchas")
-        svc = _import_service("durable/durable_determinism_gotchas", "app.services.data_service")
+        _load_example_module("orchestration-and-workflows/durable_determinism_gotchas")
+        svc = _import_service(
+            "orchestration-and-workflows/durable_determinism_gotchas", "app.services.data_service"
+        )
         result = svc.fetch_data("resource-1")
         assert "resource-1" in result
 
@@ -738,12 +772,14 @@ class TestDurableUnitTesting:
     """Smoke tests for examples/durable/durable_unit_testing."""
 
     def test_module_loads(self) -> None:
-        module = _load_example_module("durable/durable_unit_testing")
+        module = _load_example_module("orchestration-and-workflows/durable_unit_testing")
         assert hasattr(module, "app")
 
     def test_greet_activity(self) -> None:
-        _load_example_module("durable/durable_unit_testing")
-        svc = _import_service("durable/durable_unit_testing", "app.services.greeting_service")
+        _load_example_module("orchestration-and-workflows/durable_unit_testing")
+        svc = _import_service(
+            "orchestration-and-workflows/durable_unit_testing", "app.services.greeting_service"
+        )
         result = svc.greet("Seoul")
         assert result == "Hello Seoul!"
 
@@ -757,30 +793,30 @@ class TestMcpServerExample:
     """Smoke tests for examples/ai/mcp_server_example."""
 
     def test_module_loads(self) -> None:
-        module = _load_example_module("ai/mcp_server_example")
+        module = _load_example_module("ai-and-agents/mcp_server_example")
         assert hasattr(module, "app")
 
     def test_handle_get_weather(self) -> None:
-        _load_example_module("ai/mcp_server_example")
-        svc = _import_service("ai/mcp_server_example", "app.services.mcp_service")
+        _load_example_module("ai-and-agents/mcp_server_example")
+        svc = _import_service("ai-and-agents/mcp_server_example", "app.services.mcp_service")
         result = svc._handle_get_weather({"location": "San Francisco, CA"})
         assert "San Francisco" in result
 
     def test_handle_calculate(self) -> None:
-        _load_example_module("ai/mcp_server_example")
-        svc = _import_service("ai/mcp_server_example", "app.services.mcp_service")
+        _load_example_module("ai-and-agents/mcp_server_example")
+        svc = _import_service("ai-and-agents/mcp_server_example", "app.services.mcp_service")
         result = svc._handle_calculate({"expression": "2 + 3"})
         assert result == "5"
 
     def test_handle_calculate_invalid(self) -> None:
-        _load_example_module("ai/mcp_server_example")
-        svc = _import_service("ai/mcp_server_example", "app.services.mcp_service")
+        _load_example_module("ai-and-agents/mcp_server_example")
+        svc = _import_service("ai-and-agents/mcp_server_example", "app.services.mcp_service")
         result = svc._handle_calculate({"expression": "import os"})
         assert "Error" in result
 
     def test_mcp_initialize(self) -> None:
-        _load_example_module("ai/mcp_server_example")
-        fn = _import_function_module("ai/mcp_server_example", "app.functions.mcp")
+        _load_example_module("ai-and-agents/mcp_server_example")
+        fn = _import_function_module("ai-and-agents/mcp_server_example", "app.functions.mcp")
         req = func.HttpRequest(
             method="POST",
             url="/api/mcp",
@@ -800,8 +836,8 @@ class TestMcpServerExample:
         assert data["result"]["capabilities"]["tools"] is not None
 
     def test_mcp_tools_list(self) -> None:
-        _load_example_module("ai/mcp_server_example")
-        fn = _import_function_module("ai/mcp_server_example", "app.functions.mcp")
+        _load_example_module("ai-and-agents/mcp_server_example")
+        fn = _import_function_module("ai-and-agents/mcp_server_example", "app.functions.mcp")
         req = func.HttpRequest(
             method="POST",
             url="/api/mcp",
@@ -824,8 +860,8 @@ class TestMcpServerExample:
         assert "calculate" in tool_names
 
     def test_mcp_tools_call(self) -> None:
-        _load_example_module("ai/mcp_server_example")
-        fn = _import_function_module("ai/mcp_server_example", "app.functions.mcp")
+        _load_example_module("ai-and-agents/mcp_server_example")
+        fn = _import_function_module("ai-and-agents/mcp_server_example", "app.functions.mcp")
         req = func.HttpRequest(
             method="POST",
             url="/api/mcp",
@@ -848,8 +884,8 @@ class TestMcpServerExample:
         assert data["result"]["content"][0]["text"] == "20"
 
     def test_mcp_unknown_method(self) -> None:
-        _load_example_module("ai/mcp_server_example")
-        fn = _import_function_module("ai/mcp_server_example", "app.functions.mcp")
+        _load_example_module("ai-and-agents/mcp_server_example")
+        fn = _import_function_module("ai-and-agents/mcp_server_example", "app.functions.mcp")
         req = func.HttpRequest(
             method="POST",
             url="/api/mcp",
@@ -867,8 +903,8 @@ class TestMcpServerExample:
         assert response.status_code == 404
 
     def test_mcp_parse_error(self) -> None:
-        _load_example_module("ai/mcp_server_example")
-        fn = _import_function_module("ai/mcp_server_example", "app.functions.mcp")
+        _load_example_module("ai-and-agents/mcp_server_example")
+        fn = _import_function_module("ai-and-agents/mcp_server_example", "app.functions.mcp")
         req = func.HttpRequest(
             method="POST",
             url="/api/mcp",
@@ -888,12 +924,12 @@ class TestLocalRunAndDirectInvoke:
     """Smoke tests for examples/local_run_and_direct_invoke."""
 
     def test_module_loads(self) -> None:
-        module = _load_example_module("local_run_and_direct_invoke")
+        module = _load_example_module("guides/local_run_and_direct_invoke")
         assert hasattr(module, "app")
 
     def test_greet_with_query_param(self) -> None:
-        _load_example_module("local_run_and_direct_invoke")
-        fn = _import_function_module("local_run_and_direct_invoke", "app.functions.greet")
+        _load_example_module("guides/local_run_and_direct_invoke")
+        fn = _import_function_module("guides/local_run_and_direct_invoke", "app.functions.greet")
         req = func.HttpRequest(
             method="GET",
             url="/api/greet",
@@ -907,8 +943,8 @@ class TestLocalRunAndDirectInvoke:
         assert data["greeting"] == "Hello, Alice!"
 
     def test_greet_with_json_body(self) -> None:
-        _load_example_module("local_run_and_direct_invoke")
-        fn = _import_function_module("local_run_and_direct_invoke", "app.functions.greet")
+        _load_example_module("guides/local_run_and_direct_invoke")
+        fn = _import_function_module("guides/local_run_and_direct_invoke", "app.functions.greet")
         req = func.HttpRequest(
             method="POST",
             url="/api/greet",
@@ -921,8 +957,8 @@ class TestLocalRunAndDirectInvoke:
         assert data["greeting"] == "Hello, Bob!"
 
     def test_greet_missing_name(self) -> None:
-        _load_example_module("local_run_and_direct_invoke")
-        fn = _import_function_module("local_run_and_direct_invoke", "app.functions.greet")
+        _load_example_module("guides/local_run_and_direct_invoke")
+        fn = _import_function_module("guides/local_run_and_direct_invoke", "app.functions.greet")
         req = func.HttpRequest(
             method="GET",
             url="/api/greet",
@@ -942,14 +978,14 @@ class TestAuthEasyAuth:
     """Smoke tests for examples/http/auth_easyauth."""
 
     def test_module_loads(self) -> None:
-        module = _load_example_module("http/auth_easyauth")
+        module = _load_example_module("apis-and-ingress/auth_easyauth")
         assert hasattr(module, "app")
 
     def test_decode_client_principal_valid(self) -> None:
         import base64
 
-        _load_example_module("http/auth_easyauth")
-        svc = _import_service("http/auth_easyauth", "app.services.auth_service")
+        _load_example_module("apis-and-ingress/auth_easyauth")
+        svc = _import_service("apis-and-ingress/auth_easyauth", "app.services.auth_service")
         raw = base64.b64encode(
             json.dumps(
                 {
@@ -965,14 +1001,14 @@ class TestAuthEasyAuth:
         assert principal["auth_typ"] == "aad"
 
     def test_decode_client_principal_none(self) -> None:
-        _load_example_module("http/auth_easyauth")
-        svc = _import_service("http/auth_easyauth", "app.services.auth_service")
+        _load_example_module("apis-and-ingress/auth_easyauth")
+        svc = _import_service("apis-and-ingress/auth_easyauth", "app.services.auth_service")
         assert svc.decode_client_principal(None) is None
         assert svc.decode_client_principal("") is None
 
     def test_extract_claims(self) -> None:
-        _load_example_module("http/auth_easyauth")
-        svc = _import_service("http/auth_easyauth", "app.services.auth_service")
+        _load_example_module("apis-and-ingress/auth_easyauth")
+        svc = _import_service("apis-and-ingress/auth_easyauth", "app.services.auth_service")
         principal = {
             "auth_typ": "aad",
             "name_typ": "",
@@ -987,8 +1023,8 @@ class TestAuthEasyAuth:
         assert claims["email"] == "alice@example.com"
 
     def test_get_roles(self) -> None:
-        _load_example_module("http/auth_easyauth")
-        svc = _import_service("http/auth_easyauth", "app.services.auth_service")
+        _load_example_module("apis-and-ingress/auth_easyauth")
+        svc = _import_service("apis-and-ingress/auth_easyauth", "app.services.auth_service")
         principal = {
             "auth_typ": "aad",
             "name_typ": "",
@@ -1000,8 +1036,8 @@ class TestAuthEasyAuth:
         assert "reader" in roles
 
     def test_has_role(self) -> None:
-        _load_example_module("http/auth_easyauth")
-        svc = _import_service("http/auth_easyauth", "app.services.auth_service")
+        _load_example_module("apis-and-ingress/auth_easyauth")
+        svc = _import_service("apis-and-ingress/auth_easyauth", "app.services.auth_service")
         principal = {
             "auth_typ": "aad",
             "name_typ": "",
@@ -1012,8 +1048,8 @@ class TestAuthEasyAuth:
         assert svc.has_role(principal, "superuser") is False
 
     def test_get_user_claims_response(self) -> None:
-        _load_example_module("http/auth_easyauth")
-        svc = _import_service("http/auth_easyauth", "app.services.auth_service")
+        _load_example_module("apis-and-ingress/auth_easyauth")
+        svc = _import_service("apis-and-ingress/auth_easyauth", "app.services.auth_service")
         principal = {
             "auth_typ": "aad",
             "name_typ": "",
@@ -1034,8 +1070,8 @@ class TestAuthEasyAuth:
         assert "admin" in body["roles"]
 
     def test_get_admin_response_with_role(self) -> None:
-        _load_example_module("http/auth_easyauth")
-        svc = _import_service("http/auth_easyauth", "app.services.auth_service")
+        _load_example_module("apis-and-ingress/auth_easyauth")
+        svc = _import_service("apis-and-ingress/auth_easyauth", "app.services.auth_service")
         principal = {
             "auth_typ": "aad",
             "name_typ": "",
@@ -1047,8 +1083,8 @@ class TestAuthEasyAuth:
         assert body["message"] == "Welcome, admin!"
 
     def test_get_admin_response_without_role(self) -> None:
-        _load_example_module("http/auth_easyauth")
-        svc = _import_service("http/auth_easyauth", "app.services.auth_service")
+        _load_example_module("apis-and-ingress/auth_easyauth")
+        svc = _import_service("apis-and-ingress/auth_easyauth", "app.services.auth_service")
         principal = {
             "auth_typ": "aad",
             "name_typ": "",
@@ -1068,46 +1104,46 @@ class TestAuthJwtValidation:
     """Smoke tests for examples/http/auth_jwt_validation."""
 
     def test_module_loads(self) -> None:
-        module = _load_example_module("http/auth_jwt_validation")
+        module = _load_example_module("apis-and-ingress/auth_jwt_validation")
         assert hasattr(module, "app")
 
     def test_extract_bearer_token_valid(self) -> None:
-        _load_example_module("http/auth_jwt_validation")
-        svc = _import_service("http/auth_jwt_validation", "app.services.jwt_service")
+        _load_example_module("apis-and-ingress/auth_jwt_validation")
+        svc = _import_service("apis-and-ingress/auth_jwt_validation", "app.services.jwt_service")
         assert svc.extract_bearer_token("Bearer abc123") == "abc123"
 
     def test_extract_bearer_token_missing(self) -> None:
-        _load_example_module("http/auth_jwt_validation")
-        svc = _import_service("http/auth_jwt_validation", "app.services.jwt_service")
+        _load_example_module("apis-and-ingress/auth_jwt_validation")
+        svc = _import_service("apis-and-ingress/auth_jwt_validation", "app.services.jwt_service")
         assert svc.extract_bearer_token(None) is None
         assert svc.extract_bearer_token("") is None
         assert svc.extract_bearer_token("Basic abc") is None
         assert svc.extract_bearer_token("Bearer ") is None
 
     def test_has_claim_present(self) -> None:
-        _load_example_module("http/auth_jwt_validation")
-        svc = _import_service("http/auth_jwt_validation", "app.services.jwt_service")
+        _load_example_module("apis-and-ingress/auth_jwt_validation")
+        svc = _import_service("apis-and-ingress/auth_jwt_validation", "app.services.jwt_service")
         claims = {"sub": "user-1", "roles": "api.read"}
         assert svc.has_claim(claims, "sub") is True
         assert svc.has_claim(claims, "roles", "api.read") is True
         assert svc.has_claim(claims, "roles", "api.write") is False
 
     def test_has_claim_boolean(self) -> None:
-        _load_example_module("http/auth_jwt_validation")
-        svc = _import_service("http/auth_jwt_validation", "app.services.jwt_service")
+        _load_example_module("apis-and-ingress/auth_jwt_validation")
+        svc = _import_service("apis-and-ingress/auth_jwt_validation", "app.services.jwt_service")
         claims = {"email_verified": True}
         assert svc.has_claim(claims, "email_verified", "true") is True
         assert svc.has_claim(claims, "email_verified", "false") is False
 
     def test_has_claim_missing(self) -> None:
-        _load_example_module("http/auth_jwt_validation")
-        svc = _import_service("http/auth_jwt_validation", "app.services.jwt_service")
+        _load_example_module("apis-and-ingress/auth_jwt_validation")
+        svc = _import_service("apis-and-ingress/auth_jwt_validation", "app.services.jwt_service")
         claims = {"sub": "user-1"}
         assert svc.has_claim(claims, "email") is False
 
     def test_get_profile_response(self) -> None:
-        _load_example_module("http/auth_jwt_validation")
-        svc = _import_service("http/auth_jwt_validation", "app.services.jwt_service")
+        _load_example_module("apis-and-ingress/auth_jwt_validation")
+        svc = _import_service("apis-and-ingress/auth_jwt_validation", "app.services.jwt_service")
         claims = {"sub": "user-1", "name": "Alice", "email": "alice@example.com", "iat": 123}
         body, status = svc.get_profile_response(claims)
         assert status == 200
@@ -1116,16 +1152,16 @@ class TestAuthJwtValidation:
         assert "iat" not in body["claims"]
 
     def test_get_protected_response_with_claim(self) -> None:
-        _load_example_module("http/auth_jwt_validation")
-        svc = _import_service("http/auth_jwt_validation", "app.services.jwt_service")
+        _load_example_module("apis-and-ingress/auth_jwt_validation")
+        svc = _import_service("apis-and-ingress/auth_jwt_validation", "app.services.jwt_service")
         claims = {"sub": "user-1", "roles": "api.read"}
         body, status = svc.get_protected_response(claims)
         assert status == 200
         assert body["message"] == "Access granted to protected resource."
 
     def test_get_protected_response_without_claim(self) -> None:
-        _load_example_module("http/auth_jwt_validation")
-        svc = _import_service("http/auth_jwt_validation", "app.services.jwt_service")
+        _load_example_module("apis-and-ingress/auth_jwt_validation")
+        svc = _import_service("apis-and-ingress/auth_jwt_validation", "app.services.jwt_service")
         claims = {"sub": "user-1"}
         body, status = svc.get_protected_response(claims)
         assert status == 403
@@ -1140,14 +1176,14 @@ class TestAuthMultitenant:
     """Smoke tests for examples/http/auth_multitenant."""
 
     def test_module_loads(self) -> None:
-        module = _load_example_module("http/auth_multitenant")
+        module = _load_example_module("apis-and-ingress/auth_multitenant")
         assert hasattr(module, "app")
 
     def test_decode_client_principal_valid(self) -> None:
         import base64
 
-        _load_example_module("http/auth_multitenant")
-        svc = _import_service("http/auth_multitenant", "app.services.tenant_service")
+        _load_example_module("apis-and-ingress/auth_multitenant")
+        svc = _import_service("apis-and-ingress/auth_multitenant", "app.services.tenant_service")
         raw = base64.b64encode(
             json.dumps(
                 {
@@ -1163,40 +1199,40 @@ class TestAuthMultitenant:
         assert principal["auth_typ"] == "aad"
 
     def test_decode_client_principal_none(self) -> None:
-        _load_example_module("http/auth_multitenant")
-        svc = _import_service("http/auth_multitenant", "app.services.tenant_service")
+        _load_example_module("apis-and-ingress/auth_multitenant")
+        svc = _import_service("apis-and-ingress/auth_multitenant", "app.services.tenant_service")
         assert svc.decode_client_principal(None) is None
         assert svc.decode_client_principal("") is None
 
     def test_extract_tenant_id(self) -> None:
-        _load_example_module("http/auth_multitenant")
-        svc = _import_service("http/auth_multitenant", "app.services.tenant_service")
+        _load_example_module("apis-and-ingress/auth_multitenant")
+        svc = _import_service("apis-and-ingress/auth_multitenant", "app.services.tenant_service")
         principal = {"claims": [{"typ": "tid", "val": "tenant-1"}]}
         assert svc.extract_tenant_id(principal) == "tenant-1"
 
     def test_extract_tenant_id_missing(self) -> None:
-        _load_example_module("http/auth_multitenant")
-        svc = _import_service("http/auth_multitenant", "app.services.tenant_service")
+        _load_example_module("apis-and-ingress/auth_multitenant")
+        svc = _import_service("apis-and-ingress/auth_multitenant", "app.services.tenant_service")
         principal = {"claims": [{"typ": "name", "val": "Alice"}]}
         assert svc.extract_tenant_id(principal) is None
 
     def test_parse_allowed_tenants(self) -> None:
-        _load_example_module("http/auth_multitenant")
-        svc = _import_service("http/auth_multitenant", "app.services.tenant_service")
+        _load_example_module("apis-and-ingress/auth_multitenant")
+        svc = _import_service("apis-and-ingress/auth_multitenant", "app.services.tenant_service")
         assert svc.parse_allowed_tenants("") == []
         assert svc.parse_allowed_tenants("a,b,c") == ["a", "b", "c"]
         assert svc.parse_allowed_tenants(" a , b ") == ["a", "b"]
 
     def test_is_tenant_allowed(self) -> None:
-        _load_example_module("http/auth_multitenant")
-        svc = _import_service("http/auth_multitenant", "app.services.tenant_service")
+        _load_example_module("apis-and-ingress/auth_multitenant")
+        svc = _import_service("apis-and-ingress/auth_multitenant", "app.services.tenant_service")
         assert svc.is_tenant_allowed("tenant-1", ["tenant-1", "tenant-2"]) is True
         assert svc.is_tenant_allowed("tenant-3", ["tenant-1", "tenant-2"]) is False
         assert svc.is_tenant_allowed("tenant-1", []) is False
 
     def test_get_data_response(self) -> None:
-        _load_example_module("http/auth_multitenant")
-        svc = _import_service("http/auth_multitenant", "app.services.tenant_service")
+        _load_example_module("apis-and-ingress/auth_multitenant")
+        svc = _import_service("apis-and-ingress/auth_multitenant", "app.services.tenant_service")
         principal = {
             "auth_typ": "aad",
             "name_typ": "",
@@ -1212,3 +1248,333 @@ class TestAuthMultitenant:
         assert status == 200
         assert body["tenant_id"] == "tenant-1"
         assert body["user_id"] == "user-1"
+
+
+# ---------------------------------------------------------------------------
+# Async APIs and Jobs — async_http_polling
+# ---------------------------------------------------------------------------
+
+
+class TestAsyncHttpPolling:
+    def test_module_loads(self) -> None:
+        module = _load_example_module("async-apis-and-jobs/async_http_polling")
+        assert hasattr(module, "app")
+
+
+# ---------------------------------------------------------------------------
+# Async APIs and Jobs — queue_backed_job
+# ---------------------------------------------------------------------------
+
+
+class TestQueueBackedJob:
+    def test_module_loads(self) -> None:
+        module = _load_example_module("async-apis-and-jobs/queue_backed_job")
+        assert hasattr(module, "app")
+
+
+# ---------------------------------------------------------------------------
+# Async APIs and Jobs — callback_completion
+# ---------------------------------------------------------------------------
+
+
+class TestCallbackCompletion:
+    def test_module_loads(self) -> None:
+        module = _load_example_module("async-apis-and-jobs/callback_completion")
+        assert hasattr(module, "app")
+
+
+# ---------------------------------------------------------------------------
+# Messaging and PubSub — eventgrid_router
+# ---------------------------------------------------------------------------
+
+
+class TestEventgridRouter:
+    def test_module_loads(self) -> None:
+        module = _load_example_module("messaging-and-pubsub/eventgrid_router")
+        assert hasattr(module, "app")
+
+
+# ---------------------------------------------------------------------------
+# Messaging and PubSub — servicebus_topic_fanout
+# ---------------------------------------------------------------------------
+
+
+class TestServicebusTopicFanout:
+    def test_module_loads(self) -> None:
+        module = _load_example_module("messaging-and-pubsub/servicebus_topic_fanout")
+        assert hasattr(module, "app")
+
+
+# ---------------------------------------------------------------------------
+# Messaging and PubSub — servicebus_sessions
+# ---------------------------------------------------------------------------
+
+
+class TestServicebusSessions:
+    def test_module_loads(self) -> None:
+        module = _load_example_module("messaging-and-pubsub/servicebus_sessions")
+        assert hasattr(module, "app")
+
+
+# ---------------------------------------------------------------------------
+# Messaging and PubSub — servicebus_dlq_replay
+# ---------------------------------------------------------------------------
+
+
+class TestServicebusDlqReplay:
+    def test_module_loads(self) -> None:
+        module = _load_example_module("messaging-and-pubsub/servicebus_dlq_replay")
+        assert hasattr(module, "app")
+
+
+# ---------------------------------------------------------------------------
+# Messaging and PubSub — eventgrid_domain_events
+# ---------------------------------------------------------------------------
+
+
+class TestEventgridDomainEvents:
+    def test_module_loads(self) -> None:
+        module = _load_example_module("messaging-and-pubsub/eventgrid_domain_events")
+        assert hasattr(module, "app")
+
+
+# ---------------------------------------------------------------------------
+# Streams and Telemetry — eventhub_batch_window
+# ---------------------------------------------------------------------------
+
+
+class TestEventhubBatchWindow:
+    def test_module_loads(self) -> None:
+        module = _load_example_module("streams-and-telemetry/eventhub_batch_window")
+        assert hasattr(module, "app")
+
+
+# ---------------------------------------------------------------------------
+# Streams and Telemetry — eventhub_checkpoint_replay
+# ---------------------------------------------------------------------------
+
+
+class TestEventhubCheckpointReplay:
+    def test_module_loads(self) -> None:
+        module = _load_example_module("streams-and-telemetry/eventhub_checkpoint_replay")
+        assert hasattr(module, "app")
+
+
+# ---------------------------------------------------------------------------
+# Data and Pipelines — file_processing_pipeline
+# ---------------------------------------------------------------------------
+
+
+class TestFileProcessingPipeline:
+    def test_module_loads(self) -> None:
+        module = _load_example_module("data-and-pipelines/file_processing_pipeline")
+        assert hasattr(module, "app")
+
+
+# ---------------------------------------------------------------------------
+# Data and Pipelines — cqrs_read_projection
+# ---------------------------------------------------------------------------
+
+
+class TestCqrsReadProjection:
+    def test_module_loads(self) -> None:
+        module = _load_example_module("data-and-pipelines/cqrs_read_projection")
+        assert hasattr(module, "app")
+
+
+# ---------------------------------------------------------------------------
+# Data and Pipelines — sqlalchemy_rest_pagination
+# ---------------------------------------------------------------------------
+
+
+class TestSqlalchemyRestPagination:
+    def test_module_loads(self) -> None:
+        module = _load_example_module("data-and-pipelines/sqlalchemy_rest_pagination")
+        assert hasattr(module, "app")
+
+
+# ---------------------------------------------------------------------------
+# Data and Pipelines — etl_enrichment
+# ---------------------------------------------------------------------------
+
+
+class TestEtlEnrichment:
+    def test_module_loads(self) -> None:
+        module = _load_example_module("data-and-pipelines/etl_enrichment")
+        assert hasattr(module, "app")
+
+
+# ---------------------------------------------------------------------------
+# Orchestration and Workflows — saga_compensation
+# ---------------------------------------------------------------------------
+
+
+class TestSagaCompensation:
+    def test_module_loads(self) -> None:
+        module = _load_example_module("orchestration-and-workflows/saga_compensation")
+        assert hasattr(module, "app")
+
+
+# ---------------------------------------------------------------------------
+# Orchestration and Workflows — sub_orchestration
+# ---------------------------------------------------------------------------
+
+
+class TestSubOrchestration:
+    def test_module_loads(self) -> None:
+        module = _load_example_module("orchestration-and-workflows/sub_orchestration")
+        assert hasattr(module, "app")
+
+
+# ---------------------------------------------------------------------------
+# Orchestration and Workflows — async_job_lifecycle
+# ---------------------------------------------------------------------------
+
+
+class TestAsyncJobLifecycle:
+    def test_module_loads(self) -> None:
+        module = _load_example_module("orchestration-and-workflows/async_job_lifecycle")
+        assert hasattr(module, "app")
+
+
+# ---------------------------------------------------------------------------
+# Reliability — circuit_breaker
+# ---------------------------------------------------------------------------
+
+
+class TestCircuitBreaker:
+    def test_module_loads(self) -> None:
+        module = _load_example_module("reliability/circuit_breaker")
+        assert hasattr(module, "app")
+
+
+# ---------------------------------------------------------------------------
+# Reliability — poison_message_handling
+# ---------------------------------------------------------------------------
+
+
+class TestPoisonMessageHandling:
+    def test_module_loads(self) -> None:
+        module = _load_example_module("reliability/poison_message_handling")
+        assert hasattr(module, "app")
+
+
+# ---------------------------------------------------------------------------
+# Reliability — outbox_pattern
+# ---------------------------------------------------------------------------
+
+
+class TestOutboxPattern:
+    def test_module_loads(self) -> None:
+        module = _load_example_module("reliability/outbox_pattern")
+        assert hasattr(module, "app")
+
+
+# ---------------------------------------------------------------------------
+# Reliability — rate_limiting
+# ---------------------------------------------------------------------------
+
+
+class TestRateLimiting:
+    def test_module_loads(self) -> None:
+        module = _load_example_module("reliability/rate_limiting")
+        assert hasattr(module, "app")
+
+
+# ---------------------------------------------------------------------------
+# Security and Tenancy — secretless_keyvault
+# ---------------------------------------------------------------------------
+
+
+class TestSecretlessKeyvault:
+    def test_module_loads(self) -> None:
+        module = _load_example_module("security-and-tenancy/secretless_keyvault")
+        assert hasattr(module, "app")
+
+
+# ---------------------------------------------------------------------------
+# Security and Tenancy — tenant_isolation
+# ---------------------------------------------------------------------------
+
+
+class TestTenantIsolation:
+    def test_module_loads(self) -> None:
+        module = _load_example_module("security-and-tenancy/tenant_isolation")
+        assert hasattr(module, "app")
+
+
+# ---------------------------------------------------------------------------
+# Runtime and Ops — observability_tracing
+# ---------------------------------------------------------------------------
+
+
+class TestObservabilityTracing:
+    def test_module_loads(self) -> None:
+        module = _load_example_module("runtime-and-ops/observability_tracing")
+        assert hasattr(module, "app")
+
+
+# ---------------------------------------------------------------------------
+# Runtime and Ops — cold_start_mitigation
+# ---------------------------------------------------------------------------
+
+
+class TestColdStartMitigation:
+    def test_module_loads(self) -> None:
+        module = _load_example_module("runtime-and-ops/cold_start_mitigation")
+        assert hasattr(module, "app")
+
+
+# ---------------------------------------------------------------------------
+# Realtime — signalr_notifications
+# ---------------------------------------------------------------------------
+
+
+class TestSignalrNotifications:
+    def test_module_loads(self) -> None:
+        module = _load_example_module("realtime/signalr_notifications")
+        assert hasattr(module, "app")
+
+
+# ---------------------------------------------------------------------------
+# APIs and Ingress — bff_facade_api
+# ---------------------------------------------------------------------------
+
+
+class TestBffFacadeApi:
+    def test_module_loads(self) -> None:
+        module = _load_example_module("apis-and-ingress/bff_facade_api")
+        assert hasattr(module, "app")
+
+
+# ---------------------------------------------------------------------------
+# APIs and Ingress — full_stack_crud_api
+# ---------------------------------------------------------------------------
+
+
+class TestFullStackCrudApi:
+    def test_module_loads(self) -> None:
+        module = _load_example_module("apis-and-ingress/full_stack_crud_api")
+        assert hasattr(module, "app")
+
+
+# ---------------------------------------------------------------------------
+# AI and Agents — rag_knowledge_api
+# ---------------------------------------------------------------------------
+
+
+class TestRagKnowledgeApi:
+    def test_module_loads(self) -> None:
+        module = _load_example_module("ai-and-agents/rag_knowledge_api")
+        assert hasattr(module, "app")
+
+
+# ---------------------------------------------------------------------------
+# AI and Agents — langgraph_rag_agent
+# ---------------------------------------------------------------------------
+
+
+class TestLanggraphRagAgent:
+    def test_module_loads(self) -> None:
+        module = _load_example_module("ai-and-agents/langgraph_rag_agent")
+        assert hasattr(module, "app")
