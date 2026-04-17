@@ -1578,3 +1578,33 @@ class TestLanggraphRagAgent:
     def test_module_loads(self) -> None:
         module = _load_example_module("ai-and-agents/langgraph_rag_agent")
         assert hasattr(module, "app")
+
+
+class TestOpenaiDirectChat:
+    def test_module_loads(self) -> None:
+        module = _load_example_module("ai-and-agents/openai_direct_chat")
+        assert hasattr(module, "app")
+
+
+class TestDurableAiPipeline:
+    def test_module_loads(self) -> None:
+        module = _load_example_module("ai-and-agents/durable_ai_pipeline")
+        assert hasattr(module, "app")
+
+
+class TestStreamingAiResponse:
+    def test_module_loads(self) -> None:
+        module = _load_example_module("ai-and-agents/streaming_ai_response")
+        assert hasattr(module, "app")
+
+
+class TestAiImageGeneration:
+    def test_module_loads(self) -> None:
+        module = _load_example_module("ai-and-agents/ai_image_generation")
+        assert hasattr(module, "app")
+
+
+class TestEmbeddingVectorSearch:
+    def test_module_loads(self) -> None:
+        module = _load_example_module("ai-and-agents/embedding_vector_search")
+        assert hasattr(module, "app")

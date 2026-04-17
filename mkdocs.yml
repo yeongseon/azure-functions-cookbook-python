@@ -111,6 +111,11 @@ nav:
           - LangGraph Agent: patterns/ai-and-agents/langgraph-agent.md
           - RAG Knowledge API: patterns/ai-and-agents/rag-knowledge-api.md
           - LangGraph RAG Agent: patterns/ai-and-agents/langgraph-rag-agent.md
+          - Azure OpenAI Direct Chat: patterns/ai-and-agents/openai-direct-chat.md
+          - Durable AI Pipeline: patterns/ai-and-agents/durable-ai-pipeline.md
+          - Streaming AI Response: patterns/ai-and-agents/streaming-ai-response.md
+          - AI Image Generation: patterns/ai-and-agents/ai-image-generation.md
+          - Embedding Vector Search: patterns/ai-and-agents/embedding-vector-search.md
   - Reference:
       - Overview: reference/index.md
       - HTTP: reference/http.md
@@ -124,12 +129,14 @@ nav:
       - SignalR: reference/signalr.md
       - SQL: reference/sql.md
       - Durable Functions: reference/durable.md
+      - Service Matrix: reference/service-matrix.md
   - Guides:
       - Local Run and Direct Invoke: guides/local-run-and-direct-invoke.md
       - Scaffold Quick Start: guides/scaffold-quick-start.md
       - Identity-Based Connections: guides/identity-based-connections.md
       - Deployment Patterns: guides/deployment-patterns.md
       - IaC Snippets: guides/iac-snippets.md
+      - Testing Patterns: guides/testing-patterns.md
   - Contributing:
       - Development: development.md
       - Testing: testing.md

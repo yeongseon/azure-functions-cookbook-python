@@ -15,8 +15,9 @@ gap by pairing clear pattern narratives with runnable examples.
 
 ## What you get
 
-- **62 patterns** across 14 categories covering APIs, messaging, orchestration, AI, and more
-- **62 runnable example projects** under `examples/`, organized by category
+- **67 patterns** across 14 categories covering APIs, messaging, orchestration, AI, and more
+- **67 runnable example projects** under `examples/`, organized by category
+- **Bicep and Terraform IaC templates** for every recipe
 - Production considerations in every pattern
 - Mermaid architecture and behavior diagrams
 - Integration with the Azure Functions Python DX Toolkit
@@ -112,11 +113,17 @@ gap by pairing clear pattern narratives with runnable examples.
 - [LangGraph Agent](patterns/ai-and-agents/langgraph-agent.md) — LangGraph RAG agent
 - [RAG Knowledge API](patterns/ai-and-agents/rag-knowledge-api.md) — RAG search endpoint
 - [LangGraph RAG Agent](patterns/ai-and-agents/langgraph-rag-agent.md) — LangGraph agent deployment
+- [Azure OpenAI Direct Chat](patterns/ai-and-agents/openai-direct-chat.md) — chat completion endpoint
+- [Durable AI Pipeline](patterns/ai-and-agents/durable-ai-pipeline.md) — multi-step AI orchestration
+- [Streaming AI Response](patterns/ai-and-agents/streaming-ai-response.md) — SSE streaming from Azure OpenAI
+- [AI Image Generation](patterns/ai-and-agents/ai-image-generation.md) — DALL-E 3 image generation
+- [Embedding Vector Search](patterns/ai-and-agents/embedding-vector-search.md) — embeddings + vector search
 
 ### Guides
 
 - [Local Run and Direct Invoke](guides/local-run-and-direct-invoke.md) — test without deploying
 - [Scaffold Quick Start](guides/scaffold-quick-start.md) — generate projects with afs
+- [Testing Patterns](guides/testing-patterns.md) — unit, integration, and e2e testing
 
 ## Quick start
 
