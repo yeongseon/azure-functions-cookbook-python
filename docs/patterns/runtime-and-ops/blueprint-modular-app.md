@@ -51,7 +51,7 @@ examples/runtime-and-ops/blueprint_modular_app/
 |       `-- user_service.py
 |-- host.json
 |-- local.settings.json.example
-|-- requirements.txt
+|-- pyproject.toml
 `-- README.md
 ```
 
@@ -140,7 +140,7 @@ sequenceDiagram
 ## Run Locally
 ```bash
 cd examples/runtime-and-ops/blueprint_modular_app
-pip install -r requirements.txt
+pip install -e ".[dev]"
 func start
 ```
 

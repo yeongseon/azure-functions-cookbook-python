@@ -14,7 +14,7 @@ Azure Functions front door for Azure Web PubSub that negotiates client tokens an
 cd examples/realtime/websocket_proxy
 python -m venv .venv
 source .venv/bin/activate
-pip install -r requirements.txt
+pip install -e ".[dev]"
 cp local.settings.json.example local.settings.json
 func start
 ```

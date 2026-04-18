@@ -22,7 +22,7 @@ in-memory circuit breaker.
 cd examples/reliability/circuit_breaker
 python -m venv .venv
 source .venv/bin/activate
-pip install -r requirements.txt
+pip install -e ".[dev]"
 cp local.settings.json.example local.settings.json
 func start
 ```

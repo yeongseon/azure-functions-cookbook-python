@@ -68,7 +68,7 @@ examples/reliability/outbox_pattern/
 |-- function_app.py
 |-- host.json
 |-- local.settings.json.example
-|-- requirements.txt
+|-- pyproject.toml
 `-- README.md
 ```
 
@@ -109,7 +109,7 @@ def relay_outbox_events(documents: list[dict[str, Any]], dispatch_out: DbOut) ->
 ## Run Locally
 ```bash
 cd examples/reliability/outbox_pattern
-pip install -r requirements.txt
+pip install -e ".[dev]"
 cp local.settings.json.example local.settings.json
 sqlite3 relay.db "CREATE TABLE IF NOT EXISTS outbox_dispatches (event_id TEXT PRIMARY KEY, aggregate_id TEXT NOT NULL, event_type TEXT NOT NULL, broker_name TEXT NOT NULL, dispatched_at TEXT NOT NULL, status TEXT NOT NULL);"
 func start

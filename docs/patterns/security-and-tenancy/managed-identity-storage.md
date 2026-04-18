@@ -59,7 +59,7 @@ examples/security-and-tenancy/managed_identity_storage/
 |-- function_app.py
 |-- host.json
 |-- local.settings.json.example
-|-- requirements.txt
+|-- pyproject.toml
 `-- README.md
 ```
 
@@ -94,7 +94,7 @@ This keeps function code stable while infra evolves from secrets to RBAC.
 ## Run Locally
 ```bash
 cd examples/security-and-tenancy/managed_identity_storage
-pip install -r requirements.txt
+pip install -e ".[dev]"
 func start
 ```
 

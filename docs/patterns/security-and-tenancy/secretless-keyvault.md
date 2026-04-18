@@ -70,7 +70,7 @@ examples/security-and-tenancy/secretless_keyvault/
 |-- function_app.py
 |-- host.json
 |-- local.settings.json.example
-|-- requirements.txt
+|-- pyproject.toml
 `-- README.md
 ```
 
@@ -100,7 +100,7 @@ and makes the resulting secret available to the function as a normal environment
 ## Run Locally
 ```bash
 cd examples/security-and-tenancy/secretless_keyvault
-pip install -r requirements.txt
+pip install -e ".[dev]"
 func start
 ```
 

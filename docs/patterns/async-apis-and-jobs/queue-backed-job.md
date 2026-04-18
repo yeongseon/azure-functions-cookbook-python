@@ -98,14 +98,14 @@ examples/async-apis-and-jobs/queue_backed_job/
 |-- function_app.py
 |-- host.json
 |-- local.settings.json.example
-|-- requirements.txt
+|-- pyproject.toml
 `-- README.md
 ```
 
 ## Run Locally
 ```bash
 cd examples/async-apis-and-jobs/queue_backed_job
-pip install -r requirements.txt
+pip install -e ".[dev]"
 cp local.settings.json.example local.settings.json
 func start
 ```

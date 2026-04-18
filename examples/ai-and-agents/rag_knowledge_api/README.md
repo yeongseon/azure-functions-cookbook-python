@@ -11,7 +11,7 @@ Demonstrates a minimal RAG API built with `azure-functions-knowledge-python`,
 
 ## Run
 ```bash
-pip install -r requirements.txt
+pip install -e ".[dev]"
 cp local.settings.json.example local.settings.json
 func start
 ```

@@ -43,7 +43,7 @@ examples/guides/local_run_and_direct_invoke/
 |- invoke.py
 |- host.json
 |- local.settings.json.example
-|- requirements.txt
+|- pyproject.toml
 `- README.md
 ```
 
@@ -91,7 +91,7 @@ Why both paths matter:
 ## Run Locally
 ```bash
 cd examples/guides/local_run_and_direct_invoke
-pip install -r requirements.txt
+pip install -e ".[dev]"
 func start
 ```
 

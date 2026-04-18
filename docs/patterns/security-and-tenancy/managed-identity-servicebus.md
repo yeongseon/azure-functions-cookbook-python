@@ -59,7 +59,7 @@ examples/security-and-tenancy/managed_identity_servicebus/
 |-- function_app.py
 |-- host.json
 |-- local.settings.json.example
-|-- requirements.txt
+|-- pyproject.toml
 `-- README.md
 ```
 
@@ -93,7 +93,7 @@ Use separate app settings per environment while keeping trigger code unchanged.
 ## Run Locally
 ```bash
 cd examples/security-and-tenancy/managed_identity_servicebus
-pip install -r requirements.txt
+pip install -e ".[dev]"
 func start
 ```
 

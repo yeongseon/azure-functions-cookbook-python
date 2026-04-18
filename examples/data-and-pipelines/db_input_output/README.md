@@ -6,7 +6,7 @@ combined with `azure-functions-validation-python` and `azure-functions-openapi-p
 ## Run
 
 ```bash
-pip install -r requirements.txt
+pip install -e ".[dev]"
 cp local.settings.sample.json local.settings.json
 func start
 ```

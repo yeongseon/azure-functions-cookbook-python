@@ -40,7 +40,7 @@ General flow:
 
 ```bash
 cd examples/<example_name>
-pip install -r requirements.txt
+pip install -e ".[dev]"
 func start
 ```
 

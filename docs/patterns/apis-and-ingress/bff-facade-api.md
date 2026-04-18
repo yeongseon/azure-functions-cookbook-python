@@ -68,7 +68,7 @@ sequenceDiagram
 ## Prerequisites
 - Python 3.10+
 - Azure Functions Core Tools v4
-- Packages from `requirements.txt`, including `azure-functions`, `azure-functions-validation-python`,
+- Dependencies from `pyproject.toml`, including `azure-functions`, `azure-functions-validation-python`,
   `azure-functions-openapi-python`, `azure-functions-logging-python`, and `requests`
 - Network access to the configured backend URLs, which default to `https://httpbin.org`
 
@@ -104,7 +104,7 @@ examples/apis-and-ingress/bff_facade_api/
 ├── host.json
 ├── local.settings.json.example
 ├── README.md
-└── requirements.txt
+└── pyproject.toml
 ```
 
 ## Configuration
@@ -140,7 +140,7 @@ Example:
 cd examples/apis-and-ingress/bff_facade_api
 python3 -m venv .venv
 source .venv/bin/activate
-pip install -r requirements.txt
+pip install -e ".[dev]"
 cp local.settings.json.example local.settings.json
 func start
 ```

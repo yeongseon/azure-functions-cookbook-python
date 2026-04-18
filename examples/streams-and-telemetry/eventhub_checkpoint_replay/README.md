@@ -31,7 +31,7 @@ Copy `local.settings.json.example` to `local.settings.json` before running local
 cd examples/streams-and-telemetry/eventhub_checkpoint_replay
 python -m venv .venv
 source .venv/bin/activate
-pip install -r requirements.txt
+pip install -e ".[dev]"
 cp local.settings.json.example local.settings.json
 func start
 ```

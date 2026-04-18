@@ -84,7 +84,7 @@ examples/data-and-pipelines/file_processing_pipeline/
 |-- function_app.py
 |-- host.json
 |-- local.settings.json.example
-|-- requirements.txt
+|-- pyproject.toml
 `-- README.md
 ```
 
@@ -104,7 +104,7 @@ Use an `incoming` blob container for uploaded files such as `orders.csv` or `ord
 cd examples/data-and-pipelines/file_processing_pipeline
 python -m venv .venv
 source .venv/bin/activate
-pip install -r requirements.txt
+pip install -e ".[dev]"
 cp local.settings.json.example local.settings.json
 func start
 ```

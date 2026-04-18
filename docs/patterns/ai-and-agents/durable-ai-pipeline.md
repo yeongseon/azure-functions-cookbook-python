@@ -69,7 +69,7 @@ examples/ai-and-agents/durable_ai_pipeline/
 |- function_app.py
 |- host.json
 |- local.settings.json.example
-|- requirements.txt
+|- pyproject.toml
 `- README.md
 ```
 
@@ -106,7 +106,7 @@ about than a single large handler.
 ## Run Locally
 ```bash
 cd examples/ai-and-agents/durable_ai_pipeline
-pip install -r requirements.txt
+pip install -e ".[dev]"
 cp local.settings.json.example local.settings.json
 func start
 ```

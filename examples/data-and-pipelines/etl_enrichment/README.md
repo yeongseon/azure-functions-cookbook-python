@@ -32,7 +32,7 @@ Copy `local.settings.json.example` to `local.settings.json` and fill in the valu
 cd examples/data-and-pipelines/etl_enrichment
 python -m venv .venv
 source .venv/bin/activate
-pip install -r requirements.txt
+pip install -e ".[dev]"
 cp local.settings.json.example local.settings.json
 func start
 ```

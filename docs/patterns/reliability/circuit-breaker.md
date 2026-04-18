@@ -77,7 +77,7 @@ examples/reliability/circuit_breaker/
 |-- function_app.py
 |-- host.json
 |-- local.settings.json.example
-|-- requirements.txt
+|-- pyproject.toml
 `-- README.md
 ```
 
@@ -108,7 +108,7 @@ Entities, Redis, Cosmos DB, or another centralized coordination mechanism.
 ## Run Locally
 ```bash
 cd examples/reliability/circuit_breaker
-pip install -r requirements.txt
+pip install -e ".[dev]"
 cp local.settings.json.example local.settings.json
 func start
 ```

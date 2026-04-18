@@ -246,7 +246,7 @@ Integration tests start the Azure Functions host locally and send real HTTP requ
 npm install -g azure-functions-core-tools@4 --unsafe-perm true
 
 # Python dependencies (in the example's directory)
-pip install -r requirements.txt
+pip install -e ".[dev]"
 # or
 pip install -e ".[dev]"
 ```

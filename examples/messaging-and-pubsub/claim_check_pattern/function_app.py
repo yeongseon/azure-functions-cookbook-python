@@ -77,10 +77,10 @@ class ClaimCheckRequest(BaseModel):
     route="/api/claim-check/enqueue",
     method="post",
 )
-@validate_http(body=ClaimCheckRequest)
 @app.queue_output(
     arg_name="claim_queue", queue_name="claim-check-jobs", connection="AzureWebJobsStorage"
 )
+@validate_http(body=ClaimCheckRequest)
 def enqueue_claim_check(
     req: func.HttpRequest,
     body: ClaimCheckRequest,

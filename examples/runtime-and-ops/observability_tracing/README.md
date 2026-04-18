@@ -24,7 +24,7 @@ and Application Insights-friendly trace context.
 cd examples/runtime-and-ops/observability_tracing
 python -m venv .venv
 source .venv/bin/activate
-pip install -r requirements.txt
+pip install -e ".[dev]"
 cp local.settings.json.example local.settings.json
 func start
 ```

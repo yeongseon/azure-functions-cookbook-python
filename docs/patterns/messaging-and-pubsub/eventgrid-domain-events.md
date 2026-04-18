@@ -61,7 +61,7 @@ examples/messaging-and-pubsub/eventgrid_domain_events/
 |-- function_app.py
 |-- host.json
 |-- local.settings.json.example
-|-- requirements.txt
+|-- pyproject.toml
 `-- README.md
 ```
 
@@ -124,7 +124,7 @@ Set these values in `local.settings.json` when running locally:
 cd examples/messaging-and-pubsub/eventgrid_domain_events
 python -m venv .venv
 source .venv/bin/activate
-pip install -r requirements.txt
+pip install -e ".[dev]"
 cp local.settings.json.example local.settings.json
 func start
 ```

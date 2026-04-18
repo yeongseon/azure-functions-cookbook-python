@@ -59,7 +59,7 @@ examples/ai-and-agents/openai_direct_chat/
 |- function_app.py
 |- host.json
 |- local.settings.json.example
-|- requirements.txt
+|- pyproject.toml
 `- README.md
 ```
 
@@ -107,7 +107,7 @@ can correlate requests with logs from `azure-functions-logging-python`.
 ## Run Locally
 ```bash
 cd examples/ai-and-agents/openai_direct_chat
-pip install -r requirements.txt
+pip install -e ".[dev]"
 cp local.settings.json.example local.settings.json
 func start
 ```

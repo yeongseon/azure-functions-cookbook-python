@@ -70,7 +70,7 @@ examples/blob-and-file-triggers/blob_upload_processor/
 |-- function_app.py
 |-- host.json
 |-- local.settings.json.example
-|-- requirements.txt
+|-- pyproject.toml
 `-- README.md
 ```
 
@@ -114,7 +114,7 @@ def _process_blob(blob_name: str, blob_size: int, metadata: dict[str, str], data
 ## Run Locally
 ```bash
 cd examples/blob-and-file-triggers/blob_upload_processor
-pip install -r requirements.txt
+pip install -e ".[dev]"
 func start
 ```
 

@@ -49,7 +49,7 @@ pip install -e ".[dev,docs]"
 
 ```bash
 cd examples/http_api_basic
-pip install -r requirements.txt
+pip install -e ".[dev]"
 func start
 ```
 
@@ -57,7 +57,7 @@ func start
 
 ```bash
 cd examples/http_api_openapi
-pip install -r requirements.txt
+pip install -e ".[dev]"
 func start
 ```
 
@@ -67,7 +67,7 @@ Visit `http://localhost:7071/api/docs` for Swagger UI.
 
 ```bash
 cd examples/github_webhook
-pip install -r requirements.txt
+pip install -e ".[dev]"
 func start
 ```
 
@@ -77,7 +77,7 @@ Set `GITHUB_WEBHOOK_SECRET` before testing signed requests.
 
 ```bash
 cd examples/queue_worker
-pip install -r requirements.txt
+pip install -e ".[dev]"
 func start
 ```
 
@@ -87,7 +87,7 @@ Use Azurite for local queue execution.
 
 ```bash
 cd examples/timer_job
-pip install -r requirements.txt
+pip install -e ".[dev]"
 func start
 ```
 

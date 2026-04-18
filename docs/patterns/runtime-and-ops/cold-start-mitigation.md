@@ -55,7 +55,7 @@ examples/runtime-and-ops/cold_start_mitigation/
 |-- function_app.py
 |-- host.json
 |-- local.settings.json.example
-|-- requirements.txt
+|-- pyproject.toml
 `-- README.md
 ```
 
@@ -120,7 +120,7 @@ sequenceDiagram
 cd examples/runtime-and-ops/cold_start_mitigation
 python -m venv .venv
 source .venv/bin/activate
-pip install -r requirements.txt
+pip install -e ".[dev]"
 cp local.settings.json.example local.settings.json
 func start
 ```

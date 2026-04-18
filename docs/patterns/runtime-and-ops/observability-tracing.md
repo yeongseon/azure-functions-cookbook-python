@@ -42,7 +42,7 @@ examples/runtime-and-ops/observability_tracing/
 ├── function_app.py
 ├── host.json
 ├── local.settings.json.example
-├── requirements.txt
+├── pyproject.toml
 └── README.md
 ```
 
@@ -101,7 +101,7 @@ sequenceDiagram
 ## Run Locally
 ```bash
 cd examples/runtime-and-ops/observability_tracing
-pip install -r requirements.txt
+pip install -e ".[dev]"
 func start
 ```
 

@@ -14,7 +14,7 @@ Durable Functions orchestration that waits for a long delay and then executes a 
 cd examples/scheduled-and-background/durable_timer_reminder
 python -m venv .venv
 source .venv/bin/activate
-pip install -r requirements.txt
+pip install -e ".[dev]"
 cp local.settings.json.example local.settings.json
 func start
 ```

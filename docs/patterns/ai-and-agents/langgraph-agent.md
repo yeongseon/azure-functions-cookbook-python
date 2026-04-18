@@ -44,7 +44,7 @@ examples/ai-and-agents/langgraph_agent/
 |-- function_app.py
 |-- host.json
 |-- local.settings.sample.json
-|-- requirements.txt
+|-- pyproject.toml
 `-- README.md
 ```
 
@@ -168,7 +168,7 @@ if graph:
 ## Run Locally
 ```bash
 cd examples/ai-and-agents/langgraph_agent
-pip install -r requirements.txt
+pip install -e ".[dev]"
 func start
 ```
 

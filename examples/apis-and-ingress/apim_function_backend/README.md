@@ -14,7 +14,7 @@ HTTP-triggered Azure Functions backend intended to sit behind Azure API Manageme
 cd examples/apis-and-ingress/apim_function_backend
 python -m venv .venv
 source .venv/bin/activate
-pip install -r requirements.txt
+pip install -e ".[dev]"
 cp local.settings.json.example local.settings.json
 func start
 ```

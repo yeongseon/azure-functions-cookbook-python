@@ -21,7 +21,7 @@ HTTP-triggered Durable Functions example that returns `202 Accepted` and a `stat
 cd examples/async-apis-and-jobs/async_http_polling
 python -m venv .venv
 source .venv/bin/activate
-pip install -r requirements.txt
+pip install -e ".[dev]"
 cp local.settings.json.example local.settings.json
 func start
 ```

@@ -75,7 +75,7 @@ All handlers emit structured logs through `azure-functions-logging`, and the HTT
 ## Run Locally
 1. `cd examples/scheduled-and-background/durable_timer_reminder`
 2. Create and activate a virtual environment.
-3. `pip install -r requirements.txt`
+3. `pip install -e ".[dev]"`
 4. Copy `local.settings.json.example` to `local.settings.json`.
 5. Start the host with `func start`.
 6. POST a reminder request to `http://localhost:7071/api/reminders/start`.

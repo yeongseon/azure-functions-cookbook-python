@@ -1,0 +1,38 @@
+[build-system]
+requires = ["hatchling>=1.27.0"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["app"]
+
+[project]
+name = "callback_completion"
+version = "0.1.0"
+description = "Callback Completion example for Azure Functions."
+requires-python = ">=3.10"
+dependencies = [
+  "azure-functions",
+  "azure-functions-logging-python",
+  "azure-functions-validation-python",
+  "pydantic",
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=8.3.5",
+  "ruff>=0.11.0",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP"]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"

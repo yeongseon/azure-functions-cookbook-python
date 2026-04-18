@@ -63,7 +63,7 @@ examples/orchestration-and-workflows/durable_determinism_gotchas/
 |- function_app.py
 |- host.json
 |- local.settings.json.example
-|- requirements.txt
+|- pyproject.toml
 `- README.md
 ```
 
@@ -110,7 +110,7 @@ def fetch_data_activity(payload: str) -> str:
 ## Run Locally
 ```bash
 cd examples/orchestration-and-workflows/durable_determinism_gotchas
-pip install -r requirements.txt
+pip install -e ".[dev]"
 func start
 ```
 

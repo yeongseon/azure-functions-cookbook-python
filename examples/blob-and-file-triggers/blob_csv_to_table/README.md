@@ -14,7 +14,7 @@ Event Grid-driven ingestion pattern that reads uploaded CSV blobs and writes nor
 cd examples/blob-and-file-triggers/blob_csv_to_table
 python -m venv .venv
 source .venv/bin/activate
-pip install -r requirements.txt
+pip install -e ".[dev]"
 cp local.settings.json.example local.settings.json
 func start
 ```

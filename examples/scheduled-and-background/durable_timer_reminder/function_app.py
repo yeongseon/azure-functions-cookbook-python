@@ -91,8 +91,8 @@ class ReminderAccepted(BaseModel):
     route="/api/reminders/start",
     method="post",
 )
-@validate_http(body=ReminderRequest, response_model=ReminderAccepted)
 @app.durable_client_input(client_name="client")
+@validate_http(body=ReminderRequest, response_model=ReminderAccepted)
 async def start_reminder(
     req: func.HttpRequest,
     body: ReminderRequest,

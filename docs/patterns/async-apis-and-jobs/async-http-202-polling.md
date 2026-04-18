@@ -107,7 +107,7 @@ examples/async-apis-and-jobs/async_http_polling/
 |-- function_app.py
 |-- host.json
 |-- local.settings.json.example
-|-- requirements.txt
+|-- pyproject.toml
 `-- README.md
 ```
 
@@ -127,7 +127,7 @@ Copy `local.settings.json.example` to `local.settings.json` and provide a Storag
 ## Run Locally
 ```bash
 cd examples/async-apis-and-jobs/async_http_polling
-pip install -r requirements.txt
+pip install -e ".[dev]"
 cp local.settings.json.example local.settings.json
 func start
 ```

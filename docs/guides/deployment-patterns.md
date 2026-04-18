@@ -14,7 +14,7 @@ A reliable deployment process should provide:
 
 ## Build artifact strategy
 
-The cookbook examples use `pyproject.toml` (hatch/hatchling) as the canonical packaging format. This aligns with modern Python tooling and avoids the dual-maintenance overhead of keeping `requirements.txt` in sync with `pyproject.toml`.
+All cookbook examples use `pyproject.toml` (hatch/hatchling) as the canonical packaging format. This aligns with modern Python tooling and keeps dependency management in one place.
 
 **Recommended path: `pyproject.toml` + remote build**
 

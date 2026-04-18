@@ -19,7 +19,7 @@ This recipe demonstrates practical cold-start mitigation for Azure Functions Pyt
 - `function_app.py`: HTTP endpoint plus warmup trigger
 - `host.json`: standard runtime host configuration
 - `local.settings.json.example`: local app settings and optional upstream probe target
-- `requirements.txt`: runtime dependencies
+- `pyproject.toml`: runtime dependencies
 
 ## How it works
 
@@ -34,7 +34,7 @@ This recipe demonstrates practical cold-start mitigation for Azure Functions Pyt
 cd examples/runtime-and-ops/cold_start_mitigation
 python -m venv .venv
 source .venv/bin/activate
-pip install -r requirements.txt
+pip install -e ".[dev]"
 cp local.settings.json.example local.settings.json
 func start
 ```

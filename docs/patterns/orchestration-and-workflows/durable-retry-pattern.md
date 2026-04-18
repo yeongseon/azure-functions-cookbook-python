@@ -56,7 +56,7 @@ examples/orchestration-and-workflows/durable_retry_pattern/
 |- function_app.py
 |- host.json
 |- local.settings.json.example
-|- requirements.txt
+|- pyproject.toml
 `- README.md
 ```
 
@@ -103,7 +103,7 @@ Do not put random retry decisions in the orchestrator itself; keep randomness in
 ## Run Locally
 ```bash
 cd examples/orchestration-and-workflows/durable_retry_pattern
-pip install -r requirements.txt
+pip install -e ".[dev]"
 func start
 ```
 

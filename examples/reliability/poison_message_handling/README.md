@@ -27,7 +27,7 @@ queue and then logs the failed payload for operator follow-up.
 cd examples/reliability/poison_message_handling
 python -m venv .venv
 source .venv/bin/activate
-pip install -r requirements.txt
+pip install -e ".[dev]"
 cp local.settings.json.example local.settings.json
 func start
 ```

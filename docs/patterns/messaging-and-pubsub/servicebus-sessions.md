@@ -79,7 +79,7 @@ examples/messaging-and-pubsub/servicebus_sessions/
 |-- function_app.py
 |-- host.json
 |-- local.settings.json.example
-|-- requirements.txt
+|-- pyproject.toml
 `-- README.md
 ```
 
@@ -100,7 +100,7 @@ with the same `session_id` (for example `cust-42`) to observe ordered delivery i
 cd examples/messaging-and-pubsub/servicebus_sessions
 python -m venv .venv
 source .venv/bin/activate
-pip install -r requirements.txt
+pip install -e ".[dev]"
 cp local.settings.json.example local.settings.json
 func start
 ```

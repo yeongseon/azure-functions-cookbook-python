@@ -136,6 +136,7 @@ class TestMcpServerSmoke:
 
 
 class TestSignalRGroupChatSmoke:
+    @pytest.mark.xfail(reason="SignalR bindings not available in azure-functions < 1.25")
     def test_module_imports(self) -> None:
         module = import_function_app("realtime/signalr_group_chat")
         assert hasattr(module, "app")

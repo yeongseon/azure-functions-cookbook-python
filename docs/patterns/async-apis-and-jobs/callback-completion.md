@@ -106,7 +106,7 @@ examples/async-apis-and-jobs/callback_completion/
 |-- function_app.py
 |-- host.json
 |-- local.settings.json.example
-|-- requirements.txt
+|-- pyproject.toml
 `-- README.md
 ```
 
@@ -117,7 +117,7 @@ Optionally override `TASK_QUEUE_NAME` and `TASK_PROCESSING_DELAY_SECONDS` for lo
 ## Run Locally
 ```bash
 cd examples/async-apis-and-jobs/callback_completion
-pip install -r requirements.txt
+pip install -e ".[dev]"
 cp local.settings.json.example local.settings.json
 func start
 ```

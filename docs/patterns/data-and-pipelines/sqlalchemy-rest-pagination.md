@@ -58,7 +58,7 @@ sequenceDiagram
 - Python 3.10+
 - Azure Functions Core Tools v4
 - A SQLAlchemy-compatible database URL in `DB_URL`
-- Packages from `requirements.txt`, including `azure-functions-db-python`, `azure-functions-validation-python`, `azure-functions-openapi-python`, `azure-functions-logging-python`, and `sqlalchemy`
+- Dependencies from `pyproject.toml`, including `azure-functions-db-python`, `azure-functions-validation-python`, `azure-functions-openapi-python`, `azure-functions-logging-python`, and `sqlalchemy`
 
 ## Implementation
 The example in `examples/data-and-pipelines/sqlalchemy_rest_pagination/` keeps the recipe compact:
@@ -92,7 +92,7 @@ examples/data-and-pipelines/sqlalchemy_rest_pagination/
 |-- local.settings.json.example
 |-- models.py
 |-- README.md
-`-- requirements.txt
+`-- pyproject.toml
 ```
 
 ## Config
@@ -122,7 +122,7 @@ Example:
 cd examples/data-and-pipelines/sqlalchemy_rest_pagination
 python3 -m venv .venv
 source .venv/bin/activate
-pip install -r requirements.txt
+pip install -e ".[dev]"
 cp local.settings.json.example local.settings.json
 func start
 ```

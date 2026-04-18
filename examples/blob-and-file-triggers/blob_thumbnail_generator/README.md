@@ -14,7 +14,7 @@ Event Grid-driven blob processor that generates thumbnails and writes them to a 
 cd examples/blob-and-file-triggers/blob_thumbnail_generator
 python -m venv .venv
 source .venv/bin/activate
-pip install -r requirements.txt
+pip install -e ".[dev]"
 cp local.settings.json.example local.settings.json
 func start
 ```

@@ -61,7 +61,7 @@ The callback endpoint handles upstream events from Web PubSub and logs CloudEven
 ## Run Locally
 1. `cd examples/realtime/websocket_proxy`
 2. Create and activate a virtual environment.
-3. `pip install -r requirements.txt`
+3. `pip install -e ".[dev]"`
 4. Copy `local.settings.json.example` to `local.settings.json`.
 5. Set `WebPubSubConnectionString` and `WEBPUBSUB_HUB_NAME`.
 6. Run `func start` and test negotiate, publish, and callback routes.

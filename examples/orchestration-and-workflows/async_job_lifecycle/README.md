@@ -23,7 +23,7 @@ Durable Functions recipe for full async job lifecycle management: create, status
 cd examples/orchestration-and-workflows/async_job_lifecycle
 python -m venv .venv
 source .venv/bin/activate
-pip install -r requirements.txt
+pip install -e ".[dev]"
 cp local.settings.json.example local.settings.json
 func start
 ```

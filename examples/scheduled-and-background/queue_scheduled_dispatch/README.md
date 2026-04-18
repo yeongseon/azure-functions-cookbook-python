@@ -14,7 +14,7 @@ Timer-driven scheduled dispatch pattern that releases due work onto Azure Storag
 cd examples/scheduled-and-background/queue_scheduled_dispatch
 python -m venv .venv
 source .venv/bin/activate
-pip install -r requirements.txt
+pip install -e ".[dev]"
 cp local.settings.json.example local.settings.json
 func start
 ```

@@ -63,7 +63,7 @@ examples/messaging-and-pubsub/queue_producer/
 |-- function_app.py
 |-- host.json
 |-- local.settings.json.example
-|-- requirements.txt
+|-- pyproject.toml
 `-- README.md
 ```
 
@@ -100,7 +100,7 @@ Validation enforces a non-empty `task_type` and optional object `payload`, keepi
 ## Run Locally
 ```bash
 cd examples/messaging-and-pubsub/queue_producer
-pip install -r requirements.txt
+pip install -e ".[dev]"
 func start
 ```
 

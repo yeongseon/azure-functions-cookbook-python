@@ -122,7 +122,7 @@ examples/data-and-pipelines/cqrs_read_projection/
 |-- host.json
 |-- local.settings.json.example
 |-- README.md
-|-- requirements.txt
+|-- pyproject.toml
 `-- schema.sql
 ```
 
@@ -161,7 +161,7 @@ sqlite3 readmodels.db < schema.sql
 cd examples/data-and-pipelines/cqrs_read_projection
 python -m venv .venv
 source .venv/bin/activate
-pip install -r requirements.txt
+pip install -e ".[dev]"
 cp local.settings.json.example local.settings.json
 sqlite3 readmodels.db < schema.sql
 func start

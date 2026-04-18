@@ -63,7 +63,7 @@ The orchestration runs one poll cycle, conditionally alerts, waits on a durable 
 ## Run Locally
 1. `cd examples/orchestration-and-workflows/durable_singleton_monitor`
 2. Create and activate a virtual environment.
-3. `pip install -r requirements.txt`
+3. `pip install -e ".[dev]"`
 4. Copy `local.settings.json.example` to `local.settings.json`.
 5. Run `func start`.
 6. POST to `http://localhost:7071/api/monitor/start` or wait for the timer starter.

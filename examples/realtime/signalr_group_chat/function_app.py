@@ -93,12 +93,12 @@ def negotiate(req: func.HttpRequest, connection_info: str) -> func.HttpResponse:
 @app.route(route="chat/join", methods=["POST"])
 @with_context
 @openapi(summary="Join SignalR group", tags=["Realtime"], route="/api/chat/join", method="post")
-@validate_http(body=JoinRoomRequest)
 @app.signalr_output(
     arg_name="signalr",
     hub_name=HUB_NAME,
     connection_string_setting="AzureSignalRConnectionString",
 )
+@validate_http(body=JoinRoomRequest)
 def join_room(
     req: func.HttpRequest, body: JoinRoomRequest, signalr: func.Out[str]
 ) -> func.HttpResponse:
@@ -125,12 +125,12 @@ def join_room(
     route="/api/chat/message",
     method="post",
 )
-@validate_http(body=SendMessageRequest)
 @app.signalr_output(
     arg_name="signalr",
     hub_name=HUB_NAME,
     connection_string_setting="AzureSignalRConnectionString",
 )
+@validate_http(body=SendMessageRequest)
 def send_message(
     req: func.HttpRequest, body: SendMessageRequest, signalr: func.Out[str]
 ) -> func.HttpResponse:

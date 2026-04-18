@@ -96,7 +96,7 @@ examples/messaging-and-pubsub/servicebus_dlq_replay/
 |-- function_app.py
 |-- host.json
 |-- local.settings.json.example
-|-- requirements.txt
+|-- pyproject.toml
 `-- README.md
 ```
 
@@ -111,7 +111,7 @@ examples/messaging-and-pubsub/servicebus_dlq_replay/
 cd examples/messaging-and-pubsub/servicebus_dlq_replay
 python -m venv .venv
 source .venv/bin/activate
-pip install -r requirements.txt
+pip install -e ".[dev]"
 cp local.settings.json.example local.settings.json
 func start
 ```

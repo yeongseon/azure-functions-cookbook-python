@@ -22,7 +22,7 @@ HTTP Backend-for-Frontend facade that aggregates multiple backend service calls 
 cd examples/apis-and-ingress/bff_facade_api
 python3 -m venv .venv
 source .venv/bin/activate
-pip install -r requirements.txt
+pip install -e ".[dev]"
 cp local.settings.json.example local.settings.json
 func start
 ```

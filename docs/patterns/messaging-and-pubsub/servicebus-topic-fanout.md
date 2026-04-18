@@ -71,7 +71,7 @@ All handlers reuse a shared JSON decoder and log context builder so delivery met
 fan-out branches. The integration matrix for this recipe needs only the `logging` toolkit:
 
 ```text
-requirements.txt
+pyproject.toml
 |-- azure-functions
 `-- azure-functions-logging-python
 ```
@@ -82,7 +82,7 @@ examples/messaging-and-pubsub/servicebus_topic_fanout/
 |-- function_app.py
 |-- host.json
 |-- local.settings.json.example
-|-- requirements.txt
+|-- pyproject.toml
 `-- README.md
 ```
 
@@ -100,7 +100,7 @@ Create topic `orders` and subscriptions `email`, `inventory`, and `analytics` be
 ## Run Locally
 ```bash
 cd examples/messaging-and-pubsub/servicebus_topic_fanout
-pip install -r requirements.txt
+pip install -e ".[dev]"
 cp local.settings.json.example local.settings.json
 func start
 ```

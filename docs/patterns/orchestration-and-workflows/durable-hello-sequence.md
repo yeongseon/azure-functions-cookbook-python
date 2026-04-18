@@ -58,7 +58,7 @@ sequenceDiagram
 - Python 3.10+
 - Azure Functions Core Tools v4
 - Durable Functions extension bundles enabled through `host.json`
-- `azure-functions` and `azure-functions-durable` from `requirements.txt`
+- `azure-functions` and `azure-functions-durable` from `pyproject.toml`
 
 ## Project Structure
 ```text
@@ -66,7 +66,7 @@ examples/orchestration-and-workflows/durable_hello_sequence/
 |- function_app.py
 |- host.json
 |- local.settings.json.example
-|- requirements.txt
+|- pyproject.toml
 `- README.md
 ```
 
@@ -116,7 +116,7 @@ def say_hello(payload: str) -> str:
 ## Run Locally
 ```bash
 cd examples/orchestration-and-workflows/durable_hello_sequence
-pip install -r requirements.txt
+pip install -e ".[dev]"
 func start
 ```
 

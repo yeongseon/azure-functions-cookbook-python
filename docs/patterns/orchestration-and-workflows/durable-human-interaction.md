@@ -68,7 +68,7 @@ examples/orchestration-and-workflows/durable_human_interaction/
 |- function_app.py
 |- host.json
 |- local.settings.json.example
-|- requirements.txt
+|- pyproject.toml
 `- README.md
 ```
 
@@ -126,7 +126,7 @@ Using `datetime.now()` here would cause non-deterministic decisions during repla
 ## Run Locally
 ```bash
 cd examples/orchestration-and-workflows/durable_human_interaction
-pip install -r requirements.txt
+pip install -e ".[dev]"
 func start
 ```
 

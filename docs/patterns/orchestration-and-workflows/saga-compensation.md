@@ -120,7 +120,7 @@ examples/orchestration-and-workflows/saga_compensation/
 |- function_app.py
 |- host.json
 |- local.settings.json.example
-|- requirements.txt
+|- pyproject.toml
 `- README.md
 ```
 
@@ -147,7 +147,7 @@ Default local example:
 ## Run Locally
 ```bash
 cd examples/orchestration-and-workflows/saga_compensation
-pip install -r requirements.txt
+pip install -e ".[dev]"
 cp local.settings.json.example local.settings.json
 func start
 ```

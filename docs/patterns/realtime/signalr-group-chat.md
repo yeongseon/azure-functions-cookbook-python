@@ -64,7 +64,7 @@ Message publish uses the same decorator stack and emits a room-scoped `newMessag
 ## Run Locally
 1. `cd examples/realtime/signalr_group_chat`
 2. Create and activate a virtual environment.
-3. `pip install -r requirements.txt`
+3. `pip install -e ".[dev]"`
 4. Copy `local.settings.json.example` to `local.settings.json`.
 5. Set `AzureSignalRConnectionString` for a SignalR instance in serverless mode.
 6. Run `func start`, negotiate a client, join a room, then send a room message.

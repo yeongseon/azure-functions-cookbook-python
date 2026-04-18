@@ -61,7 +61,7 @@ examples/apis-and-ingress/http_auth_levels/
 ├── function_app.py
 ├── host.json
 ├── local.settings.json.example
-├── requirements.txt
+├── pyproject.toml
 └── README.md
 ```
 
@@ -118,13 +118,13 @@ Prerequisites:
 
 - Python 3.10+
 - Azure Functions Core Tools v4
-- `azure-functions` package from `requirements.txt`
+- `azure-functions` dependency from `pyproject.toml`
 - Access to local or deployed host keys for protected routes
 - `curl` or equivalent client to pass query/header keys
 
 ```bash
 cd examples/apis-and-ingress/http_auth_levels
-pip install -r requirements.txt
+pip install -e ".[dev]"
 func start
 ```
 

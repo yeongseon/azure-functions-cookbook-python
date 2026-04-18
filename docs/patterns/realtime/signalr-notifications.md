@@ -73,7 +73,7 @@ examples/realtime/signalr_notifications/
 |-- function_app.py
 |-- host.json
 |-- local.settings.json.example
-|-- requirements.txt
+|-- pyproject.toml
 `-- README.md
 ```
 
@@ -90,7 +90,7 @@ Required settings for local development:
 cd examples/realtime/signalr_notifications
 python -m venv .venv
 source .venv/bin/activate
-pip install -r requirements.txt
+pip install -e ".[dev]"
 cp local.settings.json.example local.settings.json
 func start
 ```

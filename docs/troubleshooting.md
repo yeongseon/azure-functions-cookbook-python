@@ -25,12 +25,12 @@ Install Azure Functions Core Tools v4 and restart your terminal.
 
 - Verify you are inside a valid example directory.
 - Verify `function_app.py` exists in that directory.
-- Verify dependencies in `requirements.txt` are installed.
+- Verify dependencies in `pyproject.toml` are installed.
 
 ### Import errors at startup
 
 - Activate your virtual environment.
-- Reinstall dependencies with `pip install -r requirements.txt`.
+- Reinstall dependencies with `pip install -e ".[dev]"`.
 - For OpenAPI example, ensure `azure-functions-openapi-python` is installed.
 
 ## HTTP recipe issues

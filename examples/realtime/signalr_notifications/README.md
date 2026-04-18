@@ -22,7 +22,7 @@ Azure Functions app with a SignalR negotiate endpoint and an Event Grid-triggere
 cd examples/realtime/signalr_notifications
 python -m venv .venv
 source .venv/bin/activate
-pip install -r requirements.txt
+pip install -e ".[dev]"
 cp local.settings.json.example local.settings.json
 func start
 ```

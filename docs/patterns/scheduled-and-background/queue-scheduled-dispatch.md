@@ -56,7 +56,7 @@ The sample reads `SCHEDULED_DISPATCHES_JSON`, filters records where `scheduled_f
 ## Run Locally
 1. `cd examples/scheduled-and-background/queue_scheduled_dispatch`
 2. Create and activate a virtual environment.
-3. `pip install -r requirements.txt`
+3. `pip install -e ".[dev]"`
 4. Copy `local.settings.json.example` to `local.settings.json`.
 5. Start Azurite or point `AzureWebJobsStorage` to a real Storage account.
 6. Run `func start` and wait for the timer to evaluate the configured schedule.

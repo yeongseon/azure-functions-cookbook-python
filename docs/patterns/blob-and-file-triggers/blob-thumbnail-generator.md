@@ -58,7 +58,7 @@ The helper uses Pillow for the resize step and the Azure Storage Blob SDK for in
 ## Run Locally
 1. `cd examples/blob-and-file-triggers/blob_thumbnail_generator`
 2. Create and activate a virtual environment.
-3. `pip install -r requirements.txt`
+3. `pip install -e ".[dev]"`
 4. Copy `local.settings.json.example` to `local.settings.json`.
 5. Start Azurite or configure a real storage account.
 6. Run `func start` and post a blob-created Event Grid event for an uploaded image.

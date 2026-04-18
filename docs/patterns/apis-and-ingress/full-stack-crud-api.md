@@ -85,7 +85,7 @@ sequenceDiagram
 - Python 3.10+
 - Azure Functions Core Tools v4
 - A SQLAlchemy-compatible database URL in `DB_URL` (SQLite works locally by default)
-- Packages from `requirements.txt`, including `azure-functions-db-python`, `azure-functions-validation-python`,
+- Dependencies from `pyproject.toml`, including `azure-functions-db-python`, `azure-functions-validation-python`,
   `azure-functions-openapi-python`, `azure-functions-logging-python`, `sqlalchemy`, and `pydantic`
 
 ## Implementation
@@ -129,7 +129,7 @@ examples/apis-and-ingress/full_stack_crud_api/
 ├── local.settings.json.example
 ├── models.py
 ├── README.md
-└── requirements.txt
+└── pyproject.toml
 ```
 
 ## Configuration
@@ -159,7 +159,7 @@ Example:
 cd examples/apis-and-ingress/full_stack_crud_api
 python3 -m venv .venv
 source .venv/bin/activate
-pip install -r requirements.txt
+pip install -e ".[dev]"
 cp local.settings.json.example local.settings.json
 func start
 ```

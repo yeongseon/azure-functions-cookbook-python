@@ -65,7 +65,7 @@ examples/messaging-and-pubsub/queue_consumer/
 |-- function_app.py
 |-- host.json
 |-- local.settings.json.example
-|-- requirements.txt
+|-- pyproject.toml
 `-- README.md
 ```
 
@@ -111,7 +111,7 @@ def _process_task(task: dict[str, Any]) -> str:
 ## Run Locally
 ```bash
 cd examples/messaging-and-pubsub/queue_consumer
-pip install -r requirements.txt
+pip install -e ".[dev]"
 func start
 ```
 

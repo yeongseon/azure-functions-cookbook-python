@@ -5,7 +5,7 @@ a vector query against Azure AI Search.
 
 ## Run
 ```bash
-pip install -r requirements.txt
+pip install -e ".[dev]"
 cp local.settings.json.example local.settings.json
 func start
 ```

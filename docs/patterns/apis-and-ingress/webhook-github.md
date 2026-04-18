@@ -64,7 +64,7 @@ examples/apis-and-ingress/webhook_github/
 ├── function_app.py
 ├── host.json
 ├── local.settings.json.example
-├── requirements.txt
+├── pyproject.toml
 └── README.md
 ```
 
@@ -132,13 +132,13 @@ Prerequisites:
 
 - Python 3.10+
 - Azure Functions Core Tools v4
-- `azure-functions` package from `requirements.txt`
+- `azure-functions` dependency from `pyproject.toml`
 - `GITHUB_WEBHOOK_SECRET` configured in environment/local settings
 - Ability to compute test signatures for local webhook replay
 
 ```bash
 cd examples/apis-and-ingress/webhook_github
-pip install -r requirements.txt
+pip install -e ".[dev]"
 func start
 ```
 

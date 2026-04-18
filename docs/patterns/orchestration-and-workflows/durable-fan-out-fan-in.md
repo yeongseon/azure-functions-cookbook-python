@@ -80,7 +80,7 @@ examples/orchestration-and-workflows/durable_fan_out_fan_in/
 |- function_app.py
 |- host.json
 |- local.settings.json.example
-|- requirements.txt
+|- pyproject.toml
 `- README.md
 ```
 
@@ -131,7 +131,7 @@ Do not inject random values or direct network I/O in the orchestrator body.
 ## Run Locally
 ```bash
 cd examples/orchestration-and-workflows/durable_fan_out_fan_in
-pip install -r requirements.txt
+pip install -e ".[dev]"
 func start
 ```
 

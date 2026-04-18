@@ -42,7 +42,7 @@ examples/runtime-and-ops/output_binding_vs_sdk/
 |-- function_app.py
 |-- host.json
 |-- local.settings.json.example
-|-- requirements.txt
+|-- pyproject.toml
 `-- README.md
 ```
 
@@ -101,7 +101,7 @@ sequenceDiagram
 ## Run Locally
 ```bash
 cd examples/runtime-and-ops/output_binding_vs_sdk
-pip install -r requirements.txt
+pip install -e ".[dev]"
 func start
 ```
 

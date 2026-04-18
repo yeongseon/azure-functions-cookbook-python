@@ -23,7 +23,7 @@ HTTP + Queue example that accepts work at `/api/tasks` and sends an HTTP callbac
 cd examples/async-apis-and-jobs/callback_completion
 python -m venv .venv
 source .venv/bin/activate
-pip install -r requirements.txt
+pip install -e ".[dev]"
 cp local.settings.json.example local.settings.json
 func start
 ```

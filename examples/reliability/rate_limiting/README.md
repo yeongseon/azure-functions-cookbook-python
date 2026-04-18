@@ -21,7 +21,7 @@ requests and return `429 Too Many Requests` when the local bucket is empty.
 cd examples/reliability/rate_limiting
 python -m venv .venv
 source .venv/bin/activate
-pip install -r requirements.txt
+pip install -e ".[dev]"
 cp local.settings.json.example local.settings.json
 func start
 ```

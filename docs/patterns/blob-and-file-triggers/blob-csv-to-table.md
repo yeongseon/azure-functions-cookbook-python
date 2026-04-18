@@ -57,7 +57,7 @@ The sample uses `BlobClient` to download the CSV, `TableServiceClient` to upsert
 ## Run Locally
 1. `cd examples/blob-and-file-triggers/blob_csv_to_table`
 2. Create and activate a virtual environment.
-3. `pip install -r requirements.txt`
+3. `pip install -e ".[dev]"`
 4. Copy `local.settings.json.example` to `local.settings.json`.
 5. Start Azurite or configure a real storage account with blob and table endpoints.
 6. Run `func start` and submit a blob-created Event Grid payload for a CSV upload.

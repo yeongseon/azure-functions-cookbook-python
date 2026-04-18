@@ -90,7 +90,7 @@ examples/orchestration-and-workflows/async_job_lifecycle/
 |- function_app.py
 |- host.json
 |- local.settings.json.example
-|- requirements.txt
+|- pyproject.toml
 `- README.md
 ```
 
@@ -148,7 +148,7 @@ def async_job_orchestrator(context: df.DurableOrchestrationContext):
 cd examples/orchestration-and-workflows/async_job_lifecycle
 python -m venv .venv
 source .venv/bin/activate
-pip install -r requirements.txt
+pip install -e ".[dev]"
 cp local.settings.json.example local.settings.json
 func start
 ```

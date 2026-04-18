@@ -21,7 +21,7 @@ Event Grid-triggered Azure Function that routes events to different handlers usi
 cd examples/messaging-and-pubsub/eventgrid_router
 python -m venv .venv
 source .venv/bin/activate
-pip install -r requirements.txt
+pip install -e ".[dev]"
 cp local.settings.json.example local.settings.json
 func start
 ```

@@ -62,7 +62,7 @@ examples/orchestration-and-workflows/durable_unit_testing/
 |- test_orchestrator.py
 |- host.json
 |- local.settings.json.example
-|- requirements.txt
+|- pyproject.toml
 `- README.md
 ```
 
@@ -120,7 +120,7 @@ Unit tests assert orchestration decisions without executing remote activities.
 ## Run Locally
 ```bash
 cd examples/orchestration-and-workflows/durable_unit_testing
-pip install -r requirements.txt
+pip install -e ".[dev]"
 func start
 ```
 

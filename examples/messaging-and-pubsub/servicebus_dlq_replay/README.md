@@ -31,7 +31,7 @@ Copy `local.settings.json.example` to `local.settings.json` and update the value
 cd examples/messaging-and-pubsub/servicebus_dlq_replay
 python -m venv .venv
 source .venv/bin/activate
-pip install -r requirements.txt
+pip install -e ".[dev]"
 cp local.settings.json.example local.settings.json
 func start
 ```

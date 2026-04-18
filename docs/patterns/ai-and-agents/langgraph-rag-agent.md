@@ -45,7 +45,7 @@ examples/ai-and-agents/langgraph_rag_agent/
 |- function_app.py
 |- host.json
 |- local.settings.json.example
-|- requirements.txt
+|- pyproject.toml
 `- README.md
 ```
 
@@ -126,7 +126,7 @@ For production, switch to a persistent checkpointer or external thread store.
 ## Run Locally
 ```bash
 cd examples/ai-and-agents/langgraph_rag_agent
-pip install -r requirements.txt
+pip install -e ".[dev]"
 cp local.settings.json.example local.settings.json
 func start
 ```

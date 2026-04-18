@@ -59,7 +59,7 @@ examples/data-and-pipelines/change_feed_processor/
 |-- function_app.py
 |-- host.json
 |-- local.settings.json.example
-|-- requirements.txt
+|-- pyproject.toml
 `-- README.md
 ```
 
@@ -100,7 +100,7 @@ def _process_change(change: dict[str, Any]) -> str:
 ## Run Locally
 ```bash
 cd examples/data-and-pipelines/change_feed_processor
-pip install -r requirements.txt
+pip install -e ".[dev]"
 func start
 ```
 

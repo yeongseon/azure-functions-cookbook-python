@@ -61,7 +61,7 @@ examples/ai-and-agents/streaming_ai_response/
 |- function_app.py
 |- host.json
 |- local.settings.json.example
-|- requirements.txt
+|- pyproject.toml
 `- README.md
 ```
 
@@ -100,7 +100,7 @@ mid-response and need request-level correlation data in logs.
 ## Run Locally
 ```bash
 cd examples/ai-and-agents/streaming_ai_response
-pip install -r requirements.txt
+pip install -e ".[dev]"
 cp local.settings.json.example local.settings.json
 func start
 ```

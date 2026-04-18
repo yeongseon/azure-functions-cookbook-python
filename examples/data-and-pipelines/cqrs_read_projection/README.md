@@ -25,7 +25,7 @@ CQRS sample for Azure Functions Python where:
 ```bash
 python -m venv .venv
 source .venv/bin/activate
-pip install -r requirements.txt
+pip install -e ".[dev]"
 cp local.settings.json.example local.settings.json
 sqlite3 readmodels.db < schema.sql
 func start

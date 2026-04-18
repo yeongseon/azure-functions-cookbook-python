@@ -63,7 +63,7 @@ then calls a helper for actual maintenance behavior.
 ### Prerequisites
 - Python 3.10+
 - Azure Functions Core Tools v4
-- `azure-functions` package from `requirements.txt`
+- `azure-functions` dependency from `pyproject.toml`
 - Logging sink (console locally, Application Insights in Azure)
 - Operational ownership of schedule frequency and overlap strategy
 
@@ -73,7 +73,7 @@ examples/scheduled-and-background/timer_cron_job/
 ├── function_app.py
 ├── host.json
 ├── local.settings.json.example
-├── requirements.txt
+├── pyproject.toml
 └── README.md
 ```
 
@@ -122,7 +122,7 @@ Schedule interpretation:
 ## Run Locally
 ```bash
 cd examples/scheduled-and-background/timer_cron_job
-pip install -r requirements.txt
+pip install -e ".[dev]"
 func start
 ```
 

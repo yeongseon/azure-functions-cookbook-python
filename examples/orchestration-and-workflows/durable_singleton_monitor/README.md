@@ -14,7 +14,7 @@ Durable Functions singleton orchestration that continuously polls an external de
 cd examples/orchestration-and-workflows/durable_singleton_monitor
 python -m venv .venv
 source .venv/bin/activate
-pip install -r requirements.txt
+pip install -e ".[dev]"
 cp local.settings.json.example local.settings.json
 func start
 ```

@@ -62,7 +62,7 @@ examples/apis-and-ingress/http_routing_query_body/
 ├── function_app.py
 ├── host.json
 ├── local.settings.json.example
-├── requirements.txt
+├── pyproject.toml
 └── README.md
 ```
 
@@ -152,13 +152,13 @@ Prerequisites:
 
 - Python 3.10+
 - Azure Functions Core Tools v4
-- `azure-functions` package from `requirements.txt`
+- `azure-functions` dependency from `pyproject.toml`
 - HTTP client tool such as `curl` or Postman
 - Understanding that in-memory state resets when the host restarts
 
 ```bash
 cd examples/apis-and-ingress/http_routing_query_body
-pip install -r requirements.txt
+pip install -e ".[dev]"
 func start
 ```
 

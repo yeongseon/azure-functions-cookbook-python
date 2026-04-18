@@ -61,7 +61,7 @@ The queue-triggered worker downloads the referenced blob and logs the recovered 
 ## Run Locally
 1. `cd examples/messaging-and-pubsub/claim_check_pattern`
 2. Create and activate a virtual environment.
-3. `pip install -r requirements.txt`
+3. `pip install -e ".[dev]"`
 4. Copy `local.settings.json.example` to `local.settings.json`.
 5. Start Azurite or configure a real storage account.
 6. Run `func start`, POST a large payload, and inspect the queue worker logs.

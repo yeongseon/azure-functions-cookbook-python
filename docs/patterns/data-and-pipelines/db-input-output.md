@@ -46,7 +46,7 @@ my-db-api/
 |- function_app.py
 |- host.json
 |- local.settings.json.example
-|- requirements.txt
+|- pyproject.toml
 `- README.md
 ```
 
@@ -131,7 +131,7 @@ sequenceDiagram
 ## Run Locally
 ```bash
 cd my-db-api
-pip install -r requirements.txt
+pip install -e ".[dev]"
 func start
 ```
 

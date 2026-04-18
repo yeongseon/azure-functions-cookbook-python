@@ -65,7 +65,7 @@ examples/streams-and-telemetry/eventhub_batch_window/
 |-- function_app.py
 |-- host.json
 |-- local.settings.json.example
-|-- requirements.txt
+|-- pyproject.toml
 `-- README.md
 ```
 
@@ -93,7 +93,7 @@ Event Hub metadata.
 ## Run Locally
 ```bash
 cd examples/streams-and-telemetry/eventhub_batch_window
-pip install -r requirements.txt
+pip install -e ".[dev]"
 func start
 ```
 

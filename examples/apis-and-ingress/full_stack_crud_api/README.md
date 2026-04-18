@@ -20,7 +20,7 @@ full_stack_crud_api/
 ├── local.settings.json.example
 ├── models.py
 ├── README.md
-└── requirements.txt
+└── pyproject.toml
 ```
 
 ## Endpoints
@@ -37,7 +37,7 @@ full_stack_crud_api/
 cd examples/apis-and-ingress/full_stack_crud_api
 python3 -m venv .venv
 source .venv/bin/activate
-pip install -r requirements.txt
+pip install -e ".[dev]"
 cp local.settings.json.example local.settings.json
 func start
 ```

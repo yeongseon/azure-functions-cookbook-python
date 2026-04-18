@@ -66,7 +66,7 @@ examples/streams-and-telemetry/eventhub_consumer/
 |-- function_app.py
 |-- host.json
 |-- local.settings.json.example
-|-- requirements.txt
+|-- pyproject.toml
 `-- README.md
 ```
 
@@ -105,7 +105,7 @@ logger.info(
 ## Run Locally
 ```bash
 cd examples/streams-and-telemetry/eventhub_consumer
-pip install -r requirements.txt
+pip install -e ".[dev]"
 func start
 ```
 

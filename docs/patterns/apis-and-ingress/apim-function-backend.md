@@ -57,7 +57,7 @@ The sample logs `routed_by`, `correlation_id`, and `cache_status` through `azure
 ## Run Locally
 1. `cd examples/apis-and-ingress/apim_function_backend`
 2. Create and activate a virtual environment.
-3. `pip install -r requirements.txt`
+3. `pip install -e ".[dev]"`
 4. Copy `local.settings.json.example` to `local.settings.json`.
 5. Run `func start`.
 6. Call `GET /api/catalog/{item_id}` directly or front it with APIM in Azure.

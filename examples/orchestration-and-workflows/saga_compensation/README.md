@@ -21,7 +21,7 @@ Durable Functions saga orchestration that compensates previously completed steps
 cd examples/orchestration-and-workflows/saga_compensation
 python -m venv .venv
 source .venv/bin/activate
-pip install -r requirements.txt
+pip install -e ".[dev]"
 cp local.settings.json.example local.settings.json
 func start
 ```

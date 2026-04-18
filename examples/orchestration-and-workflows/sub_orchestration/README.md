@@ -21,7 +21,7 @@ Durable Functions parent orchestration delegating work to two child sub-orchestr
 cd examples/orchestration-and-workflows/sub_orchestration
 python -m venv .venv
 source .venv/bin/activate
-pip install -r requirements.txt
+pip install -e ".[dev]"
 cp local.settings.json.example local.settings.json
 func start
 ```

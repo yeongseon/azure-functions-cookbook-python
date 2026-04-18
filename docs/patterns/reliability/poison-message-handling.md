@@ -67,7 +67,7 @@ examples/reliability/poison_message_handling/
 |-- function_app.py
 |-- host.json
 |-- local.settings.json.example
-|-- requirements.txt
+|-- pyproject.toml
 `-- README.md
 ```
 
@@ -98,7 +98,7 @@ def poison_handler(msg: func.QueueMessage) -> None:
 cd examples/reliability/poison_message_handling
 python -m venv .venv
 source .venv/bin/activate
-pip install -r requirements.txt
+pip install -e ".[dev]"
 cp local.settings.json.example local.settings.json
 func start
 ```

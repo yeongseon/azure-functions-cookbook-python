@@ -68,7 +68,7 @@ examples/reliability/rate_limiting/
 |-- function_app.py
 |-- host.json
 |-- local.settings.json.example
-|-- requirements.txt
+|-- pyproject.toml
 `-- README.md
 ```
 
@@ -98,7 +98,7 @@ rolling counter usually expresses that requirement more directly.
 ## Run Locally
 ```bash
 cd examples/reliability/rate_limiting
-pip install -r requirements.txt
+pip install -e ".[dev]"
 cp local.settings.json.example local.settings.json
 func start
 ```

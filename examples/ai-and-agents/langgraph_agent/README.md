@@ -6,7 +6,7 @@ Demonstrates `azure-functions-langgraph-python` adapter with `azure-functions-lo
 ## Run
 
 ```bash
-pip install -r requirements.txt
+pip install -e ".[dev]"
 cp local.settings.sample.json local.settings.json
 func start
 ```

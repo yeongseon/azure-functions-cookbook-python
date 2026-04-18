@@ -43,7 +43,7 @@ examples/runtime-and-ops/host_json_tuning/
 |-- function_app.py
 |-- host.json
 |-- local.settings.json.example
-|-- requirements.txt
+|-- pyproject.toml
 `-- README.md
 ```
 
@@ -113,7 +113,7 @@ sequenceDiagram
 ## Run Locally
 ```bash
 cd examples/runtime-and-ops/host_json_tuning
-pip install -r requirements.txt
+pip install -e ".[dev]"
 func start
 ```
 

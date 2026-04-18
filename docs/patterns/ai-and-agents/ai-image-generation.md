@@ -58,7 +58,7 @@ examples/ai-and-agents/ai_image_generation/
 |- function_app.py
 |- host.json
 |- local.settings.json.example
-|- requirements.txt
+|- pyproject.toml
 `- README.md
 ```
 
@@ -98,7 +98,7 @@ the model actually used.
 ## Run Locally
 ```bash
 cd examples/ai-and-agents/ai_image_generation
-pip install -r requirements.txt
+pip install -e ".[dev]"
 cp local.settings.json.example local.settings.json
 func start
 ```

@@ -29,7 +29,7 @@ Set in `local.settings.json` under `Values`. Copy `local.settings.json.example` 
 cd examples/streams-and-telemetry/eventhub_batch_window
 python -m venv .venv
 source .venv/bin/activate
-pip install -r requirements.txt
+pip install -e ".[dev]"
 cp local.settings.json.example local.settings.json
 func start
 ```

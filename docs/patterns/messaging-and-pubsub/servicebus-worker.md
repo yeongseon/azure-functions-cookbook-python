@@ -70,7 +70,7 @@ examples/messaging-and-pubsub/servicebus_worker/
 |-- function_app.py
 |-- host.json
 |-- local.settings.json.example
-|-- requirements.txt
+|-- pyproject.toml
 `-- README.md
 ```
 
@@ -111,7 +111,7 @@ the message may dead-letter and require manual or automated replay.
 ## Run Locally
 ```bash
 cd examples/messaging-and-pubsub/servicebus_worker
-pip install -r requirements.txt
+pip install -e ".[dev]"
 func start
 ```
 

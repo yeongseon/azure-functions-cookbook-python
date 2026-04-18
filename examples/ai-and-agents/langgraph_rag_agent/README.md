@@ -15,7 +15,7 @@ knowledge search tool or answer directly.
 ## Files
 
 - `function_app.py` - LangGraph definition, knowledge tool, and HTTP routes
-- `requirements.txt` - Python dependencies
+- `pyproject.toml` - Python dependencies
 - `host.json` - Azure Functions host settings
 - `local.settings.json.example` - local environment template
 
@@ -24,7 +24,7 @@ knowledge search tool or answer directly.
 ```bash
 python -m venv .venv
 source .venv/bin/activate
-pip install -r requirements.txt
+pip install -e ".[dev]"
 cp local.settings.json.example local.settings.json
 func start
 ```
