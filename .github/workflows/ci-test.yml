@@ -31,7 +31,10 @@ jobs:
           make install
 
       - name: Run full quality checks
-        run: make check-all
+        run: make check
+
+      - name: Run tests with coverage
+        run: hatch run pytest --cov-report=xml --cov-report=term-missing --cov=src/azure_functions_python_cookbook tests/
 
       - name: Verify coverage output
         run: ls -lh coverage.xml

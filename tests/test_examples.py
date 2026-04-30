@@ -1526,17 +1526,6 @@ class TestColdStartMitigation:
 
 
 # ---------------------------------------------------------------------------
-# Realtime — signalr_notifications
-# ---------------------------------------------------------------------------
-
-
-class TestSignalrNotifications:
-    def test_module_loads(self) -> None:
-        module = _load_example_module("realtime/signalr_notifications")
-        assert hasattr(module, "app")
-
-
-# ---------------------------------------------------------------------------
 # APIs and Ingress — bff_facade_api
 # ---------------------------------------------------------------------------
 

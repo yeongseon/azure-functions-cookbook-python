@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 # pyright: reportMissingImports=false, reportAttributeAccessIssue=false, reportUnknownVariableType=false, reportUnknownMemberType=false, reportUnknownParameterType=false, reportUntypedFunctionDecorator=false, reportUntypedBaseClass=false, reportExplicitAny=false, reportAny=false, reportUnknownArgumentType=false, reportUnusedParameter=false
-
 import json
 from datetime import datetime, timezone
 from decimal import Decimal
@@ -149,7 +148,7 @@ def project_order_read_models(
 @app.route(route="orders/{id}/projection", methods=["GET"])
 @with_context
 @openapi(summary="Get order projection", response={200: OrderProjection}, tags=["orders"])
-@db.input("reader", url="%READ_DB_URL%", table="order_read_models")
+@db.inject_reader("reader", url="%READ_DB_URL%", table="order_read_models")
 def get_order_projection(req: func.HttpRequest, reader: DbReader) -> func.HttpResponse:
     order_id = req.route_params["id"]
     rows = [dict(row) for row in reader.fetch_all()]

@@ -13,8 +13,8 @@ requires-python = ">=3.10"
 dependencies = [
   "azure-functions",
   "azure-cosmos>=4.5.1",
-  "azure-functions-db-python",
-  "azure-functions-logging-python",
+  "azure-functions-db",
+  "azure-functions-logging",
 ]
 
 [project.optional-dependencies]

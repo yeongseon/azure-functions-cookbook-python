@@ -24,9 +24,14 @@ dependencies = []
 
 [project.optional-dependencies]
 dev = [
+    "azure-cosmos",
     "azure-functions",
     "azure-functions-durable",
+    "azure-functions-langgraph",
+    "azure-functions-logging",
+    "azure-functions-db",
     "azure-functions-openapi",
+    "azure-functions-validation",
     "azure-identity",
     "azure-storage-blob",
     "azure-storage-queue",
@@ -35,6 +40,7 @@ dev = [
     "coverage",
     "git-cliff",
     "hatch",
+    "langgraph",
     "mypy==1.20.2",
     "pre-commit",
     "pytest",

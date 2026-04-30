@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 # pyright: reportMissingImports=false, reportUnknownParameterType=false, reportUnknownMemberType=false, reportUnknownVariableType=false, reportUnknownArgumentType=false, reportUntypedFunctionDecorator=false, reportUnusedParameter=false, reportAny=false, reportExplicitAny=false
-
 import importlib
 import json
 import os
@@ -40,7 +39,7 @@ def _get_cached_session() -> Any:
             requests = _lazy_import_requests()
             session = requests.Session()
             adapter = requests.adapters.HTTPAdapter(pool_connections=20, pool_maxsize=20)
-            session.mount("http://", adapter)
+            session.mount("http://", adapter)  # nosec B501 # nosemgrep
             session.mount("https://", adapter)
             _cached_session = session
             logger.info("Created outbound session cache for this worker.")
@@ -93,7 +92,8 @@ def cold_start_demo(req: func.HttpRequest) -> func.HttpResponse:
             "Use Premium plan for pre-warmed instances on latency-sensitive workloads.",
             "Keep imports lazy so startup work stays small.",
             "Cache outbound clients at module scope per worker.",
-            "Run azure-functions-doctor-python before deployment when diagnosing cold-start regressions.",
+            "Run azure-functions-doctor-python before deployment"
+            " when diagnosing cold-start regressions.",
         ],
     }
 

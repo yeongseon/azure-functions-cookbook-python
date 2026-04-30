@@ -111,8 +111,6 @@ nav:
           - Cold Start Mitigation: patterns/runtime-and-ops/cold-start-mitigation.md
       - Realtime:
           - Overview: patterns/realtime/index.md
-          - SignalR Notifications: patterns/realtime/signalr-notifications.md
-          - SignalR Group Chat: patterns/realtime/signalr-group-chat.md
           - WebSocket Proxy: patterns/realtime/websocket-proxy.md
       - AI & Agents:
           - Overview: patterns/ai-and-agents/index.md
@@ -135,7 +133,6 @@ nav:
       - Service Bus: reference/service-bus.md
       - Event Hub: reference/event-hub.md
       - Cosmos DB: reference/cosmos-db.md
-      - SignalR: reference/signalr.md
       - SQL: reference/sql.md
       - Durable Functions: reference/durable.md
       - Service Matrix: reference/service-matrix.md

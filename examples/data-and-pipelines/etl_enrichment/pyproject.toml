@@ -12,8 +12,8 @@ description = "Etl Enrichment example for Azure Functions."
 requires-python = ">=3.10"
 dependencies = [
   "azure-functions",
-  "azure-functions-db-python",
-  "azure-functions-logging-python",
+  "azure-functions-db",
+  "azure-functions-logging",
 ]
 
 [project.optional-dependencies]
