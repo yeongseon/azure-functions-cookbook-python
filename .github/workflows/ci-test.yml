@@ -31,7 +31,10 @@ jobs:
           make install
 
       - name: Run full quality checks
-        run: make check-all
+        run: make check
+
+      - name: Run tests with coverage
+        run: make cov
 
       - name: Verify coverage output
         run: ls -lh coverage.xml
