@@ -33,3 +33,4 @@ local.settings.json
 
 # Review
 .venv-review/
+*.db
