@@ -39,7 +39,7 @@ def _get_cached_session() -> Any:
             requests = _lazy_import_requests()
             session = requests.Session()
             adapter = requests.adapters.HTTPAdapter(pool_connections=20, pool_maxsize=20)
-            session.mount("http://", adapter)  # nosec B501 - adapter mount, not a request
+            session.mount("http://", adapter)  # nosec B501 # nosemgrep
             session.mount("https://", adapter)
             _cached_session = session
             logger.info("Created outbound session cache for this worker.")
