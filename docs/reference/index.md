@@ -12,7 +12,6 @@ Quick-lookup pages for Azure Functions Python v2 triggers and bindings.
 | [Service Bus](./service-bus.md) | Brokered message plus optional Blob/SQL/Cosmos lookups | Service Bus queue/topic, Blob, Event Grid | Peek-lock processing is at-least-once | Configurable batch/cardinality | Queues preserve order per entity; sessions preserve per-session order |
 | [Event Hub](./event-hub.md) | Event stream payload plus optional Blob/SQL/Cosmos lookups | Event Hub, Blob, Service Bus | At-least-once per partition checkpoint | Configurable batch size | Ordered within a partition only |
 | [Cosmos DB](./cosmos-db.md) | Change feed items plus point-read/query input | Cosmos DB, Queue Storage, Service Bus | At-least-once from change feed | Configurable feed batch | Ordered within a logical partition feed range |
-| [SignalR](./signalr.md) | Invocation context, SignalR connection info | SignalR messages/groups | At-most-once from HTTP-triggered negotiate; upstream events follow service retries | 1 invocation event | Not guaranteed |
 | [SQL](./sql.md) | SQL change rows plus SQL input query/lookup | SQL row upsert plus other output bindings | At-least-once for SQL change tracking trigger | Host-managed change batches | Ordered by change version, not strict transactional replay |
 
 ## Other reference pages

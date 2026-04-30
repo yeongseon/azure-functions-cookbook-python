@@ -114,10 +114,6 @@ gap by pairing clear pattern narratives with runnable examples.
 - [SQLAlchemy REST Pagination](patterns/data-and-pipelines/sqlalchemy-rest-pagination.md)
 - [ETL Enrichment](patterns/data-and-pipelines/etl-enrichment.md)
 
-### Realtime
-
-- [SignalR Notifications](patterns/realtime/signalr-notifications.md) — push notifications
-
 ### AI & Agents
 
 - [MCP Server](patterns/ai-and-agents/mcp-server-example.md) — Model Context Protocol server example
