@@ -104,12 +104,6 @@ Every project is a self-contained function app ready for `func start`.
 | `data-and-pipelines/sqlalchemy_rest_pagination` | SQLAlchemy REST with pagination |
 | `data-and-pipelines/etl_enrichment` | ETL enrichment pipeline |
 
-## Realtime
-
-| Example | Description |
-| --- | --- |
-| `realtime/signalr_notifications` | SignalR push notifications |
-
 ## AI & Agents
 
 | Example | Description |

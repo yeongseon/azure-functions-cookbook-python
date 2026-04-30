@@ -135,13 +135,6 @@ class TestMcpServerSmoke:
         assert hasattr(module, "app")
 
 
-class TestSignalRGroupChatSmoke:
-    @pytest.mark.xfail(reason="SignalR bindings not available in azure-functions < 1.25")
-    def test_module_imports(self) -> None:
-        module = import_function_app("realtime/signalr_group_chat")
-        assert hasattr(module, "app")
-
-
 class TestWebsocketProxySmoke:
     def test_module_imports(self) -> None:
         module = import_function_app("realtime/websocket_proxy")
@@ -175,4 +168,16 @@ class TestClaimCheckPatternSmoke:
 class TestDurableSingletonMonitorSmoke:
     def test_module_imports(self) -> None:
         module = import_function_app("orchestration-and-workflows/durable_singleton_monitor")
+        assert hasattr(module, "app")
+
+
+class TestLangGraphAgentSmoke:
+    def test_module_imports(self) -> None:
+        module = import_function_app("ai-and-agents/langgraph_agent")
+        assert hasattr(module, "app")
+
+
+class TestDbInputOutputSmoke:
+    def test_module_imports(self) -> None:
+        module = import_function_app("data-and-pipelines/db_input_output")
         assert hasattr(module, "app")

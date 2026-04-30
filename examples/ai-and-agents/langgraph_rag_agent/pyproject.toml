@@ -12,7 +12,6 @@ description = "Langgraph Rag Agent example for Azure Functions."
 requires-python = ">=3.10"
 dependencies = [
   "azure-functions",
-  "azure-functions-knowledge-python",
   "azure-functions-langgraph",
   "azure-functions-logging",
   "azure-functions-openapi",
