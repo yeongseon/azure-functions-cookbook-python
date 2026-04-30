@@ -12,7 +12,7 @@ description = "Servicebus Sessions example for Azure Functions."
 requires-python = ">=3.10"
 dependencies = [
   "azure-functions",
-  "azure-functions-logging-python",
+  "azure-functions-logging",
 ]
 
 [project.optional-dependencies]
