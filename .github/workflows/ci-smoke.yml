@@ -30,7 +30,7 @@ jobs:
           make install
 
       - name: Run smoke tests (import all examples)
-        run: hatch run pytest -v -m smoke tests/e2e/
+        run: hatch run smoke
 
   e2e-http:
     name: E2E HTTP examples (func host)
@@ -68,5 +68,5 @@ jobs:
           make install
 
       - name: Run E2E HTTP tests
-        run: hatch run pytest -v -m e2e tests/e2e/test_http_examples.py
+        run: hatch run e2e tests/e2e/test_http_examples.py
         timeout-minutes: 10
