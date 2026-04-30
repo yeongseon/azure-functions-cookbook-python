@@ -26,7 +26,7 @@ dependencies = []
 dev = [
     "azure-functions",
     "azure-functions-durable",
-    "azure-functions-openapi-python",
+    "azure-functions-openapi",
     "azure-identity",
     "azure-storage-blob",
     "azure-storage-queue",
@@ -63,6 +63,7 @@ build-backend = "hatchling.build"
 sources = ["src"]
 
 [tool.hatch.build.targets.wheel]
+packages = ["src/azure_functions_python_cookbook"]
 
 [tool.hatch.build.targets.sdist]
 include = [
