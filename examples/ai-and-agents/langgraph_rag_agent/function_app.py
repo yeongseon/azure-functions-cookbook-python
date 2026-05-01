@@ -3,7 +3,6 @@ from __future__ import annotations
 import importlib
 import json
 import logging
-import os
 import uuid
 from typing import Any, Literal, TypedDict
 
@@ -53,7 +52,6 @@ def _with_context_fallback(func_handler):
 
 
 LangGraphApp = _load_attr("azure_functions_langgraph", "LangGraphApp", FallbackLangGraphApp)
-KnowledgeClient = _load_attr("azure_functions_knowledge", "KnowledgeClient", None)
 get_logger = _load_attr("azure_functions_logging", "get_logger", _get_logger_fallback)
 setup_logging = _load_attr("azure_functions_logging", "setup_logging", _setup_logging_fallback)
 with_context = _load_attr("azure_functions_logging", "with_context", _with_context_fallback)
@@ -63,9 +61,9 @@ validate_http = _load_attr("azure_functions_validation", "validate_http", _ident
 _langgraph_graph = importlib.util.find_spec("langgraph.graph")
 if _langgraph_graph is not None:
     _graph_module = importlib.import_module("langgraph.graph")
-    END = getattr(_graph_module, "END")
-    START = getattr(_graph_module, "START")
-    StateGraph = getattr(_graph_module, "StateGraph")
+    END = _graph_module.END
+    START = _graph_module.START
+    StateGraph = _graph_module.StateGraph
 else:
     END = None
     START = None
@@ -120,27 +118,7 @@ SEARCH_HINTS = (
 
 
 def _build_knowledge_client() -> Any | None:
-    if KnowledgeClient is None:
-        return None
-
-    endpoint = os.getenv("KNOWLEDGE_ENDPOINT")
-    api_key = os.getenv("KNOWLEDGE_API_KEY")
-    index_name = os.getenv("KNOWLEDGE_INDEX")
-
-    if not endpoint or not api_key:
-        return None
-
-    try:
-        return KnowledgeClient(endpoint=endpoint, api_key=api_key, index_name=index_name)
-    except TypeError:
-        try:
-            return KnowledgeClient(endpoint=endpoint, api_key=api_key)
-        except Exception:
-            logger.warning("Failed to initialize knowledge client.")
-            return None
-    except Exception:
-        logger.warning("Failed to initialize knowledge client.")
-        return None
+    return None
 
 
 def _normalize_citations(results: Any) -> list[dict[str, str]]:
@@ -208,7 +186,9 @@ def search_knowledge(query: str, top_k: int) -> list[dict[str, str]]:
         },
         {
             "title": "Access Policy FAQ",
-            "snippet": "Temporary passwords expire after 24 hours and must be changed at first sign-in.",
+            "snippet": (
+                "Temporary passwords expire after 24 hours and must be changed at first sign-in."
+            ),
             "source": "mock://access-policy-faq",
         },
     ][:top_k]

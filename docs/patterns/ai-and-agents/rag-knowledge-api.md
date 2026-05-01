@@ -70,29 +70,13 @@ examples/ai-and-agents/rag_knowledge_api/
 ```
 
 ## Implementation
-The example keeps the RAG surface area small and centered on graceful fallback.
+The example uses a local fallback stub for retrieval. Wire in real Azure AI Search
+and Azure OpenAI via environment variables to enable production RAG behavior.
 
 ```python
-try:
-    from azure_functions_knowledge import KnowledgeClient
-except ImportError:
-    KnowledgeClient = None
-
-
 def _create_knowledge_client() -> object:
-    if KnowledgeClient is None:
-        logger.warning("Knowledge client not available; using fallback stub")
-        return _FallbackKnowledgeClient()
-    return KnowledgeClient(
-        search_endpoint=os.getenv("AI_SEARCH_ENDPOINT"),
-        search_index=os.getenv("AI_SEARCH_INDEX"),
-        openai_endpoint=os.getenv("AZURE_OPENAI_ENDPOINT"),
-        chat_deployment=os.getenv("AZURE_OPENAI_CHAT_DEPLOYMENT"),
-        embedding_deployment=os.getenv("AZURE_OPENAI_EMBEDDING_DEPLOYMENT"),
-    )
+    return _FallbackKnowledgeClient()
 ```
-
-Note: The knowledge client is loaded via `try/except ImportError`; the example runs with a fallback stub when no retrieval backend is available.
 
 Use the canonical decorator order for HTTP recipes in this repo:
 

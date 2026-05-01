@@ -46,11 +46,6 @@ except ImportError:
         return decorator
 
 
-try:
-    from azure_functions_knowledge import KnowledgeClient
-except ImportError:
-    KnowledgeClient = None
-
 setup_logging(format="json")
 logger = get_logger(__name__)
 app = func.FunctionApp(http_auth_level=func.AuthLevel.ANONYMOUS)
@@ -136,21 +131,8 @@ class _FallbackKnowledgeClient:
 
 
 def _create_knowledge_client() -> Any:
-    if KnowledgeClient is None:
-        logger.warning("azure-functions-knowledge-python not installed; using fallback client")
-        return _FallbackKnowledgeClient()
-
-    return KnowledgeClient(
-        search_endpoint=os.getenv("AI_SEARCH_ENDPOINT"),
-        search_index=os.getenv("AI_SEARCH_INDEX", "knowledge-index"),
-        search_api_key=os.getenv("AI_SEARCH_API_KEY"),
-        openai_endpoint=os.getenv("AZURE_OPENAI_ENDPOINT"),
-        openai_api_key=os.getenv("AZURE_OPENAI_API_KEY"),
-        chat_deployment=os.getenv("AZURE_OPENAI_CHAT_DEPLOYMENT", "gpt-4o-mini"),
-        embedding_deployment=os.getenv(
-            "AZURE_OPENAI_EMBEDDING_DEPLOYMENT", "text-embedding-3-small"
-        ),
-    )
+    logger.info("Using local fallback knowledge client")
+    return _FallbackKnowledgeClient()
 
 
 def _json_response(model: BaseModel, *, status_code: int = 200) -> func.HttpResponse:
@@ -165,7 +147,7 @@ def _json_response(model: BaseModel, *, status_code: int = 200) -> func.HttpResp
 @with_context
 @openapi(
     summary="Ask the knowledge base",
-    description="Runs the RAG pipeline: retrieve context from the knowledge store and generate a grounded answer.",
+    description="Runs the RAG pipeline: retrieve context and generate a grounded answer.",
     request_body=AskRequest,
     response={200: AskResponse},
     tags=["knowledge"],
