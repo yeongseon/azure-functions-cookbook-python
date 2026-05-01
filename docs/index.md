@@ -184,7 +184,6 @@ These companion projects are **optional accelerators** — the cookbook works in
 - [`azure-functions-logging-python`](https://github.com/yeongseon/azure-functions-logging-python) — structured telemetry and diagnostics
 - [`azure-functions-doctor-python`](https://github.com/yeongseon/azure-functions-doctor-python) — local environment diagnosis
 - [`azure-functions-db-python`](https://github.com/yeongseon/azure-functions-db-python) — database integration helpers
-- [`azure-functions-knowledge-python`](https://github.com/yeongseon/azure-functions-knowledge-python) — RAG knowledge base
 - [`azure-functions-langgraph-python`](https://github.com/yeongseon/azure-functions-langgraph-python) — LangGraph agent deployment
 
 ## Contributing and quality

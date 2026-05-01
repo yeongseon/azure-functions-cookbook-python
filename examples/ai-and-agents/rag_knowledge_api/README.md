@@ -1,8 +1,11 @@
 # RAG Knowledge API Example
 
-Demonstrates a minimal RAG API built with `azure-functions-knowledge-python`,
+Demonstrates a minimal RAG API using Azure AI Search and Azure OpenAI, combined with
 `azure-functions-validation-python`, `azure-functions-openapi-python`, and
 `azure-functions-logging-python`.
+
+The retrieval client is loaded via `try/except ImportError` with a fallback stub,
+so the example runs locally without a live search backend.
 
 ## Endpoints
 - `POST /api/ask` — retrieve knowledge chunks and generate a grounded answer
@@ -15,11 +18,6 @@ pip install -e ".[dev]"
 cp local.settings.json.example local.settings.json
 func start
 ```
-
-If `azure-functions-knowledge-python` is not installed yet, the sample falls back to an
-in-memory stub so you can still inspect the endpoint shape locally.
-
-## Example Requests
 
 Ask a question:
 

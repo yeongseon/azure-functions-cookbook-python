@@ -1,10 +1,10 @@
 # RAG Knowledge API
 
-> **Trigger**: HTTP | **State**: stateless | **Guarantee**: request-response | **Difficulty**: intermediate | **Showcase**: Knowledge Toolkit
+> **Trigger**: HTTP | **State**: stateless | **Guarantee**: request-response | **Difficulty**: intermediate | **Showcase**: Azure AI Search + OpenAI
 
 ## Overview
 This recipe builds a Retrieval-Augmented Generation (RAG) API on Azure Functions
-using `azure-functions-knowledge-python`.
+using Azure AI Search and Azure OpenAI directly.
 
 The function app exposes two HTTP endpoints:
 
@@ -15,6 +15,9 @@ The function app exposes two HTTP endpoints:
 The example also layers in `azure-functions-validation-python`,
 `azure-functions-openapi-python`, and `azure-functions-logging-python` so the API has schema
 validation, generated contracts, and structured telemetry.
+
+The retrieval client is loaded via `try/except ImportError` with a fallback stub,
+so the example imports and runs even without a live search backend.
 
 ## When to Use
 - You want a thin serverless API in front of a vector-backed knowledge base.
@@ -29,7 +32,6 @@ validation, generated contracts, and structured telemetry.
 ## Integration Matrix
 | Toolkit | Role in this recipe |
 | --- | --- |
-| `azure-functions-knowledge-python` | Embedding, vector search, context assembly, and answer generation |
 | `azure-functions-validation-python` | Validates `/ask` and `/ingest` request bodies and response models |
 | `azure-functions-openapi-python` | Describes the API contract for client discovery and testing |
 | `azure-functions-logging-python` | Adds structured logs for question, retrieval, and ingestion activity |
@@ -52,7 +54,6 @@ flowchart LR
 ## Prerequisites
 - Python 3.10+
 - Azure Functions Core Tools v4
-- `azure-functions-knowledge-python`
 - `azure-functions-validation-python`
 - `azure-functions-openapi-python`
 - `azure-functions-logging-python`
@@ -69,7 +70,7 @@ examples/ai-and-agents/rag_knowledge_api/
 ```
 
 ## Implementation
-The example keeps the RAG surface area small and centered on the toolkit.
+The example keeps the RAG surface area small and centered on graceful fallback.
 
 ```python
 try:
@@ -80,17 +81,18 @@ except ImportError:
 
 def _create_knowledge_client() -> object:
     if KnowledgeClient is None:
+        logger.warning("Knowledge client not available; using fallback stub")
         return _FallbackKnowledgeClient()
     return KnowledgeClient(
         search_endpoint=os.getenv("AI_SEARCH_ENDPOINT"),
         search_index=os.getenv("AI_SEARCH_INDEX"),
-        search_api_key=os.getenv("AI_SEARCH_API_KEY"),
         openai_endpoint=os.getenv("AZURE_OPENAI_ENDPOINT"),
-        openai_api_key=os.getenv("AZURE_OPENAI_API_KEY"),
         chat_deployment=os.getenv("AZURE_OPENAI_CHAT_DEPLOYMENT"),
         embedding_deployment=os.getenv("AZURE_OPENAI_EMBEDDING_DEPLOYMENT"),
     )
 ```
+
+Note: The knowledge client is loaded via `try/except ImportError`; the example runs with a fallback stub when no retrieval backend is available.
 
 Use the canonical decorator order for HTTP recipes in this repo:
 

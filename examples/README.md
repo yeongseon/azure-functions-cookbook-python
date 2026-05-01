@@ -16,6 +16,7 @@ Every project is a self-contained function app ready for `func start`.
 | `apis-and-ingress/auth_multitenant` | Multi-tenant access control with tenant allowlist |
 | `apis-and-ingress/bff_facade_api` | BFF facade pattern for backend-for-frontend |
 | `apis-and-ingress/full_stack_crud_api` | Full-stack CRUD with azure-functions-db-python toolkit |
+| `apis-and-ingress/apim_function_backend` | Azure API Management backend function |
 
 ## Async APIs & Jobs
 
@@ -37,6 +38,7 @@ Every project is a self-contained function app ready for `func start`.
 | `messaging-and-pubsub/servicebus_sessions` | Service Bus ordered sessions |
 | `messaging-and-pubsub/servicebus_dlq_replay` | Service Bus dead-letter replay |
 | `messaging-and-pubsub/eventgrid_domain_events` | Event Grid domain events |
+| `messaging-and-pubsub/claim_check_pattern` | Claim-check pattern for large payloads |
 
 ## Streams & Telemetry
 
@@ -52,12 +54,16 @@ Every project is a self-contained function app ready for `func start`.
 | --- | --- |
 | `blob-and-file-triggers/blob_upload_processor` | Polling-based blob trigger |
 | `blob-and-file-triggers/blob_eventgrid_trigger` | Event Grid-based blob trigger |
+| `blob-and-file-triggers/blob_csv_to_table` | CSV blob to table pipeline |
+| `blob-and-file-triggers/blob_thumbnail_generator` | Image thumbnail generation on upload |
 
 ## Scheduled & Background
 
 | Example | Description |
 | --- | --- |
 | `scheduled-and-background/timer_cron_job` | NCRONTAB scheduled job with catch-up |
+| `scheduled-and-background/durable_timer_reminder` | Durable timer-based reminder |
+| `scheduled-and-background/queue_scheduled_dispatch` | Queue-backed scheduled dispatch |
 
 ## Orchestration & Workflows
 
@@ -70,12 +76,20 @@ Every project is a self-contained function app ready for `func start`.
 | `orchestration-and-workflows/durable_retry_pattern` | Activity retry with RetryOptions |
 | `orchestration-and-workflows/durable_determinism_gotchas` | Orchestrator determinism rules |
 | `orchestration-and-workflows/durable_unit_testing` | Mock-based orchestrator testing |
+| `orchestration-and-workflows/durable_singleton_monitor` | Singleton monitor pattern |
+| `orchestration-and-workflows/async_job_lifecycle` | Async job lifecycle management |
+| `orchestration-and-workflows/saga_compensation` | Saga compensation pattern |
+| `orchestration-and-workflows/sub_orchestration` | Sub-orchestration pattern |
 
 ## Reliability
 
 | Example | Description |
 | --- | --- |
 | `reliability/retry_and_idempotency` | Retry policies and idempotency patterns |
+| `reliability/circuit_breaker` | Circuit breaker pattern |
+| `reliability/outbox_pattern` | Transactional outbox pattern |
+| `reliability/poison_message_handling` | Poison message dead-letter handling |
+| `reliability/rate_limiting` | Rate limiting pattern |
 
 ## Security & Tenancy
 
@@ -83,6 +97,8 @@ Every project is a self-contained function app ready for `func start`.
 | --- | --- |
 | `security-and-tenancy/managed_identity_storage` | Identity-based Storage connection |
 | `security-and-tenancy/managed_identity_servicebus` | Identity-based Service Bus connection |
+| `security-and-tenancy/secretless_keyvault` | Secretless Key Vault integration |
+| `security-and-tenancy/tenant_isolation` | Multi-tenant data isolation |
 
 ## Runtime & Ops
 
@@ -92,6 +108,8 @@ Every project is a self-contained function app ready for `func start`.
 | `runtime-and-ops/output_binding_vs_sdk` | Binding vs SDK client comparison |
 | `runtime-and-ops/host_json_tuning` | host.json configuration patterns |
 | `runtime-and-ops/concurrency_tuning` | Dynamic concurrency |
+| `runtime-and-ops/cold_start_mitigation` | Cold start mitigation techniques |
+| `runtime-and-ops/observability_tracing` | OpenTelemetry tracing and observability |
 
 ## Data & Pipelines
 
@@ -104,14 +122,25 @@ Every project is a self-contained function app ready for `func start`.
 | `data-and-pipelines/sqlalchemy_rest_pagination` | SQLAlchemy REST with pagination |
 | `data-and-pipelines/etl_enrichment` | ETL enrichment pipeline |
 
+## Realtime
+
+| Example | Description |
+| --- | --- |
+| `realtime/websocket_proxy` | WebSocket proxy pattern |
+
 ## AI & Agents
 
 | Example | Description |
 | --- | --- |
 | `ai-and-agents/mcp_server_example` | MCP server on Azure Functions |
-| `ai-and-agents/langgraph_agent` | LangGraph RAG agent with azure-functions-langgraph-python |
-| `ai-and-agents/rag_knowledge_api` | RAG knowledge base API |
-| `ai-and-agents/langgraph_rag_agent` | LangGraph RAG agent |
+| `ai-and-agents/langgraph_agent` | LangGraph agent with azure-functions-langgraph-python |
+| `ai-and-agents/rag_knowledge_api` | RAG API with Azure AI Search and OpenAI |
+| `ai-and-agents/langgraph_rag_agent` | LangGraph RAG agent with knowledge retrieval |
+| `ai-and-agents/openai_direct_chat` | Direct Azure OpenAI chat endpoint |
+| `ai-and-agents/durable_ai_pipeline` | Durable Functions AI processing pipeline |
+| `ai-and-agents/streaming_ai_response` | Server-sent events streaming AI response |
+| `ai-and-agents/ai_image_generation` | DALL-E 3 image generation endpoint |
+| `ai-and-agents/embedding_vector_search` | Embedding and vector search with AI Search |
 
 ## Guides
 

@@ -6,7 +6,7 @@ Use this category for LLM-backed endpoints, tool surfaces, and agent runtimes ho
 | --- | --- | --- |
 | [MCP Server Example](./mcp-server-example.md) | HTTP + MCP tool endpoint | Intermediate |
 | [LangGraph Agent](./langgraph-agent.md) | HTTP + agent graph runtime | Advanced |
-| [RAG Knowledge API](./rag-knowledge-api.md) | HTTP + azure-functions-knowledge-python | Advanced |
+| [RAG Knowledge API](./rag-knowledge-api.md) | HTTP + Azure AI Search + OpenAI | Advanced |
 | [LangGraph RAG Agent](./langgraph-rag-agent.md) | HTTP + azure-functions-langgraph-python | Advanced |
 | [Azure OpenAI Direct Chat](./openai-direct-chat.md) | HTTP + Azure OpenAI SDK | Beginner |
 | [Durable AI Pipeline](./durable-ai-pipeline.md) | HTTP + Durable Functions + Azure OpenAI | Advanced |

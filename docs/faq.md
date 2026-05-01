@@ -128,7 +128,6 @@ See [Troubleshooting](troubleshooting.md) for a full checklist.
 - `azure-functions-logging-python`
 - `azure-functions-doctor-python`
 - `azure-functions-db-python`
-- `azure-functions-knowledge-python`
 - `azure-functions-langgraph-python`
 
 They complement this cookbook; they do not replace recipe guidance.

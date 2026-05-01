@@ -3,7 +3,7 @@
 > **Trigger**: HTTP | **State**: stateful (agent) | **Guarantee**: request-response | **Difficulty**: advanced | **Showcase**: LangGraph + Knowledge
 
 ## Overview
-This recipe combines `azure-functions-langgraph-python` and `azure-functions-knowledge-python`
+This recipe combines `azure-functions-langgraph-python` with Azure AI Search
 to expose a Retrieval-Augmented Generation (RAG) agent on Azure Functions.
 
 The agent keeps per-thread conversation state, routes each turn through a
@@ -36,7 +36,7 @@ flowchart LR
 ## Prerequisites
 - Python 3.10+
 - Azure Functions Core Tools v4
-- `langgraph`, `azure-functions-langgraph-python`, and `azure-functions-knowledge-python`
+- `langgraph`, `azure-functions-langgraph-python`
 - `azure-functions-validation-python`, `azure-functions-openapi-python`, and `azure-functions-logging-python`
 
 ## Project Structure
