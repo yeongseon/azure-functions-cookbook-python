@@ -4,23 +4,25 @@ Practical, production-oriented patterns for building Azure Functions with the
 Python v2 programming model.
 
 !!! info "What this project is"
-    This repository is a cookbook and pattern catalog.
-    It is not a runtime library you install as application dependency.
+    This cookbook is the **dogfood** of the **Azure Functions Python DX Toolkit**.
+    Every example is a real, runnable Azure Function that uses the toolkit libraries
+    in production-realistic scenarios. It is not a runtime library you install as
+    an application dependency — it is proof that the toolkit works end-to-end.
 
 ## Why this cookbook exists
 
 Azure Functions documentation is broad, but many teams still need concrete,
-copy-adapt-run patterns for common workloads. This cookbook focuses on that
-gap by pairing clear pattern narratives with runnable examples.
+copy-adapt-run patterns for common workloads. This cookbook closes that gap by
+pairing clear pattern narratives with runnable examples — each of which exercises
+the toolkit libraries the way a real application would.
 
 ## What you get
 
-- **67 patterns** across 13 categories covering APIs, messaging, orchestration, AI, and more
-- **67 runnable example projects** under `examples/`, organized by category
-- **Bicep and Terraform IaC templates** for most recipes
+- **75 patterns** across 14 categories covering APIs, messaging, orchestration, AI, and more
+- **75 runnable example projects** under `examples/`, organized by category
+- Dogfood coverage: 40 examples use `azure-functions-logging`, 23 use `azure-functions-openapi` and `azure-functions-validation`, 9 use `azure-functions-db`
 - Production considerations in every pattern
 - Mermaid architecture and behavior diagrams
-- Integration with the Azure Functions Python DX Toolkit
 
 ## Pattern catalog
 
