@@ -1,4 +1,6 @@
-# cold_start_mitigation
+# Cold Start Mitigation
+
+📖 [Full documentation](https://yeongseon.github.io/azure-functions-cookbook-python/patterns/runtime-and-ops/cold-start-mitigation/)
 
 This recipe demonstrates practical cold-start mitigation for Azure Functions Python:
 

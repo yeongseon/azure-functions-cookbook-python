@@ -1,4 +1,6 @@
-# queue_consumer
+# Queue Consumer
+
+📖 [Full documentation](https://yeongseon.github.io/azure-functions-cookbook-python/patterns/messaging-and-pubsub/queue-consumer/)
 
 Queue-triggered Azure Function that parses and processes task messages.
 

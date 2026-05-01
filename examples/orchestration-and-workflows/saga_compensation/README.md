@@ -1,4 +1,6 @@
-# saga_compensation
+# Saga Compensation
+
+📖 [Full documentation](https://yeongseon.github.io/azure-functions-cookbook-python/patterns/orchestration-and-workflows/saga-compensation/)
 
 Durable Functions saga orchestration that compensates previously completed steps on failure.
 

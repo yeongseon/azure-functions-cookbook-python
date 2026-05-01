@@ -1,4 +1,6 @@
-# queue_backed_job
+# Queue-Backed Job
+
+📖 [Full documentation](https://yeongseon.github.io/azure-functions-cookbook-python/patterns/async-apis-and-jobs/queue-backed-job/)
 
 HTTP + Storage Queue recipe for accepting a job, returning `202 Accepted`, and polling a stored status record.
 

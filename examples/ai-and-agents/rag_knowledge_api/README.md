@@ -1,4 +1,6 @@
-# RAG Knowledge API Example
+# RAG Knowledge API
+
+📖 [Full documentation](https://yeongseon.github.io/azure-functions-cookbook-python/patterns/ai-and-agents/rag-knowledge-api/)
 
 Demonstrates a minimal RAG API using Azure AI Search and Azure OpenAI, combined with
 `azure-functions-validation-python`, `azure-functions-openapi-python`, and

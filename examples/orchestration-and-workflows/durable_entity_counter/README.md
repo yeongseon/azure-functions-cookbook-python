@@ -1,4 +1,6 @@
-# durable_entity_counter
+# Durable Entity Counter
+
+📖 [Full documentation](https://yeongseon.github.io/azure-functions-cookbook-python/patterns/orchestration-and-workflows/durable-entity-counter/)
 
 Durable Entity example managing counter state.
 

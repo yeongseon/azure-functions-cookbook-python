@@ -1,4 +1,6 @@
-# servicebus_topic_fanout
+# Service Bus Topic Fan-out
+
+📖 [Full documentation](https://yeongseon.github.io/azure-functions-cookbook-python/patterns/messaging-and-pubsub/servicebus-topic-fanout/)
 
 Azure Functions example showing Service Bus topic fan-out with three independent subscription handlers.
 

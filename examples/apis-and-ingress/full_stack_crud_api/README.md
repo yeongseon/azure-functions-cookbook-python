@@ -1,4 +1,6 @@
-# Full Stack CRUD API Example
+# Full Stack CRUD API
+
+📖 [Full documentation](https://yeongseon.github.io/azure-functions-cookbook-python/patterns/apis-and-ingress/full-stack-crud-api/)
 
 Showcase HTTP API that wires the Azure Functions Python DX Toolkit together around one `items` resource.
 

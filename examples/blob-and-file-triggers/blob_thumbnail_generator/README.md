@@ -1,4 +1,6 @@
-# blob_thumbnail_generator
+# Blob Thumbnail Generator
+
+📖 [Full documentation](https://yeongseon.github.io/azure-functions-cookbook-python/patterns/blob-and-file-triggers/blob-thumbnail-generator/)
 
 Event Grid-driven blob processor that generates thumbnails and writes them to a separate output container.
 

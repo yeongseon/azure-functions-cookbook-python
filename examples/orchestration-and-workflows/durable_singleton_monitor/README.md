@@ -1,4 +1,6 @@
-# durable_singleton_monitor
+# Durable Singleton Monitor
+
+📖 [Full documentation](https://yeongseon.github.io/azure-functions-cookbook-python/patterns/orchestration-and-workflows/durable-singleton-monitor/)
 
 Durable Functions singleton orchestration that continuously polls an external dependency and emits alerts on changes.
 

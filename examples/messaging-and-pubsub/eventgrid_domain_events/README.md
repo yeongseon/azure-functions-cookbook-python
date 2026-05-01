@@ -1,4 +1,6 @@
-# eventgrid_domain_events
+# Event Grid Domain Events
+
+📖 [Full documentation](https://yeongseon.github.io/azure-functions-cookbook-python/patterns/messaging-and-pubsub/eventgrid-domain-events/)
 
 HTTP-triggered Azure Function that publishes custom order domain events to an Event Grid custom topic, plus an Event
 Grid-triggered subscriber that logs the resulting events.

@@ -1,4 +1,6 @@
-# auth_easyauth
+# EasyAuth Claims Extraction
+
+📖 [Full documentation](https://yeongseon.github.io/azure-functions-cookbook-python/patterns/apis-and-ingress/auth-easyauth-claims/)
 
 EasyAuth principal extraction with role-based access control for Azure Functions.
 

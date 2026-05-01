@@ -1,4 +1,6 @@
-# Streaming AI Response Example
+# Streaming AI Response
+
+📖 [Full documentation](https://yeongseon.github.io/azure-functions-cookbook-python/patterns/ai-and-agents/streaming-ai-response/)
 
 HTTP-triggered sample that converts Azure OpenAI streaming chat completions into
 Server-Sent Events.

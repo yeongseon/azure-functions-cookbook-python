@@ -1,4 +1,6 @@
-# blob_eventgrid_trigger
+# Blob Event Grid Trigger
+
+📖 [Full documentation](https://yeongseon.github.io/azure-functions-cookbook-python/patterns/blob-and-file-triggers/blob-eventgrid-trigger/)
 
 Blob-triggered Azure Function configured for Event Grid source notifications.
 

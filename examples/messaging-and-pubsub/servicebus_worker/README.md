@@ -1,4 +1,6 @@
-# servicebus_worker
+# Service Bus Worker
+
+📖 [Full documentation](https://yeongseon.github.io/azure-functions-cookbook-python/patterns/messaging-and-pubsub/servicebus-worker/)
 
 Service Bus queue-triggered Azure Function for reliable background work consumption.
 

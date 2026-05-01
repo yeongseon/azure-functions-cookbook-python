@@ -1,4 +1,6 @@
-# DB Input and Output Example
+# DB Input and Output Bindings
+
+📖 [Full documentation](https://yeongseon.github.io/azure-functions-cookbook-python/patterns/data-and-pipelines/db-input-output/)
 
 Demonstrates `azure-functions-db-python` input/output bindings with SQLAlchemy-backed storage,
 combined with `azure-functions-validation-python` and `azure-functions-openapi-python`.

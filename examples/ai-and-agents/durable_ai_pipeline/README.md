@@ -1,4 +1,6 @@
-# Durable AI Pipeline Example
+# Durable AI Pipeline
+
+📖 [Full documentation](https://yeongseon.github.io/azure-functions-cookbook-python/patterns/ai-and-agents/durable-ai-pipeline/)
 
 Durable Functions sample that orchestrates three AI steps: embedding, vector
 search, and answer generation.

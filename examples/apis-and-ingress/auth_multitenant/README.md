@@ -1,4 +1,6 @@
-# auth_multitenant
+# Multi-Tenant Auth
+
+📖 [Full documentation](https://yeongseon.github.io/azure-functions-cookbook-python/patterns/apis-and-ingress/auth-multitenant/)
 
 Multi-tenant access control with tenant allowlist for Azure Functions.
 

@@ -1,4 +1,6 @@
-# blueprint_modular_app
+# Blueprint Modular App
+
+📖 [Full documentation](https://yeongseon.github.io/azure-functions-cookbook-python/patterns/runtime-and-ops/blueprint-modular-app/)
 
 This recipe demonstrates a modular Azure Functions app using `func.Blueprint`.
 

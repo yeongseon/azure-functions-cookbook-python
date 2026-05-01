@@ -1,4 +1,6 @@
-# http_auth_levels
+# HTTP Auth Levels
+
+📖 [Full documentation](https://yeongseon.github.io/azure-functions-cookbook-python/patterns/apis-and-ingress/http-auth-levels/)
 
 HTTP trigger example that demonstrates anonymous, function-key, and admin-key endpoints.
 

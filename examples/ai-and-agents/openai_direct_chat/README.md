@@ -1,4 +1,6 @@
-# Azure OpenAI Direct Chat Example
+# Azure OpenAI Direct Chat
+
+📖 [Full documentation](https://yeongseon.github.io/azure-functions-cookbook-python/patterns/ai-and-agents/openai-direct-chat/)
 
 Minimal HTTP-triggered Azure Functions sample that sends one message to Azure
 OpenAI with the `openai` Python SDK.

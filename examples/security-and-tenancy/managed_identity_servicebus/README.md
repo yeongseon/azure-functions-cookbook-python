@@ -1,4 +1,6 @@
-# managed_identity_servicebus
+# Managed Identity Service Bus
+
+📖 [Full documentation](https://yeongseon.github.io/azure-functions-cookbook-python/patterns/security-and-tenancy/managed-identity-servicebus/)
 
 This recipe shows a Service Bus queue trigger using `connection="ServiceBusConnection"`.
 

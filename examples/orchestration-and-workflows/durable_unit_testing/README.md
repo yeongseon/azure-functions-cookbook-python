@@ -1,4 +1,6 @@
-# durable_unit_testing
+# Durable Unit Testing
+
+📖 [Full documentation](https://yeongseon.github.io/azure-functions-cookbook-python/patterns/orchestration-and-workflows/durable-unit-testing/)
 
 Durable Functions sample focused on mock-based orchestrator unit testing.
 

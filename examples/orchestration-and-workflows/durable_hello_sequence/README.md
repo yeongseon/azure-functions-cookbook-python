@@ -1,4 +1,6 @@
-# durable_hello_sequence
+# Durable Hello Sequence
+
+📖 [Full documentation](https://yeongseon.github.io/azure-functions-cookbook-python/patterns/orchestration-and-workflows/durable-hello-sequence/)
 
 Durable Functions orchestrator chaining activities in sequence.
 

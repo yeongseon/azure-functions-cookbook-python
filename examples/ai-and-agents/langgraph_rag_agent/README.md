@@ -1,4 +1,6 @@
-# LangGraph RAG Agent Example
+# LangGraph RAG Agent
+
+📖 [Full documentation](https://yeongseon.github.io/azure-functions-cookbook-python/patterns/ai-and-agents/langgraph-rag-agent/)
 
 This example shows how to combine:
 

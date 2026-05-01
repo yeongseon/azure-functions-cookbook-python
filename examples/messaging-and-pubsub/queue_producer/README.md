@@ -1,4 +1,6 @@
-# queue_producer
+# Queue Producer
+
+📖 [Full documentation](https://yeongseon.github.io/azure-functions-cookbook-python/patterns/messaging-and-pubsub/queue-producer/)
 
 HTTP-triggered Azure Function that validates JSON and enqueues tasks to Storage Queue.
 

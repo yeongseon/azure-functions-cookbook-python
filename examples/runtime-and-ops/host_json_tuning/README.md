@@ -1,4 +1,6 @@
-# host_json_tuning
+# host.json Tuning
+
+📖 [Full documentation](https://yeongseon.github.io/azure-functions-cookbook-python/patterns/runtime-and-ops/host-json-tuning/)
 
 This recipe focuses on host-level tuning using a timer trigger plus a richly configured `host.json`.
 

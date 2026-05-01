@@ -1,4 +1,6 @@
-# MCP Server Example (Azure Functions)
+# MCP Server Example
+
+📖 [Full documentation](https://yeongseon.github.io/azure-functions-cookbook-python/patterns/ai-and-agents/mcp-server-example/)
 
 This example hosts a manual Model Context Protocol (MCP) server on Azure Functions
 using a standard HTTP trigger and JSON-RPC 2.0 messages.

@@ -1,4 +1,6 @@
-# bff_facade_api
+# BFF Facade API
+
+📖 [Full documentation](https://yeongseon.github.io/azure-functions-cookbook-python/patterns/apis-and-ingress/bff-facade-api/)
 
 HTTP Backend-for-Frontend facade that aggregates multiple backend service calls into one client-facing response.
 

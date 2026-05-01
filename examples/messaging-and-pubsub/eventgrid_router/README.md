@@ -1,4 +1,6 @@
-# eventgrid_router
+# Event Grid Event Router
+
+📖 [Full documentation](https://yeongseon.github.io/azure-functions-cookbook-python/patterns/messaging-and-pubsub/eventgrid-event-router/)
 
 Event Grid-triggered Azure Function that routes events to different handlers using event type and subject filters.
 

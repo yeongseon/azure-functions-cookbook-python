@@ -1,4 +1,6 @@
-# callback_completion
+# Callback Completion
+
+📖 [Full documentation](https://yeongseon.github.io/azure-functions-cookbook-python/patterns/async-apis-and-jobs/callback-completion/)
 
 HTTP + Queue example that accepts work at `/api/tasks` and sends an HTTP callback when background processing finishes.
 

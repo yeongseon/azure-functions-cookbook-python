@@ -1,4 +1,6 @@
-# SQLAlchemy REST Pagination Example
+# SQLAlchemy REST Pagination
+
+📖 [Full documentation](https://yeongseon.github.io/azure-functions-cookbook-python/patterns/data-and-pipelines/sqlalchemy-rest-pagination/)
 
 HTTP API example that combines:
 

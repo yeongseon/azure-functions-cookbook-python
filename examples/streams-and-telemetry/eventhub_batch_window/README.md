@@ -1,4 +1,6 @@
-# eventhub_batch_window
+# Event Hub Batch Window
+
+📖 [Full documentation](https://yeongseon.github.io/azure-functions-cookbook-python/patterns/streams-and-telemetry/eventhub-batch-window/)
 
 Event Hub-triggered Azure Function that processes a batch window and logs aggregate telemetry totals.
 

@@ -1,4 +1,6 @@
-# tenant_isolation
+# Tenant Isolation
+
+📖 [Full documentation](https://yeongseon.github.io/azure-functions-cookbook-python/patterns/security-and-tenancy/tenant-isolation/)
 
 HTTP recipe for resolving tenant context from `X-Tenant-ID` or a bearer token claim,
 then querying a tenant-specific database with `azure-functions-db-python`.

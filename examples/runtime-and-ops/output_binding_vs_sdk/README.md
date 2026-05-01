@@ -1,4 +1,6 @@
-# output_binding_vs_sdk
+# Output Binding vs SDK
+
+📖 [Full documentation](https://yeongseon.github.io/azure-functions-cookbook-python/patterns/runtime-and-ops/output-binding-vs-sdk/)
 
 This recipe compares two ways to send the same queue message:
 

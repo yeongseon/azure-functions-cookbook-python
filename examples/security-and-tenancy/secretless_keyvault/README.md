@@ -1,4 +1,6 @@
-# secretless_keyvault
+# Secretless Key Vault
+
+📖 [Full documentation](https://yeongseon.github.io/azure-functions-cookbook-python/patterns/security-and-tenancy/secretless-keyvault/)
 
 HTTP-triggered Azure Function that reads secrets from environment variables populated by Azure Key Vault
 references. The function uses standard environment access and `azure_functions_logging` only.

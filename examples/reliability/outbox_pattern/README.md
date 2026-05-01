@@ -1,4 +1,6 @@
-# outbox_pattern
+# Outbox Pattern
+
+📖 [Full documentation](https://yeongseon.github.io/azure-functions-cookbook-python/patterns/reliability/outbox-pattern/)
 
 Transactional outbox sample for Azure Functions Python where:
 

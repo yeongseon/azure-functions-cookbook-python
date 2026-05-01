@@ -1,4 +1,6 @@
-# auth_jwt_validation
+# JWT Bearer Validation
+
+📖 [Full documentation](https://yeongseon.github.io/azure-functions-cookbook-python/patterns/apis-and-ingress/auth-jwt-validation/)
 
 JWT Bearer token validation with claim-based access control for Azure Functions.
 

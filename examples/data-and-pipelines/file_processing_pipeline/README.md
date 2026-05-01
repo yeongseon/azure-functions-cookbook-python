@@ -1,4 +1,6 @@
-# file_processing_pipeline
+# File Processing Pipeline
+
+📖 [Full documentation](https://yeongseon.github.io/azure-functions-cookbook-python/patterns/data-and-pipelines/file-processing-pipeline/)
 
 Blob-triggered Azure Function that validates uploaded CSV or JSON files, transforms the records, and persists the processed result to a database.
 

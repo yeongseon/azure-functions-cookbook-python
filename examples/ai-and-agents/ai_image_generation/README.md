@@ -1,4 +1,6 @@
-# AI Image Generation Example
+# AI Image Generation
+
+📖 [Full documentation](https://yeongseon.github.io/azure-functions-cookbook-python/patterns/ai-and-agents/ai-image-generation/)
 
 HTTP-triggered sample that sends a prompt to Azure OpenAI image generation and
 returns the generated image URL.

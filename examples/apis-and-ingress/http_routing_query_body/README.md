@@ -1,4 +1,6 @@
-# http_routing_query_body
+# HTTP Routing Query Body
+
+📖 [Full documentation](https://yeongseon.github.io/azure-functions-cookbook-python/patterns/apis-and-ingress/http-routing-query-body/)
 
 HTTP CRUD and search example showing route params, query strings, JSON body parsing, and status codes.
 
