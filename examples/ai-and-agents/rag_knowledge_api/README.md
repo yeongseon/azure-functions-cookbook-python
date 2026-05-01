@@ -4,8 +4,8 @@ Demonstrates a minimal RAG API using Azure AI Search and Azure OpenAI, combined 
 `azure-functions-validation-python`, `azure-functions-openapi-python`, and
 `azure-functions-logging-python`.
 
-The retrieval client is loaded via `try/except ImportError` with a fallback stub,
-so the example runs locally without a live search backend.
+The example uses a local fallback stub for retrieval.
+Wire in real Azure AI Search and Azure OpenAI endpoints via environment variables for production use.
 
 ## Endpoints
 - `POST /api/ask` — retrieve knowledge chunks and generate a grounded answer

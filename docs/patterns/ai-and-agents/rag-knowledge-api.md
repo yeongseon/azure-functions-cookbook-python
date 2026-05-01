@@ -16,8 +16,8 @@ The example also layers in `azure-functions-validation-python`,
 `azure-functions-openapi-python`, and `azure-functions-logging-python` so the API has schema
 validation, generated contracts, and structured telemetry.
 
-The retrieval client is loaded via `try/except ImportError` with a fallback stub,
-so the example imports and runs even without a live search backend.
+The example uses a local fallback stub for retrieval.
+Wire in real Azure AI Search and Azure OpenAI endpoints via environment variables for production use.
 
 ## When to Use
 - You want a thin serverless API in front of a vector-backed knowledge base.
