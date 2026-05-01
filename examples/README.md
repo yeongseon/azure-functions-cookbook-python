@@ -156,4 +156,4 @@ pip install -e .
 func start
 ```
 
-Each example corresponds to a pattern page under `docs/patterns/`.
+Each example corresponds to a pattern page under `docs/patterns/` or `docs/guides/`.

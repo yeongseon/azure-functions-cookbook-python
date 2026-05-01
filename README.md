@@ -121,7 +121,7 @@ Each pattern page lives under `docs/patterns/` with a matching runnable project 
 
 ```text
 docs/              Published documentation
-  patterns/        Curated pattern documents (67 recipes)
+  patterns/        Curated pattern documents
 examples/          Runnable example projects organized by category
   apis-and-ingress/
   scheduled-and-background/

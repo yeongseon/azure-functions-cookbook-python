@@ -16,7 +16,7 @@ Azure Functions Python Cookbook is a content-first repository that helps develop
 The repository is organized into four layers:
 
 1. `docs/patterns/`
-   - Source pattern documents (67 recipes)
+   - Source pattern documents
    - Architecture, use cases, pitfalls, and scaffold guidance
 2. `examples/`
    - Runnable or near-runnable sample projects
