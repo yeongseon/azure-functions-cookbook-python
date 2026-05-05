@@ -9,6 +9,11 @@
 - `docs/`
 
 ## Working Rules
+
+### Test Coverage
+- Maintain test coverage at **95% or above** for committed changes and PRs.
+- Run `hatch run pytest --cov --cov-report=term-missing -q` to verify before submitting changes.
+- Any PR that drops coverage below 95% must include additional tests to compensate.
 - This is an examples/recipes repository — not a runtime library.
 - All recipes must be runnable and tested against the supported Python versions.
 - Runtime code must remain compatible with Python 3.10+.
