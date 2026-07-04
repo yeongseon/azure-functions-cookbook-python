@@ -1,4 +1,4 @@
-# Scaffold Walkthrough — from `azfunc-scaffold new` to a running HTTP API
+# Scaffold Walkthrough — from `afs new` to a running HTTP API
 
 This recipe is the **committed output of `azure-functions-scaffold`** with the default
 `strict` preset. Use it to see exactly what the scaffold CLI generates for a fresh
@@ -14,7 +14,7 @@ was hand-crafted.
 pip install azure-functions-scaffold
 
 # 2. Generate the project (identical to what is committed here)
-azfunc-scaffold new scaffold_walkthrough_app \
+afs new scaffold_walkthrough_app \
   --destination examples/apis-and-ingress \
   --github-actions \
   --yes
@@ -31,24 +31,27 @@ mypy .
 pytest
 ```
 
-## Extend with `add function` and `add route`
+## Extend with `afs advanced add` and `afs api add-route`
 
 Once the project exists, use the scaffold CLI to grow it without hand-editing
 `function_app.py`:
 
 ```bash
-# Add a Timer-triggered function
-azfunc-scaffold add function nightly_report --trigger timer
+# Add a Timer-triggered function (trigger is a positional argument, not a flag)
+afs advanced add timer nightly_report
 
-# Add an HTTP route on an existing blueprint
-azfunc-scaffold add route users_list --route /api/users --method GET
+# Add an HTTP GET route on an existing blueprint
+# Route path is derived from the function name (underscores become hyphens),
+# so `users_list` generates `GET /api/users-list`. For custom paths or non-GET
+# methods, edit the generated blueprint file after running this command.
+afs api add-route users_list
 ```
 
 Both commands update the `# azure-functions-scaffold: function imports` and
 `# azure-functions-scaffold: function registrations` markers in
 `function_app.py`, keeping the blueprint wiring consistent.
 
-Supported triggers for `add function`:
+Supported triggers for `afs advanced add`:
 `http`, `timer`, `queue`, `blob`, `servicebus`, `eventhub`, `cosmosdb`, `durable`, `ai`.
 
 ---
