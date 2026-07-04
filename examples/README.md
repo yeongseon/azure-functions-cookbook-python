@@ -110,6 +110,7 @@ Every project is a self-contained function app ready for `func start`.
 | `runtime-and-ops/concurrency_tuning` | Dynamic concurrency |
 | `runtime-and-ops/cold_start_mitigation` | Cold start mitigation techniques |
 | `runtime-and-ops/observability_tracing` | OpenTelemetry tracing and observability |
+| `runtime-and-ops/doctor_diagnostics_endpoint` | Diagnostics HTTP endpoints powered by azure-functions-doctor |
 
 ## Data & Pipelines
 
