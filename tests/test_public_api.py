@@ -15,8 +15,10 @@ class TestAPISurface:
     def test_all_exports(self) -> None:
         assert set(azure_functions_python_cookbook.__all__) == {"__version__"}
 
-    def test_version_is_0_1_2(self) -> None:
-        assert azure_functions_python_cookbook.__version__ == "0.1.2"
+    def test_version_matches_distribution_metadata(self) -> None:
+        from importlib.metadata import version
+
+        assert azure_functions_python_cookbook.__version__ == version("azure-functions-cookbook-python")
 
     def test_version_is_string(self) -> None:
         assert isinstance(azure_functions_python_cookbook.__version__, str)
