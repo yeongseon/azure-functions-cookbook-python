@@ -17,7 +17,7 @@ Every project is a self-contained function app ready for `func start`.
 | `apis-and-ingress/bff_facade_api` | BFF facade pattern for backend-for-frontend |
 | `apis-and-ingress/full_stack_crud_api` | Full-stack CRUD with azure-functions-db-python toolkit |
 | `apis-and-ingress/apim_function_backend` | Azure API Management backend function |
-| `apis-and-ingress/scaffold_walkthrough_app` | Scaffold CLI walkthrough — committed output of `azfunc-scaffold new` |
+| `apis-and-ingress/scaffold_walkthrough_app` | Scaffold CLI walkthrough — committed output of `afs new` |
 
 ## Async APIs & Jobs
 
