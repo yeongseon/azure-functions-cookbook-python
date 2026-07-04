@@ -18,7 +18,8 @@ class TestAPISurface:
     def test_version_matches_distribution_metadata(self) -> None:
         from importlib.metadata import version
 
-        assert azure_functions_python_cookbook.__version__ == version("azure-functions-cookbook-python")
+        expected = version("azure-functions-cookbook-python")
+        assert azure_functions_python_cookbook.__version__ == expected
 
     def test_version_is_string(self) -> None:
         assert isinstance(azure_functions_python_cookbook.__version__, str)
