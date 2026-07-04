@@ -1576,6 +1576,54 @@ class TestDoctorDiagnosticsEndpoint:
 
 
 # ---------------------------------------------------------------------------
+# APIs and Ingress — scaffold_walkthrough_app
+# ---------------------------------------------------------------------------
+
+
+class TestScaffoldWalkthroughApp:
+    """Smoke tests for examples/apis-and-ingress/scaffold_walkthrough_app."""
+
+    def test_module_loads(self) -> None:
+        module = _load_example_module("apis-and-ingress/scaffold_walkthrough_app")
+        assert hasattr(module, "app")
+
+    def test_health_endpoint(self) -> None:
+        _load_example_module("apis-and-ingress/scaffold_walkthrough_app")
+        fn = _import_function_module(
+            "apis-and-ingress/scaffold_walkthrough_app", "app.functions.health"
+        )
+        request = func.HttpRequest(
+            method="GET",
+            url="http://localhost/api/health",
+            params={},
+            body=b"",
+        )
+        response = fn.health(request)
+        assert response.status_code == 200
+        body = json.loads(response.get_body())
+        assert body == {"status": "ok"}
+
+    def test_health_service(self) -> None:
+        _load_example_module("apis-and-ingress/scaffold_walkthrough_app")
+        svc = _import_service(
+            "apis-and-ingress/scaffold_walkthrough_app", "app.services.health_service"
+        )
+        assert svc.check_health() == {"status": "ok"}
+
+    def test_webhook_service_signature_verification(self) -> None:
+        _load_example_module("apis-and-ingress/scaffold_walkthrough_app")
+        svc = _import_service(
+            "apis-and-ingress/scaffold_walkthrough_app", "app.services.webhook_service"
+        )
+        secret = "test-secret"
+        payload = b'{"event": "test"}'
+        digest = hmac.new(secret.encode(), payload, hashlib.sha256).hexdigest()
+        assert svc.verify_signature(payload, f"sha256={digest}", secret) is True
+        assert svc.verify_signature(payload, "sha256=invalid", secret) is False
+        assert svc.verify_signature(payload, "no-prefix", secret) is False
+
+
+# ---------------------------------------------------------------------------
 # APIs and Ingress — bff_facade_api
 # ---------------------------------------------------------------------------
 
