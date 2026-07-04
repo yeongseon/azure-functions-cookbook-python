@@ -30,6 +30,7 @@ dev = [
     "azure-functions-langgraph",
     "azure-functions-logging",
     "azure-functions-db",
+    "azure-functions-doctor",
     "azure-functions-openapi",
     "azure-functions-validation",
     "azure-identity",

@@ -1526,6 +1526,56 @@ class TestColdStartMitigation:
 
 
 # ---------------------------------------------------------------------------
+# Runtime and Ops — doctor_diagnostics_endpoint
+# ---------------------------------------------------------------------------
+
+
+class TestDoctorDiagnosticsEndpoint:
+    """Smoke tests for examples/runtime-and-ops/doctor_diagnostics_endpoint."""
+
+    def test_module_loads(self) -> None:
+        module = _load_example_module("runtime-and-ops/doctor_diagnostics_endpoint")
+        assert hasattr(module, "app")
+
+    def test_health_service(self) -> None:
+        _load_example_module("runtime-and-ops/doctor_diagnostics_endpoint")
+        svc = _import_service(
+            "runtime-and-ops/doctor_diagnostics_endpoint",
+            "app.services.diagnostics_service",
+        )
+        assert svc.get_health_payload() == {"status": "healthy"}
+
+    def test_run_project_diagnostics_returns_section_list(self) -> None:
+        _load_example_module("runtime-and-ops/doctor_diagnostics_endpoint")
+        svc = _import_service(
+            "runtime-and-ops/doctor_diagnostics_endpoint",
+            "app.services.diagnostics_service",
+        )
+        target = str(EXAMPLES_DIR / "runtime-and-ops" / "doctor_diagnostics_endpoint")
+        sections = svc.run_project_diagnostics(target)
+        assert isinstance(sections, list)
+        assert sections, "Doctor should return at least one section for the recipe project"
+        for section in sections:
+            assert "title" in section
+            assert "category" in section
+            assert "status" in section
+
+    def test_summarize_reduces_sections(self) -> None:
+        _load_example_module("runtime-and-ops/doctor_diagnostics_endpoint")
+        svc = _import_service(
+            "runtime-and-ops/doctor_diagnostics_endpoint",
+            "app.services.diagnostics_service",
+        )
+        fixture = [
+            {"title": "T1", "category": "c1", "status": "pass", "items": []},
+            {"title": "T2", "category": "c2", "status": "pass", "items": []},
+        ]
+        result = svc.summarize(fixture)
+        assert result["overall"] == "pass"
+        assert len(result["sections"]) == 2
+
+
+# ---------------------------------------------------------------------------
 # APIs and Ingress — bff_facade_api
 # ---------------------------------------------------------------------------
 
