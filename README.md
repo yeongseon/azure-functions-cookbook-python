@@ -171,6 +171,11 @@ This cookbook is the **dogfood** of the **Azure Functions Python DX Toolkit** �
 | [azure-functions-durable-graph-python](https://github.com/yeongseon/azure-functions-durable-graph-python) | Manifest-first graph runtime with Durable Functions *(experimental)* | — |
 | [azure-functions-knowledge-python](https://github.com/yeongseon/azure-functions-knowledge-python) | Knowledge retrieval (RAG) decorators | — |
 | **azure-functions-cookbook-python** *(this repo)* | Dogfood examples for the full toolkit | 76 examples |
+
+## For AI Coding Assistants
+
+This repository includes `llms.txt` and `llms-full.txt` in the root directory — quick and full references optimized for LLM context windows. Use them for better context when working with these recipes in AI-assisted coding environments.
+
 ## Disclaimer
 
 This project is an independent community project and is not affiliated with,
