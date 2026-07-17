@@ -19,6 +19,8 @@ from typing import Generator
 
 import pytest
 
+from tests._isolation import clean_app_modules
+
 # ---------------------------------------------------------------------------
 # Constants
 # ---------------------------------------------------------------------------
@@ -298,15 +300,12 @@ def import_function_app(example_path: str) -> ModuleType:
 
     example_dir_str = str(example_dir)
     original_path = sys.path.copy()
-    original_modules = set(sys.modules.keys())
 
     try:
         sys.path.insert(0, example_dir_str)
 
-        # Clear any cached 'app' module to avoid cross-example conflicts
-        modules_to_remove = [k for k in sys.modules if k == "app" or k.startswith("app.")]
-        for mod_key in modules_to_remove:
-            del sys.modules[mod_key]
+        # Clear any cached ``app.*`` modules to avoid cross-example conflicts.
+        clean_app_modules()
 
         spec = importlib.util.spec_from_file_location(
             f"function_app_{example_path.replace('/', '_')}",
@@ -320,8 +319,5 @@ def import_function_app(example_path: str) -> ModuleType:
         return module
     finally:
         sys.path = original_path
-        # Clean up loaded app.* modules to prevent leakage
-        new_modules = set(sys.modules.keys()) - original_modules
-        for mod_key in new_modules:
-            if mod_key == "app" or mod_key.startswith("app."):
-                del sys.modules[mod_key]
+        # Clean up loaded app.* modules to prevent leakage into later imports.
+        clean_app_modules()
