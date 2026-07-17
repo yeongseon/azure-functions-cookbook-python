@@ -2,6 +2,19 @@
 
 Use this category for multi-step durable processes that need checkpoints, fan-out, human approval, or replay-safe coordination. These recipes focus on Durable Functions orchestration building blocks and operational guardrails.
 
+## Category map
+
+```mermaid
+flowchart LR
+    Client[Client] --> Starter[Starter Function]
+    Starter --> Orch[Orchestrator]
+    Orch -->|fan-out| A1[Activity]
+    Orch --> A2[Activity]
+    A1 -->|fan-in| Orch
+    A2 --> Orch
+    Orch --> Result[(Result)]
+```
+
 | Recipe | Trigger | Difficulty |
 | --- | --- | --- |
 | [Durable Hello Sequence](./durable-hello-sequence.md) | HTTP starter + durable orchestration | Beginner |

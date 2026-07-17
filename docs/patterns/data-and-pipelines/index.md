@@ -2,6 +2,16 @@
 
 Use this category for database-connected functions and data movement flows. These recipes focus on reading, transforming, and persisting records across operational data stores.
 
+## Category map
+
+```mermaid
+flowchart LR
+    Trigger[HTTP / timer / queue trigger] --> Fn[Azure Function]
+    Fn -->|read| DB[(Database)]
+    Fn -->|transform| Fn
+    Fn -->|write| DB
+```
+
 | Recipe | Trigger | Difficulty |
 | --- | --- | --- |
 | [Change Feed Processor](./change-feed-processor.md) | Cosmos DB change feed | Intermediate |

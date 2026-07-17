@@ -2,6 +2,17 @@
 
 Use this category for patterns that harden function apps against duplicate delivery, transient failure, and partial completion. These recipes focus on operational correctness more than transport choice.
 
+## Category map
+
+```mermaid
+flowchart LR
+    Msg[Incoming message] --> Fn[Azure Function]
+    Fn --> Idem{Already processed?}
+    Idem -->|yes| Skip[Ack & skip]
+    Idem -->|no| Work[Process]
+    Work -->|transient failure| Retry[Retry / dead-letter]
+```
+
 | Recipe | Trigger | Difficulty |
 | --- | --- | --- |
 | [Retry and Idempotency](./retry-and-idempotency.md) | Cross-trigger reliability pattern | Intermediate |

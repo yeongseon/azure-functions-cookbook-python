@@ -2,6 +2,15 @@
 
 Use this category for application composition, host configuration, and runtime tuning. These recipes focus on operating Azure Functions well after the handler logic itself is in place.
 
+## Category map
+
+```mermaid
+flowchart LR
+    BP[Blueprints] --> App[FunctionApp]
+    Host[host.json config] --> App
+    App --> Runtime[Runtime tuning & concurrency]
+```
+
 | Recipe | Trigger | Difficulty |
 | --- | --- | --- |
 | [Blueprint Modular App](./blueprint-modular-app.md) | App composition pattern | Intermediate |
