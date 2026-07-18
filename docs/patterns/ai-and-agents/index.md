@@ -2,6 +2,18 @@
 
 Use this category for LLM-backed endpoints, tool surfaces, and agent runtimes hosted on Azure Functions. These recipes focus on integrating model workflows with serverless execution and HTTP interfaces.
 
+## Category map
+
+```mermaid
+flowchart LR
+    Client[Client / Caller] -->|HTTP request| Fn[Azure Function]
+    Fn --> Model[LLM / Azure OpenAI]
+    Fn --> Tools[Tools & retrieval]
+    Model --> Fn
+    Tools --> Fn
+    Fn -->|response| Client
+```
+
 | Recipe | Trigger | Difficulty |
 | --- | --- | --- |
 | [MCP Server Example](./mcp-server-example.md) | HTTP + MCP tool endpoint | Intermediate |

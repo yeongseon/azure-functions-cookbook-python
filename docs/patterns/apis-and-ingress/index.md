@@ -2,6 +2,17 @@
 
 Use this category for HTTP-first workloads, inbound webhooks, and request authentication patterns at the edge. These recipes focus on shaping requests, securing entry points, and keeping API handlers simple.
 
+## Category map
+
+```mermaid
+flowchart LR
+    Client[Client / Webhook] -->|HTTP request| Auth{Auth check}
+    Auth -->|authorized| Fn[HTTP Function]
+    Auth -->|rejected| Deny[401 / 403]
+    Fn --> Logic[Handler logic]
+    Logic -->|response| Client
+```
+
 | Recipe | Trigger | Difficulty |
 | --- | --- | --- |
 | [Hello HTTP Minimal](./hello-http-minimal.md) | HTTP | Beginner |

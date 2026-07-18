@@ -2,6 +2,15 @@
 
 Use this category for queue-backed decoupling and broker-based asynchronous communication. These recipes focus on producers, consumers, and message-driven scaling behavior.
 
+## Category map
+
+```mermaid
+flowchart LR
+    Producer[Producer Function] -->|publish| Broker[(Queue / Topic)]
+    Broker --> Consumer1[Consumer Function]
+    Broker --> Consumer2[Consumer Function]
+```
+
 | Recipe | Trigger | Difficulty |
 | --- | --- | --- |
 | [Queue Producer](./queue-producer.md) | HTTP to Storage Queue output | Beginner |
