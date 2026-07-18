@@ -159,18 +159,20 @@ make docs
 
 This cookbook is the **dogfood** of the **Azure Functions Python DX Toolkit** — every example is a real, runnable Azure Function that uses the toolkit libraries in production-realistic scenarios. If a library works in the cookbook, it works in the wild.
 
-| Package | Role | Used by |
-|---------|------|---------|
-| [azure-functions-openapi-python](https://github.com/yeongseon/azure-functions-openapi-python) | OpenAPI spec generation and Swagger UI | 23 examples |
-| [azure-functions-validation-python](https://github.com/yeongseon/azure-functions-validation-python) | Request/response validation and serialization | 23 examples |
-| [azure-functions-logging-python](https://github.com/yeongseon/azure-functions-logging-python) | Structured logging and observability | 40 examples |
-| [azure-functions-db-python](https://github.com/yeongseon/azure-functions-db-python) | Database bindings for SQL, PostgreSQL, MySQL, SQLite, and Cosmos DB | 9 examples |
-| [azure-functions-langgraph-python](https://github.com/yeongseon/azure-functions-langgraph-python) | LangGraph deployment adapter for Azure Functions | 2 examples |
-| [azure-functions-scaffold-python](https://github.com/yeongseon/azure-functions-scaffold-python) | Project scaffolding CLI | 1 example |
-| [azure-functions-doctor-python](https://github.com/yeongseon/azure-functions-doctor-python) | Pre-deploy diagnostic CLI | 1 example |
-| [azure-functions-durable-graph-python](https://github.com/yeongseon/azure-functions-durable-graph-python) | Manifest-first graph runtime with Durable Functions *(experimental)* | — |
-| [azure-functions-knowledge-python](https://github.com/yeongseon/azure-functions-knowledge-python) | Knowledge retrieval (RAG) decorators | — |
-| **azure-functions-cookbook-python** *(this repo)* | Dogfood examples for the full toolkit | 76 examples |
+The **Status** column reflects how each package is currently exercised in this repo: **Dogfooded** (imported and run by real examples), **Experimental** (advertised but not yet exercised by any example), or **Planned** (integration tracked but not started). Counts are the number of example projects that import the package, except for CLI tools (e.g. the scaffold generator), where the count reflects examples generated or driven by the CLI rather than direct imports.
+
+| Package | Role | Status |
+|---------|------|--------|
+| [azure-functions-openapi-python](https://github.com/yeongseon/azure-functions-openapi-python) | OpenAPI spec generation and Swagger UI | Dogfooded (24 examples) |
+| [azure-functions-validation-python](https://github.com/yeongseon/azure-functions-validation-python) | Request/response validation and serialization | Dogfooded (23 examples) |
+| [azure-functions-logging-python](https://github.com/yeongseon/azure-functions-logging-python) | Structured logging and observability | Dogfooded (41 examples) |
+| [azure-functions-db-python](https://github.com/yeongseon/azure-functions-db-python) | Database bindings for SQL, PostgreSQL, MySQL, SQLite, and Cosmos DB | Dogfooded (9 examples) |
+| [azure-functions-langgraph-python](https://github.com/yeongseon/azure-functions-langgraph-python) | LangGraph deployment adapter for Azure Functions | Dogfooded (2 examples) |
+| [azure-functions-scaffold-python](https://github.com/yeongseon/azure-functions-scaffold-python) | Project scaffolding CLI | Dogfooded (1 example, CLI-generated) |
+| [azure-functions-doctor-python](https://github.com/yeongseon/azure-functions-doctor-python) | Pre-deploy diagnostic CLI | Dogfooded (1 example) |
+| [azure-functions-durable-graph-python](https://github.com/yeongseon/azure-functions-durable-graph-python) | Manifest-first graph runtime with Durable Functions *(experimental)* | Experimental — no example yet ([#73](https://github.com/yeongseon/azure-functions-cookbook-python/issues/73)) |
+| [azure-functions-knowledge-python](https://github.com/yeongseon/azure-functions-knowledge-python) | Knowledge retrieval (RAG) decorators | Experimental — RAG example uses a local stub, not the real library ([#73](https://github.com/yeongseon/azure-functions-cookbook-python/issues/73)) |
+| **azure-functions-cookbook-python** *(this repo)* | Dogfood examples for the full toolkit | 80 examples |
 
 ## For AI Coding Assistants
 

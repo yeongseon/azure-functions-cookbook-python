@@ -18,9 +18,9 @@ the toolkit libraries the way a real application would.
 
 ## What you get
 
-- **75 patterns** across 14 categories covering APIs, messaging, orchestration, AI, and more
-- **75 runnable example projects** under `examples/`, organized by category
-- Dogfood coverage: 40 examples use `azure-functions-logging`, 23 use `azure-functions-openapi` and `azure-functions-validation`, 9 use `azure-functions-db`
+- **80 patterns** across 14 categories covering APIs, messaging, orchestration, AI, and more
+- **80 runnable example projects** under `examples/`, organized by category
+- Dogfood coverage: 41 examples use `azure-functions-logging`, 24 use `azure-functions-openapi`, 23 use `azure-functions-validation`, 9 use `azure-functions-db`
 - Production considerations in every pattern
 - Mermaid architecture and behavior diagrams
 
