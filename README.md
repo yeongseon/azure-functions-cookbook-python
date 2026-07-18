@@ -159,7 +159,7 @@ make docs
 
 This cookbook is the **dogfood** of the **Azure Functions Python DX Toolkit** — every example is a real, runnable Azure Function that uses the toolkit libraries in production-realistic scenarios. If a library works in the cookbook, it works in the wild.
 
-The **Status** column reflects how each package is currently exercised in this repo: **Dogfooded** (imported and run by real examples), **Experimental** (advertised but not yet exercised by any example), or **Planned** (integration tracked but not started). Counts are the number of example projects that import the package.
+The **Status** column reflects how each package is currently exercised in this repo: **Dogfooded** (imported and run by real examples), **Experimental** (advertised but not yet exercised by any example), or **Planned** (integration tracked but not started). Counts are the number of example projects that import the package, except for CLI tools (e.g. the scaffold generator), where the count reflects examples generated or driven by the CLI rather than direct imports.
 
 | Package | Role | Status |
 |---------|------|--------|
