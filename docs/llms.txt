@@ -1,0 +1,26 @@
+# Azure Functions Cookbook
+
+> Dogfood-tested recipes and patterns for the Azure Functions Python DX Toolkit.
+
+A curated, runnable collection of Azure Functions Python v2 patterns — from HTTP APIs to durable orchestration — that also dogfoods the Azure Functions Python DX Toolkit (openapi, validation, logging, scaffold, db, and more). Use it as a reference for idiomatic, production-shaped Azure Functions code.
+
+## Foundations
+- [Execution Model](https://yeongseon.github.io/azure-functions-cookbook-python/foundations/execution-model/): How the Python v2 model runs.
+- [Triggers & Bindings](https://yeongseon.github.io/azure-functions-cookbook-python/foundations/triggers-bindings-overview/): Overview of triggers and bindings.
+- [Pattern Chooser](https://yeongseon.github.io/azure-functions-cookbook-python/foundations/pattern-chooser/): Pick the right pattern.
+- [Delivery Guarantees](https://yeongseon.github.io/azure-functions-cookbook-python/foundations/delivery-guarantees/): At-least-once and idempotency.
+- [Hosting & Scale](https://yeongseon.github.io/azure-functions-cookbook-python/foundations/hosting-and-scale/): Plans and scaling.
+
+## Patterns
+- [Patterns Overview](https://yeongseon.github.io/azure-functions-cookbook-python/patterns/): All recipe categories.
+- [APIs & Ingress](https://yeongseon.github.io/azure-functions-cookbook-python/patterns/apis-and-ingress/): HTTP, auth, webhooks, CRUD.
+- [Scheduled & Background](https://yeongseon.github.io/azure-functions-cookbook-python/patterns/scheduled-and-background/): Timers and queues.
+
+## Reference
+- [Reference Overview](https://yeongseon.github.io/azure-functions-cookbook-python/reference/): Per-trigger reference.
+- [Service Matrix](https://yeongseon.github.io/azure-functions-cookbook-python/reference/service-matrix/): Trigger/binding support matrix.
+
+## Guides
+- [Scaffold Quick Start](https://yeongseon.github.io/azure-functions-cookbook-python/guides/scaffold-quick-start/): Bootstrap a project.
+- [Deployment Patterns](https://yeongseon.github.io/azure-functions-cookbook-python/guides/deployment-patterns/): Ship to Azure.
+- [Testing Patterns](https://yeongseon.github.io/azure-functions-cookbook-python/guides/testing-patterns/): Test your functions.
