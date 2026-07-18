@@ -109,8 +109,8 @@ typecheck = "mypy src tests"
 lint = "hatch run style && hatch run typecheck"
 test = "pytest -v tests"
 cov = "pytest --cov-report=term-missing --cov-report=html --cov-report=xml tests/"
-smoke = "pytest -v -m smoke tests/e2e/ -p no:cov"
-e2e = "pytest -v -m e2e tests/e2e/ -p no:cov"
+smoke = "pytest -v -m smoke tests/e2e/ --no-cov"
+e2e = "pytest -v -m e2e tests/e2e/ --no-cov"
 docs = "mkdocs serve"
 precommit = "pre-commit run --all-files"
 precommit-install = "pre-commit install"
@@ -138,7 +138,7 @@ pretty = true
 exclude = ["tests/e2e/"]
 
 [tool.pytest.ini_options]
-addopts = "-ra -q -m 'not (e2e or smoke)'"
+addopts = "-ra -q --cov=src/azure_functions_python_cookbook -m 'not (e2e or smoke)'"
 testpaths = ["tests"]
 pythonpath = ["src", "."]
 markers = [
