@@ -126,6 +126,19 @@ amount of business logic the recipe demonstrates:
 When in doubt, prefer the flat layout: it keeps the copy-paste surface small.
 Reach for app-layout only when the separation is the point of the recipe.
 
+### Scaffolding a new flat recipe
+
+Use the `new-recipe` target to generate a ready-to-run flat example that
+already passes the auto-discovery and `recipe.yaml` metadata guards:
+
+```bash
+make new-recipe CAT=apis-and-ingress NAME=my_recipe
+```
+
+This creates `examples/<CAT>/<NAME>/` with `function_app.py`, `README.md`,
+`recipe.yaml`, `host.json`, `local.settings.json.example`, and `pyproject.toml`.
+Then implement the trigger logic and refine the description before committing.
+
 
 ## Commit Message Guidelines
 
