@@ -110,6 +110,23 @@ Examples are part of the supported API experience and should stay verified.
 - Add or update smoke tests whenever an example changes.
 - Prefer lightweight smoke coverage over infrastructure-heavy end-to-end tests.
 
+## Example Layout: Flat vs App-Layout
+
+Examples use one of two directory layouts. Pick the layout that matches the
+amount of business logic the recipe demonstrates:
+
+- **Flat layout** — a single `function_app.py` at the example root. Use this
+  when the recipe has **at most one file of business logic** and exists mainly
+  to show a trigger, binding, or configuration in isolation.
+- **App-layout** — an `app/` package (`app/functions`, `app/services`,
+  `app/core`, …) alongside `function_app.py`. Use this when the recipe
+  **demonstrates service separation** or spans **more than two modules**, so
+  the structure itself is part of what the recipe teaches.
+
+When in doubt, prefer the flat layout: it keeps the copy-paste surface small.
+Reach for app-layout only when the separation is the point of the recipe.
+
+
 ## Commit Message Guidelines
 
 We follow the [Conventional Commits](https://www.conventionalcommits.org/) specification.
