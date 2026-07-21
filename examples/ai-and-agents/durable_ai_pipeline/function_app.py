@@ -4,44 +4,16 @@ from __future__ import annotations
 
 import inspect
 import json
-import logging
 import os
 import uuid
 from types import SimpleNamespace
 from typing import Any
 
 import azure.functions as func
+from azure_functions_logging import get_logger, setup_logging, with_context
+from azure_functions_openapi import openapi
+from azure_functions_validation import validate_http as _validate_http
 from pydantic import BaseModel, Field
-
-try:
-    from azure_functions_logging import get_logger, setup_logging, with_context
-except ImportError:
-
-    def setup_logging(*args: Any, **kwargs: Any) -> None:
-        logging.basicConfig(level=logging.INFO)
-
-    def get_logger(name: str) -> logging.Logger:
-        return logging.getLogger(name)
-
-    def with_context(function: Any) -> Any:
-        return function
-
-
-try:
-    from azure_functions_openapi import openapi
-except ImportError:
-
-    def openapi(*args: Any, **kwargs: Any):
-        def decorator(function: Any) -> Any:
-            return function
-
-        return decorator
-
-
-try:
-    from azure_functions_validation import validate_http as _validate_http
-except ImportError:
-    _validate_http = None
 
 
 def validate_http(*args: Any, **kwargs: Any):

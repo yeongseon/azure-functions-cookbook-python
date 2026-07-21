@@ -9,42 +9,10 @@ from urllib.parse import urlparse
 
 import azure.functions as func
 import requests
+from azure_functions_logging import setup_logging
+from azure_functions_openapi import openapi
+from azure_functions_validation import validate_http
 from pydantic import BaseModel, Field
-
-try:
-    from azure_functions_logging import setup_logging
-except ImportError:
-
-    def setup_logging(*args: Any, **kwargs: Any) -> None:
-        _ = (args, kwargs)
-        logging.basicConfig(level=logging.INFO)
-
-
-try:
-    from azure_functions_openapi import openapi
-except ImportError:
-
-    def openapi(*args: Any, **kwargs: Any):
-        _ = (args, kwargs)
-
-        def decorator(fn: Any) -> Any:
-            return fn
-
-        return decorator
-
-
-try:
-    from azure_functions_validation import validate_http
-except ImportError:
-
-    def validate_http(*args: Any, **kwargs: Any):
-        _ = (args, kwargs)
-
-        def decorator(fn: Any) -> Any:
-            return fn
-
-        return decorator
-
 
 _ = setup_logging(format="json")
 logger = logging.getLogger(__name__)

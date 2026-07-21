@@ -6,21 +6,7 @@ import os
 from urllib.parse import urlparse
 
 import azure.functions as func
-
-try:
-    from azure_functions_logging import get_logger, setup_logging, with_context
-except ImportError:
-    import logging
-
-    def setup_logging(*_: object, **__: object) -> None:
-        logging.basicConfig(level=logging.INFO)
-
-    def get_logger(name: str) -> logging.Logger:
-        return logging.getLogger(name)
-
-    def with_context(function):
-        return function
-
+from azure_functions_logging import get_logger, setup_logging, with_context
 
 setup_logging(format="json")
 logger = get_logger(__name__)
