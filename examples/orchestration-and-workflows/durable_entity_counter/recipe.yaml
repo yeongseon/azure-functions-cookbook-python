@@ -1,0 +1,5 @@
+slug: durable-entity-counter
+title: Durable Entity Counter
+category: orchestration-and-workflows
+description: Durable Entity example managing counter state.
+docs_url: https://yeongseon.github.io/azure-functions-cookbook-python/patterns/orchestration-and-workflows/durable-entity-counter/

@@ -1,0 +1,5 @@
+slug: durable-fan-out-fan-in
+title: Durable Fan-Out Fan-In
+category: orchestration-and-workflows
+description: Durable Functions fan-out/fan-in orchestration with parallel activities.
+docs_url: https://yeongseon.github.io/azure-functions-cookbook-python/patterns/orchestration-and-workflows/durable-fan-out-fan-in/

@@ -1,0 +1,5 @@
+slug: queue-backed-job
+title: Queue-Backed Job
+category: async-apis-and-jobs
+description: HTTP + Storage Queue recipe for accepting a job, returning `202 Accepted`, and polling a stored status record.
+docs_url: https://yeongseon.github.io/azure-functions-cookbook-python/patterns/async-apis-and-jobs/queue-backed-job/

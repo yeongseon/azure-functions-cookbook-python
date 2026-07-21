@@ -1,9 +1,9 @@
 """Auto-discovered smoke tests for every examples/ recipe.
 
 Rather than hand-writing one ``test_module_loads`` per example, this module
-globs ``examples/**/function_app.py`` and parametrizes a single import +
-app-registration smoke over every discovered recipe. Adding a new example is
-automatically covered here with no test edit required.
+parametrizes a single import + app-registration smoke over every recipe listed
+in ``recipe.yaml`` (the metadata single source of truth). Adding a new example
+is automatically covered here once its ``recipe.yaml`` exists.
 
 Behavior-specific assertions (service helpers, handler logic) live in
 ``tests/test_examples.py`` as opt-in per-example tests.
@@ -14,25 +14,15 @@ from __future__ import annotations
 import azure.functions as func
 import pytest
 
-from tests._isolation import EXAMPLES_DIR
 from tests._isolation import load_example_module as _load_example_module
+from tests._recipes import RECIPES
 
-
-def _discover_examples() -> list[str]:
-    """Return sorted forward-slash example paths relative to ``examples/``."""
-    paths = [
-        p.parent.relative_to(EXAMPLES_DIR).as_posix()
-        for p in EXAMPLES_DIR.glob("*/*/function_app.py")
-    ]
-    return sorted(paths)
-
-
-EXAMPLE_PATHS = _discover_examples()
+EXAMPLE_PATHS = [r.example_path for r in RECIPES]
 
 
 def test_examples_discovered() -> None:
     """Guard against a broken glob silently collecting zero examples."""
-    assert EXAMPLE_PATHS, "No examples discovered under examples/*/*/function_app.py"
+    assert EXAMPLE_PATHS, "No recipes discovered via recipe.yaml metadata"
 
 
 @pytest.mark.parametrize("example_path", EXAMPLE_PATHS)
