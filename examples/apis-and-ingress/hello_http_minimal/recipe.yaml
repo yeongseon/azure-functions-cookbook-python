@@ -1,0 +1,5 @@
+slug: hello-http-minimal
+title: Hello HTTP Minimal
+category: apis-and-ingress
+description: Minimal HTTP-triggered Azure Function that returns a greeting.
+docs_url: https://yeongseon.github.io/azure-functions-cookbook-python/patterns/apis-and-ingress/hello-http-minimal/

@@ -1,0 +1,5 @@
+slug: retry-and-idempotency
+title: Retry and Idempotency
+category: reliability
+description: 'This recipe shows two related resilience patterns:'
+docs_url: https://yeongseon.github.io/azure-functions-cookbook-python/patterns/reliability/retry-and-idempotency/

@@ -46,9 +46,11 @@ dev = [
     "pre-commit",
     "pytest",
     "pytest-cov",
+    "pyyaml",
     "requests",
     "ruff",
     "twine",
+    "types-PyYAML",
 ]
 docs = [
     "mkdocs<2.0",

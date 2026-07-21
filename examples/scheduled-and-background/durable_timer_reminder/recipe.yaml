@@ -1,0 +1,5 @@
+slug: durable-timer-reminder
+title: Durable Timer Reminder
+category: scheduled-and-background
+description: Durable Functions orchestration that waits for a long delay and then executes a reminder callback activity.
+docs_url: https://yeongseon.github.io/azure-functions-cookbook-python/patterns/scheduled-and-background/durable-timer-reminder/

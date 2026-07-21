@@ -1,0 +1,5 @@
+slug: rate-limiting-throttle
+title: Rate Limiting / Throttle
+category: reliability
+description: This recipe shows an HTTP-triggered Azure Function using an in-memory token bucket to throttle requests and return `429 Too Many Requests` when the local bucket is empty.
+docs_url: https://yeongseon.github.io/azure-functions-cookbook-python/patterns/reliability/rate-limiting-throttle/

@@ -1,0 +1,5 @@
+slug: cqrs-read-projection
+title: CQRS Read Projection
+category: data-and-pipelines
+description: 'CQRS sample for Azure Functions Python where:'
+docs_url: https://yeongseon.github.io/azure-functions-cookbook-python/patterns/data-and-pipelines/cqrs-read-projection/

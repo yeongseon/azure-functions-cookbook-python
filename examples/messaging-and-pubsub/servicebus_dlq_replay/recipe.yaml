@@ -1,0 +1,5 @@
+slug: servicebus-dlq-replay
+title: Service Bus DLQ Replay
+category: messaging-and-pubsub
+description: Replay dead-lettered Service Bus queue messages back to the main queue after inspection and remediation.
+docs_url: https://yeongseon.github.io/azure-functions-cookbook-python/patterns/messaging-and-pubsub/servicebus-dlq-replay/

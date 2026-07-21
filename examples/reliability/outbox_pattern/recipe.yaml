@@ -1,0 +1,5 @@
+slug: outbox-pattern
+title: Outbox Pattern
+category: reliability
+description: 'Transactional outbox sample for Azure Functions Python where:'
+docs_url: https://yeongseon.github.io/azure-functions-cookbook-python/patterns/reliability/outbox-pattern/

@@ -1,0 +1,5 @@
+slug: apim-function-backend
+title: APIM Function Backend
+category: apis-and-ingress
+description: HTTP-triggered Azure Functions backend intended to sit behind Azure API Management policies for auth, rate limiting, and caching.
+docs_url: https://yeongseon.github.io/azure-functions-cookbook-python/patterns/apis-and-ingress/apim-function-backend/
