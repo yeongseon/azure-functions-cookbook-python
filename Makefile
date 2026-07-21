@@ -85,6 +85,16 @@ test: ensure-hatch
 	@echo "Running tests..."
 	@$(HATCH) run test
 
+.PHONY: new-recipe
+new-recipe: ensure-hatch
+ifndef CAT
+	$(error CAT is not set. Usage: make new-recipe CAT=apis-and-ingress NAME=my_recipe)
+endif
+ifndef NAME
+	$(error NAME is not set. Usage: make new-recipe CAT=apis-and-ingress NAME=my_recipe)
+endif
+	@$(HATCH) run python scripts/new_recipe.py --category "$(CAT)" --name "$(NAME)"
+
 .PHONY: cov
 cov: ensure-hatch
 	@$(HATCH) run cov
