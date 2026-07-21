@@ -28,17 +28,9 @@ from tests._isolation import (
     load_example_module as _load_example_module,
 )
 
-# ---------------------------------------------------------------------------
-# HTTP — hello_http_minimal
-# ---------------------------------------------------------------------------
-
 
 class TestHelloHttpMinimal:
     """Smoke tests for examples/apis-and-ingress/hello_http_minimal."""
-
-    def test_module_loads(self) -> None:
-        module = _load_example_module("apis-and-ingress/hello_http_minimal")
-        assert hasattr(module, "app")
 
     def test_build_greeting_default(self) -> None:
         _load_example_module("apis-and-ingress/hello_http_minimal")
@@ -51,17 +43,8 @@ class TestHelloHttpMinimal:
         assert svc.build_greeting("Ada") == "Hello, Ada!"
 
 
-# ---------------------------------------------------------------------------
-# HTTP — http_routing_query_body
-# ---------------------------------------------------------------------------
-
-
 class TestHttpRoutingQueryBody:
     """Smoke tests for examples/apis-and-ingress/http_routing_query_body."""
-
-    def test_module_loads(self) -> None:
-        module = _load_example_module("apis-and-ingress/http_routing_query_body")
-        assert hasattr(module, "app")
 
     def test_list_all_users(self) -> None:
         _load_example_module("apis-and-ingress/http_routing_query_body")
@@ -125,17 +108,8 @@ class TestHttpRoutingQueryBody:
         assert status == 204
 
 
-# ---------------------------------------------------------------------------
-# HTTP — http_auth_levels
-# ---------------------------------------------------------------------------
-
-
 class TestHttpAuthLevels:
     """Smoke tests for examples/apis-and-ingress/http_auth_levels."""
-
-    def test_module_loads(self) -> None:
-        module = _load_example_module("apis-and-ingress/http_auth_levels")
-        assert hasattr(module, "app")
 
     def test_public_message(self) -> None:
         _load_example_module("apis-and-ingress/http_auth_levels")
@@ -156,17 +130,8 @@ class TestHttpAuthLevels:
         assert isinstance(msg, str)
 
 
-# ---------------------------------------------------------------------------
-# HTTP — webhook_github
-# ---------------------------------------------------------------------------
-
-
 class TestWebhookGithub:
     """Smoke tests for examples/apis-and-ingress/webhook_github."""
-
-    def test_module_loads(self) -> None:
-        module = _load_example_module("apis-and-ingress/webhook_github")
-        assert hasattr(module, "app")
 
     def test_missing_secret_returns_500(self) -> None:
         _load_example_module("apis-and-ingress/webhook_github")
@@ -272,17 +237,8 @@ class TestWebhookGithub:
         assert result["number"] == 7
 
 
-# ---------------------------------------------------------------------------
-# Timer — timer_cron_job
-# ---------------------------------------------------------------------------
-
-
 class TestTimerCronJob:
     """Smoke tests for examples/scheduled-and-background/timer_cron_job."""
-
-    def test_module_loads(self) -> None:
-        module = _load_example_module("scheduled-and-background/timer_cron_job")
-        assert hasattr(module, "app")
 
     def test_perform_maintenance_helper(self) -> None:
         _load_example_module("scheduled-and-background/timer_cron_job")
@@ -293,17 +249,8 @@ class TestTimerCronJob:
         assert "complete" in result.lower()
 
 
-# ---------------------------------------------------------------------------
-# Queue — queue_producer
-# ---------------------------------------------------------------------------
-
-
 class TestQueueProducer:
     """Smoke tests for examples/messaging-and-pubsub/queue_producer."""
-
-    def test_module_loads(self) -> None:
-        module = _load_example_module("messaging-and-pubsub/queue_producer")
-        assert hasattr(module, "app")
 
     def test_validate_payload_valid(self) -> None:
         _load_example_module("messaging-and-pubsub/queue_producer")
@@ -320,17 +267,8 @@ class TestQueueProducer:
         assert "task_type" in error
 
 
-# ---------------------------------------------------------------------------
-# Queue — queue_consumer
-# ---------------------------------------------------------------------------
-
-
 class TestQueueConsumer:
     """Smoke tests for examples/messaging-and-pubsub/queue_consumer."""
-
-    def test_module_loads(self) -> None:
-        module = _load_example_module("messaging-and-pubsub/queue_consumer")
-        assert hasattr(module, "app")
 
     def test_process_task_helper(self) -> None:
         _load_example_module("messaging-and-pubsub/queue_consumer")
@@ -339,17 +277,8 @@ class TestQueueConsumer:
         assert "email" in result
 
 
-# ---------------------------------------------------------------------------
-# Blob — blob_upload_processor
-# ---------------------------------------------------------------------------
-
-
 class TestBlobUploadProcessor:
     """Smoke tests for examples/blob-and-file-triggers/blob_upload_processor."""
-
-    def test_module_loads(self) -> None:
-        module = _load_example_module("blob-and-file-triggers/blob_upload_processor")
-        assert hasattr(module, "app")
 
     def test_process_blob_helper(self) -> None:
         _load_example_module("blob-and-file-triggers/blob_upload_processor")
@@ -366,30 +295,8 @@ class TestBlobUploadProcessor:
         assert "100" in result
 
 
-# ---------------------------------------------------------------------------
-# Blob — blob_eventgrid_trigger
-# ---------------------------------------------------------------------------
-
-
-class TestBlobEventgridTrigger:
-    """Smoke tests for examples/blob-and-file-triggers/blob_eventgrid_trigger."""
-
-    def test_module_loads(self) -> None:
-        module = _load_example_module("blob-and-file-triggers/blob_eventgrid_trigger")
-        assert hasattr(module, "app")
-
-
-# ---------------------------------------------------------------------------
-# Service Bus — servicebus_worker
-# ---------------------------------------------------------------------------
-
-
 class TestServicebusWorker:
     """Smoke tests for examples/messaging-and-pubsub/servicebus_worker."""
-
-    def test_module_loads(self) -> None:
-        module = _load_example_module("messaging-and-pubsub/servicebus_worker")
-        assert hasattr(module, "app")
 
     def test_process_message_helper(self) -> None:
         _load_example_module("messaging-and-pubsub/servicebus_worker")
@@ -401,17 +308,8 @@ class TestServicebusWorker:
         assert "high" in result
 
 
-# ---------------------------------------------------------------------------
-# Event Hub — eventhub_consumer
-# ---------------------------------------------------------------------------
-
-
 class TestEventhubConsumer:
     """Smoke tests for examples/streams-and-telemetry/eventhub_consumer."""
-
-    def test_module_loads(self) -> None:
-        module = _load_example_module("streams-and-telemetry/eventhub_consumer")
-        assert hasattr(module, "app")
 
     def test_process_telemetry_helper(self) -> None:
         _load_example_module("streams-and-telemetry/eventhub_consumer")
@@ -423,17 +321,8 @@ class TestEventhubConsumer:
         assert "42.5" in result
 
 
-# ---------------------------------------------------------------------------
-# Cosmos DB — change_feed_processor
-# ---------------------------------------------------------------------------
-
-
 class TestChangeFeedProcessor:
     """Smoke tests for examples/data-and-pipelines/change_feed_processor."""
-
-    def test_module_loads(self) -> None:
-        module = _load_example_module("data-and-pipelines/change_feed_processor")
-        assert hasattr(module, "app")
 
     def test_process_change_helper(self) -> None:
         _load_example_module("data-and-pipelines/change_feed_processor")
@@ -445,17 +334,8 @@ class TestChangeFeedProcessor:
         assert "orders" in result
 
 
-# ---------------------------------------------------------------------------
-# Recipes — blueprint_modular_app
-# ---------------------------------------------------------------------------
-
-
 class TestBlueprintModularApp:
     """Smoke tests for examples/runtime-and-ops/blueprint_modular_app."""
-
-    def test_module_loads(self) -> None:
-        module = _load_example_module("runtime-and-ops/blueprint_modular_app")
-        assert hasattr(module, "app")
 
     def test_health_service(self) -> None:
         _load_example_module("runtime-and-ops/blueprint_modular_app")
@@ -472,30 +352,8 @@ class TestBlueprintModularApp:
         assert isinstance(users, list)
 
 
-# ---------------------------------------------------------------------------
-# Recipes — retry_and_idempotency
-# ---------------------------------------------------------------------------
-
-
-class TestRetryAndIdempotency:
-    """Smoke tests for examples/reliability/retry_and_idempotency."""
-
-    def test_module_loads(self) -> None:
-        module = _load_example_module("reliability/retry_and_idempotency")
-        assert hasattr(module, "app")
-
-
-# ---------------------------------------------------------------------------
-# Recipes — output_binding_vs_sdk
-# ---------------------------------------------------------------------------
-
-
 class TestOutputBindingVsSdk:
     """Smoke tests for examples/runtime-and-ops/output_binding_vs_sdk."""
-
-    def test_module_loads(self) -> None:
-        module = _load_example_module("runtime-and-ops/output_binding_vs_sdk")
-        assert hasattr(module, "app")
 
     def test_build_payload_helper(self) -> None:
         _load_example_module("runtime-and-ops/output_binding_vs_sdk")
@@ -513,69 +371,8 @@ class TestOutputBindingVsSdk:
         assert payload["source"] == "recipe"
 
 
-# ---------------------------------------------------------------------------
-# Recipes — managed_identity_storage
-# ---------------------------------------------------------------------------
-
-
-class TestManagedIdentityStorage:
-    """Smoke tests for examples/security-and-tenancy/managed_identity_storage."""
-
-    def test_module_loads(self) -> None:
-        module = _load_example_module("security-and-tenancy/managed_identity_storage")
-        assert hasattr(module, "app")
-
-
-# ---------------------------------------------------------------------------
-# Recipes — managed_identity_servicebus
-# ---------------------------------------------------------------------------
-
-
-class TestManagedIdentityServicebus:
-    """Smoke tests for examples/security-and-tenancy/managed_identity_servicebus."""
-
-    def test_module_loads(self) -> None:
-        module = _load_example_module("security-and-tenancy/managed_identity_servicebus")
-        assert hasattr(module, "app")
-
-
-# ---------------------------------------------------------------------------
-# Recipes — host_json_tuning
-# ---------------------------------------------------------------------------
-
-
-class TestHostJsonTuning:
-    """Smoke tests for examples/runtime-and-ops/host_json_tuning."""
-
-    def test_module_loads(self) -> None:
-        module = _load_example_module("runtime-and-ops/host_json_tuning")
-        assert hasattr(module, "app")
-
-
-# ---------------------------------------------------------------------------
-# Recipes — concurrency_tuning
-# ---------------------------------------------------------------------------
-
-
-class TestConcurrencyTuning:
-    """Smoke tests for examples/runtime-and-ops/concurrency_tuning."""
-
-    def test_module_loads(self) -> None:
-        module = _load_example_module("runtime-and-ops/concurrency_tuning")
-        assert hasattr(module, "app")
-
-
-# ---------------------------------------------------------------------------
-# Durable — durable_hello_sequence
-# ---------------------------------------------------------------------------
-
-
 class TestDurableHelloSequence:
     """Smoke tests for examples/orchestration-and-workflows/durable_hello_sequence."""
-
-    def test_module_loads(self) -> None:
-        module = _load_example_module("orchestration-and-workflows/durable_hello_sequence")
-        assert hasattr(module, "app")
 
     def test_greet_activity(self) -> None:
         _load_example_module("orchestration-and-workflows/durable_hello_sequence")
@@ -586,17 +383,8 @@ class TestDurableHelloSequence:
         assert result == "Hello Tokyo!"
 
 
-# ---------------------------------------------------------------------------
-# Durable — durable_fan_out_fan_in
-# ---------------------------------------------------------------------------
-
-
 class TestDurableFanOutFanIn:
     """Smoke tests for examples/orchestration-and-workflows/durable_fan_out_fan_in."""
-
-    def test_module_loads(self) -> None:
-        module = _load_example_module("orchestration-and-workflows/durable_fan_out_fan_in")
-        assert hasattr(module, "app")
 
     def test_process_item_activity(self) -> None:
         _load_example_module("orchestration-and-workflows/durable_fan_out_fan_in")
@@ -607,56 +395,8 @@ class TestDurableFanOutFanIn:
         assert result == "Processed item-1"
 
 
-# ---------------------------------------------------------------------------
-# Durable — durable_human_interaction
-# ---------------------------------------------------------------------------
-
-
-class TestDurableHumanInteraction:
-    """Smoke tests for examples/orchestration-and-workflows/durable_human_interaction."""
-
-    def test_module_loads(self) -> None:
-        module = _load_example_module("orchestration-and-workflows/durable_human_interaction")
-        assert hasattr(module, "app")
-
-
-# ---------------------------------------------------------------------------
-# Durable — durable_entity_counter
-# ---------------------------------------------------------------------------
-
-
-class TestDurableEntityCounter:
-    """Smoke tests for examples/orchestration-and-workflows/durable_entity_counter."""
-
-    def test_module_loads(self) -> None:
-        module = _load_example_module("orchestration-and-workflows/durable_entity_counter")
-        assert hasattr(module, "app")
-
-
-# ---------------------------------------------------------------------------
-# Durable — durable_retry_pattern
-# ---------------------------------------------------------------------------
-
-
-class TestDurableRetryPattern:
-    """Smoke tests for examples/orchestration-and-workflows/durable_retry_pattern."""
-
-    def test_module_loads(self) -> None:
-        module = _load_example_module("orchestration-and-workflows/durable_retry_pattern")
-        assert hasattr(module, "app")
-
-
-# ---------------------------------------------------------------------------
-# Durable — durable_determinism_gotchas
-# ---------------------------------------------------------------------------
-
-
 class TestDurableDeterminismGotchas:
     """Smoke tests for examples/orchestration-and-workflows/durable_determinism_gotchas."""
-
-    def test_module_loads(self) -> None:
-        module = _load_example_module("orchestration-and-workflows/durable_determinism_gotchas")
-        assert hasattr(module, "app")
 
     def test_fetch_data_activity(self) -> None:
         _load_example_module("orchestration-and-workflows/durable_determinism_gotchas")
@@ -667,17 +407,8 @@ class TestDurableDeterminismGotchas:
         assert "resource-1" in result
 
 
-# ---------------------------------------------------------------------------
-# Durable — durable_unit_testing
-# ---------------------------------------------------------------------------
-
-
 class TestDurableUnitTesting:
     """Smoke tests for examples/orchestration-and-workflows/durable_unit_testing."""
-
-    def test_module_loads(self) -> None:
-        module = _load_example_module("orchestration-and-workflows/durable_unit_testing")
-        assert hasattr(module, "app")
 
     def test_greet_activity(self) -> None:
         _load_example_module("orchestration-and-workflows/durable_unit_testing")
@@ -688,17 +419,8 @@ class TestDurableUnitTesting:
         assert result == "Hello Seoul!"
 
 
-# ---------------------------------------------------------------------------
-# AI — mcp_server_example
-# ---------------------------------------------------------------------------
-
-
 class TestMcpServerExample:
     """Smoke tests for examples/ai-and-agents/mcp_server_example."""
-
-    def test_module_loads(self) -> None:
-        module = _load_example_module("ai-and-agents/mcp_server_example")
-        assert hasattr(module, "app")
 
     def test_handle_get_weather(self) -> None:
         _load_example_module("ai-and-agents/mcp_server_example")
@@ -819,17 +541,8 @@ class TestMcpServerExample:
         assert response.status_code == 400
 
 
-# ---------------------------------------------------------------------------
-# Local — local_run_and_direct_invoke
-# ---------------------------------------------------------------------------
-
-
 class TestLocalRunAndDirectInvoke:
     """Smoke tests for examples/local_run_and_direct_invoke."""
-
-    def test_module_loads(self) -> None:
-        module = _load_example_module("guides/local_run_and_direct_invoke")
-        assert hasattr(module, "app")
 
     def test_greet_with_query_param(self) -> None:
         _load_example_module("guides/local_run_and_direct_invoke")
@@ -873,17 +586,8 @@ class TestLocalRunAndDirectInvoke:
         assert response.status_code == 400
 
 
-# ---------------------------------------------------------------------------
-# HTTP — auth_easyauth
-# ---------------------------------------------------------------------------
-
-
 class TestAuthEasyAuth:
     """Smoke tests for examples/apis-and-ingress/auth_easyauth."""
-
-    def test_module_loads(self) -> None:
-        module = _load_example_module("apis-and-ingress/auth_easyauth")
-        assert hasattr(module, "app")
 
     def test_decode_client_principal_valid(self) -> None:
         import base64
@@ -999,17 +703,8 @@ class TestAuthEasyAuth:
         assert status == 403
 
 
-# ---------------------------------------------------------------------------
-# HTTP — auth_jwt_validation
-# ---------------------------------------------------------------------------
-
-
 class TestAuthJwtValidation:
     """Smoke tests for examples/apis-and-ingress/auth_jwt_validation."""
-
-    def test_module_loads(self) -> None:
-        module = _load_example_module("apis-and-ingress/auth_jwt_validation")
-        assert hasattr(module, "app")
 
     def test_extract_bearer_token_valid(self) -> None:
         _load_example_module("apis-and-ingress/auth_jwt_validation")
@@ -1071,17 +766,8 @@ class TestAuthJwtValidation:
         assert status == 403
 
 
-# ---------------------------------------------------------------------------
-# HTTP — auth_multitenant
-# ---------------------------------------------------------------------------
-
-
 class TestAuthMultitenant:
     """Smoke tests for examples/apis-and-ingress/auth_multitenant."""
-
-    def test_module_loads(self) -> None:
-        module = _load_example_module("apis-and-ingress/auth_multitenant")
-        assert hasattr(module, "app")
 
     def test_decode_client_principal_valid(self) -> None:
         import base64
@@ -1154,292 +840,8 @@ class TestAuthMultitenant:
         assert body["user_id"] == "user-1"
 
 
-# ---------------------------------------------------------------------------
-# Async APIs and Jobs — async_http_polling
-# ---------------------------------------------------------------------------
-
-
-class TestAsyncHttpPolling:
-    def test_module_loads(self) -> None:
-        module = _load_example_module("async-apis-and-jobs/async_http_polling")
-        assert hasattr(module, "app")
-
-
-# ---------------------------------------------------------------------------
-# Async APIs and Jobs — queue_backed_job
-# ---------------------------------------------------------------------------
-
-
-class TestQueueBackedJob:
-    def test_module_loads(self) -> None:
-        module = _load_example_module("async-apis-and-jobs/queue_backed_job")
-        assert hasattr(module, "app")
-
-
-# ---------------------------------------------------------------------------
-# Async APIs and Jobs — callback_completion
-# ---------------------------------------------------------------------------
-
-
-class TestCallbackCompletion:
-    def test_module_loads(self) -> None:
-        module = _load_example_module("async-apis-and-jobs/callback_completion")
-        assert hasattr(module, "app")
-
-
-# ---------------------------------------------------------------------------
-# Messaging and PubSub — eventgrid_router
-# ---------------------------------------------------------------------------
-
-
-class TestEventgridRouter:
-    def test_module_loads(self) -> None:
-        module = _load_example_module("messaging-and-pubsub/eventgrid_router")
-        assert hasattr(module, "app")
-
-
-# ---------------------------------------------------------------------------
-# Messaging and PubSub — servicebus_topic_fanout
-# ---------------------------------------------------------------------------
-
-
-class TestServicebusTopicFanout:
-    def test_module_loads(self) -> None:
-        module = _load_example_module("messaging-and-pubsub/servicebus_topic_fanout")
-        assert hasattr(module, "app")
-
-
-# ---------------------------------------------------------------------------
-# Messaging and PubSub — servicebus_sessions
-# ---------------------------------------------------------------------------
-
-
-class TestServicebusSessions:
-    def test_module_loads(self) -> None:
-        module = _load_example_module("messaging-and-pubsub/servicebus_sessions")
-        assert hasattr(module, "app")
-
-
-# ---------------------------------------------------------------------------
-# Messaging and PubSub — servicebus_dlq_replay
-# ---------------------------------------------------------------------------
-
-
-class TestServicebusDlqReplay:
-    def test_module_loads(self) -> None:
-        module = _load_example_module("messaging-and-pubsub/servicebus_dlq_replay")
-        assert hasattr(module, "app")
-
-
-# ---------------------------------------------------------------------------
-# Messaging and PubSub — eventgrid_domain_events
-# ---------------------------------------------------------------------------
-
-
-class TestEventgridDomainEvents:
-    def test_module_loads(self) -> None:
-        module = _load_example_module("messaging-and-pubsub/eventgrid_domain_events")
-        assert hasattr(module, "app")
-
-
-# ---------------------------------------------------------------------------
-# Streams and Telemetry — eventhub_batch_window
-# ---------------------------------------------------------------------------
-
-
-class TestEventhubBatchWindow:
-    def test_module_loads(self) -> None:
-        module = _load_example_module("streams-and-telemetry/eventhub_batch_window")
-        assert hasattr(module, "app")
-
-
-# ---------------------------------------------------------------------------
-# Streams and Telemetry — eventhub_checkpoint_replay
-# ---------------------------------------------------------------------------
-
-
-class TestEventhubCheckpointReplay:
-    def test_module_loads(self) -> None:
-        module = _load_example_module("streams-and-telemetry/eventhub_checkpoint_replay")
-        assert hasattr(module, "app")
-
-
-# ---------------------------------------------------------------------------
-# Data and Pipelines — file_processing_pipeline
-# ---------------------------------------------------------------------------
-
-
-class TestFileProcessingPipeline:
-    def test_module_loads(self) -> None:
-        module = _load_example_module("data-and-pipelines/file_processing_pipeline")
-        assert hasattr(module, "app")
-
-
-# ---------------------------------------------------------------------------
-# Data and Pipelines — cqrs_read_projection
-# ---------------------------------------------------------------------------
-
-
-class TestCqrsReadProjection:
-    def test_module_loads(self) -> None:
-        module = _load_example_module("data-and-pipelines/cqrs_read_projection")
-        assert hasattr(module, "app")
-
-
-# ---------------------------------------------------------------------------
-# Data and Pipelines — sqlalchemy_rest_pagination
-# ---------------------------------------------------------------------------
-
-
-class TestSqlalchemyRestPagination:
-    def test_module_loads(self) -> None:
-        module = _load_example_module("data-and-pipelines/sqlalchemy_rest_pagination")
-        assert hasattr(module, "app")
-
-
-# ---------------------------------------------------------------------------
-# Data and Pipelines — etl_enrichment
-# ---------------------------------------------------------------------------
-
-
-class TestEtlEnrichment:
-    def test_module_loads(self) -> None:
-        module = _load_example_module("data-and-pipelines/etl_enrichment")
-        assert hasattr(module, "app")
-
-
-# ---------------------------------------------------------------------------
-# Orchestration and Workflows — saga_compensation
-# ---------------------------------------------------------------------------
-
-
-class TestSagaCompensation:
-    def test_module_loads(self) -> None:
-        module = _load_example_module("orchestration-and-workflows/saga_compensation")
-        assert hasattr(module, "app")
-
-
-# ---------------------------------------------------------------------------
-# Orchestration and Workflows — sub_orchestration
-# ---------------------------------------------------------------------------
-
-
-class TestSubOrchestration:
-    def test_module_loads(self) -> None:
-        module = _load_example_module("orchestration-and-workflows/sub_orchestration")
-        assert hasattr(module, "app")
-
-
-# ---------------------------------------------------------------------------
-# Orchestration and Workflows — async_job_lifecycle
-# ---------------------------------------------------------------------------
-
-
-class TestAsyncJobLifecycle:
-    def test_module_loads(self) -> None:
-        module = _load_example_module("orchestration-and-workflows/async_job_lifecycle")
-        assert hasattr(module, "app")
-
-
-# ---------------------------------------------------------------------------
-# Reliability — circuit_breaker
-# ---------------------------------------------------------------------------
-
-
-class TestCircuitBreaker:
-    def test_module_loads(self) -> None:
-        module = _load_example_module("reliability/circuit_breaker")
-        assert hasattr(module, "app")
-
-
-# ---------------------------------------------------------------------------
-# Reliability — poison_message_handling
-# ---------------------------------------------------------------------------
-
-
-class TestPoisonMessageHandling:
-    def test_module_loads(self) -> None:
-        module = _load_example_module("reliability/poison_message_handling")
-        assert hasattr(module, "app")
-
-
-# ---------------------------------------------------------------------------
-# Reliability — outbox_pattern
-# ---------------------------------------------------------------------------
-
-
-class TestOutboxPattern:
-    def test_module_loads(self) -> None:
-        module = _load_example_module("reliability/outbox_pattern")
-        assert hasattr(module, "app")
-
-
-# ---------------------------------------------------------------------------
-# Reliability — rate_limiting
-# ---------------------------------------------------------------------------
-
-
-class TestRateLimiting:
-    def test_module_loads(self) -> None:
-        module = _load_example_module("reliability/rate_limiting")
-        assert hasattr(module, "app")
-
-
-# ---------------------------------------------------------------------------
-# Security and Tenancy — secretless_keyvault
-# ---------------------------------------------------------------------------
-
-
-class TestSecretlessKeyvault:
-    def test_module_loads(self) -> None:
-        module = _load_example_module("security-and-tenancy/secretless_keyvault")
-        assert hasattr(module, "app")
-
-
-# ---------------------------------------------------------------------------
-# Security and Tenancy — tenant_isolation
-# ---------------------------------------------------------------------------
-
-
-class TestTenantIsolation:
-    def test_module_loads(self) -> None:
-        module = _load_example_module("security-and-tenancy/tenant_isolation")
-        assert hasattr(module, "app")
-
-
-# ---------------------------------------------------------------------------
-# Runtime and Ops — observability_tracing
-# ---------------------------------------------------------------------------
-
-
-class TestObservabilityTracing:
-    def test_module_loads(self) -> None:
-        module = _load_example_module("runtime-and-ops/observability_tracing")
-        assert hasattr(module, "app")
-
-
-# ---------------------------------------------------------------------------
-# Runtime and Ops — cold_start_mitigation
-# ---------------------------------------------------------------------------
-
-
-class TestColdStartMitigation:
-    def test_module_loads(self) -> None:
-        module = _load_example_module("runtime-and-ops/cold_start_mitigation")
-        assert hasattr(module, "app")
-
-
-# ---------------------------------------------------------------------------
-# Runtime and Ops — doctor_diagnostics_endpoint
-# ---------------------------------------------------------------------------
-
-
 class TestDoctorDiagnosticsEndpoint:
     """Smoke tests for examples/runtime-and-ops/doctor_diagnostics_endpoint."""
-
-    def test_module_loads(self) -> None:
-        module = _load_example_module("runtime-and-ops/doctor_diagnostics_endpoint")
-        assert hasattr(module, "app")
 
     def test_health_service(self) -> None:
         _load_example_module("runtime-and-ops/doctor_diagnostics_endpoint")
@@ -1479,17 +881,8 @@ class TestDoctorDiagnosticsEndpoint:
         assert len(result["sections"]) == 2
 
 
-# ---------------------------------------------------------------------------
-# APIs and Ingress — scaffold_walkthrough_app
-# ---------------------------------------------------------------------------
-
-
 class TestScaffoldWalkthroughApp:
     """Smoke tests for examples/apis-and-ingress/scaffold_walkthrough_app."""
-
-    def test_module_loads(self) -> None:
-        module = _load_example_module("apis-and-ingress/scaffold_walkthrough_app")
-        assert hasattr(module, "app")
 
     def test_health_endpoint(self) -> None:
         _load_example_module("apis-and-ingress/scaffold_walkthrough_app")
@@ -1527,55 +920,7 @@ class TestScaffoldWalkthroughApp:
         assert svc.verify_signature(payload, "no-prefix", secret) is False
 
 
-# ---------------------------------------------------------------------------
-# APIs and Ingress — bff_facade_api
-# ---------------------------------------------------------------------------
-
-
-class TestBffFacadeApi:
-    def test_module_loads(self) -> None:
-        module = _load_example_module("apis-and-ingress/bff_facade_api")
-        assert hasattr(module, "app")
-
-
-# ---------------------------------------------------------------------------
-# APIs and Ingress — full_stack_crud_api
-# ---------------------------------------------------------------------------
-
-
-class TestFullStackCrudApi:
-    def test_module_loads(self) -> None:
-        module = _load_example_module("apis-and-ingress/full_stack_crud_api")
-        assert hasattr(module, "app")
-
-
-# ---------------------------------------------------------------------------
-# AI and Agents — rag_knowledge_api
-# ---------------------------------------------------------------------------
-
-
-class TestRagKnowledgeApi:
-    def test_module_loads(self) -> None:
-        module = _load_example_module("ai-and-agents/rag_knowledge_api")
-        assert hasattr(module, "app")
-
-
-# ---------------------------------------------------------------------------
-# AI and Agents — langgraph_rag_agent
-# ---------------------------------------------------------------------------
-
-
-class TestLanggraphRagAgent:
-    def test_module_loads(self) -> None:
-        module = _load_example_module("ai-and-agents/langgraph_rag_agent")
-        assert hasattr(module, "app")
-
-
 class TestOpenaiDirectChat:
-    def test_module_loads(self) -> None:
-        module = _load_example_module("ai-and-agents/openai_direct_chat")
-        assert hasattr(module, "app")
-
     def test_complete_chat_fallback_returns_expected_response(self) -> None:
         module = _load_example_module("ai-and-agents/openai_direct_chat")
         endpoint_backup = os.environ.pop("AZURE_OPENAI_ENDPOINT", None)
@@ -1609,10 +954,6 @@ class TestOpenaiDirectChat:
 
 
 class TestDurableAiPipeline:
-    def test_module_loads(self) -> None:
-        module = _load_example_module("ai-and-agents/durable_ai_pipeline")
-        assert hasattr(module, "app")
-
     def test_openai_and_search_clients_return_none_without_env_vars(self) -> None:
         module = _load_example_module("ai-and-agents/durable_ai_pipeline")
         endpoint_backup = os.environ.pop("AZURE_OPENAI_ENDPOINT", None)
@@ -1690,10 +1031,6 @@ class TestDurableAiPipeline:
 
 
 class TestStreamingAiResponse:
-    def test_module_loads(self) -> None:
-        module = _load_example_module("ai-and-agents/streaming_ai_response")
-        assert hasattr(module, "app")
-
     def test_stream_frames_fallback_contains_message_and_data_lines(self) -> None:
         module = _load_example_module("ai-and-agents/streaming_ai_response")
         endpoint_backup = os.environ.pop("AZURE_OPENAI_ENDPOINT", None)
@@ -1726,10 +1063,6 @@ class TestStreamingAiResponse:
 
 
 class TestAiImageGeneration:
-    def test_module_loads(self) -> None:
-        module = _load_example_module("ai-and-agents/ai_image_generation")
-        assert hasattr(module, "app")
-
     def test_generate_image_fallback_returns_example_image(self) -> None:
         module = _load_example_module("ai-and-agents/ai_image_generation")
         endpoint_backup = os.environ.pop("AZURE_OPENAI_ENDPOINT", None)
@@ -1772,10 +1105,6 @@ class TestAiImageGeneration:
 
 
 class TestEmbeddingVectorSearch:
-    def test_module_loads(self) -> None:
-        module = _load_example_module("ai-and-agents/embedding_vector_search")
-        assert hasattr(module, "app")
-
     def test_openai_and_search_clients_return_none_without_env_vars(self) -> None:
         module = _load_example_module("ai-and-agents/embedding_vector_search")
         endpoint_backup = os.environ.pop("AZURE_OPENAI_ENDPOINT", None)
