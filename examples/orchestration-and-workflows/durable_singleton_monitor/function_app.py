@@ -21,31 +21,8 @@ except ImportError:
             return self.__dict__.copy()
 
 
-try:
-    from azure_functions_logging import get_logger, setup_logging, with_context
-except ImportError:
-    import logging
-
-    def setup_logging(*_: object, **__: object) -> None:
-        logging.basicConfig(level=logging.INFO)
-
-    def get_logger(name: str) -> logging.Logger:
-        return logging.getLogger(name)
-
-    def with_context(function):
-        return function
-
-
-try:
-    from azure_functions_openapi.decorator import openapi
-except ImportError:
-
-    def openapi(*_: object, **__: object):
-        def decorator(function):
-            return function
-
-        return decorator
-
+from azure_functions_logging import get_logger, setup_logging, with_context
+from azure_functions_openapi import openapi
 
 setup_logging(format="json")
 logger = get_logger(__name__)

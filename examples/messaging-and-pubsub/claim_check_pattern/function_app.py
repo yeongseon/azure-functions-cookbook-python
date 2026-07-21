@@ -22,42 +22,9 @@ except ImportError:
         return default
 
 
-try:
-    from azure_functions_logging import get_logger, setup_logging, with_context
-except ImportError:
-    import logging
-
-    def setup_logging(*_: object, **__: object) -> None:
-        logging.basicConfig(level=logging.INFO)
-
-    def get_logger(name: str) -> logging.Logger:
-        return logging.getLogger(name)
-
-    def with_context(function):
-        return function
-
-
-try:
-    from azure_functions_openapi.decorator import openapi
-except ImportError:
-
-    def openapi(*_: object, **__: object):
-        def decorator(function):
-            return function
-
-        return decorator
-
-
-try:
-    from azure_functions_validation import validate_http
-except ImportError:
-
-    def validate_http(*_: object, **__: object):
-        def decorator(function):
-            return function
-
-        return decorator
-
+from azure_functions_logging import get_logger, setup_logging, with_context
+from azure_functions_openapi import openapi
+from azure_functions_validation import validate_http
 
 setup_logging(format="json")
 logger = get_logger(__name__)

@@ -2,48 +2,14 @@
 
 from __future__ import annotations
 
-import logging
 import os
 from typing import Any
 
 import azure.functions as func
+from azure_functions_logging import get_logger, setup_logging, with_context
+from azure_functions_openapi import openapi
+from azure_functions_validation import validate_http
 from pydantic import BaseModel, Field
-
-try:
-    from azure_functions_logging import get_logger, setup_logging, with_context
-except ImportError:
-
-    def setup_logging(*args: Any, **kwargs: Any) -> None:
-        logging.basicConfig(level=logging.INFO)
-
-    def get_logger(name: str) -> logging.Logger:
-        return logging.getLogger(name)
-
-    def with_context(function: Any) -> Any:
-        return function
-
-
-try:
-    from azure_functions_openapi import openapi
-except ImportError:
-
-    def openapi(*args: Any, **kwargs: Any):
-        def decorator(function: Any) -> Any:
-            return function
-
-        return decorator
-
-
-try:
-    from azure_functions_validation import validate_http
-except ImportError:
-
-    def validate_http(*args: Any, **kwargs: Any):
-        def decorator(function: Any) -> Any:
-            return function
-
-        return decorator
-
 
 try:
     from azure.core.credentials import AzureKeyCredential
