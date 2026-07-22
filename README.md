@@ -184,6 +184,43 @@ _77 recipes. Difficulty is carried forward from the previously hand-maintained t
 
 Each pattern page lives under `docs/patterns/` with a matching runnable project in `examples/`.
 
+## Running Examples
+
+Every recipe runs locally with the Azure Functions Core Tools. Most triggers can
+be emulated with [Azurite](https://learn.microsoft.com/azure/storage/common/storage-use-azurite);
+a few need real cloud services or API keys. The table below lists the external
+dependency by category and how to run without a live service.
+
+| Category | External service | Run locally with |
+| --- | --- | --- |
+| APIs and Ingress | None (plain HTTP) | `func start` — no emulator needed |
+| Scheduled and Background | Storage (timer/queue state) | Azurite (`AzureWebJobsStorage=UseDevelopmentStorage=true`) |
+| Blob and File Triggers | Azure Storage / Event Grid | Azurite for blobs; Event Grid trigger needs a real subscription or replayed payload |
+| Async APIs and Jobs | Storage Queue | Azurite |
+| Messaging and Pub/Sub | Service Bus / Event Grid / Storage Queue | Azurite for Storage Queue; Service Bus & Event Grid need a real namespace |
+| Streams and Telemetry | Event Hubs | Real Event Hubs namespace (no local emulator) |
+| Data and Pipelines | Cosmos DB / SQL / Storage | Azurite or SQLite for DB recipes; Cosmos change-feed needs a real account |
+| Orchestration and Workflows | Durable Functions (Storage) | Azurite (Durable task hub) |
+| Reliability | Storage Queue | Azurite |
+| Security and Tenancy | Managed Identity / Key Vault / Service Bus | Local dev uses connection strings; identity paths need Azure |
+| Runtime and Ops | None / Storage | `func start`; some use Azurite |
+| Realtime | Web PubSub / SignalR | Real Web PubSub service |
+| AI and Agents | Azure OpenAI / Azure AI Search | Runs against a local stub by default; set endpoint/key env vars for real services |
+| Guides | None | `func start` |
+
+Each example's `README.md` documents its specific `local.settings.json` values.
+AI examples ship a local fallback stub so they run without credentials — see
+each recipe's README for the environment variables that switch on real services.
+
+### Test tiers
+
+Tests are separated by pytest marker so you can run the fast tier by default and
+opt into the heavier tiers explicitly:
+
+- **unit** (default) — `make test`; no external services, no emulator.
+- **smoke** — `hatch run smoke`; module-import checks for non-emulatable triggers.
+- **e2e** — `hatch run e2e`; requires Azurite and a running `func` host.
+
 ## Repository Layout
 
 ```text
@@ -237,8 +274,8 @@ The **Status** column reflects how each package is currently exercised in this r
 | [azure-functions-langgraph-python](https://github.com/yeongseon/azure-functions-langgraph-python) | LangGraph deployment adapter for Azure Functions | Dogfooded (2 examples) |
 | [azure-functions-scaffold-python](https://github.com/yeongseon/azure-functions-scaffold-python) | Project scaffolding CLI | Dogfooded (1 example, CLI-generated) |
 | [azure-functions-doctor-python](https://github.com/yeongseon/azure-functions-doctor-python) | Pre-deploy diagnostic CLI | Dogfooded (1 example) |
-| [azure-functions-durable-graph-python](https://github.com/yeongseon/azure-functions-durable-graph-python) | Manifest-first graph runtime with Durable Functions *(experimental)* | Experimental — no example yet ([#73](https://github.com/yeongseon/azure-functions-cookbook-python/issues/73)) |
-| [azure-functions-knowledge-python](https://github.com/yeongseon/azure-functions-knowledge-python) | Knowledge retrieval (RAG) decorators | Experimental — RAG example uses a local stub, not the real library ([#73](https://github.com/yeongseon/azure-functions-cookbook-python/issues/73)) |
+| [azure-functions-durable-graph-python](https://github.com/yeongseon/azure-functions-durable-graph-python) | Manifest-first graph runtime with Durable Functions *(experimental)* | Experimental — not yet dogfooded ([#76](https://github.com/yeongseon/azure-functions-cookbook-python/issues/76)) |
+| [azure-functions-knowledge-python](https://github.com/yeongseon/azure-functions-knowledge-python) | Knowledge retrieval (RAG) decorators | Experimental — `rag_knowledge_api` uses a local stub, not the real library ([#76](https://github.com/yeongseon/azure-functions-cookbook-python/issues/76)) |
 | **azure-functions-cookbook-python** *(this repo)* | Dogfood examples for the full toolkit | 77 examples |
 
 ## For AI Coding Assistants
