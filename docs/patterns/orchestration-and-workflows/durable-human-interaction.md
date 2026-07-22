@@ -34,6 +34,8 @@ flowchart LR
     wait --> approved[Approved]
 ```
 
+> **Maps to** `examples/orchestration-and-workflows/durable_human_interaction/` (`app/functions/orchestration.py`): the starter is `start_approval` (route `start-approval`), the orchestrator is `approval_orchestrator`, and the resume endpoint is `approve_instance` (route `approve/{instance_id}`).
+
 ## Behavior
 ```mermaid
 sequenceDiagram
@@ -55,6 +57,8 @@ sequenceDiagram
         Orch-->>Client: output="Timed out"
     end
 ```
+
+> **Maps to** `examples/orchestration-and-workflows/durable_human_interaction/`: `approval_orchestrator` waits on an external event that `approve_instance` raises via `raise_event`, unblocking the pending approval.
 
 ## Prerequisites
 - Python 3.10+

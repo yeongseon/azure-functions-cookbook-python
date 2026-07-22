@@ -31,6 +31,8 @@ flowchart LR
     yields --> assertions[assert call order and final value]
 ```
 
+> **Maps to** `examples/orchestration-and-workflows/durable_unit_testing/` (`app/functions/orchestration.py`): the starter is `start_unit_test` (route `start-unit-test`), the orchestrator is `hello_test_orchestrator`, and the activity is `say_hello`; unit tests mock the orchestration context under `tests/`.
+
 ## Behavior
 ```mermaid
 sequenceDiagram
@@ -48,6 +50,8 @@ sequenceDiagram
     Test->>Orch: send("Hello London!")
     Orch-->>Test: StopIteration.value
 ```
+
+> **Maps to** `examples/orchestration-and-workflows/durable_unit_testing/`: `hello_test_orchestrator` and `say_hello` are exercised with a mocked `DurableOrchestrationContext` in `tests/` — no runtime required.
 
 ## Prerequisites
 - Python 3.10+

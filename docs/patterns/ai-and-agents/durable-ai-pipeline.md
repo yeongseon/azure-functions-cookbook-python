@@ -34,6 +34,8 @@ flowchart LR
     G --> H[Durable status output]
 ```
 
+> **Maps to** `examples/ai-and-agents/durable_ai_pipeline/function_app.py`: the starter is `start_pipeline` (route `pipeline/start`), the orchestrator is `pipeline_orchestrator`, and the stages are the `embed_query`, `search_documents`, and `generate_answer` activities. The vector-search/embedding backends are *optional* — the example degrades gracefully when Azure OpenAI / AI Search are not configured.
+
 ## Behavior
 The sequence below shows the runtime interaction between components.
 
@@ -55,6 +57,8 @@ sequenceDiagram
     Orchestrator->>Generate: call_activity("generate_answer")
     Generate-->>Orchestrator: final answer
 ```
+
+> **Maps to** `examples/ai-and-agents/durable_ai_pipeline/function_app.py`: `pipeline_orchestrator` chains `embed_query` → `search_documents` → `generate_answer`; each activity is a no-op fallback when its external service is absent (see the `_openai_client`/`_search_client` guards).
 
 ## Prerequisites
 - Python 3.10+

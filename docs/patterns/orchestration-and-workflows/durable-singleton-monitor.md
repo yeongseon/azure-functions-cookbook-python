@@ -27,6 +27,8 @@ flowchart LR
     wait --> singleton
 ```
 
+> **Maps to** `examples/orchestration-and-workflows/durable_singleton_monitor/function_app.py`: the starter is `start_monitor` (route `monitor/start`), the eternal orchestrator is `monitor_orchestrator`, which calls the `poll_external_state` and `emit_alert` activities.
+
 ## Behavior
 ```mermaid
 sequenceDiagram
@@ -46,6 +48,8 @@ sequenceDiagram
     Timer-->>Orchestrator: wake up
     Orchestrator->>Orchestrator: continue_as_new(None)
 ```
+
+> **Maps to** `examples/orchestration-and-workflows/durable_singleton_monitor/function_app.py`: `monitor_orchestrator` loops via `continue_as_new`, calling `poll_external_state` then `emit_alert`; `_ensure_monitor` keeps a single running instance.
 
 ## Implementation
 The timer and HTTP starter both call the same `_ensure_monitor` helper, preventing duplicate monitor instances.

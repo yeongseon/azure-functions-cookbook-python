@@ -34,6 +34,8 @@ flowchart LR
     orch --> result[Final result list]
 ```
 
+> **Maps to** `examples/orchestration-and-workflows/durable_hello_sequence/` (`app/functions/orchestration.py`): the HTTP starter is `start_sequence` (route `start-sequence`), `orch` = `hello_sequence_orchestrator`, and `activity` = the `say_hello` activity.
+
 ## Behavior
 ```mermaid
 sequenceDiagram
@@ -53,6 +55,8 @@ sequenceDiagram
     Activity-->>Orch: Hello London!
     Orch-->>Client: Completed output list via status endpoint
 ```
+
+> **Maps to** `examples/orchestration-and-workflows/durable_hello_sequence/`: `Starter` = `start_sequence`, `Orch` = `hello_sequence_orchestrator`, `Activity` = `say_hello` (all in `app/functions/orchestration.py`).
 
 ## Prerequisites
 - Python 3.10+

@@ -33,6 +33,8 @@ flowchart LR
     activity --> result[Completed output]
 ```
 
+> **Maps to** `examples/orchestration-and-workflows/durable_determinism_gotchas/` (`app/functions/orchestration.py`): the starter is `start_determinism_demo` (route `start-determinism`), the orchestrator is `determinism_orchestrator`, and non-deterministic work is delegated to the `fetch_data_activity` activity.
+
 ## Behavior
 ```mermaid
 sequenceDiagram
@@ -50,6 +52,8 @@ sequenceDiagram
     Activity-->>Orch: I/O completed for resource-1
     Orch-->>Client: replay-safe output via status endpoint
 ```
+
+> **Maps to** `examples/orchestration-and-workflows/durable_determinism_gotchas/`: `determinism_orchestrator` pushes I/O and time into `fetch_data_activity` so the replayed orchestrator stays deterministic.
 
 ## Prerequisites
 - Python 3.10+

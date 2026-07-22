@@ -29,6 +29,8 @@ graph TD
     DEV -- "4. func start / publish" --> PROJ
 ```
 
+> **Conceptual — cross-repo ecosystem.** Not a single example: `CB` = this repo (`docs/`, `examples/`), `SC` = `azure-functions-scaffold-python`, `VAL` = `azure-functions-validation-python`.
+
 ### Project Roles
 
 | Project | Role | Key API |
@@ -55,6 +57,8 @@ sequenceDiagram
     Dev->>AZ: func start  /  func publish
     AZ-->>Dev: function running
 ```
+
+> **Conceptual — cross-repo flow.** Illustrates the browse → scaffold → validate → deploy journey across the three sibling repos rather than one runnable example.
 
 
 ## Layer Model
@@ -84,6 +88,8 @@ flowchart TD
     E -- "validates claims in" --> R
 ```
 
+> **Maps to** this repo's real tree: `R` = `docs/patterns/**/*.md`, `D` = `docs/*.md`, `E` = `examples/*/` — each recipe page has a 1:1 example directory.
+
 ## Function App Composition
 
 Start with a single `FunctionApp` entry point. Split into Blueprints only when modules grow beyond a manageable size.
@@ -99,6 +105,8 @@ flowchart LR
     FA -- "register_blueprint" --> B2
     FA -- "register_blueprint" --> B3
 ```
+
+> **Maps to** `examples/runtime-and-ops/blueprint_modular_app/function_app.py`, where `register_functions()` composes per-domain blueprints (the runnable analogue of the `register_blueprint` edges above).
 
 A minimal single-file app:
 
@@ -134,6 +142,8 @@ flowchart TD
     S --> C
 ```
 
+> **Maps to** the app-layout examples (e.g. `examples/runtime-and-ops/blueprint_modular_app/app/`): `functions/` = trigger handlers, `services/` = business logic, `schemas/` = Pydantic models, `core/` = logging/config.
+
 ## Trigger Isolation Pattern
 
 Each trigger owns one handler and one payload model. Keeps validation local and limits blast radius.
@@ -152,6 +162,8 @@ flowchart LR
     PJ -- "validates" --> QP
     RT -- "builds" --> TP
 ```
+
+> **Maps to** the trigger recipes — e.g. `examples/async-apis-and-jobs/queue_backed_job/` (`process_job`) and `examples/scheduled-and-background/timer_cron_job/` (`run_timer`) — each pairing one handler with one Pydantic payload model.
 
 Queue trigger example:
 
@@ -221,6 +233,8 @@ graph TD
     FA -- "telemetry" --> AI
 ```
 
+> **Conceptual — reference deployment topology (Shape A).** Not tied to one example; the single-app shape matches most HTTP + async-trigger recipes under `examples/apis-and-ingress/` and `examples/async-apis-and-jobs/`.
+
 **When to use**: Single-team apps, event-driven workloads, moderate traffic.
 
 ### Shape B: Multi-App with Event Bus
@@ -246,6 +260,8 @@ graph TD
     Notifier --> AI
 ```
 
+> **Conceptual — reference deployment topology (Shape B).** Multi-app + event-bus split; illustrative rather than a single dogfooded example (see `examples/messaging-and-pubsub/` for the per-hop recipes).
+
 **When to move from A → B**: Independent deployability becomes necessary, DLQ isolation per domain is required, or different scaling profiles are needed per domain.
 
 ### Shape C: Container Apps + Functions Hybrid
@@ -270,6 +286,8 @@ graph TD
     CA --> AI
 ```
 
+> **Conceptual — reference deployment topology (Shape C).** Functions + Container Apps hybrid; an architectural reference, not a runnable example in this repo.
+
 **When to move from B → C**: Functions hit 10-minute timeout limits, workers need persistent connections or stateful streaming, or GPU/memory requirements exceed Function App limits.
 
 ### Shape progression summary
@@ -282,3 +300,5 @@ flowchart LR
     A -. "trigger: team/domain split" .-> B
     B -. "trigger: timeout / memory limits" .-> C
 ```
+
+> **Conceptual — shape evolution guide.** Summarizes when to move A → B → C; no example maps to this diagram.

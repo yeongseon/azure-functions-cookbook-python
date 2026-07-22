@@ -42,6 +42,8 @@ flowchart LR
     gather --> result[results[5] returned]
 ```
 
+> **Maps to** `examples/orchestration-and-workflows/durable_fan_out_fan_in/` (`app/functions/orchestration.py`): the starter is `start_fanout` (route `start-fanout`), the orchestrator is `fan_out_fan_in_orchestrator`, and each parallel branch runs the `process_item` activity.
+
 ## Behavior
 ```mermaid
 sequenceDiagram
@@ -67,6 +69,8 @@ sequenceDiagram
     Activity-->>Orch: Processed item-* results
     Orch-->>Client: Completed output list via status endpoint
 ```
+
+> **Maps to** `examples/orchestration-and-workflows/durable_fan_out_fan_in/`: `start_fanout` launches `fan_out_fan_in_orchestrator`, which fans out to `process_item` activity calls and aggregates the results.
 
 ## Prerequisites
 - Python 3.10+

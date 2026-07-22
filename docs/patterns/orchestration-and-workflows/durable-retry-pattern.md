@@ -34,6 +34,8 @@ flowchart LR
     activity -->|transient failure| retry
 ```
 
+> **Maps to** `examples/orchestration-and-workflows/durable_retry_pattern/` (`app/functions/orchestration.py`): the starter is `start_retry` (route `start-retry`), the orchestrator is `retry_orchestrator`, and the retried step is the `flaky_activity` activity.
+
 ## Behavior
 ```mermaid
 stateDiagram-v2
@@ -43,6 +45,8 @@ stateDiagram-v2
     Running --> Completed: activity succeeds
     Retrying --> Failed: max attempts reached
 ```
+
+> **Maps to** `examples/orchestration-and-workflows/durable_retry_pattern/`: `retry_orchestrator` calls `flaky_activity` under a `RetryOptions` policy until it succeeds or the attempt budget is exhausted.
 
 ## Prerequisites
 - Python 3.10+
