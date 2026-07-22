@@ -27,6 +27,8 @@ flowchart LR
     activity --> logs[Structured logs]
 ```
 
+> **Maps to** `examples/scheduled-and-background/durable_timer_reminder/function_app.py`: the starter is `start_reminder` (route `reminders/start`), the orchestrator is `reminder_orchestrator`, and the delivered step is the `send_reminder` activity.
+
 ## Behavior
 ```mermaid
 sequenceDiagram
@@ -43,6 +45,8 @@ sequenceDiagram
     Orchestrator->>Activity: call_activity(payload)
     Activity-->>Orchestrator: delivery queued
 ```
+
+> **Maps to** `examples/scheduled-and-background/durable_timer_reminder/function_app.py`: `reminder_orchestrator` schedules a durable timer via `create_timer`, then calls `send_reminder` when the deadline fires.
 
 ## Implementation
 The starter uses the canonical decorator order for HTTP recipes: `@app.route`, `@with_context`, `@openapi`, `@validate_http`, then `@app.durable_client_input`.

@@ -51,6 +51,8 @@ flowchart LR
     J --> D
 ```
 
+> **Maps to** `examples/ai-and-agents/rag_knowledge_api/function_app.py`: node `B` is the `ask` route, `H` is the `ingest` route. Nodes `C`–`F` (embedding, vector search, synthesis) run through a **local fallback stub** — real `azure-functions-knowledge` / Azure AI Search integration is *future/optional* ([#76](https://github.com/yeongseon/azure-functions-cookbook-python/issues/76)).
+
 ## Prerequisites
 - Python 3.10+
 - Azure Functions Core Tools v4
@@ -125,6 +127,8 @@ sequenceDiagram
     Knowledge-->>API: answer + citations
     API-->>Client: 200 JSON response
 ```
+
+> **Maps to** `examples/ai-and-agents/rag_knowledge_api/function_app.py`: `API` is the `ask` function; `KnowledgeClient` is the local `_FallbackKnowledgeClient` stub. `Vector Search` and `Chat Model` are external services (*future/optional* — not dogfooded until real `azure-functions-knowledge` wiring lands, [#76](https://github.com/yeongseon/azure-functions-cookbook-python/issues/76)).
 
 ## Run Locally
 ```bash

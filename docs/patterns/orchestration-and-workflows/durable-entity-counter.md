@@ -33,6 +33,8 @@ flowchart LR
     read --> client
 ```
 
+> **Maps to** `examples/orchestration-and-workflows/durable_entity_counter/` (`app/functions/orchestration.py`): the durable entity is `counter_entity`, signals arrive via `signal_counter` (route `counter/{operation}`), and reads go through `get_counter` (route `counter`).
+
 ## Behavior
 ```mermaid
 stateDiagram-v2
@@ -43,6 +45,8 @@ stateDiagram-v2
     Zero --> Zero: get
     Updated --> Updated: get
 ```
+
+> **Maps to** `examples/orchestration-and-workflows/durable_entity_counter/`: `signal_counter` sends operations to the `counter_entity` state, and `get_counter` reads the current entity value.
 
 ## Prerequisites
 - Python 3.10+

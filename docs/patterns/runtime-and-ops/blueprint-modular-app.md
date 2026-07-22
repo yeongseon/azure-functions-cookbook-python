@@ -30,6 +30,8 @@ flowchart TD
     C --> E[app/services/user_service.py]
 ```
 
+> **Maps to** `examples/runtime-and-ops/blueprint_modular_app/` — node labels are the actual files; `register_functions()` lives in `function_app.py`.
+
 ## Prerequisites
 - Python 3.10+
 - Azure Functions Core Tools v4
@@ -136,6 +138,8 @@ sequenceDiagram
     Users->>Services: list_users/get_user/create_user
     Users-->>Client: Return user list, item, or create result
 ```
+
+> **Maps to** `examples/runtime-and-ops/blueprint_modular_app/`: `Services` = `app/services/health_service.py` (`get_health_payload`) and `app/services/user_service.py` (`list_users`/`get_user`/`create_user`).
 
 ## Run Locally
 ```bash
