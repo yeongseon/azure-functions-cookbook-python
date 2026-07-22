@@ -66,3 +66,14 @@ def test_recipe_title_matches_readme(recipe: Recipe) -> None:
     assert recipe.title == readme_title, (
         f"{recipe.example_path}: title `{recipe.title}` != README heading `{readme_title}`"
     )
+
+
+_VALID_DIFFICULTY = {"Beginner", "Intermediate", "Advanced"}
+
+
+@pytest.mark.parametrize("recipe", RECIPES, ids=lambda r: r.example_path)
+def test_recipe_difficulty_is_valid_or_absent(recipe: Recipe) -> None:
+    assert recipe.difficulty is None or recipe.difficulty in _VALID_DIFFICULTY, (
+        f"{recipe.example_path}: difficulty `{recipe.difficulty}` "
+        f"must be one of {sorted(_VALID_DIFFICULTY)} or omitted"
+    )

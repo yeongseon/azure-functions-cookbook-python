@@ -1,5 +1,6 @@
 slug: http-routing-query-body
 title: HTTP Routing Query Body
 category: apis-and-ingress
+difficulty: Beginner
 description: HTTP CRUD and search example showing route params, query strings, JSON body parsing, and status codes.
 docs_url: https://yeongseon.github.io/azure-functions-cookbook-python/patterns/apis-and-ingress/http-routing-query-body/

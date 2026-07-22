@@ -1,5 +1,6 @@
 slug: timer-cron-job
 title: Timer Cron Job
 category: scheduled-and-background
+difficulty: Beginner
 description: Timer-triggered Azure Function that runs a scheduled maintenance job every 5 minutes.
 docs_url: https://yeongseon.github.io/azure-functions-cookbook-python/patterns/scheduled-and-background/timer-cron-job/
