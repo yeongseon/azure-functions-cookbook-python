@@ -1,5 +1,6 @@
 slug: durable-human-interaction
 title: Durable Human Interaction
 category: orchestration-and-workflows
+difficulty: Intermediate
 description: Durable Functions workflow waiting for an external approval event with timeout.
 docs_url: https://yeongseon.github.io/azure-functions-cookbook-python/patterns/orchestration-and-workflows/durable-human-interaction/

@@ -1,5 +1,6 @@
 slug: http-auth-levels
 title: HTTP Auth Levels
 category: apis-and-ingress
+difficulty: Beginner
 description: HTTP trigger example that demonstrates anonymous, function-key, and admin-key endpoints.
 docs_url: https://yeongseon.github.io/azure-functions-cookbook-python/patterns/apis-and-ingress/http-auth-levels/

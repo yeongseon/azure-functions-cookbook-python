@@ -1,5 +1,6 @@
 slug: durable-retry-pattern
 title: Durable Retry Pattern
 category: orchestration-and-workflows
+difficulty: Intermediate
 description: Durable Functions orchestration retrying a flaky activity.
 docs_url: https://yeongseon.github.io/azure-functions-cookbook-python/patterns/orchestration-and-workflows/durable-retry-pattern/

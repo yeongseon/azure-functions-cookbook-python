@@ -1,5 +1,6 @@
 slug: auth-jwt-validation
 title: JWT Bearer Validation
 category: apis-and-ingress
+difficulty: Intermediate
 description: JWT Bearer token validation with claim-based access control for Azure Functions.
 docs_url: https://yeongseon.github.io/azure-functions-cookbook-python/patterns/apis-and-ingress/auth-jwt-validation/

@@ -1,5 +1,6 @@
 slug: output-binding-vs-sdk
 title: Output Binding vs SDK
 category: runtime-and-ops
+difficulty: Intermediate
 description: 'This recipe compares two ways to send the same queue message:'
 docs_url: https://yeongseon.github.io/azure-functions-cookbook-python/patterns/runtime-and-ops/output-binding-vs-sdk/

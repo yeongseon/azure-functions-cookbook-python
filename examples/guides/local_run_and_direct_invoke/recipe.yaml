@@ -1,4 +1,5 @@
 slug: local-run-and-direct-invoke
 title: Local Run and Direct Invoke
 category: guides
+difficulty: Beginner
 description: 'This example shows two local testing workflows for an Azure Functions Python app:'

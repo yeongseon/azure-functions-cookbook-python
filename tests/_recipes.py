@@ -27,6 +27,7 @@ class Recipe:
     category: str
     description: str
     docs_url: str | None
+    difficulty: str | None
     example_path: (
         str  # forward-slash path relative to examples/, e.g. "apis-and-ingress/hello_http_minimal"
     )
@@ -49,6 +50,7 @@ def load_recipes() -> list[Recipe]:
                 category=data.get("category", ""),
                 description=data.get("description", ""),
                 docs_url=data.get("docs_url"),
+                difficulty=data.get("difficulty"),
                 example_path=example_path,
             )
         )

@@ -1,5 +1,6 @@
 slug: change-feed-processor
 title: Change Feed Processor
 category: data-and-pipelines
+difficulty: Intermediate
 description: Cosmos DB change feed-triggered Azure Function for downstream synchronization.
 docs_url: https://yeongseon.github.io/azure-functions-cookbook-python/patterns/data-and-pipelines/change-feed-processor/

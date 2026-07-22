@@ -1,5 +1,6 @@
 slug: managed-identity-servicebus
 title: Managed Identity Service Bus
 category: security-and-tenancy
+difficulty: Advanced
 description: This recipe shows a Service Bus queue trigger using `connection="ServiceBusConnection"`.
 docs_url: https://yeongseon.github.io/azure-functions-cookbook-python/patterns/security-and-tenancy/managed-identity-servicebus/
