@@ -1,0 +1,5 @@
+slug: knowledge-notion-search
+title: Knowledge Notion Search
+category: ai-and-agents
+description: Notion-backed knowledge retrieval with azure-functions-knowledge KnowledgeBindings input/inject_client decorators.
+docs_url: https://yeongseon.github.io/azure-functions-cookbook-python/patterns/ai-and-agents/knowledge-notion-search/
