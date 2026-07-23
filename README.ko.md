@@ -154,15 +154,24 @@ make docs
 - 설계 원칙: `DESIGN.md`
 - 기여 가이드: `CONTRIBUTING.md`
 
-## Ecosystem (Optional)
+## Ecosystem
 
-이 컴패니언 패키지는 **선택적 가속기**입니다 — 쿡북은 독립적으로 완전히 동작합니다.
-프로젝트가 성장하여 추가 인프라가 필요할 때 사용하세요:
-- [azure-functions-validation-python](https://github.com/yeongseon/azure-functions-validation-python) — 요청 및 응답 검증
-- [azure-functions-openapi-python](https://github.com/yeongseon/azure-functions-openapi-python) — OpenAPI 및 Swagger UI
-- [azure-functions-logging-python](https://github.com/yeongseon/azure-functions-logging-python) — 구조화된 로깅
-- [azure-functions-doctor-python](https://github.com/yeongseon/azure-functions-doctor-python) — 진단 CLI
-- [azure-functions-scaffold-python](https://github.com/yeongseon/azure-functions-scaffold-python) — 프로젝트 스캐폴딩
+이 쿡북은 **Azure Functions Python DX Toolkit**의 **도그푸드**입니다 — 모든 예제는 프로덕션에 가까운 시나리오에서 툴킷 라이브러리를 사용하는 실제 실행 가능한 Azure Function입니다. 쿡북에서 동작하는 라이브러리는 실제 환경에서도 동작합니다.
+
+**Status** 열은 각 패키지가 이 저장소에서 현재 어떻게 활용되는지를 나타냅니다: **Dogfooded**(실제 예제에서 임포트되어 실행됨), **Experimental**(소개되었으나 아직 어떤 예제에서도 활용되지 않음), **Planned**(통합이 추적되고 있으나 아직 시작되지 않음). 개수는 해당 패키지를 임포트하는 예제 프로젝트의 수이며, CLI 도구(예: 스캐폴드 생성기)의 경우 직접 임포트가 아니라 CLI로 생성되거나 구동되는 예제의 수를 반영합니다.
+
+| 패키지 | 역할 | Status |
+|---------|------|--------|
+| [azure-functions-openapi-python](https://github.com/yeongseon/azure-functions-openapi-python) | OpenAPI 스펙 생성 및 Swagger UI | Dogfooded (예제 24개) |
+| [azure-functions-validation-python](https://github.com/yeongseon/azure-functions-validation-python) | 요청/응답 검증 및 직렬화 | Dogfooded (예제 23개) |
+| [azure-functions-logging-python](https://github.com/yeongseon/azure-functions-logging-python) | 구조화된 로깅 및 관측성 | Dogfooded (예제 41개) |
+| [azure-functions-db-python](https://github.com/yeongseon/azure-functions-db-python) | SQLAlchemy 기반 DB 통합 헬퍼 (폴링 기반 의사 트리거, 입력/출력/클라이언트 주입) | Dogfooded (예제 9개) |
+| [azure-functions-langgraph-python](https://github.com/yeongseon/azure-functions-langgraph-python) | Azure Functions용 LangGraph 배포 어댑터 | Dogfooded (예제 2개) |
+| [azure-functions-scaffold-python](https://github.com/yeongseon/azure-functions-scaffold-python) | 프로젝트 스캐폴딩 CLI | Dogfooded (예제 1개, CLI 생성) |
+| [azure-functions-doctor-python](https://github.com/yeongseon/azure-functions-doctor-python) | 배포 전 진단 CLI | Dogfooded (예제 1개) |
+| [azure-functions-durable-graph-python](https://github.com/yeongseon/azure-functions-durable-graph-python) | Durable Functions 기반 매니페스트 우선 그래프 런타임 *(실험적)* | Experimental — 아직 도그푸드되지 않음 ([#76](https://github.com/yeongseon/azure-functions-cookbook-python/issues/76)) |
+| [azure-functions-knowledge-python](https://github.com/yeongseon/azure-functions-knowledge-python) | 지식 검색(RAG) 데코레이터 | Experimental — `rag_knowledge_api`는 실제 라이브러리가 아닌 로컬 스텁을 사용함 ([#76](https://github.com/yeongseon/azure-functions-cookbook-python/issues/76)) |
+| **azure-functions-cookbook-python** *(이 저장소)* | 전체 툴킷을 위한 도그푸드 예제 | 예제 77개 |
 
 ## Disclaimer
 
