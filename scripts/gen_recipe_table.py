@@ -55,8 +55,7 @@ def _escape(text: str) -> str:
 def _row(recipe: Recipe) -> str:
     link = f"examples/{recipe.example_path}/"
     title = f"[{_escape(recipe.title)}]({link})"
-    difficulty = recipe.difficulty or "—"
-    return f"| {title} | {difficulty} | {_escape(recipe.description)} |"
+    return f"| {title} | {_escape(recipe.description)} |"
 
 
 def render(recipes: list[Recipe] = RECIPES) -> str:
@@ -72,15 +71,11 @@ def render(recipes: list[Recipe] = RECIPES) -> str:
             continue
         lines.append(f"### {heading}")
         lines.append("")
-        lines.append("| Recipe | Difficulty | Description |")
-        lines.append("| --- | --- | --- |")
+        lines.append("| Recipe | Description |")
+        lines.append("| --- | --- |")
         lines.extend(_row(r) for r in group)
         lines.append("")
-    lines.append(
-        f"_{len(recipes)} recipes. Difficulty is carried forward from the previously "
-        "hand-maintained table; unlabeled recipes show `—` pending curation ("
-        "[#95](https://github.com/yeongseon/azure-functions-cookbook-python/issues/95))._"
-    )
+    lines.append(f"_{len(recipes)} recipes._")
     lines.append("")
     lines.append(END_MARKER)
     return "\n".join(lines)
