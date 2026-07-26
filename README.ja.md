@@ -154,15 +154,24 @@ make docs
 - 設計原則: `DESIGN.md`
 - コントリビューションガイド: `CONTRIBUTING.md`
 
-## Ecosystem (Optional)
+## Ecosystem
 
-これらのコンパニオンパッケージは**オプションのアクセラレーター**です — クックブックは単独で完全に動作します。
-プロジェクトが成長し、追加のインフラが必要になったときに使用してください：
-- [azure-functions-validation-python](https://github.com/yeongseon/azure-functions-validation-python) — リクエストとレスポンスのバリデーション
-- [azure-functions-openapi-python](https://github.com/yeongseon/azure-functions-openapi-python) — OpenAPI と Swagger UI
-- [azure-functions-logging-python](https://github.com/yeongseon/azure-functions-logging-python) — 構造化ロギング
-- [azure-functions-doctor-python](https://github.com/yeongseon/azure-functions-doctor-python) — 診断 CLI
-- [azure-functions-scaffold-python](https://github.com/yeongseon/azure-functions-scaffold-python) — プロジェクトスキャフォールディング
+このクックブックは **Azure Functions Python DX Toolkit** の **ドッグフード** です — すべての例は、本番に近いシナリオでツールキットのライブラリを使用する実際に実行可能な Azure Function です。クックブックで動作するライブラリは、実運用でも動作します。
+
+**Status** 列は、各パッケージがこのリポジトリで現在どのように活用されているかを示します：**Dogfooded**（実際の例でインポートされ実行される）、**Experimental**（紹介されているがまだどの例でも活用されていない）、**Planned**（統合が追跡されているがまだ開始されていない）。件数は、そのパッケージをインポートする例プロジェクトの数であり、CLI ツール（例：スキャフォールドジェネレーター）の場合は、直接インポートではなく CLI によって生成または駆動される例の数を反映します。
+
+| パッケージ | 役割 | Status |
+|---------|------|--------|
+| [azure-functions-openapi-python](https://github.com/yeongseon/azure-functions-openapi-python) | OpenAPI スペック生成と Swagger UI | Dogfooded（例 24 件） |
+| [azure-functions-validation-python](https://github.com/yeongseon/azure-functions-validation-python) | リクエスト/レスポンスのバリデーションとシリアライズ | Dogfooded（例 23 件） |
+| [azure-functions-logging-python](https://github.com/yeongseon/azure-functions-logging-python) | 構造化ロギングと可観測性 | Dogfooded（例 41 件） |
+| [azure-functions-db-python](https://github.com/yeongseon/azure-functions-db-python) | SQLAlchemy ベースの DB 統合ヘルパー（ポーリングベースの擬似トリガー、入力/出力/クライアント注入） | Dogfooded（例 9 件） |
+| [azure-functions-langgraph-python](https://github.com/yeongseon/azure-functions-langgraph-python) | Azure Functions 向け LangGraph デプロイアダプター | Dogfooded（例 2 件） |
+| [azure-functions-scaffold-python](https://github.com/yeongseon/azure-functions-scaffold-python) | プロジェクトスキャフォールディング CLI | Dogfooded（例 1 件、CLI 生成） |
+| [azure-functions-doctor-python](https://github.com/yeongseon/azure-functions-doctor-python) | デプロイ前診断 CLI | Dogfooded（例 1 件） |
+| [azure-functions-durable-graph-python](https://github.com/yeongseon/azure-functions-durable-graph-python) | Durable Functions によるマニフェストファーストのグラフランタイム *(実験的)* | Experimental — まだドッグフードされていません ([#76](https://github.com/yeongseon/azure-functions-cookbook-python/issues/76)) |
+| [azure-functions-knowledge-python](https://github.com/yeongseon/azure-functions-knowledge-python) | 知識検索（RAG）デコレーター | Experimental — `rag_knowledge_api` は実際のライブラリではなくローカルスタブを使用します ([#76](https://github.com/yeongseon/azure-functions-cookbook-python/issues/76)) |
+| **azure-functions-cookbook-python** *(このリポジトリ)* | ツールキット全体のためのドッグフード例 | 例 77 件 |
 
 ## Disclaimer
 

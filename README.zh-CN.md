@@ -154,15 +154,24 @@ make docs
 - 设计原则: `DESIGN.md`
 - 贡献指南: `CONTRIBUTING.md`
 
-## Ecosystem (Optional)
+## Ecosystem
 
-这些配套包是**可选的加速器** — 食谱集可以完全独立使用。
-当您的项目扩展并需要额外基础设施时使用：
-- [azure-functions-validation-python](https://github.com/yeongseon/azure-functions-validation-python) — 请求与响应校验
-- [azure-functions-openapi-python](https://github.com/yeongseon/azure-functions-openapi-python) — OpenAPI 与 Swagger UI
-- [azure-functions-logging-python](https://github.com/yeongseon/azure-functions-logging-python) — 结构化日志
-- [azure-functions-doctor-python](https://github.com/yeongseon/azure-functions-doctor-python) — 诊断 CLI
-- [azure-functions-scaffold-python](https://github.com/yeongseon/azure-functions-scaffold-python) — 项目脚手架
+本手册是 **Azure Functions Python DX Toolkit** 的 **内部实践（dogfood）** —— 每个示例都是在接近生产的场景中使用工具链库的真实、可运行的 Azure Function。在手册中能用的库，在真实环境中也能用。
+
+**Status** 列反映每个包在本仓库中当前的实际使用情况：**Dogfooded**（被真实示例导入并运行）、**Experimental**（已介绍但尚未被任何示例使用）、**Planned**（已跟踪集成但尚未开始）。计数为导入该包的示例项目数量；对于 CLI 工具（例如脚手架生成器），计数反映由 CLI 生成或驱动的示例数量，而非直接导入。
+
+| 包 | 职责 | Status |
+|---------|------|--------|
+| [azure-functions-openapi-python](https://github.com/yeongseon/azure-functions-openapi-python) | OpenAPI 规范生成与 Swagger UI | Dogfooded（24 个示例） |
+| [azure-functions-validation-python](https://github.com/yeongseon/azure-functions-validation-python) | 请求/响应校验与序列化 | Dogfooded（23 个示例） |
+| [azure-functions-logging-python](https://github.com/yeongseon/azure-functions-logging-python) | 结构化日志与可观测性 | Dogfooded（41 个示例） |
+| [azure-functions-db-python](https://github.com/yeongseon/azure-functions-db-python) | 基于 SQLAlchemy 的数据库集成助手（基于轮询的伪触发器，输入/输出/客户端注入） | Dogfooded（9 个示例） |
+| [azure-functions-langgraph-python](https://github.com/yeongseon/azure-functions-langgraph-python) | 面向 Azure Functions 的 LangGraph 部署适配器 | Dogfooded（2 个示例） |
+| [azure-functions-scaffold-python](https://github.com/yeongseon/azure-functions-scaffold-python) | 项目脚手架 CLI | Dogfooded（1 个示例，CLI 生成） |
+| [azure-functions-doctor-python](https://github.com/yeongseon/azure-functions-doctor-python) | 部署前诊断 CLI | Dogfooded（1 个示例） |
+| [azure-functions-durable-graph-python](https://github.com/yeongseon/azure-functions-durable-graph-python) | 基于 Durable Functions 的清单优先图运行时 *(实验性)* | Experimental —— 尚未内部实践 ([#76](https://github.com/yeongseon/azure-functions-cookbook-python/issues/76)) |
+| [azure-functions-knowledge-python](https://github.com/yeongseon/azure-functions-knowledge-python) | 知识检索（RAG）装饰器 | Experimental —— `rag_knowledge_api` 使用本地桩而非真实库 ([#76](https://github.com/yeongseon/azure-functions-cookbook-python/issues/76)) |
+| **azure-functions-cookbook-python** *(本仓库)* | 面向完整工具链的内部实践示例 | 77 个示例 |
 
 ## Disclaimer
 
