@@ -1,0 +1,5 @@
+slug: langgraph-tool-use
+title: Langgraph Tool Use
+category: ai-and-agents
+description: Tool-use LangGraph agent with azure-functions-langgraph, routing between a reasoning node and callable tools.
+docs_url: https://yeongseon.github.io/azure-functions-cookbook-python/patterns/ai-and-agents/langgraph-tool-use/

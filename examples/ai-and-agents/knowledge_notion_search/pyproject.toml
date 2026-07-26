@@ -1,0 +1,28 @@
+[build-system]
+requires = ["hatchling>=1.27.0"]
+build-backend = "hatchling.build"
+
+[project]
+name = "knowledge_notion_search"
+version = "0.1.0"
+description = "Knowledge Notion Search example for Azure Functions."
+requires-python = ">=3.10"
+dependencies = [
+  "azure-functions>=1.21.3",
+  "azure-functions-logging>=0.5.0",
+  "azure-functions-openapi>=0.10.0",
+  "azure-functions-knowledge",
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=8.3.5",
+  "ruff>=0.11.0",
+]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP"]
