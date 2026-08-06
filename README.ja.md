@@ -288,7 +288,7 @@ make docs
 | [azure-functions-doctor-python](https://github.com/yeongseon/azure-functions-doctor-python) | デプロイ前診断 CLI | Dogfooded ([1 例](https://github.com/search?q=repo%3Ayeongseon%2Fazure-functions-cookbook-python+azure_functions_doctor+path%3Aexamples&type=code)) |
 | [azure-functions-durable-graph-python](https://github.com/yeongseon/azure-functions-durable-graph-python) | Durable Functions によるマニフェストファーストのグラフランタイム *(実験的)* | Dogfooded ([1 例](examples/orchestration-and-workflows/durable_graph_fan_out/) — `durable_graph_fan_out`) |
 | [azure-functions-knowledge-python](https://github.com/yeongseon/azure-functions-knowledge-python) | ナレッジ検索(RAG)デコレーター | Dogfooded ([1 例](examples/ai-and-agents/knowledge_notion_search/) — `knowledge_notion_search` が実際の `KnowledgeBindings` API を使用) |
-| **azure-functions-cookbook-python** *(このリポジトリ)* | 全ツールキットのドッグフード例 | [80 例](examples/) |
+| **azure-functions-cookbook-python** *(このリポジトリ)* | 全ツールキットのドッグフード例 | 80 例 |
 
 ## For AI Coding Assistants
 

@@ -288,7 +288,7 @@ make docs
 | [azure-functions-doctor-python](https://github.com/yeongseon/azure-functions-doctor-python) | 部署前诊断 CLI | Dogfooded ([1 个示例](https://github.com/search?q=repo%3Ayeongseon%2Fazure-functions-cookbook-python+azure_functions_doctor+path%3Aexamples&type=code)) |
 | [azure-functions-durable-graph-python](https://github.com/yeongseon/azure-functions-durable-graph-python) | 基于 Durable Functions 的清单优先图运行时 *(实验性)* | Dogfooded ([1 个示例](examples/orchestration-and-workflows/durable_graph_fan_out/) — `durable_graph_fan_out`) |
 | [azure-functions-knowledge-python](https://github.com/yeongseon/azure-functions-knowledge-python) | 知识检索（RAG）装饰器 | Dogfooded ([1 个示例](examples/ai-and-agents/knowledge_notion_search/) — `knowledge_notion_search` 使用真实的 `KnowledgeBindings` API) |
-| **azure-functions-cookbook-python** *(本仓库)* | 面向整个工具包的 dogfood 示例 | [80 个示例](examples/) |
+| **azure-functions-cookbook-python** *(本仓库)* | 面向整个工具包的 dogfood 示例 | 80 个示例 |
 
 ## For AI Coding Assistants
 

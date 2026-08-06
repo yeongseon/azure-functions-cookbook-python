@@ -292,7 +292,7 @@ The **Status** column reflects how each package is currently exercised in this r
 | [azure-functions-doctor-python](https://github.com/yeongseon/azure-functions-doctor-python) | Pre-deploy diagnostic CLI | Dogfooded ([1 example](https://github.com/search?q=repo%3Ayeongseon%2Fazure-functions-cookbook-python+azure_functions_doctor+path%3Aexamples&type=code)) |
 | [azure-functions-durable-graph-python](https://github.com/yeongseon/azure-functions-durable-graph-python) | Manifest-first graph runtime with Durable Functions *(experimental)* | Dogfooded ([1 example](examples/orchestration-and-workflows/durable_graph_fan_out/) — `durable_graph_fan_out`) |
 | [azure-functions-knowledge-python](https://github.com/yeongseon/azure-functions-knowledge-python) | Knowledge retrieval (RAG) decorators | Dogfooded ([1 example](examples/ai-and-agents/knowledge_notion_search/) — `knowledge_notion_search` uses the real `KnowledgeBindings` API) |
-| **azure-functions-cookbook-python** *(this repo)* | Dogfood examples for the full toolkit | [80 examples](examples/) |
+| **azure-functions-cookbook-python** *(this repo)* | Dogfood examples for the full toolkit | 80 examples |
 
 ## For AI Coding Assistants
 

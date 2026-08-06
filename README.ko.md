@@ -288,7 +288,7 @@ make docs
 | [azure-functions-doctor-python](https://github.com/yeongseon/azure-functions-doctor-python) | 배포 전 진단 CLI | Dogfooded ([예제 1개](https://github.com/search?q=repo%3Ayeongseon%2Fazure-functions-cookbook-python+azure_functions_doctor+path%3Aexamples&type=code)) |
 | [azure-functions-durable-graph-python](https://github.com/yeongseon/azure-functions-durable-graph-python) | Durable Functions 기반 매니페스트 우선 그래프 런타임 *(실험적)* | Dogfooded ([예제 1개](examples/orchestration-and-workflows/durable_graph_fan_out/) — `durable_graph_fan_out`) |
 | [azure-functions-knowledge-python](https://github.com/yeongseon/azure-functions-knowledge-python) | 지식 검색(RAG) 데코레이터 | Dogfooded ([예제 1개](examples/ai-and-agents/knowledge_notion_search/) — `knowledge_notion_search`가 실제 `KnowledgeBindings` API 사용) |
-| **azure-functions-cookbook-python** *(이 저장소)* | 전체 툴킷을 위한 도그푸드 예제 | [예제 80개](examples/) |
+| **azure-functions-cookbook-python** *(이 저장소)* | 전체 툴킷을 위한 도그푸드 예제 | 예제 80개 |
 
 ## For AI Coding Assistants
 
