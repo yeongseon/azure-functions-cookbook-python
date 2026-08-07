@@ -32,6 +32,21 @@ Python で実運用レベルの Azure Functions を構築するための実践�
 ## Quick Index
 
 カテゴリへ移動: [APIs and Ingress](#apis-and-ingress) · [Scheduled and Background](#scheduled-and-background) · [Blob and File Triggers](#blob-and-file-triggers) · [Async APIs and Jobs](#async-apis-and-jobs) · [Messaging and Pub/Sub](#messaging-and-pubsub) · [Streams and Telemetry](#streams-and-telemetry) · [Data and Pipelines](#data-and-pipelines) · [Orchestration and Workflows](#orchestration-and-workflows) · [Reliability](#reliability) · [Security and Tenancy](#security-and-tenancy) · [Runtime and Ops](#runtime-and-ops) · [Realtime](#realtime) · [AI and Agents](#ai-and-agents) · [Guides](#guides)
+プログラムで検索したいですか？すべてのレシピの機械可読インデックス
+(slug, title, category, path, tags) が [`recipes.json`](recipes.json) にあり、
+`python scripts/gen_recipe_index.py` で再生成できます。`find_recipe` ヘルパーで
+キーワードやタグからレシピを検索できます:
+
+```python
+from azure_functions_python_cookbook.recipes import find_recipe
+
+# slug・title・category・description・tags を横断する自由テキスト検索
+for recipe in find_recipe("durable retry"):
+    print(recipe.title, "->", recipe.example_path)
+
+# 正確なタグでフィルタリング
+durable = find_recipe(tag="durable")
+```
 
 ---
 

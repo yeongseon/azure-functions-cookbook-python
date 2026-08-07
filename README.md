@@ -33,6 +33,22 @@ This repository is content-first. It is not a CLI tool.
 
 Jump to a category: [APIs and Ingress](#apis-and-ingress) · [Scheduled and Background](#scheduled-and-background) · [Blob and File Triggers](#blob-and-file-triggers) · [Async APIs and Jobs](#async-apis-and-jobs) · [Messaging and Pub/Sub](#messaging-and-pubsub) · [Streams and Telemetry](#streams-and-telemetry) · [Data and Pipelines](#data-and-pipelines) · [Orchestration and Workflows](#orchestration-and-workflows) · [Reliability](#reliability) · [Security and Tenancy](#security-and-tenancy) · [Runtime and Ops](#runtime-and-ops) · [Realtime](#realtime) · [AI and Agents](#ai-and-agents) · [Guides](#guides)
 
+Prefer to search programmatically? A machine-readable index of every recipe
+(slug, title, category, path, tags) lives in [`recipes.json`](recipes.json),
+regenerated with `python scripts/gen_recipe_index.py`. Look recipes up by
+keyword or tag with the `find_recipe` helper:
+
+```python
+from azure_functions_python_cookbook.recipes import find_recipe
+
+# Free-text search across slug, title, category, description, and tags
+for recipe in find_recipe("durable retry"):
+    print(recipe.title, "->", recipe.example_path)
+
+# Filter by an exact tag
+durable = find_recipe(tag="durable")
+```
+
 ---
 
 ## Recipes
