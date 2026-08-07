@@ -46,7 +46,7 @@ def test_ecosystem_example_count_matches_inventory(readme_name: str) -> None:
     row = next(
         (
             line
-            for line in readme_path.read_text().splitlines()
+            for line in readme_path.read_text(encoding="utf-8").splitlines()
             if _ECOSYSTEM_ROW_TOKEN in line
         ),
         None,
@@ -54,9 +54,10 @@ def test_ecosystem_example_count_matches_inventory(readme_name: str) -> None:
     assert row is not None, (
         f"{readme_name}: Ecosystem row '{_ECOSYSTEM_ROW_TOKEN}' not found"
     )
-    numbers = re.findall(r"\d+", row)
-    assert numbers, f"{readme_name}: no example count found in Ecosystem row:\n{row}"
-    actual = int(numbers[-1])
+    last_cell = row.strip().strip("|").split("|")[-1]
+    match = re.search(r"[\d,]+", last_cell)
+    assert match, f"{readme_name}: no example count found in Ecosystem row:\n{row}"
+    actual = int(match.group().replace(",", ""))
     assert actual == expected, (
         f"{readme_name}: Ecosystem example count is {actual} but the repository has "
         f"{expected} recipes. Update the '{_ECOSYSTEM_ROW_TOKEN}' row to '{expected}'."
