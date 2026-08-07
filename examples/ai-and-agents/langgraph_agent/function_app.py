@@ -88,7 +88,7 @@ def build_graph() -> Any:
 
 graph = build_graph()
 if graph and _langgraph_app is not None:
-    _langgraph_app.register(graph=graph)
+    _langgraph_app.register(graph=graph, name="langgraph_agent")
 
 
 @app.route(route="agent/invoke", methods=["POST"])

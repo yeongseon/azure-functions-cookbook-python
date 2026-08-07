@@ -138,7 +138,7 @@ def build_graph() -> Any:
 
 graph = build_graph()
 if graph is not None and _langgraph_app is not None:
-    _langgraph_app.register(graph=graph)
+    _langgraph_app.register(graph=graph, name="langgraph_tool_use")
 
 
 @app.route(route="agent/tool", methods=["POST"])
