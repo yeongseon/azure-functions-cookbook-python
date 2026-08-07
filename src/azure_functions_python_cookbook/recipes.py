@@ -1,7 +1,7 @@
 """Machine-readable recipe index and lookup helper.
 
 Each ``examples/<category>/<name>/recipe.yaml`` is the single source of truth for
-a recipe's identity. This module discovers and parses them into a validated,
+a recipe's identity. This module discovers and parses them into a
 machine-readable index and exposes :func:`find_recipe` so a recipe can be
 looked up by keyword or tag instead of manually browsing the ``examples/`` tree.
 

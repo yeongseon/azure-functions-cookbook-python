@@ -34,7 +34,7 @@ This repository is content-first. It is not a CLI tool.
 Jump to a category: [APIs and Ingress](#apis-and-ingress) · [Scheduled and Background](#scheduled-and-background) · [Blob and File Triggers](#blob-and-file-triggers) · [Async APIs and Jobs](#async-apis-and-jobs) · [Messaging and Pub/Sub](#messaging-and-pubsub) · [Streams and Telemetry](#streams-and-telemetry) · [Data and Pipelines](#data-and-pipelines) · [Orchestration and Workflows](#orchestration-and-workflows) · [Reliability](#reliability) · [Security and Tenancy](#security-and-tenancy) · [Runtime and Ops](#runtime-and-ops) · [Realtime](#realtime) · [AI and Agents](#ai-and-agents) · [Guides](#guides)
 
 Prefer to search programmatically? A machine-readable index of every recipe
-(slug, title, category, path, tags) lives in [`recipes.json`](recipes.json),
+(slug, title, category, example_path, tags) lives in [`recipes.json`](recipes.json),
 regenerated with `python scripts/gen_recipe_index.py`. Look recipes up by
 keyword or tag with the `find_recipe` helper:
 

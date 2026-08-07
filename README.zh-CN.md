@@ -33,7 +33,7 @@
 
 跳转到分类: [APIs and Ingress](#apis-and-ingress) · [Scheduled and Background](#scheduled-and-background) · [Blob and File Triggers](#blob-and-file-triggers) · [Async APIs and Jobs](#async-apis-and-jobs) · [Messaging and Pub/Sub](#messaging-and-pubsub) · [Streams and Telemetry](#streams-and-telemetry) · [Data and Pipelines](#data-and-pipelines) · [Orchestration and Workflows](#orchestration-and-workflows) · [Reliability](#reliability) · [Security and Tenancy](#security-and-tenancy) · [Runtime and Ops](#runtime-and-ops) · [Realtime](#realtime) · [AI and Agents](#ai-and-agents) · [Guides](#guides)
 想以编程方式搜索？所有配方的机器可读索引
-(slug、title、category、path、tags) 位于 [`recipes.json`](recipes.json)，
+(slug、title、category、example_path、tags) 位于 [`recipes.json`](recipes.json)，
 可通过 `python scripts/gen_recipe_index.py` 重新生成。使用 `find_recipe` 助手
 按关键字或标签查找配方:
 
