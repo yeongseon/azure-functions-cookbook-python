@@ -106,7 +106,7 @@ def build_graph():
 
 graph = build_graph()
 if graph:
-    langgraph_app.register(graph=graph)
+    langgraph_app.register(graph=graph, name="langgraph_agent")
 
 
 @app.route(route="agent/invoke", methods=["POST"])
@@ -166,7 +166,7 @@ At startup, the module separately tries to build and register a graph:
 ```python
 graph = build_graph()
 if graph:
-    langgraph_app.register(graph=graph)
+    langgraph_app.register(graph=graph, name="langgraph_agent")
 ```
 
 ## Run Locally
