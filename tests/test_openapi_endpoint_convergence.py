@@ -26,7 +26,6 @@ from azure_functions_openapi import (
     get_openapi_json,
     scan_endpoint_metadata,
 )
-import pytest
 
 from tests._isolation import load_example_module
 
@@ -132,20 +131,23 @@ def test_success_response_uses_scanned_response_model() -> None:
     }
 
 
-@pytest.mark.xfail(
-    reason=(
-        "azure-functions-validation 0.9.1 does not emit a 422 validation-error "
-        "response in endpoint metadata; the 422 emit (#286) is unreleased. This "
-        "deferred check flips to passing once a release including #286 is pinned "
-        "-- at which point the xfail marker should be removed (#135)."
-    ),
-    strict=False,
-)
 def test_validation_error_response_is_present() -> None:
-    """A 422 validation-error response should surface from endpoint metadata.
+    """A 422 validation-error response surfaces from endpoint metadata.
 
-    Deferred: gated behind the unreleased validation 422 emit (#286). See the
-    xfail reason above.
+    ``azure-functions-validation`` >= 0.10 emits a 422 validation-error
+    response in the ``endpoint`` namespace (#286); ``scan_endpoint_metadata``
+    folds it into the OpenAPI spec. This is the read side of the convergence
+    contract -- the deferred/xfail placeholder was removed once validation
+    0.10.0 shipped the emit (#135).
     """
     operation = _catalog_get_operation(_generate_spec())
-    assert "422" in operation["responses"]
+    responses = operation["responses"]
+    assert "422" in responses, (
+        "422 validation-error response missing: endpoint-metadata discovery did "
+        "not surface the validation error contract"
+    )
+    schema = responses["422"]["content"]["application/json"]["schema"]
+    assert isinstance(schema, dict)
+    assert "detail" in schema.get("properties", {}), (
+        "422 body is missing the validation-error 'detail' field"
+    )
