@@ -11,16 +11,53 @@
       "get": {
         "description": "",
         "operationId": "get_get_catalog_item",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "item_id",
+            "required": true,
+            "schema": {
+              "description": "Catalog item identifier",
+              "title": "Item Id",
+              "type": "string"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "content": {
               "application/json": {
                 "schema": {
+                  "properties": {
+                    "cache_status": {
+                      "title": "Cache Status",
+                      "type": "string"
+                    },
+                    "correlation_id": {
+                      "title": "Correlation Id",
+                      "type": "string"
+                    },
+                    "item_id": {
+                      "title": "Item Id",
+                      "type": "string"
+                    },
+                    "routed_by": {
+                      "title": "Routed By",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "item_id",
+                    "routed_by",
+                    "correlation_id",
+                    "cache_status"
+                  ],
+                  "title": "CatalogResponse",
                   "type": "object"
                 }
               }
             },
-            "description": "Successful Response"
+            "description": ""
           }
         },
         "summary": "APIM-backed function backend",
