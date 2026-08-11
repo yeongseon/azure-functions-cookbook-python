@@ -119,8 +119,8 @@ def _project_job_status(status: Any, instance_id: str) -> dict[str, Any]:
     response={202: JobAcceptedResponse},
     tags=["async-jobs"],
 )
-@validate_http(body=JobCreateRequest, response_model=JobAcceptedResponse)
 @app.durable_client_input(client_name="client")
+@validate_http(body=JobCreateRequest, response_model=JobAcceptedResponse)
 async def create_job(
     req: func.HttpRequest,
     body: JobCreateRequest,
@@ -194,8 +194,8 @@ async def get_job_status(
     response={202: OperationResponse, 404: dict[str, str], 409: dict[str, str]},
     tags=["async-jobs"],
 )
-@validate_http(query=CancelJobQuery, response_model=OperationResponse)
 @app.durable_client_input(client_name="client")
+@validate_http(query=CancelJobQuery, response_model=OperationResponse)
 async def cancel_job(
     req: func.HttpRequest,
     query: CancelJobQuery,
