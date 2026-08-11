@@ -10,8 +10,7 @@ import azure.functions as func
 from azure_functions_db import DbBindings, DbOut, DbReader
 from azure_functions_logging import get_logger, setup_logging, with_context
 from azure_functions_openapi import openapi
-from azure_functions_validation import validate_http
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, ValidationError
 
 setup_logging(format="json")
 logger = get_logger(__name__)
@@ -83,11 +82,10 @@ def _build_projection(document: dict[str, Any]) -> dict[str, Any]:
 @with_context
 @openapi(
     summary="Create order",
-    request_body=OrderWriteRequest,
-    response={202: OrderAccepted},
+    requests=OrderWriteRequest,
+    responses={202: OrderAccepted},
     tags=["orders"],
 )
-@validate_http(body=OrderWriteRequest, response_model=OrderAccepted)
 @app.cosmos_db_output(
     arg_name="order_doc",
     database_name="ordersdb",
@@ -96,9 +94,19 @@ def _build_projection(document: dict[str, Any]) -> dict[str, Any]:
 )
 def create_order(
     req: func.HttpRequest,
-    body: OrderWriteRequest,
     order_doc: func.Out[str],
 ) -> func.HttpResponse:
+    # NOTE: @validate_http cannot compose with @app.cosmos_db_output yet
+    # (its worker-compat signature hides the `order_doc` output-binding param).
+    # Tracking: yeongseon/azure-functions-validation-python#297. Validate manually.
+    try:
+        body = OrderWriteRequest.model_validate_json(req.get_body())
+    except ValidationError as exc:
+        return func.HttpResponse(
+            exc.json(),
+            status_code=422,
+            mimetype="application/json",
+        )
     document = _build_order_document(body)
     order_doc.set(json.dumps(document))
 
@@ -147,7 +155,7 @@ def project_order_read_models(
 
 @app.route(route="orders/{id}/projection", methods=["GET"])
 @with_context
-@openapi(summary="Get order projection", response={200: OrderProjection}, tags=["orders"])
+@openapi(summary="Get order projection", responses={200: OrderProjection}, tags=["orders"])
 @db.inject_reader("reader", url="%READ_DB_URL%", table="order_read_models")
 def get_order_projection(req: func.HttpRequest, reader: DbReader) -> func.HttpResponse:
     order_id = req.route_params["id"]

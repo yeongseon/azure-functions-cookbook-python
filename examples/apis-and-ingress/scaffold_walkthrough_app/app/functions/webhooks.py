@@ -29,10 +29,9 @@ webhooks_blueprint = func.Blueprint()  # type: ignore[no-untyped-call]
         "Returns 202 when the delivery is accepted."
     ),
     tags=["webhooks"],
-    request_model=WebhookEvent,
-    response_model=WebhookAcceptedResponse,
-    response={
-        202: {"description": "Webhook accepted for processing"},
+    requests=WebhookEvent,
+    responses={
+        202: WebhookAcceptedResponse,
         400: {"description": "Invalid request payload"},
         401: {"description": "Invalid webhook signature"},
         422: {"description": "Request validation error"},

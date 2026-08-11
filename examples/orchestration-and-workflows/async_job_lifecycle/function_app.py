@@ -115,8 +115,8 @@ def _project_job_status(status: Any, instance_id: str) -> dict[str, Any]:
 @openapi(
     summary="Create a durable async job",
     description="Starts a Durable Functions orchestration and returns built-in HTTP management URLs.",
-    request_body=JobCreateRequest,
-    response={202: JobAcceptedResponse},
+    requests=JobCreateRequest,
+    responses={202: JobAcceptedResponse},
     tags=["async-jobs"],
 )
 @app.durable_client_input(client_name="client")
@@ -159,7 +159,7 @@ async def create_job(
 @openapi(
     summary="Get async job status",
     description="Returns the current Durable runtime state projected into a job lifecycle view.",
-    response={200: JobStatusResponse, 404: dict[str, str]},
+    responses={200: JobStatusResponse, 404: dict[str, str]},
     tags=["async-jobs"],
 )
 @app.durable_client_input(client_name="client")
@@ -191,7 +191,7 @@ async def get_job_status(
 @openapi(
     summary="Cancel an async job",
     description="Requests cancellation by terminating the durable orchestration instance.",
-    response={202: OperationResponse, 404: dict[str, str], 409: dict[str, str]},
+    responses={202: OperationResponse, 404: dict[str, str], 409: dict[str, str]},
     tags=["async-jobs"],
 )
 @app.durable_client_input(client_name="client")
@@ -244,7 +244,7 @@ async def cancel_job(
 @openapi(
     summary="Purge async job history",
     description="Purges Durable Functions history for a completed, failed, or cancelled job instance.",
-    response={202: OperationResponse, 404: dict[str, str], 409: dict[str, str]},
+    responses={202: OperationResponse, 404: dict[str, str], 409: dict[str, str]},
     tags=["async-jobs"],
 )
 @app.durable_client_input(client_name="client")

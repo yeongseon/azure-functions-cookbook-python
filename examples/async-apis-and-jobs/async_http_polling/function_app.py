@@ -12,8 +12,8 @@ import azure.durable_functions as df
 import azure.functions as func
 from azure_functions_logging import setup_logging
 from azure_functions_openapi import openapi
-from azure_functions_validation import validate_http
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, ValidationError
+
 
 setup_logging(format="json")
 logger = logging.getLogger(__name__)
@@ -31,17 +31,26 @@ class ReportJobRequest(BaseModel):
 @openapi(
     summary="Start a durable report job",
     description="Accepts work, returns 202, and provides the Durable statusQueryGetUri for polling.",
-    request_body=ReportJobRequest,
-    response={202: dict[str, Any]},
+    requests=ReportJobRequest,
+    responses={202: dict[str, Any]},
     tags=["async-jobs"],
 )
-@validate_http(body=ReportJobRequest)
 @app.durable_client_input(client_name="client")
 async def start_report_job(
     req: func.HttpRequest,
-    body: ReportJobRequest,
     client: df.DurableOrchestrationClient,
 ) -> func.HttpResponse:
+    # NOTE: @validate_http cannot compose with @app.durable_client_input yet
+    # (its worker-compat signature hides the durable `client` param).
+    # Tracking: yeongseon/azure-functions-validation-python#297. Validate manually.
+    try:
+        body = ReportJobRequest.model_validate_json(req.get_body())
+    except ValidationError as exc:
+        return func.HttpResponse(
+            exc.json(),
+            status_code=422,
+            mimetype="application/json",
+        )
     payload = body.model_dump()
     instance_id = await client.start_new("report_job_orchestrator", None, payload)
 
