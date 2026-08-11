@@ -13,7 +13,7 @@ requires-python = ">=3.10"
 dependencies = [
   "azure-functions",
   "azure-functions-logging",
-  "azure-functions-validation",
+  "azure-functions-validation>=0.10,<1",
   "pydantic",
 ]
 

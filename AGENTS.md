@@ -116,3 +116,10 @@ When splitting a large piece of work into focused issues, keep the umbrella open
 1. `make release-patch` (or `-minor` / `-major`) on `main`
 2. This runs: `hatch version` → `git commit` → `make changelog` → `git commit` → `git tag` → `git push`
 3. This repository is a content/examples project — the release cycle produces a tag and updated changelog for consumers to pin against. There is intentionally **no** automated `publish-pypi.yml` workflow.
+
+### Upstream Toolkit Release Gate
+This cookbook is the dogfood verification gate for every toolkit library (`azure-functions-openapi`, `azure-functions-validation`, `azure-functions-logging`, `azure-functions-db`, `azure-functions-langgraph`, `azure-functions-knowledge`, `azure-functions-scaffold`, `azure-functions-doctor`, `azure-functions-durable-graph`). When any of those libraries publishes a new release:
+1. Upgrade to the freshly published version (`hatch run pip install -U "<package>>=X.Y,<1"`) and run `make test`.
+2. Treat any new `RuntimeWarning`/`DeprecationWarning` surfaced by a toolkit library during the run as a release-blocking signal — decorator-order and API-drift problems are reported as warnings, so a clean run (zero warnings from toolkit packages) is required.
+3. Bump the affected lower-bound pins (`<package>>=X.Y,<1`) across `pyproject.toml` and every example that pins the package, in the same verification PR, so examples are tested against the version they advertise.
+4. The upstream release is **not** considered done until this cookbook passes on the published version.
