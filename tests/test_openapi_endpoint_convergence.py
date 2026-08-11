@@ -19,8 +19,14 @@ from __future__ import annotations
 
 import json
 from pathlib import Path
+from typing import Any
 
-from azure_functions_openapi import clear_openapi_registry, get_openapi_json
+from azure_functions_openapi import (
+    clear_openapi_registry,
+    get_openapi_json,
+    scan_endpoint_metadata,
+)
+import pytest
 
 from tests._isolation import load_example_module
 
@@ -32,11 +38,31 @@ SNAPSHOT_PATH = Path(__file__).resolve().parent / "data" / "apim_function_backen
 
 
 def _generate_spec() -> dict[str, object]:
-    """Generate the OpenAPI spec for ``EXAMPLE`` from a clean registry."""
+    """Generate the OpenAPI spec for ``EXAMPLE`` from a clean registry.
+
+    Discovery is exercised end-to-end: after importing the recipe module we run
+    :func:`scan_endpoint_metadata` over its ``FunctionApp`` so that the
+    ``@validate_http`` endpoint metadata (path model, response model) is folded
+    into the registry before the spec is compiled. Without this scan the spec
+    would only reflect the literal ``@openapi`` fields, which is exactly the
+    false-positive convergence the guard used to have (#135).
+    """
     clear_openapi_registry()
-    load_example_module(EXAMPLE)
+    module = load_example_module(EXAMPLE)
+    scan_endpoint_metadata(module.app)
     spec: dict[str, object] = json.loads(get_openapi_json())
     return spec
+
+
+def _catalog_get_operation(spec: dict[str, object]) -> dict[str, Any]:
+    """Return the GET operation object for the catalog recipe path."""
+    paths = spec["paths"]
+    assert isinstance(paths, dict)
+    path_item = paths["/api/catalog/{item_id}"]
+    assert isinstance(path_item, dict)
+    operation: dict[str, Any] = path_item["get"]
+    assert isinstance(operation, dict)
+    return operation
 
 
 def test_spec_matches_committed_snapshot() -> None:
@@ -60,3 +86,66 @@ def test_spec_generation_is_deterministic() -> None:
     first = json.dumps(_generate_spec(), sort_keys=True)
     second = json.dumps(_generate_spec(), sort_keys=True)
     assert first == second
+
+
+def test_path_parameter_is_discovered_from_endpoint_metadata() -> None:
+    """The ``item_id`` path parameter must come from the scanned path model.
+
+    ``@openapi`` alone never declares ``item_id``; it only reaches the spec
+    because :func:`scan_endpoint_metadata` folds ``CatalogPath`` from the
+    ``@validate_http`` endpoint metadata into the registry (#135).
+    """
+    operation = _catalog_get_operation(_generate_spec())
+    parameters = operation.get("parameters", [])
+    assert isinstance(parameters, list)
+    path_params = {
+        p["name"]: p
+        for p in parameters
+        if isinstance(p, dict) and p.get("in") == "path"
+    }
+    assert "item_id" in path_params, (
+        "item_id path parameter missing: endpoint-metadata discovery did not run"
+    )
+    assert path_params["item_id"].get("required") is True
+    assert path_params["item_id"]["schema"]["type"] == "string"
+
+
+def test_success_response_uses_scanned_response_model() -> None:
+    """The 200 body must reflect ``CatalogResponse`` from endpoint metadata.
+
+    Before discovery the 200 body was a generic ``{"type": "object"}``; after
+    :func:`scan_endpoint_metadata` runs it carries the concrete
+    ``CatalogResponse`` fields (#135).
+    """
+    operation = _catalog_get_operation(_generate_spec())
+    schema = operation["responses"]["200"]["content"]["application/json"]["schema"]
+    assert isinstance(schema, dict)
+    properties = schema.get("properties")
+    assert isinstance(properties, dict), (
+        "200 body is not a concrete object schema: response model was not scanned"
+    )
+    assert set(properties) >= {
+        "item_id",
+        "routed_by",
+        "correlation_id",
+        "cache_status",
+    }
+
+
+@pytest.mark.xfail(
+    reason=(
+        "azure-functions-validation 0.9.1 does not emit a 422 validation-error "
+        "response in endpoint metadata; the 422 emit (#286) is unreleased. This "
+        "deferred check flips to passing once a release including #286 is pinned "
+        "-- at which point the xfail marker should be removed (#135)."
+    ),
+    strict=False,
+)
+def test_validation_error_response_is_present() -> None:
+    """A 422 validation-error response should surface from endpoint metadata.
+
+    Deferred: gated behind the unreleased validation 422 emit (#286). See the
+    xfail reason above.
+    """
+    operation = _catalog_get_operation(_generate_spec())
+    assert "422" in operation["responses"]
