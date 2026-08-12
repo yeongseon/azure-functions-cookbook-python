@@ -95,8 +95,8 @@ if graph and _langgraph_app is not None:
 @with_context
 @openapi(
     summary="Invoke LangGraph agent",
-    request_body=InvokeRequest,
-    response={200: InvokeResponse},
+    requests=InvokeRequest,
+    responses={200: InvokeResponse},
     tags=["agent"],
 )
 @validate_http(body=InvokeRequest, response_model=InvokeResponse)

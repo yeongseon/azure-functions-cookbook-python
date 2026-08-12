@@ -71,7 +71,7 @@ The example in `examples/data-and-pipelines/sqlalchemy_rest_pagination/` keeps t
 
 ```python
 @app.route(route="items", methods=["GET"])
-@openapi(summary="List items with pagination", response={200: PaginatedItemsResponse}, tags=["items"])
+@openapi(summary="List items with pagination", responses={200: PaginatedItemsResponse}, tags=["items"])
 @validate_http(query=PaginationQuery, response_model=PaginatedItemsResponse)
 def list_items(req: func.HttpRequest, query: PaginationQuery) -> func.HttpResponse:
     offset = (query.page - 1) * query.page_size

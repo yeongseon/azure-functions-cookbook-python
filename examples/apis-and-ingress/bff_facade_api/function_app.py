@@ -117,7 +117,7 @@ def _json_response(payload: BaseModel, *, status_code: int = 200) -> func.HttpRe
 @openapi(
     summary="Aggregate dashboard data",
     description="Calls multiple backend services and returns one frontend-shaped response.",
-    response={200: DashboardResponse},
+    responses={200: DashboardResponse},
     tags=["apis-and-ingress"],
 )
 @validate_http(query=DashboardQuery, response_model=DashboardResponse)

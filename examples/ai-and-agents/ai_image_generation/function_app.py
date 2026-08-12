@@ -67,8 +67,8 @@ def _generate_image(prompt: str, size: str) -> ImageResponse:
 @openapi(
     summary="Generate an image with Azure OpenAI",
     description="Calls Azure OpenAI image generation and returns the resulting image URL.",
-    request_body=ImageRequest,
-    response={200: ImageResponse},
+    requests=ImageRequest,
+    responses={200: ImageResponse},
     tags=["ai"],
 )
 @validate_http(body=ImageRequest, response_model=ImageResponse)

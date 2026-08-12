@@ -114,8 +114,8 @@ def _json_response(model: BaseModel, *, status_code: int = 200) -> func.HttpResp
 @openapi(
     summary="Ask the knowledge base",
     description="Runs the RAG pipeline: retrieve context and generate a grounded answer.",
-    request_body=AskRequest,
-    response={200: AskResponse},
+    requests=AskRequest,
+    responses={200: AskResponse},
     tags=["knowledge"],
 )
 @validate_http(body=AskRequest, response_model=AskResponse)
@@ -146,8 +146,8 @@ def ask(req: func.HttpRequest, body: AskRequest) -> func.HttpResponse:
 @openapi(
     summary="Ingest knowledge documents",
     description="Adds new documents to the knowledge base so future RAG queries can retrieve them.",
-    request_body=IngestRequest,
-    response={202: IngestResponse},
+    requests=IngestRequest,
+    responses={202: IngestResponse},
     tags=["knowledge"],
 )
 @validate_http(body=IngestRequest, response_model=IngestResponse)

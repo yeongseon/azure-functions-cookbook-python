@@ -82,7 +82,7 @@ The HTTP handler follows the standard cookbook route pattern:
 ```python
 @app.route(route="search", methods=["POST"])
 @with_context
-@openapi(summary="Run vector search", request_body=VectorSearchRequest, response={200: VectorSearchResponse}, tags=["ai"])
+@openapi(summary="Run vector search", requests=VectorSearchRequest, responses={200: VectorSearchResponse}, tags=["ai"])
 @validate_http(body=VectorSearchRequest, response_model=VectorSearchResponse)
 def search(req: func.HttpRequest, body: VectorSearchRequest) -> func.HttpResponse:
     ...

@@ -71,7 +71,7 @@ def _stream_frames(message: str, system_prompt: str) -> str:
 @openapi(
     summary="Stream Azure OpenAI response",
     description="Returns SSE frames generated from Azure OpenAI streaming chat completions.",
-    request_body=StreamRequest,
+    requests=StreamRequest,
     tags=["ai"],
 )
 @validate_http(body=StreamRequest)

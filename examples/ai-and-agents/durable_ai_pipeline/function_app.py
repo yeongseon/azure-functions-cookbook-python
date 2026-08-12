@@ -144,8 +144,8 @@ def _json_response(model: BaseModel, *, status_code: int = 200) -> func.HttpResp
 @openapi(
     summary="Start durable AI pipeline",
     description="Starts a durable workflow that embeds, searches, and generates an answer.",
-    request_body=PipelineRequest,
-    response={202: PipelineStartResponse},
+    requests=PipelineRequest,
+    responses={202: PipelineStartResponse},
     tags=["ai"],
 )
 @app.durable_client_input(client_name="client")

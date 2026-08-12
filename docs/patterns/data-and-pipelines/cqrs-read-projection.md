@@ -90,7 +90,7 @@ table and returns the already-shaped view.
 ```python
 @app.route(route="orders", methods=["POST"])
 @with_context
-@openapi(summary="Create order", request_body=OrderWriteRequest, response={202: OrderAccepted})
+@openapi(summary="Create order", requests=OrderWriteRequest, responses={202: OrderAccepted})
 @validate_http(body=OrderWriteRequest, response_model=OrderAccepted)
 @app.cosmos_db_output(
     arg_name="order_doc",

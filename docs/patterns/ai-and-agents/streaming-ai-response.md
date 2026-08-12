@@ -78,7 +78,7 @@ stream rather than a JSON response model:
 ```python
 @app.route(route="stream", methods=["POST"])
 @with_context
-@openapi(summary="Stream Azure OpenAI response", request_body=StreamRequest, tags=["ai"])
+@openapi(summary="Stream Azure OpenAI response", requests=StreamRequest, tags=["ai"])
 @validate_http(body=StreamRequest)
 def stream_chat(req: func.HttpRequest, body: StreamRequest) -> func.HttpResponse:
     ...

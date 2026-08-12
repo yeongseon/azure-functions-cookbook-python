@@ -93,7 +93,7 @@ The example keeps the app compact while still showing the toolkit integration po
 
 ```python
 @app.route(route="items", methods=["GET"])
-@openapi(summary="List items with pagination", response={200: ItemListResponse}, tags=["items"])
+@openapi(summary="List items with pagination", responses={200: ItemListResponse}, tags=["items"])
 @validate_http(query=PaginationQuery, response_model=ItemListResponse)
 def list_items(req: func.HttpRequest, query: PaginationQuery) -> func.HttpResponse:
     ...

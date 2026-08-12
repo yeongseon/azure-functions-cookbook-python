@@ -73,7 +73,7 @@ if _db_available:
 
     @app.route(route="items", methods=["GET"])
     @with_context
-    @openapi(summary="List items", response={200: list[ItemResponse]}, tags=["items"])
+    @openapi(summary="List items", responses={200: list[ItemResponse]}, tags=["items"])
     @db.inject_reader("reader", url="%DB_URL%", table="items")
     def list_items(req: func.HttpRequest, reader: DbReader) -> func.HttpResponse:
         rows = reader.fetch_all()
@@ -87,8 +87,8 @@ if _db_available:
     @with_context
     @openapi(
         summary="Create item",
-        request_body=ItemCreate,
-        response={201: ItemResponse},
+        requests=ItemCreate,
+        responses={201: ItemResponse},
         tags=["items"],
     )
     @db.output("out", url="%DB_URL%", table="items")
