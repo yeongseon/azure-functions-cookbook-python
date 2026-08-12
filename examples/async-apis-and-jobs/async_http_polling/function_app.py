@@ -35,8 +35,8 @@ class ReportJobRequest(BaseModel):
     response={202: dict[str, Any]},
     tags=["async-jobs"],
 )
-@validate_http(body=ReportJobRequest)
 @app.durable_client_input(client_name="client")
+@validate_http(body=ReportJobRequest)
 async def start_report_job(
     req: func.HttpRequest,
     body: ReportJobRequest,

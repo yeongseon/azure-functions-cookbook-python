@@ -148,8 +148,8 @@ def _json_response(model: BaseModel, *, status_code: int = 200) -> func.HttpResp
     response={202: PipelineStartResponse},
     tags=["ai"],
 )
-@validate_http(body=PipelineRequest, response_model=PipelineStartResponse)
 @app.durable_client_input(client_name="client")
+@validate_http(body=PipelineRequest, response_model=PipelineStartResponse)
 async def start_pipeline(
     req: func.HttpRequest, body: PipelineRequest, client: Any
 ) -> func.HttpResponse:
