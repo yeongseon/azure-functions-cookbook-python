@@ -143,6 +143,29 @@ def test_find_recipe_no_match_returns_empty() -> None:
     assert find_recipe("this-string-matches-nothing-xyz") == []
 
 
+def test_find_recipe_multi_term_requires_all_terms() -> None:
+    corpus = [
+        _make_recipe(slug="a", title="Durable Retry Pattern", tags=()),
+        _make_recipe(slug="b", title="Durable Timer", tags=()),
+    ]
+    results = find_recipe("durable retry", recipes=corpus)
+    assert [r.slug for r in results] == ["a"]
+
+
+def test_find_recipe_multi_term_is_order_independent() -> None:
+    corpus = [
+        _make_recipe(slug="a", title="Durable Retry Pattern", tags=()),
+    ]
+    assert [r.slug for r in find_recipe("retry durable", recipes=corpus)] == ["a"]
+
+
+def test_find_recipe_multi_term_no_match_when_one_term_absent() -> None:
+    corpus = [
+        _make_recipe(slug="a", title="Durable Retry Pattern", tags=()),
+    ]
+    assert find_recipe("durable queue", recipes=corpus) == []
+
+
 def test_recipes_json_index_is_up_to_date() -> None:
     """Drift guard: committed recipes.json must match the generated index."""
     committed = (_ROOT / "recipes.json").read_text()
