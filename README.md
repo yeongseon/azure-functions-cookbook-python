@@ -57,155 +57,155 @@ durable = find_recipe(tag="durable")
 
 ### APIs and Ingress
 
-| Recipe | Description |
-| --- | --- |
-| [APIM Function Backend](examples/apis-and-ingress/apim_function_backend/) | HTTP-triggered Azure Functions backend intended to sit behind Azure API Management policies for auth, rate limiting, and caching. |
-| [BFF Facade API](examples/apis-and-ingress/bff_facade_api/) | HTTP Backend-for-Frontend facade that aggregates multiple backend service calls into one client-facing response. |
-| [EasyAuth Claims Extraction](examples/apis-and-ingress/auth_easyauth/) | EasyAuth principal extraction with role-based access control for Azure Functions. |
-| [Full Stack CRUD API](examples/apis-and-ingress/full_stack_crud_api/) | Showcase HTTP API that wires the Azure Functions Python DX Toolkit together around one `items` resource. |
-| [HTTP Auth Levels](examples/apis-and-ingress/http_auth_levels/) | HTTP trigger example that demonstrates anonymous, function-key, and admin-key endpoints. |
-| [HTTP Routing Query Body](examples/apis-and-ingress/http_routing_query_body/) | HTTP CRUD and search example showing route params, query strings, JSON body parsing, and status codes. |
-| [Hello HTTP Minimal](examples/apis-and-ingress/hello_http_minimal/) | Minimal HTTP-triggered Azure Function that returns a greeting. |
-| [JWT Bearer Validation](examples/apis-and-ingress/auth_jwt_validation/) | JWT Bearer token validation with claim-based access control for Azure Functions. |
-| [Multi-Tenant Auth](examples/apis-and-ingress/auth_multitenant/) | Multi-tenant access control with tenant allowlist for Azure Functions. |
-| [Scaffold Walkthrough — from afs new to a running HTTP API](examples/apis-and-ingress/scaffold_walkthrough_app/) | This recipe is the **committed output of `azure-functions-scaffold`** with the default `strict` preset. Use it to see exactly what the scaffold CLI generates for a fresh Azure Functions Python v2 HTTP project and to learn the recommended local dev loop. |
-| [Webhook GitHub](examples/apis-and-ingress/webhook_github/) | GitHub webhook receiver example with HMAC-SHA256 signature verification. |
+| Recipe | Difficulty | Description |
+| --- | --- | --- |
+| [APIM Function Backend](examples/apis-and-ingress/apim_function_backend/) | Intermediate | HTTP-triggered Azure Functions backend intended to sit behind Azure API Management policies for auth, rate limiting, and caching. |
+| [BFF Facade API](examples/apis-and-ingress/bff_facade_api/) | Intermediate | HTTP Backend-for-Frontend facade that aggregates multiple backend service calls into one client-facing response. |
+| [EasyAuth Claims Extraction](examples/apis-and-ingress/auth_easyauth/) | Intermediate | EasyAuth principal extraction with role-based access control for Azure Functions. |
+| [Full Stack CRUD API](examples/apis-and-ingress/full_stack_crud_api/) | Advanced | Showcase HTTP API that wires the Azure Functions Python DX Toolkit together around one `items` resource. |
+| [HTTP Auth Levels](examples/apis-and-ingress/http_auth_levels/) | Beginner | HTTP trigger example that demonstrates anonymous, function-key, and admin-key endpoints. |
+| [HTTP Routing Query Body](examples/apis-and-ingress/http_routing_query_body/) | Beginner | HTTP CRUD and search example showing route params, query strings, JSON body parsing, and status codes. |
+| [Hello HTTP Minimal](examples/apis-and-ingress/hello_http_minimal/) | Beginner | Minimal HTTP-triggered Azure Function that returns a greeting. |
+| [JWT Bearer Validation](examples/apis-and-ingress/auth_jwt_validation/) | Intermediate | JWT Bearer token validation with claim-based access control for Azure Functions. |
+| [Multi-Tenant Auth](examples/apis-and-ingress/auth_multitenant/) | Intermediate | Multi-tenant access control with tenant allowlist for Azure Functions. |
+| [Scaffold Walkthrough — from afs new to a running HTTP API](examples/apis-and-ingress/scaffold_walkthrough_app/) | Beginner | This recipe is the **committed output of `azure-functions-scaffold`** with the default `strict` preset. Use it to see exactly what the scaffold CLI generates for a fresh Azure Functions Python v2 HTTP project and to learn the recommended local dev loop. |
+| [Webhook GitHub](examples/apis-and-ingress/webhook_github/) | Intermediate | GitHub webhook receiver example with HMAC-SHA256 signature verification. |
 
 ### Scheduled and Background
 
-| Recipe | Description |
-| --- | --- |
-| [Durable Timer Reminder](examples/scheduled-and-background/durable_timer_reminder/) | Durable Functions orchestration that waits for a long delay and then executes a reminder callback activity. |
-| [Queue Scheduled Dispatch](examples/scheduled-and-background/queue_scheduled_dispatch/) | Timer-driven scheduled dispatch pattern that releases due work onto Azure Storage Queue for downstream workers. |
-| [Timer Cron Job](examples/scheduled-and-background/timer_cron_job/) | Timer-triggered Azure Function that runs a scheduled maintenance job every 5 minutes. |
+| Recipe | Difficulty | Description |
+| --- | --- | --- |
+| [Durable Timer Reminder](examples/scheduled-and-background/durable_timer_reminder/) | Intermediate | Durable Functions orchestration that waits for a long delay and then executes a reminder callback activity. |
+| [Queue Scheduled Dispatch](examples/scheduled-and-background/queue_scheduled_dispatch/) | Intermediate | Timer-driven scheduled dispatch pattern that releases due work onto Azure Storage Queue for downstream workers. |
+| [Timer Cron Job](examples/scheduled-and-background/timer_cron_job/) | Beginner | Timer-triggered Azure Function that runs a scheduled maintenance job every 5 minutes. |
 
 ### Blob and File Triggers
 
-| Recipe | Description |
-| --- | --- |
-| [Blob CSV to Table](examples/blob-and-file-triggers/blob_csv_to_table/) | Event Grid-driven ingestion pattern that reads uploaded CSV blobs and writes normalized rows into Azure Table Storage. |
-| [Blob Event Grid Trigger](examples/blob-and-file-triggers/blob_eventgrid_trigger/) | Blob-triggered Azure Function configured for Event Grid source notifications. |
-| [Blob Thumbnail Generator](examples/blob-and-file-triggers/blob_thumbnail_generator/) | Event Grid-driven blob processor that generates thumbnails and writes them to a separate output container. |
-| [Blob Upload Processor](examples/blob-and-file-triggers/blob_upload_processor/) | Blob-triggered Azure Function that processes uploaded files from `uploads/{name}`. |
+| Recipe | Difficulty | Description |
+| --- | --- | --- |
+| [Blob CSV to Table](examples/blob-and-file-triggers/blob_csv_to_table/) | Intermediate | Event Grid-driven ingestion pattern that reads uploaded CSV blobs and writes normalized rows into Azure Table Storage. |
+| [Blob Event Grid Trigger](examples/blob-and-file-triggers/blob_eventgrid_trigger/) | Intermediate | Blob-triggered Azure Function configured for Event Grid source notifications. |
+| [Blob Thumbnail Generator](examples/blob-and-file-triggers/blob_thumbnail_generator/) | Intermediate | Event Grid-driven blob processor that generates thumbnails and writes them to a separate output container. |
+| [Blob Upload Processor](examples/blob-and-file-triggers/blob_upload_processor/) | Intermediate | Blob-triggered Azure Function that processes uploaded files from `uploads/{name}`. |
 
 ### Async APIs and Jobs
 
-| Recipe | Description |
-| --- | --- |
-| [Async HTTP 202 Polling](examples/async-apis-and-jobs/async_http_polling/) | HTTP-triggered Durable Functions example that returns `202 Accepted` and a `statusQueryGetUri` for client polling. |
-| [Callback Completion](examples/async-apis-and-jobs/callback_completion/) | HTTP + Queue example that accepts work at `/api/tasks` and sends an HTTP callback when background processing finishes. |
-| [Queue-Backed Job](examples/async-apis-and-jobs/queue_backed_job/) | HTTP + Storage Queue recipe for accepting a job, returning `202 Accepted`, and polling a stored status record. |
+| Recipe | Difficulty | Description |
+| --- | --- | --- |
+| [Async HTTP 202 Polling](examples/async-apis-and-jobs/async_http_polling/) | Intermediate | HTTP-triggered Durable Functions example that returns `202 Accepted` and a `statusQueryGetUri` for client polling. |
+| [Callback Completion](examples/async-apis-and-jobs/callback_completion/) | Intermediate | HTTP + Queue example that accepts work at `/api/tasks` and sends an HTTP callback when background processing finishes. |
+| [Queue-Backed Job](examples/async-apis-and-jobs/queue_backed_job/) | Intermediate | HTTP + Storage Queue recipe for accepting a job, returning `202 Accepted`, and polling a stored status record. |
 
 ### Messaging and Pub/Sub
 
-| Recipe | Description |
-| --- | --- |
-| [Claim Check Pattern](examples/messaging-and-pubsub/claim_check_pattern/) | Large-message pattern that stores payloads in Blob Storage and passes only a reference through the queue. |
-| [Event Grid Domain Events](examples/messaging-and-pubsub/eventgrid_domain_events/) | HTTP-triggered Azure Function that publishes custom order domain events to an Event Grid custom topic, plus an Event Grid-triggered subscriber that logs the resulting events. |
-| [Event Grid Event Router](examples/messaging-and-pubsub/eventgrid_router/) | Event Grid-triggered Azure Function that routes events to different handlers using event type and subject filters. |
-| [Queue Consumer](examples/messaging-and-pubsub/queue_consumer/) | Queue-triggered Azure Function that parses and processes task messages. |
-| [Queue Producer](examples/messaging-and-pubsub/queue_producer/) | HTTP-triggered Azure Function that validates JSON and enqueues tasks to Storage Queue. |
-| [Service Bus DLQ Replay](examples/messaging-and-pubsub/servicebus_dlq_replay/) | Replay dead-lettered Service Bus queue messages back to the main queue after inspection and remediation. |
-| [Service Bus Sessions](examples/messaging-and-pubsub/servicebus_sessions/) | Azure Functions example showing ordered message processing with Azure Service Bus sessions. |
-| [Service Bus Topic Fan-out](examples/messaging-and-pubsub/servicebus_topic_fanout/) | Azure Functions example showing Service Bus topic fan-out with three independent subscription handlers. |
-| [Service Bus Worker](examples/messaging-and-pubsub/servicebus_worker/) | Service Bus queue-triggered Azure Function for reliable background work consumption. |
+| Recipe | Difficulty | Description |
+| --- | --- | --- |
+| [Claim Check Pattern](examples/messaging-and-pubsub/claim_check_pattern/) | Advanced | Large-message pattern that stores payloads in Blob Storage and passes only a reference through the queue. |
+| [Event Grid Domain Events](examples/messaging-and-pubsub/eventgrid_domain_events/) | Intermediate | HTTP-triggered Azure Function that publishes custom order domain events to an Event Grid custom topic, plus an Event Grid-triggered subscriber that logs the resulting events. |
+| [Event Grid Event Router](examples/messaging-and-pubsub/eventgrid_router/) | Intermediate | Event Grid-triggered Azure Function that routes events to different handlers using event type and subject filters. |
+| [Queue Consumer](examples/messaging-and-pubsub/queue_consumer/) | Beginner | Queue-triggered Azure Function that parses and processes task messages. |
+| [Queue Producer](examples/messaging-and-pubsub/queue_producer/) | Beginner | HTTP-triggered Azure Function that validates JSON and enqueues tasks to Storage Queue. |
+| [Service Bus DLQ Replay](examples/messaging-and-pubsub/servicebus_dlq_replay/) | Advanced | Replay dead-lettered Service Bus queue messages back to the main queue after inspection and remediation. |
+| [Service Bus Sessions](examples/messaging-and-pubsub/servicebus_sessions/) | Advanced | Azure Functions example showing ordered message processing with Azure Service Bus sessions. |
+| [Service Bus Topic Fan-out](examples/messaging-and-pubsub/servicebus_topic_fanout/) | Intermediate | Azure Functions example showing Service Bus topic fan-out with three independent subscription handlers. |
+| [Service Bus Worker](examples/messaging-and-pubsub/servicebus_worker/) | Intermediate | Service Bus queue-triggered Azure Function for reliable background work consumption. |
 
 ### Streams and Telemetry
 
-| Recipe | Description |
-| --- | --- |
-| [Event Hub Batch Window](examples/streams-and-telemetry/eventhub_batch_window/) | Event Hub-triggered Azure Function that processes a batch window and logs aggregate telemetry totals. |
-| [Event Hub Checkpoint Replay](examples/streams-and-telemetry/eventhub_checkpoint_replay/) | Azure Functions example showing replay-aware Event Hub consumption with offset tracking and idempotent processing. |
-| [Event Hub Consumer](examples/streams-and-telemetry/eventhub_consumer/) | Event Hub-triggered Azure Function for near real-time telemetry stream processing. |
+| Recipe | Difficulty | Description |
+| --- | --- | --- |
+| [Event Hub Batch Window](examples/streams-and-telemetry/eventhub_batch_window/) | Intermediate | Event Hub-triggered Azure Function that processes a batch window and logs aggregate telemetry totals. |
+| [Event Hub Checkpoint Replay](examples/streams-and-telemetry/eventhub_checkpoint_replay/) | Advanced | Azure Functions example showing replay-aware Event Hub consumption with offset tracking and idempotent processing. |
+| [Event Hub Consumer](examples/streams-and-telemetry/eventhub_consumer/) | Intermediate | Event Hub-triggered Azure Function for near real-time telemetry stream processing. |
 
 ### Data and Pipelines
 
-| Recipe | Description |
-| --- | --- |
-| [CQRS Read Projection](examples/data-and-pipelines/cqrs_read_projection/) | CQRS sample for Azure Functions Python where: |
-| [Change Feed Processor](examples/data-and-pipelines/change_feed_processor/) | Cosmos DB change feed-triggered Azure Function for downstream synchronization. |
-| [DB Input and Output Bindings](examples/data-and-pipelines/db_input_output/) | Demonstrates `azure-functions-db-python` input/output bindings with SQLAlchemy-backed storage, combined with `azure-functions-validation-python` and `azure-functions-openapi-python`. |
-| [ETL Enrichment](examples/data-and-pipelines/etl_enrichment/) | Blob-triggered ETL example that reads raw JSON customer records, enriches them with lookup data, and writes the enriched rows to a database. |
-| [File Processing Pipeline](examples/data-and-pipelines/file_processing_pipeline/) | Blob-triggered Azure Function that validates uploaded CSV or JSON files, transforms the records, and persists the processed result to a database. |
-| [SQLAlchemy REST Pagination](examples/data-and-pipelines/sqlalchemy_rest_pagination/) | HTTP API example that combines: |
+| Recipe | Difficulty | Description |
+| --- | --- | --- |
+| [CQRS Read Projection](examples/data-and-pipelines/cqrs_read_projection/) | Advanced | CQRS sample for Azure Functions Python where: |
+| [Change Feed Processor](examples/data-and-pipelines/change_feed_processor/) | Intermediate | Cosmos DB change feed-triggered Azure Function for downstream synchronization. |
+| [DB Input and Output Bindings](examples/data-and-pipelines/db_input_output/) | Intermediate | Demonstrates `azure-functions-db-python` input/output bindings with SQLAlchemy-backed storage, combined with `azure-functions-validation-python` and `azure-functions-openapi-python`. |
+| [ETL Enrichment](examples/data-and-pipelines/etl_enrichment/) | Intermediate | Blob-triggered ETL example that reads raw JSON customer records, enriches them with lookup data, and writes the enriched rows to a database. |
+| [File Processing Pipeline](examples/data-and-pipelines/file_processing_pipeline/) | Intermediate | Blob-triggered Azure Function that validates uploaded CSV or JSON files, transforms the records, and persists the processed result to a database. |
+| [SQLAlchemy REST Pagination](examples/data-and-pipelines/sqlalchemy_rest_pagination/) | Intermediate | HTTP API example that combines: |
 
 ### Orchestration and Workflows
 
-| Recipe | Description |
-| --- | --- |
-| [Async Job Lifecycle](examples/orchestration-and-workflows/async_job_lifecycle/) | Durable Functions recipe for full async job lifecycle management: create, status, cancel, and purge. |
-| [Durable Determinism Gotchas](examples/orchestration-and-workflows/durable_determinism_gotchas/) | Durable Functions orchestrator showing deterministic coding patterns. |
-| [Durable Entity Counter](examples/orchestration-and-workflows/durable_entity_counter/) | Durable Entity example managing counter state. |
-| [Durable Fan-Out Fan-In](examples/orchestration-and-workflows/durable_fan_out_fan_in/) | Durable Functions fan-out/fan-in orchestration with parallel activities. |
-| [Durable Graph Fan Out](examples/orchestration-and-workflows/durable_graph_fan_out/) | Fan-out/fan-in DAG orchestration with azure-functions-durable-graph, driven by a declarative ManifestBuilder graph. |
-| [Durable Hello Sequence](examples/orchestration-and-workflows/durable_hello_sequence/) | Durable Functions orchestrator chaining activities in sequence. |
-| [Durable Human Interaction](examples/orchestration-and-workflows/durable_human_interaction/) | Durable Functions workflow waiting for an external approval event with timeout. |
-| [Durable Retry Pattern](examples/orchestration-and-workflows/durable_retry_pattern/) | Durable Functions orchestration retrying a flaky activity. |
-| [Durable Singleton Monitor](examples/orchestration-and-workflows/durable_singleton_monitor/) | Durable Functions singleton orchestration that continuously polls an external dependency and emits alerts on changes. |
-| [Durable Unit Testing](examples/orchestration-and-workflows/durable_unit_testing/) | Durable Functions sample focused on mock-based orchestrator unit testing. |
-| [Saga Compensation](examples/orchestration-and-workflows/saga_compensation/) | Durable Functions saga orchestration that compensates previously completed steps on failure. |
-| [Sub-Orchestration](examples/orchestration-and-workflows/sub_orchestration/) | Durable Functions parent orchestration delegating work to two child sub-orchestrators. |
+| Recipe | Difficulty | Description |
+| --- | --- | --- |
+| [Async Job Lifecycle](examples/orchestration-and-workflows/async_job_lifecycle/) | Advanced | Durable Functions recipe for full async job lifecycle management: create, status, cancel, and purge. |
+| [Durable Determinism Gotchas](examples/orchestration-and-workflows/durable_determinism_gotchas/) | Advanced | Durable Functions orchestrator showing deterministic coding patterns. |
+| [Durable Entity Counter](examples/orchestration-and-workflows/durable_entity_counter/) | Intermediate | Durable Entity example managing counter state. |
+| [Durable Fan-Out Fan-In](examples/orchestration-and-workflows/durable_fan_out_fan_in/) | Intermediate | Durable Functions fan-out/fan-in orchestration with parallel activities. |
+| [Durable Graph Fan Out](examples/orchestration-and-workflows/durable_graph_fan_out/) | Advanced | Fan-out/fan-in DAG orchestration with azure-functions-durable-graph, driven by a declarative ManifestBuilder graph. |
+| [Durable Hello Sequence](examples/orchestration-and-workflows/durable_hello_sequence/) | Beginner | Durable Functions orchestrator chaining activities in sequence. |
+| [Durable Human Interaction](examples/orchestration-and-workflows/durable_human_interaction/) | Intermediate | Durable Functions workflow waiting for an external approval event with timeout. |
+| [Durable Retry Pattern](examples/orchestration-and-workflows/durable_retry_pattern/) | Intermediate | Durable Functions orchestration retrying a flaky activity. |
+| [Durable Singleton Monitor](examples/orchestration-and-workflows/durable_singleton_monitor/) | Advanced | Durable Functions singleton orchestration that continuously polls an external dependency and emits alerts on changes. |
+| [Durable Unit Testing](examples/orchestration-and-workflows/durable_unit_testing/) | Intermediate | Durable Functions sample focused on mock-based orchestrator unit testing. |
+| [Saga Compensation](examples/orchestration-and-workflows/saga_compensation/) | Advanced | Durable Functions saga orchestration that compensates previously completed steps on failure. |
+| [Sub-Orchestration](examples/orchestration-and-workflows/sub_orchestration/) | Advanced | Durable Functions parent orchestration delegating work to two child sub-orchestrators. |
 
 ### Reliability
 
-| Recipe | Description |
-| --- | --- |
-| [Circuit Breaker](examples/reliability/circuit_breaker/) | This recipe shows an HTTP-triggered Azure Function protecting a downstream API with a simple in-memory circuit breaker. |
-| [Outbox Pattern](examples/reliability/outbox_pattern/) | Transactional outbox sample for Azure Functions Python where: |
-| [Poison Message Handling](examples/reliability/poison_message_handling/) | Queue-triggered Azure Functions recipe that lets repeated failures move automatically to the poison queue and then logs the failed payload for operator follow-up. |
-| [Rate Limiting / Throttle](examples/reliability/rate_limiting/) | This recipe shows an HTTP-triggered Azure Function using an in-memory token bucket to throttle requests and return `429 Too Many Requests` when the local bucket is empty. |
-| [Retry and Idempotency](examples/reliability/retry_and_idempotency/) | This recipe shows two related resilience patterns: |
+| Recipe | Difficulty | Description |
+| --- | --- | --- |
+| [Circuit Breaker](examples/reliability/circuit_breaker/) | Intermediate | This recipe shows an HTTP-triggered Azure Function protecting a downstream API with a simple in-memory circuit breaker. |
+| [Outbox Pattern](examples/reliability/outbox_pattern/) | Advanced | Transactional outbox sample for Azure Functions Python where: |
+| [Poison Message Handling](examples/reliability/poison_message_handling/) | Intermediate | Queue-triggered Azure Functions recipe that lets repeated failures move automatically to the poison queue and then logs the failed payload for operator follow-up. |
+| [Rate Limiting / Throttle](examples/reliability/rate_limiting/) | Intermediate | This recipe shows an HTTP-triggered Azure Function using an in-memory token bucket to throttle requests and return `429 Too Many Requests` when the local bucket is empty. |
+| [Retry and Idempotency](examples/reliability/retry_and_idempotency/) | Intermediate | This recipe shows two related resilience patterns: |
 
 ### Security and Tenancy
 
-| Recipe | Description |
-| --- | --- |
-| [Managed Identity Service Bus](examples/security-and-tenancy/managed_identity_servicebus/) | This recipe shows a Service Bus queue trigger using `connection="ServiceBusConnection"`. |
-| [Managed Identity Storage](examples/security-and-tenancy/managed_identity_storage/) | This recipe shows an Azure Storage Queue trigger using `connection="StorageConnection"`. You can back that setting with either a connection string or managed identity settings. |
-| [Secretless Key Vault](examples/security-and-tenancy/secretless_keyvault/) | HTTP-triggered Azure Function that reads secrets from environment variables populated by Azure Key Vault references. The function uses standard environment access and `azure_functions_logging` only. |
-| [Tenant Isolation](examples/security-and-tenancy/tenant_isolation/) | HTTP recipe for resolving tenant context from `X-Tenant-ID` or a bearer token claim, then querying a tenant-specific database with `azure-functions-db-python`. |
+| Recipe | Difficulty | Description |
+| --- | --- | --- |
+| [Managed Identity Service Bus](examples/security-and-tenancy/managed_identity_servicebus/) | Advanced | This recipe shows a Service Bus queue trigger using `connection="ServiceBusConnection"`. |
+| [Managed Identity Storage](examples/security-and-tenancy/managed_identity_storage/) | Advanced | This recipe shows an Azure Storage Queue trigger using `connection="StorageConnection"`. You can back that setting with either a connection string or managed identity settings. |
+| [Secretless Key Vault](examples/security-and-tenancy/secretless_keyvault/) | Intermediate | HTTP-triggered Azure Function that reads secrets from environment variables populated by Azure Key Vault references. The function uses standard environment access and `azure_functions_logging` only. |
+| [Tenant Isolation](examples/security-and-tenancy/tenant_isolation/) | Advanced | HTTP recipe for resolving tenant context from `X-Tenant-ID` or a bearer token claim, then querying a tenant-specific database with `azure-functions-db-python`. |
 
 ### Runtime and Ops
 
-| Recipe | Description |
-| --- | --- |
-| [Blueprint Modular App](examples/runtime-and-ops/blueprint_modular_app/) | This recipe demonstrates a modular Azure Functions app using `func.Blueprint`. |
-| [Cold Start Mitigation](examples/runtime-and-ops/cold_start_mitigation/) | This recipe demonstrates practical cold-start mitigation for Azure Functions Python: |
-| [Concurrency Tuning](examples/runtime-and-ops/concurrency_tuning/) | This recipe demonstrates host-level dynamic concurrency: |
-| [Doctor Diagnostics Endpoint](examples/runtime-and-ops/doctor_diagnostics_endpoint/) | Expose [`azure-functions-doctor`](https://github.com/yeongseon/azure-functions-doctor-python) diagnostics as authenticated HTTP endpoints so operators can query deployment health post-deploy without shelling into the container. |
-| [Observability Tracing](examples/runtime-and-ops/observability_tracing/) | HTTP-triggered tracing recipe showing correlation ID propagation, structured logging, and Application Insights-friendly trace context. |
-| [Output Binding vs SDK](examples/runtime-and-ops/output_binding_vs_sdk/) | This recipe compares two ways to send the same queue message: |
-| [host.json Tuning](examples/runtime-and-ops/host_json_tuning/) | This recipe focuses on host-level tuning using a timer trigger plus a richly configured `host.json`. |
+| Recipe | Difficulty | Description |
+| --- | --- | --- |
+| [Blueprint Modular App](examples/runtime-and-ops/blueprint_modular_app/) | Intermediate | This recipe demonstrates a modular Azure Functions app using `func.Blueprint`. |
+| [Cold Start Mitigation](examples/runtime-and-ops/cold_start_mitigation/) | Intermediate | This recipe demonstrates practical cold-start mitigation for Azure Functions Python: |
+| [Concurrency Tuning](examples/runtime-and-ops/concurrency_tuning/) | Advanced | This recipe demonstrates host-level dynamic concurrency: |
+| [Doctor Diagnostics Endpoint](examples/runtime-and-ops/doctor_diagnostics_endpoint/) | Intermediate | Expose [`azure-functions-doctor`](https://github.com/yeongseon/azure-functions-doctor-python) diagnostics as authenticated HTTP endpoints so operators can query deployment health post-deploy without shelling into the container. |
+| [Observability Tracing](examples/runtime-and-ops/observability_tracing/) | Intermediate | HTTP-triggered tracing recipe showing correlation ID propagation, structured logging, and Application Insights-friendly trace context. |
+| [Output Binding vs SDK](examples/runtime-and-ops/output_binding_vs_sdk/) | Intermediate | This recipe compares two ways to send the same queue message: |
+| [host.json Tuning](examples/runtime-and-ops/host_json_tuning/) | Advanced | This recipe focuses on host-level tuning using a timer trigger plus a richly configured `host.json`. |
 
 ### Realtime
 
-| Recipe | Description |
-| --- | --- |
-| [WebSocket Proxy](examples/realtime/websocket_proxy/) | Azure Functions front door for Azure Web PubSub that negotiates client tokens and forwards publish requests. |
+| Recipe | Difficulty | Description |
+| --- | --- | --- |
+| [WebSocket Proxy](examples/realtime/websocket_proxy/) | Advanced | Azure Functions front door for Azure Web PubSub that negotiates client tokens and forwards publish requests. |
 
 ### AI and Agents
 
-| Recipe | Description |
-| --- | --- |
-| [AI Image Generation](examples/ai-and-agents/ai_image_generation/) | HTTP-triggered sample that sends a prompt to Azure OpenAI image generation and returns the generated image URL. |
-| [Azure OpenAI Direct Chat](examples/ai-and-agents/openai_direct_chat/) | Minimal HTTP-triggered Azure Functions sample that sends one message to Azure OpenAI with the `openai` Python SDK. |
-| [Durable AI Pipeline](examples/ai-and-agents/durable_ai_pipeline/) | Durable Functions sample that orchestrates three AI steps: embedding, vector search, and answer generation. |
-| [Embedding Vector Search](examples/ai-and-agents/embedding_vector_search/) | HTTP-triggered sample that creates Azure OpenAI embeddings and uses them to run a vector query against Azure AI Search. |
-| [Knowledge Notion Search](examples/ai-and-agents/knowledge_notion_search/) | Notion-backed knowledge retrieval with azure-functions-knowledge KnowledgeBindings input/inject_client decorators. |
-| [LangGraph Agent](examples/ai-and-agents/langgraph_agent/) | Demonstrates `azure-functions-langgraph-python` adapter with `azure-functions-logging-python`, `azure-functions-validation-python`, and `azure-functions-openapi-python`. |
-| [LangGraph RAG Agent](examples/ai-and-agents/langgraph_rag_agent/) | This example shows how to combine: |
-| [Langgraph Tool Use](examples/ai-and-agents/langgraph_tool_use/) | Tool-use LangGraph agent with azure-functions-langgraph, routing between a reasoning node and callable tools. |
-| [MCP Server Example](examples/ai-and-agents/mcp_server_example/) | This example hosts a manual Model Context Protocol (MCP) server on Azure Functions using a standard HTTP trigger and JSON-RPC 2.0 messages. |
-| [RAG Knowledge API](examples/ai-and-agents/rag_knowledge_api/) | Demonstrates a minimal RAG API using Azure AI Search and Azure OpenAI, combined with `azure-functions-validation-python`, `azure-functions-openapi-python`, and `azure-functions-logging-python`. |
-| [Streaming AI Response](examples/ai-and-agents/streaming_ai_response/) | HTTP-triggered sample that converts Azure OpenAI streaming chat completions into Server-Sent Events. |
+| Recipe | Difficulty | Description |
+| --- | --- | --- |
+| [AI Image Generation](examples/ai-and-agents/ai_image_generation/) | Intermediate | HTTP-triggered sample that sends a prompt to Azure OpenAI image generation and returns the generated image URL. |
+| [Azure OpenAI Direct Chat](examples/ai-and-agents/openai_direct_chat/) | Beginner | Minimal HTTP-triggered Azure Functions sample that sends one message to Azure OpenAI with the `openai` Python SDK. |
+| [Durable AI Pipeline](examples/ai-and-agents/durable_ai_pipeline/) | Advanced | Durable Functions sample that orchestrates three AI steps: embedding, vector search, and answer generation. |
+| [Embedding Vector Search](examples/ai-and-agents/embedding_vector_search/) | Advanced | HTTP-triggered sample that creates Azure OpenAI embeddings and uses them to run a vector query against Azure AI Search. |
+| [Knowledge Notion Search](examples/ai-and-agents/knowledge_notion_search/) | Intermediate | Notion-backed knowledge retrieval with azure-functions-knowledge KnowledgeBindings input/inject_client decorators. |
+| [LangGraph Agent](examples/ai-and-agents/langgraph_agent/) | Intermediate | Demonstrates `azure-functions-langgraph-python` adapter with `azure-functions-logging-python`, `azure-functions-validation-python`, and `azure-functions-openapi-python`. |
+| [LangGraph RAG Agent](examples/ai-and-agents/langgraph_rag_agent/) | Advanced | This example shows how to combine: |
+| [Langgraph Tool Use](examples/ai-and-agents/langgraph_tool_use/) | Advanced | Tool-use LangGraph agent with azure-functions-langgraph, routing between a reasoning node and callable tools. |
+| [MCP Server Example](examples/ai-and-agents/mcp_server_example/) | Advanced | This example hosts a manual Model Context Protocol (MCP) server on Azure Functions using a standard HTTP trigger and JSON-RPC 2.0 messages. |
+| [RAG Knowledge API](examples/ai-and-agents/rag_knowledge_api/) | Advanced | Demonstrates a minimal RAG API using Azure AI Search and Azure OpenAI, combined with `azure-functions-validation-python`, `azure-functions-openapi-python`, and `azure-functions-logging-python`. |
+| [Streaming AI Response](examples/ai-and-agents/streaming_ai_response/) | Intermediate | HTTP-triggered sample that converts Azure OpenAI streaming chat completions into Server-Sent Events. |
 
 ### Guides
 
-| Recipe | Description |
-| --- | --- |
-| [Local Run and Direct Invoke](examples/guides/local_run_and_direct_invoke/) | This example shows two local testing workflows for an Azure Functions Python app: |
+| Recipe | Difficulty | Description |
+| --- | --- | --- |
+| [Local Run and Direct Invoke](examples/guides/local_run_and_direct_invoke/) | Beginner | This example shows two local testing workflows for an Azure Functions Python app: |
 
-_80 recipes. Per-recipe difficulty labels are tracked in [#117](https://github.com/yeongseon/azure-functions-cookbook-python/issues/117)._
+_80 recipes._
 
 <!-- END RECIPES -->
 

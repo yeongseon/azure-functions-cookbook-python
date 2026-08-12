@@ -1,5 +1,6 @@
 slug: ai-image-generation
 title: AI Image Generation
 category: ai-and-agents
+difficulty: Intermediate
 description: HTTP-triggered sample that sends a prompt to Azure OpenAI image generation and returns the generated image URL.
 docs_url: https://yeongseon.github.io/azure-functions-cookbook-python/patterns/ai-and-agents/ai-image-generation/

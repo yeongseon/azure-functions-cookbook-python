@@ -1,5 +1,6 @@
 slug: blob-thumbnail-generator
 title: Blob Thumbnail Generator
 category: blob-and-file-triggers
+difficulty: Intermediate
 description: Event Grid-driven blob processor that generates thumbnails and writes them to a separate output container.
 docs_url: https://yeongseon.github.io/azure-functions-cookbook-python/patterns/blob-and-file-triggers/blob-thumbnail-generator/

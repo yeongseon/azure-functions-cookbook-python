@@ -1,5 +1,6 @@
 slug: eventhub-batch-window
 title: Event Hub Batch Window
 category: streams-and-telemetry
+difficulty: Intermediate
 description: Event Hub-triggered Azure Function that processes a batch window and logs aggregate telemetry totals.
 docs_url: https://yeongseon.github.io/azure-functions-cookbook-python/patterns/streams-and-telemetry/eventhub-batch-window/

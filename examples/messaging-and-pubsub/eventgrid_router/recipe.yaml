@@ -1,5 +1,6 @@
 slug: eventgrid-event-router
 title: Event Grid Event Router
 category: messaging-and-pubsub
+difficulty: Intermediate
 description: Event Grid-triggered Azure Function that routes events to different handlers using event type and subject filters.
 docs_url: https://yeongseon.github.io/azure-functions-cookbook-python/patterns/messaging-and-pubsub/eventgrid-event-router/

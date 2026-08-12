@@ -1,5 +1,6 @@
 slug: eventgrid-domain-events
 title: Event Grid Domain Events
 category: messaging-and-pubsub
+difficulty: Intermediate
 description: HTTP-triggered Azure Function that publishes custom order domain events to an Event Grid custom topic, plus an Event Grid-triggered subscriber that logs the resulting events.
 docs_url: https://yeongseon.github.io/azure-functions-cookbook-python/patterns/messaging-and-pubsub/eventgrid-domain-events/

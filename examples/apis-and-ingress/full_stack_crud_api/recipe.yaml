@@ -1,5 +1,6 @@
 slug: full-stack-crud-api
 title: Full Stack CRUD API
 category: apis-and-ingress
+difficulty: Advanced
 description: Showcase HTTP API that wires the Azure Functions Python DX Toolkit together around one `items` resource.
 docs_url: https://yeongseon.github.io/azure-functions-cookbook-python/patterns/apis-and-ingress/full-stack-crud-api/

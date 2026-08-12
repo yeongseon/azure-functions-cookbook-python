@@ -54,155 +54,155 @@ durable = find_recipe(tag="durable")
 
 ### APIs and Ingress
 
-| レシピ | 説明 |
-| --- | --- |
-| [APIM Function Backend](examples/apis-and-ingress/apim_function_backend/) | 認証、レート制限、キャッシュのために Azure API Management ポリシーの背後に配置するよう設計された HTTP トリガー Azure Functions バックエンド。 |
-| [BFF Facade API](examples/apis-and-ingress/bff_facade_api/) | 複数のバックエンドサービス呼び出しを 1 つのクライアント向けレスポンスに集約する HTTP Backend-for-Frontend ファサード。 |
-| [EasyAuth Claims Extraction](examples/apis-and-ingress/auth_easyauth/) | Azure Functions 向けのロールベースアクセス制御を備えた EasyAuth プリンシパル抽出。 |
-| [Full Stack CRUD API](examples/apis-and-ingress/full_stack_crud_api/) | 単一の `items` リソースを中心に Azure Functions Python DX Toolkit を連携させるショーケース HTTP API。 |
-| [HTTP Auth Levels](examples/apis-and-ingress/http_auth_levels/) | 匿名、関数キー、管理者キーのエンドポイントを示す HTTP トリガーの例。 |
-| [HTTP Routing Query Body](examples/apis-and-ingress/http_routing_query_body/) | ルートパラメーター、クエリ文字列、JSON ボディ解析、ステータスコードを示す HTTP CRUD および検索の例。 |
-| [Hello HTTP Minimal](examples/apis-and-ingress/hello_http_minimal/) | 挨拶を返す最小限の HTTP トリガー Azure Function。 |
-| [JWT Bearer Validation](examples/apis-and-ingress/auth_jwt_validation/) | Azure Functions 向けのクレームベースアクセス制御を備えた JWT Bearer トークン検証。 |
-| [Multi-Tenant Auth](examples/apis-and-ingress/auth_multitenant/) | Azure Functions 向けのテナント許可リストを使用したマルチテナントアクセス制御。 |
-| [Scaffold Walkthrough — from afs new to a running HTTP API](examples/apis-and-ingress/scaffold_walkthrough_app/) | このレシピは、デフォルトの `strict` プリセットを使用した **`azure-functions-scaffold` のコミット済み出力**です。スキャフォールド CLI が新しい Azure Functions Python v2 HTTP プロジェクトに対して正確に何を生成するかを確認し、推奨のローカル開発ループを学ぶために使用してください。 |
-| [Webhook GitHub](examples/apis-and-ingress/webhook_github/) | HMAC-SHA256 署名検証を備えた GitHub Webhook レシーバーの例。 |
+| レシピ | 難易度 | 説明 |
+| --- | --- | --- |
+| [APIM Function Backend](examples/apis-and-ingress/apim_function_backend/) | 中級 | 認証、レート制限、キャッシュのために Azure API Management ポリシーの背後に配置するよう設計された HTTP トリガー Azure Functions バックエンド。 |
+| [BFF Facade API](examples/apis-and-ingress/bff_facade_api/) | 中級 | 複数のバックエンドサービス呼び出しを 1 つのクライアント向けレスポンスに集約する HTTP Backend-for-Frontend ファサード。 |
+| [EasyAuth Claims Extraction](examples/apis-and-ingress/auth_easyauth/) | 中級 | Azure Functions 向けのロールベースアクセス制御を備えた EasyAuth プリンシパル抽出。 |
+| [Full Stack CRUD API](examples/apis-and-ingress/full_stack_crud_api/) | 上級 | 単一の `items` リソースを中心に Azure Functions Python DX Toolkit を連携させるショーケース HTTP API。 |
+| [HTTP Auth Levels](examples/apis-and-ingress/http_auth_levels/) | 初級 | 匿名、関数キー、管理者キーのエンドポイントを示す HTTP トリガーの例。 |
+| [HTTP Routing Query Body](examples/apis-and-ingress/http_routing_query_body/) | 初級 | ルートパラメーター、クエリ文字列、JSON ボディ解析、ステータスコードを示す HTTP CRUD および検索の例。 |
+| [Hello HTTP Minimal](examples/apis-and-ingress/hello_http_minimal/) | 初級 | 挨拶を返す最小限の HTTP トリガー Azure Function。 |
+| [JWT Bearer Validation](examples/apis-and-ingress/auth_jwt_validation/) | 中級 | Azure Functions 向けのクレームベースアクセス制御を備えた JWT Bearer トークン検証。 |
+| [Multi-Tenant Auth](examples/apis-and-ingress/auth_multitenant/) | 中級 | Azure Functions 向けのテナント許可リストを使用したマルチテナントアクセス制御。 |
+| [Scaffold Walkthrough — from afs new to a running HTTP API](examples/apis-and-ingress/scaffold_walkthrough_app/) | 初級 | このレシピは、デフォルトの `strict` プリセットを使用した **`azure-functions-scaffold` のコミット済み出力**です。スキャフォールド CLI が新しい Azure Functions Python v2 HTTP プロジェクトに対して正確に何を生成するかを確認し、推奨のローカル開発ループを学ぶために使用してください。 |
+| [Webhook GitHub](examples/apis-and-ingress/webhook_github/) | 中級 | HMAC-SHA256 署名検証を備えた GitHub Webhook レシーバーの例。 |
 
 ### Scheduled and Background
 
-| レシピ | 説明 |
-| --- | --- |
-| [Durable Timer Reminder](examples/scheduled-and-background/durable_timer_reminder/) | 長い遅延を待った後にリマインダーのコールバックアクティビティを実行する Durable Functions オーケストレーション。 |
-| [Queue Scheduled Dispatch](examples/scheduled-and-background/queue_scheduled_dispatch/) | 期限が来た作業を下流ワーカー向けに Azure Storage Queue へ放出するタイマー駆動のスケジュール済みディスパッチパターン。 |
-| [Timer Cron Job](examples/scheduled-and-background/timer_cron_job/) | 5 分ごとにスケジュールされたメンテナンスジョブを実行するタイマートリガー Azure Function。 |
+| レシピ | 難易度 | 説明 |
+| --- | --- | --- |
+| [Durable Timer Reminder](examples/scheduled-and-background/durable_timer_reminder/) | 中級 | 長い遅延を待った後にリマインダーのコールバックアクティビティを実行する Durable Functions オーケストレーション。 |
+| [Queue Scheduled Dispatch](examples/scheduled-and-background/queue_scheduled_dispatch/) | 中級 | 期限が来た作業を下流ワーカー向けに Azure Storage Queue へ放出するタイマー駆動のスケジュール済みディスパッチパターン。 |
+| [Timer Cron Job](examples/scheduled-and-background/timer_cron_job/) | 初級 | 5 分ごとにスケジュールされたメンテナンスジョブを実行するタイマートリガー Azure Function。 |
 
 ### Blob and File Triggers
 
-| レシピ | 説明 |
-| --- | --- |
-| [Blob CSV to Table](examples/blob-and-file-triggers/blob_csv_to_table/) | アップロードされた CSV Blob を読み取り、正規化された行を Azure Table Storage に書き込む Event Grid 駆動の取り込みパターン。 |
-| [Blob Event Grid Trigger](examples/blob-and-file-triggers/blob_eventgrid_trigger/) | Event Grid ソース通知向けに構成された Blob トリガー Azure Function。 |
-| [Blob Thumbnail Generator](examples/blob-and-file-triggers/blob_thumbnail_generator/) | サムネイルを生成して別の出力コンテナーに書き込む Event Grid 駆動の Blob プロセッサー。 |
-| [Blob Upload Processor](examples/blob-and-file-triggers/blob_upload_processor/) | `uploads/{name}` からアップロードされたファイルを処理する Blob トリガー Azure Function。 |
+| レシピ | 難易度 | 説明 |
+| --- | --- | --- |
+| [Blob CSV to Table](examples/blob-and-file-triggers/blob_csv_to_table/) | 中級 | アップロードされた CSV Blob を読み取り、正規化された行を Azure Table Storage に書き込む Event Grid 駆動の取り込みパターン。 |
+| [Blob Event Grid Trigger](examples/blob-and-file-triggers/blob_eventgrid_trigger/) | 中級 | Event Grid ソース通知向けに構成された Blob トリガー Azure Function。 |
+| [Blob Thumbnail Generator](examples/blob-and-file-triggers/blob_thumbnail_generator/) | 中級 | サムネイルを生成して別の出力コンテナーに書き込む Event Grid 駆動の Blob プロセッサー。 |
+| [Blob Upload Processor](examples/blob-and-file-triggers/blob_upload_processor/) | 中級 | `uploads/{name}` からアップロードされたファイルを処理する Blob トリガー Azure Function。 |
 
 ### Async APIs and Jobs
 
-| レシピ | 説明 |
-| --- | --- |
-| [Async HTTP 202 Polling](examples/async-apis-and-jobs/async_http_polling/) | `202 Accepted` とクライアントポーリング用の `statusQueryGetUri` を返す HTTP トリガー Durable Functions の例。 |
-| [Callback Completion](examples/async-apis-and-jobs/callback_completion/) | `/api/tasks` で作業を受け付け、バックグラウンド処理が完了すると HTTP コールバックを送信する HTTP + Queue の例。 |
-| [Queue-Backed Job](examples/async-apis-and-jobs/queue_backed_job/) | ジョブを受け付けて `202 Accepted` を返し、保存された状態レコードをポーリングする HTTP + Storage Queue レシピ。 |
+| レシピ | 難易度 | 説明 |
+| --- | --- | --- |
+| [Async HTTP 202 Polling](examples/async-apis-and-jobs/async_http_polling/) | 中級 | `202 Accepted` とクライアントポーリング用の `statusQueryGetUri` を返す HTTP トリガー Durable Functions の例。 |
+| [Callback Completion](examples/async-apis-and-jobs/callback_completion/) | 中級 | `/api/tasks` で作業を受け付け、バックグラウンド処理が完了すると HTTP コールバックを送信する HTTP + Queue の例。 |
+| [Queue-Backed Job](examples/async-apis-and-jobs/queue_backed_job/) | 中級 | ジョブを受け付けて `202 Accepted` を返し、保存された状態レコードをポーリングする HTTP + Storage Queue レシピ。 |
 
 ### Messaging and Pub/Sub
 
-| レシピ | 説明 |
-| --- | --- |
-| [Claim Check Pattern](examples/messaging-and-pubsub/claim_check_pattern/) | ペイロードを Blob Storage に保存し、キューには参照のみを渡す大容量メッセージパターン。 |
-| [Event Grid Domain Events](examples/messaging-and-pubsub/eventgrid_domain_events/) | カスタム注文ドメインイベントを Event Grid カスタムトピックに発行する HTTP トリガー Azure Function と、その結果のイベントをログ記録する Event Grid トリガーのサブスクライバー。 |
-| [Event Grid Event Router](examples/messaging-and-pubsub/eventgrid_router/) | イベントの種類とサブジェクトのフィルターを使用してイベントを異なるハンドラーにルーティングする Event Grid トリガー Azure Function。 |
-| [Queue Consumer](examples/messaging-and-pubsub/queue_consumer/) | タスクメッセージを解析して処理するキュートリガー Azure Function。 |
-| [Queue Producer](examples/messaging-and-pubsub/queue_producer/) | JSON を検証し、タスクを Storage Queue にキューイングする HTTP トリガー Azure Function。 |
-| [Service Bus DLQ Replay](examples/messaging-and-pubsub/servicebus_dlq_replay/) | 検査と修正の後、デッドレター化された Service Bus キューメッセージをメインキューへ再送。 |
-| [Service Bus Sessions](examples/messaging-and-pubsub/servicebus_sessions/) | Azure Service Bus セッションを使用した順序付きメッセージ処理を示す Azure Functions の例。 |
-| [Service Bus Topic Fan-out](examples/messaging-and-pubsub/servicebus_topic_fanout/) | 3 つの独立したサブスクリプションハンドラーによる Service Bus トピックのファンアウトを示す Azure Functions の例。 |
-| [Service Bus Worker](examples/messaging-and-pubsub/servicebus_worker/) | 信頼性の高いバックグラウンド作業の消費のための Service Bus キュートリガー Azure Function。 |
+| レシピ | 難易度 | 説明 |
+| --- | --- | --- |
+| [Claim Check Pattern](examples/messaging-and-pubsub/claim_check_pattern/) | 上級 | ペイロードを Blob Storage に保存し、キューには参照のみを渡す大容量メッセージパターン。 |
+| [Event Grid Domain Events](examples/messaging-and-pubsub/eventgrid_domain_events/) | 中級 | カスタム注文ドメインイベントを Event Grid カスタムトピックに発行する HTTP トリガー Azure Function と、その結果のイベントをログ記録する Event Grid トリガーのサブスクライバー。 |
+| [Event Grid Event Router](examples/messaging-and-pubsub/eventgrid_router/) | 中級 | イベントの種類とサブジェクトのフィルターを使用してイベントを異なるハンドラーにルーティングする Event Grid トリガー Azure Function。 |
+| [Queue Consumer](examples/messaging-and-pubsub/queue_consumer/) | 初級 | タスクメッセージを解析して処理するキュートリガー Azure Function。 |
+| [Queue Producer](examples/messaging-and-pubsub/queue_producer/) | 初級 | JSON を検証し、タスクを Storage Queue にキューイングする HTTP トリガー Azure Function。 |
+| [Service Bus DLQ Replay](examples/messaging-and-pubsub/servicebus_dlq_replay/) | 上級 | 検査と修正の後、デッドレター化された Service Bus キューメッセージをメインキューへ再送。 |
+| [Service Bus Sessions](examples/messaging-and-pubsub/servicebus_sessions/) | 上級 | Azure Service Bus セッションを使用した順序付きメッセージ処理を示す Azure Functions の例。 |
+| [Service Bus Topic Fan-out](examples/messaging-and-pubsub/servicebus_topic_fanout/) | 中級 | 3 つの独立したサブスクリプションハンドラーによる Service Bus トピックのファンアウトを示す Azure Functions の例。 |
+| [Service Bus Worker](examples/messaging-and-pubsub/servicebus_worker/) | 中級 | 信頼性の高いバックグラウンド作業の消費のための Service Bus キュートリガー Azure Function。 |
 
 ### Streams and Telemetry
 
-| レシピ | 説明 |
-| --- | --- |
-| [Event Hub Batch Window](examples/streams-and-telemetry/eventhub_batch_window/) | バッチウィンドウを処理し、集計テレメトリの合計をログ記録する Event Hub トリガー Azure Function。 |
-| [Event Hub Checkpoint Replay](examples/streams-and-telemetry/eventhub_checkpoint_replay/) | オフセット追跡と冪等処理によるリプレイ対応の Event Hub 消費を示す Azure Functions の例。 |
-| [Event Hub Consumer](examples/streams-and-telemetry/eventhub_consumer/) | ほぼリアルタイムのテレメトリストリーム処理のための Event Hub トリガー Azure Function。 |
+| レシピ | 難易度 | 説明 |
+| --- | --- | --- |
+| [Event Hub Batch Window](examples/streams-and-telemetry/eventhub_batch_window/) | 中級 | バッチウィンドウを処理し、集計テレメトリの合計をログ記録する Event Hub トリガー Azure Function。 |
+| [Event Hub Checkpoint Replay](examples/streams-and-telemetry/eventhub_checkpoint_replay/) | 上級 | オフセット追跡と冪等処理によるリプレイ対応の Event Hub 消費を示す Azure Functions の例。 |
+| [Event Hub Consumer](examples/streams-and-telemetry/eventhub_consumer/) | 中級 | ほぼリアルタイムのテレメトリストリーム処理のための Event Hub トリガー Azure Function。 |
 
 ### Data and Pipelines
 
-| レシピ | 説明 |
-| --- | --- |
-| [CQRS Read Projection](examples/data-and-pipelines/cqrs_read_projection/) | 次のような Azure Functions Python 向け CQRS サンプル: |
-| [Change Feed Processor](examples/data-and-pipelines/change_feed_processor/) | 下流同期のための Cosmos DB 変更フィードトリガー Azure Function。 |
-| [DB Input and Output Bindings](examples/data-and-pipelines/db_input_output/) | SQLAlchemy を基盤としたストレージと組み合わせた `azure-functions-db-python` の入出力バインディングを、`azure-functions-validation-python` および `azure-functions-openapi-python` とともに示します。 |
-| [ETL Enrichment](examples/data-and-pipelines/etl_enrichment/) | 生の JSON 顧客レコードを読み取り、ルックアップデータで拡充し、拡充された行をデータベースに書き込む Blob トリガー ETL の例。 |
-| [File Processing Pipeline](examples/data-and-pipelines/file_processing_pipeline/) | アップロードされた CSV または JSON ファイルを検証し、レコードを変換して、処理結果をデータベースに永続化する Blob トリガー Azure Function。 |
-| [SQLAlchemy REST Pagination](examples/data-and-pipelines/sqlalchemy_rest_pagination/) | 次を組み合わせた HTTP API の例: |
+| レシピ | 難易度 | 説明 |
+| --- | --- | --- |
+| [CQRS Read Projection](examples/data-and-pipelines/cqrs_read_projection/) | 上級 | 次のような Azure Functions Python 向け CQRS サンプル: |
+| [Change Feed Processor](examples/data-and-pipelines/change_feed_processor/) | 中級 | 下流同期のための Cosmos DB 変更フィードトリガー Azure Function。 |
+| [DB Input and Output Bindings](examples/data-and-pipelines/db_input_output/) | 中級 | SQLAlchemy を基盤としたストレージと組み合わせた `azure-functions-db-python` の入出力バインディングを、`azure-functions-validation-python` および `azure-functions-openapi-python` とともに示します。 |
+| [ETL Enrichment](examples/data-and-pipelines/etl_enrichment/) | 中級 | 生の JSON 顧客レコードを読み取り、ルックアップデータで拡充し、拡充された行をデータベースに書き込む Blob トリガー ETL の例。 |
+| [File Processing Pipeline](examples/data-and-pipelines/file_processing_pipeline/) | 中級 | アップロードされた CSV または JSON ファイルを検証し、レコードを変換して、処理結果をデータベースに永続化する Blob トリガー Azure Function。 |
+| [SQLAlchemy REST Pagination](examples/data-and-pipelines/sqlalchemy_rest_pagination/) | 中級 | 次を組み合わせた HTTP API の例: |
 
 ### Orchestration and Workflows
 
-| レシピ | 説明 |
-| --- | --- |
-| [Async Job Lifecycle](examples/orchestration-and-workflows/async_job_lifecycle/) | 作成、状態、キャンセル、パージを含む完全な非同期ジョブライフサイクル管理のための Durable Functions レシピ。 |
-| [Durable Determinism Gotchas](examples/orchestration-and-workflows/durable_determinism_gotchas/) | 決定論的なコーディングパターンを示す Durable Functions オーケストレーター。 |
-| [Durable Entity Counter](examples/orchestration-and-workflows/durable_entity_counter/) | カウンター状態を管理する Durable Entity の例。 |
-| [Durable Fan-Out Fan-In](examples/orchestration-and-workflows/durable_fan_out_fan_in/) | 並列アクティビティを使用した Durable Functions のファンアウト/ファンインオーケストレーション。 |
-| [Durable Graph Fan Out](examples/orchestration-and-workflows/durable_graph_fan_out/) | 宣言的な ManifestBuilder グラフで駆動される azure-functions-durable-graph によるファンアウト/ファンイン DAG オーケストレーション。 |
-| [Durable Hello Sequence](examples/orchestration-and-workflows/durable_hello_sequence/) | アクティビティを順番に連結する Durable Functions オーケストレーター。 |
-| [Durable Human Interaction](examples/orchestration-and-workflows/durable_human_interaction/) | タイムアウト付きで外部承認イベントを待つ Durable Functions ワークフロー。 |
-| [Durable Retry Pattern](examples/orchestration-and-workflows/durable_retry_pattern/) | 不安定なアクティビティを再試行する Durable Functions オーケストレーション。 |
-| [Durable Singleton Monitor](examples/orchestration-and-workflows/durable_singleton_monitor/) | 外部依存を継続的にポーリングし、変更時にアラートを発する Durable Functions シングルトンオーケストレーション。 |
-| [Durable Unit Testing](examples/orchestration-and-workflows/durable_unit_testing/) | モックベースのオーケストレーター単体テストに焦点を当てた Durable Functions サンプル。 |
-| [Saga Compensation](examples/orchestration-and-workflows/saga_compensation/) | 失敗時に以前完了したステップを補償する Durable Functions のサガオーケストレーション。 |
-| [Sub-Orchestration](examples/orchestration-and-workflows/sub_orchestration/) | 2 つの子サブオーケストレーターに作業を委任する Durable Functions の親オーケストレーション。 |
+| レシピ | 難易度 | 説明 |
+| --- | --- | --- |
+| [Async Job Lifecycle](examples/orchestration-and-workflows/async_job_lifecycle/) | 上級 | 作成、状態、キャンセル、パージを含む完全な非同期ジョブライフサイクル管理のための Durable Functions レシピ。 |
+| [Durable Determinism Gotchas](examples/orchestration-and-workflows/durable_determinism_gotchas/) | 上級 | 決定論的なコーディングパターンを示す Durable Functions オーケストレーター。 |
+| [Durable Entity Counter](examples/orchestration-and-workflows/durable_entity_counter/) | 中級 | カウンター状態を管理する Durable Entity の例。 |
+| [Durable Fan-Out Fan-In](examples/orchestration-and-workflows/durable_fan_out_fan_in/) | 中級 | 並列アクティビティを使用した Durable Functions のファンアウト/ファンインオーケストレーション。 |
+| [Durable Graph Fan Out](examples/orchestration-and-workflows/durable_graph_fan_out/) | 上級 | 宣言的な ManifestBuilder グラフで駆動される azure-functions-durable-graph によるファンアウト/ファンイン DAG オーケストレーション。 |
+| [Durable Hello Sequence](examples/orchestration-and-workflows/durable_hello_sequence/) | 初級 | アクティビティを順番に連結する Durable Functions オーケストレーター。 |
+| [Durable Human Interaction](examples/orchestration-and-workflows/durable_human_interaction/) | 中級 | タイムアウト付きで外部承認イベントを待つ Durable Functions ワークフロー。 |
+| [Durable Retry Pattern](examples/orchestration-and-workflows/durable_retry_pattern/) | 中級 | 不安定なアクティビティを再試行する Durable Functions オーケストレーション。 |
+| [Durable Singleton Monitor](examples/orchestration-and-workflows/durable_singleton_monitor/) | 上級 | 外部依存を継続的にポーリングし、変更時にアラートを発する Durable Functions シングルトンオーケストレーション。 |
+| [Durable Unit Testing](examples/orchestration-and-workflows/durable_unit_testing/) | 中級 | モックベースのオーケストレーター単体テストに焦点を当てた Durable Functions サンプル。 |
+| [Saga Compensation](examples/orchestration-and-workflows/saga_compensation/) | 上級 | 失敗時に以前完了したステップを補償する Durable Functions のサガオーケストレーション。 |
+| [Sub-Orchestration](examples/orchestration-and-workflows/sub_orchestration/) | 上級 | 2 つの子サブオーケストレーターに作業を委任する Durable Functions の親オーケストレーション。 |
 
 ### Reliability
 
-| レシピ | 説明 |
-| --- | --- |
-| [Circuit Breaker](examples/reliability/circuit_breaker/) | このレシピは、シンプルなインメモリのサーキットブレーカーで下流 API を保護する HTTP トリガー Azure Function を示します。 |
-| [Outbox Pattern](examples/reliability/outbox_pattern/) | 次のような Azure Functions Python 向けのトランザクショナルアウトボックスサンプル: |
-| [Poison Message Handling](examples/reliability/poison_message_handling/) | 繰り返される失敗が自動的にポイズンキューへ移動するようにし、失敗したペイロードをログ記録して運用者のフォローアップを支援するキュートリガー Azure Functions レシピ。 |
-| [Rate Limiting / Throttle](examples/reliability/rate_limiting/) | このレシピは、インメモリのトークンバケットを使用してリクエストをスロットリングし、ローカルバケットが空のときに `429 Too Many Requests` を返す HTTP トリガー Azure Function を示します。 |
-| [Retry and Idempotency](examples/reliability/retry_and_idempotency/) | このレシピは、関連する 2 つの回復性パターンを示します: |
+| レシピ | 難易度 | 説明 |
+| --- | --- | --- |
+| [Circuit Breaker](examples/reliability/circuit_breaker/) | 中級 | このレシピは、シンプルなインメモリのサーキットブレーカーで下流 API を保護する HTTP トリガー Azure Function を示します。 |
+| [Outbox Pattern](examples/reliability/outbox_pattern/) | 上級 | 次のような Azure Functions Python 向けのトランザクショナルアウトボックスサンプル: |
+| [Poison Message Handling](examples/reliability/poison_message_handling/) | 中級 | 繰り返される失敗が自動的にポイズンキューへ移動するようにし、失敗したペイロードをログ記録して運用者のフォローアップを支援するキュートリガー Azure Functions レシピ。 |
+| [Rate Limiting / Throttle](examples/reliability/rate_limiting/) | 中級 | このレシピは、インメモリのトークンバケットを使用してリクエストをスロットリングし、ローカルバケットが空のときに `429 Too Many Requests` を返す HTTP トリガー Azure Function を示します。 |
+| [Retry and Idempotency](examples/reliability/retry_and_idempotency/) | 中級 | このレシピは、関連する 2 つの回復性パターンを示します: |
 
 ### Security and Tenancy
 
-| レシピ | 説明 |
-| --- | --- |
-| [Managed Identity Service Bus](examples/security-and-tenancy/managed_identity_servicebus/) | このレシピは、`connection="ServiceBusConnection"` を使用する Service Bus キュートリガーを示します。 |
-| [Managed Identity Storage](examples/security-and-tenancy/managed_identity_storage/) | このレシピは、`connection="StorageConnection"` を使用する Azure Storage Queue トリガーを示します。その設定は接続文字列またはマネージド ID 設定のいずれかで裏付けることができます。 |
-| [Secretless Key Vault](examples/security-and-tenancy/secretless_keyvault/) | Azure Key Vault 参照によって設定された環境変数からシークレットを読み取る HTTP トリガー Azure Function。この関数は標準的な環境アクセスと `azure_functions_logging` のみを使用します。 |
-| [Tenant Isolation](examples/security-and-tenancy/tenant_isolation/) | `X-Tenant-ID` または Bearer トークンのクレームからテナントコンテキストを解決し、`azure-functions-db-python` でテナント固有のデータベースをクエリする HTTP レシピ。 |
+| レシピ | 難易度 | 説明 |
+| --- | --- | --- |
+| [Managed Identity Service Bus](examples/security-and-tenancy/managed_identity_servicebus/) | 上級 | このレシピは、`connection="ServiceBusConnection"` を使用する Service Bus キュートリガーを示します。 |
+| [Managed Identity Storage](examples/security-and-tenancy/managed_identity_storage/) | 上級 | このレシピは、`connection="StorageConnection"` を使用する Azure Storage Queue トリガーを示します。その設定は接続文字列またはマネージド ID 設定のいずれかで裏付けることができます。 |
+| [Secretless Key Vault](examples/security-and-tenancy/secretless_keyvault/) | 中級 | Azure Key Vault 参照によって設定された環境変数からシークレットを読み取る HTTP トリガー Azure Function。この関数は標準的な環境アクセスと `azure_functions_logging` のみを使用します。 |
+| [Tenant Isolation](examples/security-and-tenancy/tenant_isolation/) | 上級 | `X-Tenant-ID` または Bearer トークンのクレームからテナントコンテキストを解決し、`azure-functions-db-python` でテナント固有のデータベースをクエリする HTTP レシピ。 |
 
 ### Runtime and Ops
 
-| レシピ | 説明 |
-| --- | --- |
-| [Blueprint Modular App](examples/runtime-and-ops/blueprint_modular_app/) | このレシピは、`func.Blueprint` を使用したモジュラー Azure Functions アプリを示します。 |
-| [Cold Start Mitigation](examples/runtime-and-ops/cold_start_mitigation/) | このレシピは、Azure Functions Python の実践的なコールドスタート緩和を示します: |
-| [Concurrency Tuning](examples/runtime-and-ops/concurrency_tuning/) | このレシピは、ホストレベルの動的同時実行を示します: |
-| [Doctor Diagnostics Endpoint](examples/runtime-and-ops/doctor_diagnostics_endpoint/) | [`azure-functions-doctor`](https://github.com/yeongseon/azure-functions-doctor-python) の診断を認証済み HTTP エンドポイントとして公開し、運用者がコンテナーにシェルインすることなくデプロイ後のデプロイ状態をクエリできるようにします。 |
-| [Observability Tracing](examples/runtime-and-ops/observability_tracing/) | 相関 ID の伝播、構造化ログ、Application Insights に適したトレースコンテキストを示す HTTP トリガーのトレースレシピ。 |
-| [Output Binding vs SDK](examples/runtime-and-ops/output_binding_vs_sdk/) | このレシピは、同じキューメッセージを送信する 2 つの方法を比較します: |
-| [host.json Tuning](examples/runtime-and-ops/host_json_tuning/) | このレシピは、タイマートリガーと豊富に構成された `host.json` を使用したホストレベルのチューニングに焦点を当てます。 |
+| レシピ | 難易度 | 説明 |
+| --- | --- | --- |
+| [Blueprint Modular App](examples/runtime-and-ops/blueprint_modular_app/) | 中級 | このレシピは、`func.Blueprint` を使用したモジュラー Azure Functions アプリを示します。 |
+| [Cold Start Mitigation](examples/runtime-and-ops/cold_start_mitigation/) | 中級 | このレシピは、Azure Functions Python の実践的なコールドスタート緩和を示します: |
+| [Concurrency Tuning](examples/runtime-and-ops/concurrency_tuning/) | 上級 | このレシピは、ホストレベルの動的同時実行を示します: |
+| [Doctor Diagnostics Endpoint](examples/runtime-and-ops/doctor_diagnostics_endpoint/) | 中級 | [`azure-functions-doctor`](https://github.com/yeongseon/azure-functions-doctor-python) の診断を認証済み HTTP エンドポイントとして公開し、運用者がコンテナーにシェルインすることなくデプロイ後のデプロイ状態をクエリできるようにします。 |
+| [Observability Tracing](examples/runtime-and-ops/observability_tracing/) | 中級 | 相関 ID の伝播、構造化ログ、Application Insights に適したトレースコンテキストを示す HTTP トリガーのトレースレシピ。 |
+| [Output Binding vs SDK](examples/runtime-and-ops/output_binding_vs_sdk/) | 中級 | このレシピは、同じキューメッセージを送信する 2 つの方法を比較します: |
+| [host.json Tuning](examples/runtime-and-ops/host_json_tuning/) | 上級 | このレシピは、タイマートリガーと豊富に構成された `host.json` を使用したホストレベルのチューニングに焦点を当てます。 |
 
 ### Realtime
 
-| レシピ | 説明 |
-| --- | --- |
-| [WebSocket Proxy](examples/realtime/websocket_proxy/) | クライアントトークンをネゴシエートし、発行リクエストを転送する Azure Web PubSub 向けの Azure Functions フロントドア。 |
+| レシピ | 難易度 | 説明 |
+| --- | --- | --- |
+| [WebSocket Proxy](examples/realtime/websocket_proxy/) | 上級 | クライアントトークンをネゴシエートし、発行リクエストを転送する Azure Web PubSub 向けの Azure Functions フロントドア。 |
 
 ### AI and Agents
 
-| レシピ | 説明 |
-| --- | --- |
-| [AI Image Generation](examples/ai-and-agents/ai_image_generation/) | Azure OpenAI の画像生成にプロンプトを送信し、生成された画像 URL を返す HTTP トリガーサンプル。 |
-| [Azure OpenAI Direct Chat](examples/ai-and-agents/openai_direct_chat/) | `openai` Python SDK で Azure OpenAI に 1 つのメッセージを送信する最小限の HTTP トリガー Azure Functions サンプル。 |
-| [Durable AI Pipeline](examples/ai-and-agents/durable_ai_pipeline/) | 埋め込み、ベクトル検索、回答生成の 3 つの AI ステップをオーケストレーションする Durable Functions サンプル。 |
-| [Embedding Vector Search](examples/ai-and-agents/embedding_vector_search/) | Azure OpenAI の埋め込みを作成し、それを使用して Azure AI Search に対してベクトルクエリを実行する HTTP トリガーサンプル。 |
-| [Knowledge Notion Search](examples/ai-and-agents/knowledge_notion_search/) | azure-functions-knowledge の KnowledgeBindings input/inject_client デコレーターを使用した Notion 基盤のナレッジ検索。 |
-| [LangGraph Agent](examples/ai-and-agents/langgraph_agent/) | `azure-functions-langgraph-python` アダプターを `azure-functions-logging-python`、`azure-functions-validation-python`、`azure-functions-openapi-python` とともに示します。 |
-| [LangGraph RAG Agent](examples/ai-and-agents/langgraph_rag_agent/) | この例は、次を組み合わせる方法を示します: |
-| [Langgraph Tool Use](examples/ai-and-agents/langgraph_tool_use/) | 推論ノードと呼び出し可能なツールの間をルーティングする azure-functions-langgraph によるツール使用 LangGraph エージェント。 |
-| [MCP Server Example](examples/ai-and-agents/mcp_server_example/) | この例は、標準的な HTTP トリガーと JSON-RPC 2.0 メッセージを使用して、Azure Functions 上で手動の Model Context Protocol (MCP) サーバーをホストします。 |
-| [RAG Knowledge API](examples/ai-and-agents/rag_knowledge_api/) | Azure AI Search と Azure OpenAI を使用し、`azure-functions-validation-python`、`azure-functions-openapi-python`、`azure-functions-logging-python` を組み合わせた最小限の RAG API を示します。 |
-| [Streaming AI Response](examples/ai-and-agents/streaming_ai_response/) | Azure OpenAI のストリーミングチャット補完を Server-Sent Events に変換する HTTP トリガーサンプル。 |
+| レシピ | 難易度 | 説明 |
+| --- | --- | --- |
+| [AI Image Generation](examples/ai-and-agents/ai_image_generation/) | 中級 | Azure OpenAI の画像生成にプロンプトを送信し、生成された画像 URL を返す HTTP トリガーサンプル。 |
+| [Azure OpenAI Direct Chat](examples/ai-and-agents/openai_direct_chat/) | 初級 | `openai` Python SDK で Azure OpenAI に 1 つのメッセージを送信する最小限の HTTP トリガー Azure Functions サンプル。 |
+| [Durable AI Pipeline](examples/ai-and-agents/durable_ai_pipeline/) | 上級 | 埋め込み、ベクトル検索、回答生成の 3 つの AI ステップをオーケストレーションする Durable Functions サンプル。 |
+| [Embedding Vector Search](examples/ai-and-agents/embedding_vector_search/) | 上級 | Azure OpenAI の埋め込みを作成し、それを使用して Azure AI Search に対してベクトルクエリを実行する HTTP トリガーサンプル。 |
+| [Knowledge Notion Search](examples/ai-and-agents/knowledge_notion_search/) | 中級 | azure-functions-knowledge の KnowledgeBindings input/inject_client デコレーターを使用した Notion 基盤のナレッジ検索。 |
+| [LangGraph Agent](examples/ai-and-agents/langgraph_agent/) | 中級 | `azure-functions-langgraph-python` アダプターを `azure-functions-logging-python`、`azure-functions-validation-python`、`azure-functions-openapi-python` とともに示します。 |
+| [LangGraph RAG Agent](examples/ai-and-agents/langgraph_rag_agent/) | 上級 | この例は、次を組み合わせる方法を示します: |
+| [Langgraph Tool Use](examples/ai-and-agents/langgraph_tool_use/) | 上級 | 推論ノードと呼び出し可能なツールの間をルーティングする azure-functions-langgraph によるツール使用 LangGraph エージェント。 |
+| [MCP Server Example](examples/ai-and-agents/mcp_server_example/) | 上級 | この例は、標準的な HTTP トリガーと JSON-RPC 2.0 メッセージを使用して、Azure Functions 上で手動の Model Context Protocol (MCP) サーバーをホストします。 |
+| [RAG Knowledge API](examples/ai-and-agents/rag_knowledge_api/) | 上級 | Azure AI Search と Azure OpenAI を使用し、`azure-functions-validation-python`、`azure-functions-openapi-python`、`azure-functions-logging-python` を組み合わせた最小限の RAG API を示します。 |
+| [Streaming AI Response](examples/ai-and-agents/streaming_ai_response/) | 中級 | Azure OpenAI のストリーミングチャット補完を Server-Sent Events に変換する HTTP トリガーサンプル。 |
 
 ### Guides
 
-| レシピ | 説明 |
-| --- | --- |
-| [Local Run and Direct Invoke](examples/guides/local_run_and_direct_invoke/) | この例は、Azure Functions Python アプリ向けの 2 つのローカルテストワークフローを示します: |
+| レシピ | 難易度 | 説明 |
+| --- | --- | --- |
+| [Local Run and Direct Invoke](examples/guides/local_run_and_direct_invoke/) | 初級 | この例は、Azure Functions Python アプリ向けの 2 つのローカルテストワークフローを示します: |
 
-_80 レシピ。レシピごとの難易度ラベルは [#117](https://github.com/yeongseon/azure-functions-cookbook-python/issues/117) で追跡されています。_
+_80 レシピ。_
 
 各パターンページは `docs/patterns/` の下にあり、`examples/` に対応する実行可能なプロジェクトがあります。
 

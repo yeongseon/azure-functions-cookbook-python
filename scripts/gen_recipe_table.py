@@ -52,10 +52,14 @@ def _escape(text: str) -> str:
     return text.replace("|", "\\|")
 
 
+_DIFFICULTY_ORDER = {"Beginner": 0, "Intermediate": 1, "Advanced": 2}
+
+
 def _row(recipe: Recipe) -> str:
     link = f"examples/{recipe.example_path}/"
     title = f"[{_escape(recipe.title)}]({link})"
-    return f"| {title} | {_escape(recipe.description)} |"
+    difficulty = recipe.difficulty or ""
+    return f"| {title} | {_escape(difficulty)} | {_escape(recipe.description)} |"
 
 
 def render(recipes: list[Recipe] = RECIPES) -> str:
@@ -63,6 +67,12 @@ def render(recipes: list[Recipe] = RECIPES) -> str:
     unknown = sorted({r.category for r in recipes} - known)
     if unknown:
         raise SystemExit(f"recipe.yaml has categories missing from CATEGORY_ORDER: {unknown}")
+    unlabeled = sorted(r.slug for r in recipes if r.difficulty not in _DIFFICULTY_ORDER)
+    if unlabeled:
+        raise SystemExit(
+            "recipe.yaml difficulty must be one of "
+            f"{sorted(_DIFFICULTY_ORDER)}; missing/invalid for: {unlabeled}"
+        )
 
     lines: list[str] = [BEGIN_MARKER, ""]
     for slug, heading in CATEGORY_ORDER:
@@ -71,14 +81,11 @@ def render(recipes: list[Recipe] = RECIPES) -> str:
             continue
         lines.append(f"### {heading}")
         lines.append("")
-        lines.append("| Recipe | Description |")
-        lines.append("| --- | --- |")
+        lines.append("| Recipe | Difficulty | Description |")
+        lines.append("| --- | --- | --- |")
         lines.extend(_row(r) for r in group)
         lines.append("")
-    lines.append(
-        f"_{len(recipes)} recipes. Per-recipe difficulty labels are tracked in "
-        "[#117](https://github.com/yeongseon/azure-functions-cookbook-python/issues/117)._"
-    )
+    lines.append(f"_{len(recipes)} recipes._")
     lines.append("")
     lines.append(END_MARKER)
     return "\n".join(lines)
