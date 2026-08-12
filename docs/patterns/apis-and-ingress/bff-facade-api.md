@@ -80,7 +80,7 @@ HTTP decorator order:
 @app.route(route="dashboard", methods=["GET"], auth_level=func.AuthLevel.ANONYMOUS)
 @openapi(
     summary="Aggregate dashboard data",
-    response={200: DashboardResponse},
+    responses={200: DashboardResponse},
     tags=["apis-and-ingress"],
 )
 @validate_http(query=DashboardQuery, response_model=DashboardResponse)

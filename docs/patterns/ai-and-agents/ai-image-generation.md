@@ -75,7 +75,7 @@ The route uses the standard cookbook HTTP decorator order:
 ```python
 @app.route(route="images/generate", methods=["POST"])
 @with_context
-@openapi(summary="Generate an image", request_body=ImageRequest, response={200: ImageResponse}, tags=["ai"])
+@openapi(summary="Generate an image", requests=ImageRequest, responses={200: ImageResponse}, tags=["ai"])
 @validate_http(body=ImageRequest, response_model=ImageResponse)
 def generate_image(req: func.HttpRequest, body: ImageRequest) -> func.HttpResponse:
     ...

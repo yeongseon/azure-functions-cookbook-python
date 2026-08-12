@@ -64,8 +64,8 @@ The POST handler follows the cookbook's canonical HTTP decorator order:
 @openapi(
     summary="Submit a queue-backed job",
     description="Validates input, writes an accepted status record, and enqueues work for later processing.",
-    request_body=JobSubmissionRequest,
-    response={202: dict[str, Any]},
+    requests=JobSubmissionRequest,
+    responses={202: dict[str, Any]},
     tags=["async-jobs"],
 )
 @validate_http(body=JobSubmissionRequest)

@@ -293,8 +293,8 @@ if GRAPH is not None:
         "Stateful conversation endpoint that routes each turn through a LangGraph "
         "agent and optionally calls the knowledge search tool."
     ),
-    request_body=ChatRequest,
-    response={200: ChatResponse},
+    requests=ChatRequest,
+    responses={200: ChatResponse},
     tags=["ai-and-agents"],
 )
 @validate_http(body=ChatRequest, response_model=ChatResponse)

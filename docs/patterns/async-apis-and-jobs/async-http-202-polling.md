@@ -58,8 +58,8 @@ The starter uses decorator order compatible with the cookbook's HTTP toolkit int
 @openapi(
     summary="Start a durable report job",
     description="Accepts work, returns 202, and provides the Durable statusQueryGetUri for polling.",
-    request_body=ReportJobRequest,
-    response={202: dict[str, Any]},
+    requests=ReportJobRequest,
+    responses={202: dict[str, Any]},
     tags=["async-jobs"],
 )
 @validate_http(body=ReportJobRequest)

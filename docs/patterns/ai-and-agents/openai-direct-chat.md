@@ -76,7 +76,7 @@ The HTTP route follows the cookbook's standard decorator order for AI APIs:
 ```python
 @app.route(route="chat", methods=["POST"])
 @with_context
-@openapi(summary="Chat with Azure OpenAI", request_body=ChatRequest, response={200: ChatResponse}, tags=["ai"])
+@openapi(summary="Chat with Azure OpenAI", requests=ChatRequest, responses={200: ChatResponse}, tags=["ai"])
 @validate_http(body=ChatRequest, response_model=ChatResponse)
 def chat(req: func.HttpRequest, body: ChatRequest) -> func.HttpResponse:
     ...

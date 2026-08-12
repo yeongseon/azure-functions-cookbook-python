@@ -105,7 +105,7 @@ Create endpoint with validation, OpenAPI metadata, and management URL extraction
 
 ```python
 @app.route(route="jobs", methods=["POST"], auth_level=func.AuthLevel.ANONYMOUS)
-@openapi(summary="Create an async job", request_body=JobCreateRequest, response={202: JobAcceptedResponse})
+@openapi(summary="Create an async job", requests=JobCreateRequest, responses={202: JobAcceptedResponse})
 @validate_http(body=JobCreateRequest, response_model=JobAcceptedResponse)
 @app.durable_client_input(client_name="client")
 async def create_job(req: func.HttpRequest, body: JobCreateRequest, client: df.DurableOrchestrationClient):

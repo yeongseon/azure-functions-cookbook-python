@@ -83,8 +83,8 @@ def _build_projection(document: dict[str, Any]) -> dict[str, Any]:
 @with_context
 @openapi(
     summary="Create order",
-    request_body=OrderWriteRequest,
-    response={202: OrderAccepted},
+    requests=OrderWriteRequest,
+    responses={202: OrderAccepted},
     tags=["orders"],
 )
 @app.cosmos_db_output(
@@ -147,7 +147,7 @@ def project_order_read_models(
 
 @app.route(route="orders/{id}/projection", methods=["GET"])
 @with_context
-@openapi(summary="Get order projection", response={200: OrderProjection}, tags=["orders"])
+@openapi(summary="Get order projection", responses={200: OrderProjection}, tags=["orders"])
 @db.inject_reader("reader", url="%READ_DB_URL%", table="order_read_models")
 def get_order_projection(req: func.HttpRequest, reader: DbReader) -> func.HttpResponse:
     order_id = req.route_params["id"]

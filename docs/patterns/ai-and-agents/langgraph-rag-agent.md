@@ -84,7 +84,7 @@ usual decorator stack:
 ```python
 @app.route(route="chat", methods=["POST"])
 @with_context
-@openapi(summary="Chat with LangGraph RAG agent", request_body=ChatRequest, response={200: ChatResponse}, tags=["ai"])
+@openapi(summary="Chat with LangGraph RAG agent", requests=ChatRequest, responses={200: ChatResponse}, tags=["ai"])
 @validate_http(body=ChatRequest, response_model=ChatResponse)
 def chat(req: func.HttpRequest, body: ChatRequest) -> func.HttpResponse:
     ...

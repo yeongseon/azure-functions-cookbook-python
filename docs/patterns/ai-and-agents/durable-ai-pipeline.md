@@ -88,7 +88,7 @@ HTTP AI recipes:
 ```python
 @app.route(route="pipeline/start", methods=["POST"])
 @with_context
-@openapi(summary="Start durable AI pipeline", request_body=PipelineRequest, response={202: PipelineStartResponse}, tags=["ai"])
+@openapi(summary="Start durable AI pipeline", requests=PipelineRequest, responses={202: PipelineStartResponse}, tags=["ai"])
 @validate_http(body=PipelineRequest, response_model=PipelineStartResponse)
 def start_pipeline(req: func.HttpRequest, body: PipelineRequest, client: df.DurableOrchestrationClient) -> func.HttpResponse:
     ...

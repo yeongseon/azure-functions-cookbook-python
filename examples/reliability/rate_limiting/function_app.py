@@ -115,7 +115,7 @@ def _json_response(payload: RateLimitResponse, status_code: int) -> func.HttpRes
 @openapi(
     summary="Throttle requests with an in-memory token bucket",
     description="Demonstrates function-level rate limiting that returns 429 when the bucket is empty.",
-    response={200: RateLimitResponse, 429: RateLimitResponse},
+    responses={200: RateLimitResponse, 429: RateLimitResponse},
     tags=["reliability"],
 )
 @validate_http(query=ThrottleQuery, response_model=RateLimitResponse)
