@@ -112,18 +112,21 @@ def find_recipe(
 ) -> list[Recipe]:
     """Look up recipes by free-text ``query`` and/or exact ``tag``.
 
-    ``query`` matches (case-insensitively) against the slug, title, category,
+    ``query`` is split on whitespace; a recipe matches when **all** terms are
+    present (case-insensitively, order-independent) in the slug, title, category,
     description, and tags. ``tag`` filters to recipes carrying that exact tag.
     Passing neither returns the full index. Results preserve index order.
     """
     items = RECIPES if recipes is None else recipes
-    needle = query.strip().lower()
+    terms = query.lower().split()
     wanted_tag = tag.strip().lower() if tag else None
     matches: list[Recipe] = []
     for recipe in items:
         if wanted_tag is not None and wanted_tag not in recipe.tags:
             continue
-        if needle and needle not in recipe.search_text():
-            continue
+        if terms:
+            haystack = recipe.search_text()
+            if not all(term in haystack for term in terms):
+                continue
         matches.append(recipe)
     return matches
