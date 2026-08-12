@@ -87,13 +87,13 @@ def _build_projection(document: dict[str, Any]) -> dict[str, Any]:
     response={202: OrderAccepted},
     tags=["orders"],
 )
-@validate_http(body=OrderWriteRequest, response_model=OrderAccepted)
 @app.cosmos_db_output(
     arg_name="order_doc",
     database_name="ordersdb",
     container_name="orders",
     connection="CosmosDBConnection",
 )
+@validate_http(body=OrderWriteRequest, response_model=OrderAccepted)
 def create_order(
     req: func.HttpRequest,
     body: OrderWriteRequest,
