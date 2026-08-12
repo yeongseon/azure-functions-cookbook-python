@@ -91,8 +91,8 @@ if _db_available:
         response={201: ItemResponse},
         tags=["items"],
     )
-    @validate_http(body=ItemCreate, response_model=ItemResponse)
     @db.output("out", url="%DB_URL%", table="items")
+    @validate_http(body=ItemCreate, response_model=ItemResponse)
     def create_item(req: func.HttpRequest, body: ItemCreate, out: DbOut) -> func.HttpResponse:
         item_id = str(uuid.uuid4())
         out.set({"id": item_id, **body.model_dump()})
