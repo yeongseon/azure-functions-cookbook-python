@@ -1,5 +1,6 @@
 slug: openai-direct-chat
 title: Azure OpenAI Direct Chat
 category: ai-and-agents
+difficulty: Beginner
 description: Minimal HTTP-triggered Azure Functions sample that sends one message to Azure OpenAI with the `openai` Python SDK.
 docs_url: https://yeongseon.github.io/azure-functions-cookbook-python/patterns/ai-and-agents/openai-direct-chat/

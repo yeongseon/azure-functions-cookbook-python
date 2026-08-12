@@ -54,155 +54,155 @@ durable = find_recipe(tag="durable")
 
 ### APIs and Ingress
 
-| 配方 | 说明 |
-| --- | --- |
-| [APIM Function Backend](examples/apis-and-ingress/apim_function_backend/) | 设计为位于 Azure API Management 策略之后（用于认证、限流和缓存）的 HTTP 触发 Azure Functions 后端。 |
-| [BFF Facade API](examples/apis-and-ingress/bff_facade_api/) | 将多个后端服务调用聚合为单个面向客户端响应的 HTTP Backend-for-Frontend 外观。 |
-| [EasyAuth Claims Extraction](examples/apis-and-ingress/auth_easyauth/) | 面向 Azure Functions、带基于角色访问控制的 EasyAuth 主体提取。 |
-| [Full Stack CRUD API](examples/apis-and-ingress/full_stack_crud_api/) | 围绕单个 `items` 资源将 Azure Functions Python DX Toolkit 串联起来的示范性 HTTP API。 |
-| [HTTP Auth Levels](examples/apis-and-ingress/http_auth_levels/) | 演示匿名、函数密钥和管理员密钥端点的 HTTP 触发示例。 |
-| [HTTP Routing Query Body](examples/apis-and-ingress/http_routing_query_body/) | 演示路由参数、查询字符串、JSON 主体解析和状态码的 HTTP CRUD 与搜索示例。 |
-| [Hello HTTP Minimal](examples/apis-and-ingress/hello_http_minimal/) | 返回问候语的最小化 HTTP 触发 Azure Function。 |
-| [JWT Bearer Validation](examples/apis-and-ingress/auth_jwt_validation/) | 面向 Azure Functions、带基于声明访问控制的 JWT Bearer 令牌校验。 |
-| [Multi-Tenant Auth](examples/apis-and-ingress/auth_multitenant/) | 面向 Azure Functions、使用租户允许列表的多租户访问控制。 |
-| [Scaffold Walkthrough — from afs new to a running HTTP API](examples/apis-and-ingress/scaffold_walkthrough_app/) | 本配方是使用默认 `strict` 预设的 **`azure-functions-scaffold` 已提交输出**。用它来准确了解脚手架 CLI 为全新的 Azure Functions Python v2 HTTP 项目生成了什么，并学习推荐的本地开发循环。 |
-| [Webhook GitHub](examples/apis-and-ingress/webhook_github/) | 带 HMAC-SHA256 签名校验的 GitHub Webhook 接收器示例。 |
+| 配方 | 难度 | 说明 |
+| --- | --- | --- |
+| [APIM Function Backend](examples/apis-and-ingress/apim_function_backend/) | 中级 | 设计为位于 Azure API Management 策略之后（用于认证、限流和缓存）的 HTTP 触发 Azure Functions 后端。 |
+| [BFF Facade API](examples/apis-and-ingress/bff_facade_api/) | 中级 | 将多个后端服务调用聚合为单个面向客户端响应的 HTTP Backend-for-Frontend 外观。 |
+| [EasyAuth Claims Extraction](examples/apis-and-ingress/auth_easyauth/) | 中级 | 面向 Azure Functions、带基于角色访问控制的 EasyAuth 主体提取。 |
+| [Full Stack CRUD API](examples/apis-and-ingress/full_stack_crud_api/) | 高级 | 围绕单个 `items` 资源将 Azure Functions Python DX Toolkit 串联起来的示范性 HTTP API。 |
+| [HTTP Auth Levels](examples/apis-and-ingress/http_auth_levels/) | 初级 | 演示匿名、函数密钥和管理员密钥端点的 HTTP 触发示例。 |
+| [HTTP Routing Query Body](examples/apis-and-ingress/http_routing_query_body/) | 初级 | 演示路由参数、查询字符串、JSON 主体解析和状态码的 HTTP CRUD 与搜索示例。 |
+| [Hello HTTP Minimal](examples/apis-and-ingress/hello_http_minimal/) | 初级 | 返回问候语的最小化 HTTP 触发 Azure Function。 |
+| [JWT Bearer Validation](examples/apis-and-ingress/auth_jwt_validation/) | 中级 | 面向 Azure Functions、带基于声明访问控制的 JWT Bearer 令牌校验。 |
+| [Multi-Tenant Auth](examples/apis-and-ingress/auth_multitenant/) | 中级 | 面向 Azure Functions、使用租户允许列表的多租户访问控制。 |
+| [Scaffold Walkthrough — from afs new to a running HTTP API](examples/apis-and-ingress/scaffold_walkthrough_app/) | 初级 | 本配方是使用默认 `strict` 预设的 **`azure-functions-scaffold` 已提交输出**。用它来准确了解脚手架 CLI 为全新的 Azure Functions Python v2 HTTP 项目生成了什么，并学习推荐的本地开发循环。 |
+| [Webhook GitHub](examples/apis-and-ingress/webhook_github/) | 中级 | 带 HMAC-SHA256 签名校验的 GitHub Webhook 接收器示例。 |
 
 ### Scheduled and Background
 
-| 配方 | 说明 |
-| --- | --- |
-| [Durable Timer Reminder](examples/scheduled-and-background/durable_timer_reminder/) | 等待较长延迟后执行提醒回调活动的 Durable Functions 编排。 |
-| [Queue Scheduled Dispatch](examples/scheduled-and-background/queue_scheduled_dispatch/) | 将到期工作释放到 Azure Storage Queue 供下游工作者处理的计时器驱动计划调度模式。 |
-| [Timer Cron Job](examples/scheduled-and-background/timer_cron_job/) | 每 5 分钟运行一次计划维护作业的计时器触发 Azure Function。 |
+| 配方 | 难度 | 说明 |
+| --- | --- | --- |
+| [Durable Timer Reminder](examples/scheduled-and-background/durable_timer_reminder/) | 中级 | 等待较长延迟后执行提醒回调活动的 Durable Functions 编排。 |
+| [Queue Scheduled Dispatch](examples/scheduled-and-background/queue_scheduled_dispatch/) | 中级 | 将到期工作释放到 Azure Storage Queue 供下游工作者处理的计时器驱动计划调度模式。 |
+| [Timer Cron Job](examples/scheduled-and-background/timer_cron_job/) | 初级 | 每 5 分钟运行一次计划维护作业的计时器触发 Azure Function。 |
 
 ### Blob and File Triggers
 
-| 配方 | 说明 |
-| --- | --- |
-| [Blob CSV to Table](examples/blob-and-file-triggers/blob_csv_to_table/) | 读取上传的 CSV Blob 并将规范化行写入 Azure Table Storage 的 Event Grid 驱动摄取模式。 |
-| [Blob Event Grid Trigger](examples/blob-and-file-triggers/blob_eventgrid_trigger/) | 为 Event Grid 源通知配置的 Blob 触发 Azure Function。 |
-| [Blob Thumbnail Generator](examples/blob-and-file-triggers/blob_thumbnail_generator/) | 生成缩略图并将其写入单独输出容器的 Event Grid 驱动 Blob 处理器。 |
-| [Blob Upload Processor](examples/blob-and-file-triggers/blob_upload_processor/) | 处理从 `uploads/{name}` 上传文件的 Blob 触发 Azure Function。 |
+| 配方 | 难度 | 说明 |
+| --- | --- | --- |
+| [Blob CSV to Table](examples/blob-and-file-triggers/blob_csv_to_table/) | 中级 | 读取上传的 CSV Blob 并将规范化行写入 Azure Table Storage 的 Event Grid 驱动摄取模式。 |
+| [Blob Event Grid Trigger](examples/blob-and-file-triggers/blob_eventgrid_trigger/) | 中级 | 为 Event Grid 源通知配置的 Blob 触发 Azure Function。 |
+| [Blob Thumbnail Generator](examples/blob-and-file-triggers/blob_thumbnail_generator/) | 中级 | 生成缩略图并将其写入单独输出容器的 Event Grid 驱动 Blob 处理器。 |
+| [Blob Upload Processor](examples/blob-and-file-triggers/blob_upload_processor/) | 中级 | 处理从 `uploads/{name}` 上传文件的 Blob 触发 Azure Function。 |
 
 ### Async APIs and Jobs
 
-| 配方 | 说明 |
-| --- | --- |
-| [Async HTTP 202 Polling](examples/async-apis-and-jobs/async_http_polling/) | 返回 `202 Accepted` 和用于客户端轮询的 `statusQueryGetUri` 的 HTTP 触发 Durable Functions 示例。 |
-| [Callback Completion](examples/async-apis-and-jobs/callback_completion/) | 在 `/api/tasks` 接受工作并在后台处理完成时发送 HTTP 回调的 HTTP + Queue 示例。 |
-| [Queue-Backed Job](examples/async-apis-and-jobs/queue_backed_job/) | 接受作业、返回 `202 Accepted` 并轮询已存储状态记录的 HTTP + Storage Queue 配方。 |
+| 配方 | 难度 | 说明 |
+| --- | --- | --- |
+| [Async HTTP 202 Polling](examples/async-apis-and-jobs/async_http_polling/) | 中级 | 返回 `202 Accepted` 和用于客户端轮询的 `statusQueryGetUri` 的 HTTP 触发 Durable Functions 示例。 |
+| [Callback Completion](examples/async-apis-and-jobs/callback_completion/) | 中级 | 在 `/api/tasks` 接受工作并在后台处理完成时发送 HTTP 回调的 HTTP + Queue 示例。 |
+| [Queue-Backed Job](examples/async-apis-and-jobs/queue_backed_job/) | 中级 | 接受作业、返回 `202 Accepted` 并轮询已存储状态记录的 HTTP + Storage Queue 配方。 |
 
 ### Messaging and Pub/Sub
 
-| 配方 | 说明 |
-| --- | --- |
-| [Claim Check Pattern](examples/messaging-and-pubsub/claim_check_pattern/) | 将负载存储在 Blob Storage 中、仅通过队列传递引用的大消息模式。 |
-| [Event Grid Domain Events](examples/messaging-and-pubsub/eventgrid_domain_events/) | 将自定义订单域事件发布到 Event Grid 自定义主题的 HTTP 触发 Azure Function，以及记录由此产生事件的 Event Grid 触发订阅者。 |
-| [Event Grid Event Router](examples/messaging-and-pubsub/eventgrid_router/) | 使用事件类型和主题过滤器将事件路由到不同处理器的 Event Grid 触发 Azure Function。 |
-| [Queue Consumer](examples/messaging-and-pubsub/queue_consumer/) | 解析并处理任务消息的队列触发 Azure Function。 |
-| [Queue Producer](examples/messaging-and-pubsub/queue_producer/) | 校验 JSON 并将任务入队到 Storage Queue 的 HTTP 触发 Azure Function。 |
-| [Service Bus DLQ Replay](examples/messaging-and-pubsub/servicebus_dlq_replay/) | 在检查与修复后，将死信 Service Bus 队列消息重放回主队列。 |
-| [Service Bus Sessions](examples/messaging-and-pubsub/servicebus_sessions/) | 演示使用 Azure Service Bus 会话进行有序消息处理的 Azure Functions 示例。 |
-| [Service Bus Topic Fan-out](examples/messaging-and-pubsub/servicebus_topic_fanout/) | 演示使用三个独立订阅处理器进行 Service Bus 主题扇出的 Azure Functions 示例。 |
-| [Service Bus Worker](examples/messaging-and-pubsub/servicebus_worker/) | 用于可靠后台工作消费的 Service Bus 队列触发 Azure Function。 |
+| 配方 | 难度 | 说明 |
+| --- | --- | --- |
+| [Claim Check Pattern](examples/messaging-and-pubsub/claim_check_pattern/) | 高级 | 将负载存储在 Blob Storage 中、仅通过队列传递引用的大消息模式。 |
+| [Event Grid Domain Events](examples/messaging-and-pubsub/eventgrid_domain_events/) | 中级 | 将自定义订单域事件发布到 Event Grid 自定义主题的 HTTP 触发 Azure Function，以及记录由此产生事件的 Event Grid 触发订阅者。 |
+| [Event Grid Event Router](examples/messaging-and-pubsub/eventgrid_router/) | 中级 | 使用事件类型和主题过滤器将事件路由到不同处理器的 Event Grid 触发 Azure Function。 |
+| [Queue Consumer](examples/messaging-and-pubsub/queue_consumer/) | 初级 | 解析并处理任务消息的队列触发 Azure Function。 |
+| [Queue Producer](examples/messaging-and-pubsub/queue_producer/) | 初级 | 校验 JSON 并将任务入队到 Storage Queue 的 HTTP 触发 Azure Function。 |
+| [Service Bus DLQ Replay](examples/messaging-and-pubsub/servicebus_dlq_replay/) | 高级 | 在检查与修复后，将死信 Service Bus 队列消息重放回主队列。 |
+| [Service Bus Sessions](examples/messaging-and-pubsub/servicebus_sessions/) | 高级 | 演示使用 Azure Service Bus 会话进行有序消息处理的 Azure Functions 示例。 |
+| [Service Bus Topic Fan-out](examples/messaging-and-pubsub/servicebus_topic_fanout/) | 中级 | 演示使用三个独立订阅处理器进行 Service Bus 主题扇出的 Azure Functions 示例。 |
+| [Service Bus Worker](examples/messaging-and-pubsub/servicebus_worker/) | 中级 | 用于可靠后台工作消费的 Service Bus 队列触发 Azure Function。 |
 
 ### Streams and Telemetry
 
-| 配方 | 说明 |
-| --- | --- |
-| [Event Hub Batch Window](examples/streams-and-telemetry/eventhub_batch_window/) | 处理批处理窗口并记录聚合遥测总计的 Event Hub 触发 Azure Function。 |
-| [Event Hub Checkpoint Replay](examples/streams-and-telemetry/eventhub_checkpoint_replay/) | 演示带偏移量跟踪和幂等处理的重放感知 Event Hub 消费的 Azure Functions 示例。 |
-| [Event Hub Consumer](examples/streams-and-telemetry/eventhub_consumer/) | 用于近实时遥测流处理的 Event Hub 触发 Azure Function。 |
+| 配方 | 难度 | 说明 |
+| --- | --- | --- |
+| [Event Hub Batch Window](examples/streams-and-telemetry/eventhub_batch_window/) | 中级 | 处理批处理窗口并记录聚合遥测总计的 Event Hub 触发 Azure Function。 |
+| [Event Hub Checkpoint Replay](examples/streams-and-telemetry/eventhub_checkpoint_replay/) | 高级 | 演示带偏移量跟踪和幂等处理的重放感知 Event Hub 消费的 Azure Functions 示例。 |
+| [Event Hub Consumer](examples/streams-and-telemetry/eventhub_consumer/) | 中级 | 用于近实时遥测流处理的 Event Hub 触发 Azure Function。 |
 
 ### Data and Pipelines
 
-| 配方 | 说明 |
-| --- | --- |
-| [CQRS Read Projection](examples/data-and-pipelines/cqrs_read_projection/) | 面向 Azure Functions Python 的 CQRS 示例，其中: |
-| [Change Feed Processor](examples/data-and-pipelines/change_feed_processor/) | 用于下游同步的 Cosmos DB 更改源触发 Azure Function。 |
-| [DB Input and Output Bindings](examples/data-and-pipelines/db_input_output/) | 演示 `azure-functions-db-python` 的输入/输出绑定与 SQLAlchemy 支持的存储结合，并与 `azure-functions-validation-python` 和 `azure-functions-openapi-python` 一起使用。 |
-| [ETL Enrichment](examples/data-and-pipelines/etl_enrichment/) | 读取原始 JSON 客户记录、用查找数据加以丰富并将丰富后的行写入数据库的 Blob 触发 ETL 示例。 |
-| [File Processing Pipeline](examples/data-and-pipelines/file_processing_pipeline/) | 校验上传的 CSV 或 JSON 文件、转换记录并将处理结果持久化到数据库的 Blob 触发 Azure Function。 |
-| [SQLAlchemy REST Pagination](examples/data-and-pipelines/sqlalchemy_rest_pagination/) | 组合以下内容的 HTTP API 示例: |
+| 配方 | 难度 | 说明 |
+| --- | --- | --- |
+| [CQRS Read Projection](examples/data-and-pipelines/cqrs_read_projection/) | 高级 | 面向 Azure Functions Python 的 CQRS 示例，其中: |
+| [Change Feed Processor](examples/data-and-pipelines/change_feed_processor/) | 中级 | 用于下游同步的 Cosmos DB 更改源触发 Azure Function。 |
+| [DB Input and Output Bindings](examples/data-and-pipelines/db_input_output/) | 中级 | 演示 `azure-functions-db-python` 的输入/输出绑定与 SQLAlchemy 支持的存储结合，并与 `azure-functions-validation-python` 和 `azure-functions-openapi-python` 一起使用。 |
+| [ETL Enrichment](examples/data-and-pipelines/etl_enrichment/) | 中级 | 读取原始 JSON 客户记录、用查找数据加以丰富并将丰富后的行写入数据库的 Blob 触发 ETL 示例。 |
+| [File Processing Pipeline](examples/data-and-pipelines/file_processing_pipeline/) | 中级 | 校验上传的 CSV 或 JSON 文件、转换记录并将处理结果持久化到数据库的 Blob 触发 Azure Function。 |
+| [SQLAlchemy REST Pagination](examples/data-and-pipelines/sqlalchemy_rest_pagination/) | 中级 | 组合以下内容的 HTTP API 示例: |
 
 ### Orchestration and Workflows
 
-| 配方 | 说明 |
-| --- | --- |
-| [Async Job Lifecycle](examples/orchestration-and-workflows/async_job_lifecycle/) | 用于完整异步作业生命周期管理（创建、状态、取消和清除）的 Durable Functions 配方。 |
-| [Durable Determinism Gotchas](examples/orchestration-and-workflows/durable_determinism_gotchas/) | 演示确定性编码模式的 Durable Functions 编排器。 |
-| [Durable Entity Counter](examples/orchestration-and-workflows/durable_entity_counter/) | 管理计数器状态的 Durable Entity 示例。 |
-| [Durable Fan-Out Fan-In](examples/orchestration-and-workflows/durable_fan_out_fan_in/) | 使用并行活动的 Durable Functions 扇出/扇入编排。 |
-| [Durable Graph Fan Out](examples/orchestration-and-workflows/durable_graph_fan_out/) | 由声明式 ManifestBuilder 图驱动的、基于 azure-functions-durable-graph 的扇出/扇入 DAG 编排。 |
-| [Durable Hello Sequence](examples/orchestration-and-workflows/durable_hello_sequence/) | 按顺序链接活动的 Durable Functions 编排器。 |
-| [Durable Human Interaction](examples/orchestration-and-workflows/durable_human_interaction/) | 带超时等待外部审批事件的 Durable Functions 工作流。 |
-| [Durable Retry Pattern](examples/orchestration-and-workflows/durable_retry_pattern/) | 重试不稳定活动的 Durable Functions 编排。 |
-| [Durable Singleton Monitor](examples/orchestration-and-workflows/durable_singleton_monitor/) | 持续轮询外部依赖并在发生变化时发出告警的 Durable Functions 单例编排。 |
-| [Durable Unit Testing](examples/orchestration-and-workflows/durable_unit_testing/) | 聚焦基于模拟的编排器单元测试的 Durable Functions 示例。 |
-| [Saga Compensation](examples/orchestration-and-workflows/saga_compensation/) | 在失败时补偿先前已完成步骤的 Durable Functions Saga 编排。 |
-| [Sub-Orchestration](examples/orchestration-and-workflows/sub_orchestration/) | 将工作委派给两个子编排器的 Durable Functions 父编排。 |
+| 配方 | 难度 | 说明 |
+| --- | --- | --- |
+| [Async Job Lifecycle](examples/orchestration-and-workflows/async_job_lifecycle/) | 高级 | 用于完整异步作业生命周期管理（创建、状态、取消和清除）的 Durable Functions 配方。 |
+| [Durable Determinism Gotchas](examples/orchestration-and-workflows/durable_determinism_gotchas/) | 高级 | 演示确定性编码模式的 Durable Functions 编排器。 |
+| [Durable Entity Counter](examples/orchestration-and-workflows/durable_entity_counter/) | 中级 | 管理计数器状态的 Durable Entity 示例。 |
+| [Durable Fan-Out Fan-In](examples/orchestration-and-workflows/durable_fan_out_fan_in/) | 中级 | 使用并行活动的 Durable Functions 扇出/扇入编排。 |
+| [Durable Graph Fan Out](examples/orchestration-and-workflows/durable_graph_fan_out/) | 高级 | 由声明式 ManifestBuilder 图驱动的、基于 azure-functions-durable-graph 的扇出/扇入 DAG 编排。 |
+| [Durable Hello Sequence](examples/orchestration-and-workflows/durable_hello_sequence/) | 初级 | 按顺序链接活动的 Durable Functions 编排器。 |
+| [Durable Human Interaction](examples/orchestration-and-workflows/durable_human_interaction/) | 中级 | 带超时等待外部审批事件的 Durable Functions 工作流。 |
+| [Durable Retry Pattern](examples/orchestration-and-workflows/durable_retry_pattern/) | 中级 | 重试不稳定活动的 Durable Functions 编排。 |
+| [Durable Singleton Monitor](examples/orchestration-and-workflows/durable_singleton_monitor/) | 高级 | 持续轮询外部依赖并在发生变化时发出告警的 Durable Functions 单例编排。 |
+| [Durable Unit Testing](examples/orchestration-and-workflows/durable_unit_testing/) | 中级 | 聚焦基于模拟的编排器单元测试的 Durable Functions 示例。 |
+| [Saga Compensation](examples/orchestration-and-workflows/saga_compensation/) | 高级 | 在失败时补偿先前已完成步骤的 Durable Functions Saga 编排。 |
+| [Sub-Orchestration](examples/orchestration-and-workflows/sub_orchestration/) | 高级 | 将工作委派给两个子编排器的 Durable Functions 父编排。 |
 
 ### Reliability
 
-| 配方 | 说明 |
-| --- | --- |
-| [Circuit Breaker](examples/reliability/circuit_breaker/) | 本配方展示了使用简单的内存熔断器保护下游 API 的 HTTP 触发 Azure Function。 |
-| [Outbox Pattern](examples/reliability/outbox_pattern/) | 面向 Azure Functions Python 的事务性发件箱示例，其中: |
-| [Poison Message Handling](examples/reliability/poison_message_handling/) | 让重复失败自动移动到毒消息队列、随后记录失败负载以便运维跟进的队列触发 Azure Functions 配方。 |
-| [Rate Limiting / Throttle](examples/reliability/rate_limiting/) | 本配方展示了使用内存令牌桶对请求进行限流、并在本地桶为空时返回 `429 Too Many Requests` 的 HTTP 触发 Azure Function。 |
-| [Retry and Idempotency](examples/reliability/retry_and_idempotency/) | 本配方展示了两个相关的弹性模式: |
+| 配方 | 难度 | 说明 |
+| --- | --- | --- |
+| [Circuit Breaker](examples/reliability/circuit_breaker/) | 中级 | 本配方展示了使用简单的内存熔断器保护下游 API 的 HTTP 触发 Azure Function。 |
+| [Outbox Pattern](examples/reliability/outbox_pattern/) | 高级 | 面向 Azure Functions Python 的事务性发件箱示例，其中: |
+| [Poison Message Handling](examples/reliability/poison_message_handling/) | 中级 | 让重复失败自动移动到毒消息队列、随后记录失败负载以便运维跟进的队列触发 Azure Functions 配方。 |
+| [Rate Limiting / Throttle](examples/reliability/rate_limiting/) | 中级 | 本配方展示了使用内存令牌桶对请求进行限流、并在本地桶为空时返回 `429 Too Many Requests` 的 HTTP 触发 Azure Function。 |
+| [Retry and Idempotency](examples/reliability/retry_and_idempotency/) | 中级 | 本配方展示了两个相关的弹性模式: |
 
 ### Security and Tenancy
 
-| 配方 | 说明 |
-| --- | --- |
-| [Managed Identity Service Bus](examples/security-and-tenancy/managed_identity_servicebus/) | 本配方展示了使用 `connection="ServiceBusConnection"` 的 Service Bus 队列触发器。 |
-| [Managed Identity Storage](examples/security-and-tenancy/managed_identity_storage/) | 本配方展示了使用 `connection="StorageConnection"` 的 Azure Storage Queue 触发器。该设置可由连接字符串或托管标识设置来支撑。 |
-| [Secretless Key Vault](examples/security-and-tenancy/secretless_keyvault/) | 从由 Azure Key Vault 引用填充的环境变量中读取机密的 HTTP 触发 Azure Function。该函数仅使用标准环境访问和 `azure_functions_logging`。 |
-| [Tenant Isolation](examples/security-and-tenancy/tenant_isolation/) | 从 `X-Tenant-ID` 或 Bearer 令牌声明解析租户上下文、随后使用 `azure-functions-db-python` 查询特定租户数据库的 HTTP 配方。 |
+| 配方 | 难度 | 说明 |
+| --- | --- | --- |
+| [Managed Identity Service Bus](examples/security-and-tenancy/managed_identity_servicebus/) | 高级 | 本配方展示了使用 `connection="ServiceBusConnection"` 的 Service Bus 队列触发器。 |
+| [Managed Identity Storage](examples/security-and-tenancy/managed_identity_storage/) | 高级 | 本配方展示了使用 `connection="StorageConnection"` 的 Azure Storage Queue 触发器。该设置可由连接字符串或托管标识设置来支撑。 |
+| [Secretless Key Vault](examples/security-and-tenancy/secretless_keyvault/) | 中级 | 从由 Azure Key Vault 引用填充的环境变量中读取机密的 HTTP 触发 Azure Function。该函数仅使用标准环境访问和 `azure_functions_logging`。 |
+| [Tenant Isolation](examples/security-and-tenancy/tenant_isolation/) | 高级 | 从 `X-Tenant-ID` 或 Bearer 令牌声明解析租户上下文、随后使用 `azure-functions-db-python` 查询特定租户数据库的 HTTP 配方。 |
 
 ### Runtime and Ops
 
-| 配方 | 说明 |
-| --- | --- |
-| [Blueprint Modular App](examples/runtime-and-ops/blueprint_modular_app/) | 本配方演示了使用 `func.Blueprint` 的模块化 Azure Functions 应用。 |
-| [Cold Start Mitigation](examples/runtime-and-ops/cold_start_mitigation/) | 本配方演示了 Azure Functions Python 的实用冷启动缓解: |
-| [Concurrency Tuning](examples/runtime-and-ops/concurrency_tuning/) | 本配方演示了主机级动态并发: |
-| [Doctor Diagnostics Endpoint](examples/runtime-and-ops/doctor_diagnostics_endpoint/) | 将 [`azure-functions-doctor`](https://github.com/yeongseon/azure-functions-doctor-python) 诊断作为经过身份验证的 HTTP 端点公开，使运维人员无需进入容器即可在部署后查询部署健康状况。 |
-| [Observability Tracing](examples/runtime-and-ops/observability_tracing/) | 演示关联 ID 传播、结构化日志和适配 Application Insights 的跟踪上下文的 HTTP 触发跟踪配方。 |
-| [Output Binding vs SDK](examples/runtime-and-ops/output_binding_vs_sdk/) | 本配方比较了发送同一队列消息的两种方式: |
-| [host.json Tuning](examples/runtime-and-ops/host_json_tuning/) | 本配方聚焦于使用计时器触发器加上丰富配置的 `host.json` 进行主机级调优。 |
+| 配方 | 难度 | 说明 |
+| --- | --- | --- |
+| [Blueprint Modular App](examples/runtime-and-ops/blueprint_modular_app/) | 中级 | 本配方演示了使用 `func.Blueprint` 的模块化 Azure Functions 应用。 |
+| [Cold Start Mitigation](examples/runtime-and-ops/cold_start_mitigation/) | 中级 | 本配方演示了 Azure Functions Python 的实用冷启动缓解: |
+| [Concurrency Tuning](examples/runtime-and-ops/concurrency_tuning/) | 高级 | 本配方演示了主机级动态并发: |
+| [Doctor Diagnostics Endpoint](examples/runtime-and-ops/doctor_diagnostics_endpoint/) | 中级 | 将 [`azure-functions-doctor`](https://github.com/yeongseon/azure-functions-doctor-python) 诊断作为经过身份验证的 HTTP 端点公开，使运维人员无需进入容器即可在部署后查询部署健康状况。 |
+| [Observability Tracing](examples/runtime-and-ops/observability_tracing/) | 中级 | 演示关联 ID 传播、结构化日志和适配 Application Insights 的跟踪上下文的 HTTP 触发跟踪配方。 |
+| [Output Binding vs SDK](examples/runtime-and-ops/output_binding_vs_sdk/) | 中级 | 本配方比较了发送同一队列消息的两种方式: |
+| [host.json Tuning](examples/runtime-and-ops/host_json_tuning/) | 高级 | 本配方聚焦于使用计时器触发器加上丰富配置的 `host.json` 进行主机级调优。 |
 
 ### Realtime
 
-| 配方 | 说明 |
-| --- | --- |
-| [WebSocket Proxy](examples/realtime/websocket_proxy/) | 为 Azure Web PubSub 协商客户端令牌并转发发布请求的 Azure Functions 前门。 |
+| 配方 | 难度 | 说明 |
+| --- | --- | --- |
+| [WebSocket Proxy](examples/realtime/websocket_proxy/) | 高级 | 为 Azure Web PubSub 协商客户端令牌并转发发布请求的 Azure Functions 前门。 |
 
 ### AI and Agents
 
-| 配方 | 说明 |
-| --- | --- |
-| [AI Image Generation](examples/ai-and-agents/ai_image_generation/) | 向 Azure OpenAI 图像生成发送提示并返回生成图像 URL 的 HTTP 触发示例。 |
-| [Azure OpenAI Direct Chat](examples/ai-and-agents/openai_direct_chat/) | 使用 `openai` Python SDK 向 Azure OpenAI 发送一条消息的最小化 HTTP 触发 Azure Functions 示例。 |
-| [Durable AI Pipeline](examples/ai-and-agents/durable_ai_pipeline/) | 编排嵌入、向量搜索和答案生成三个 AI 步骤的 Durable Functions 示例。 |
-| [Embedding Vector Search](examples/ai-and-agents/embedding_vector_search/) | 创建 Azure OpenAI 嵌入并使用其对 Azure AI Search 运行向量查询的 HTTP 触发示例。 |
-| [Knowledge Notion Search](examples/ai-and-agents/knowledge_notion_search/) | 使用 azure-functions-knowledge 的 KnowledgeBindings input/inject_client 装饰器实现的基于 Notion 的知识检索。 |
-| [LangGraph Agent](examples/ai-and-agents/langgraph_agent/) | 演示 `azure-functions-langgraph-python` 适配器与 `azure-functions-logging-python`、`azure-functions-validation-python` 和 `azure-functions-openapi-python` 的结合。 |
-| [LangGraph RAG Agent](examples/ai-and-agents/langgraph_rag_agent/) | 本示例展示了如何组合: |
-| [Langgraph Tool Use](examples/ai-and-agents/langgraph_tool_use/) | 在推理节点与可调用工具之间路由的、基于 azure-functions-langgraph 的工具使用 LangGraph 智能体。 |
-| [MCP Server Example](examples/ai-and-agents/mcp_server_example/) | 本示例使用标准 HTTP 触发器和 JSON-RPC 2.0 消息在 Azure Functions 上托管一个手动的 Model Context Protocol (MCP) 服务器。 |
-| [RAG Knowledge API](examples/ai-and-agents/rag_knowledge_api/) | 演示使用 Azure AI Search 和 Azure OpenAI，并结合 `azure-functions-validation-python`、`azure-functions-openapi-python` 和 `azure-functions-logging-python` 的最小化 RAG API。 |
-| [Streaming AI Response](examples/ai-and-agents/streaming_ai_response/) | 将 Azure OpenAI 流式聊天补全转换为 Server-Sent Events 的 HTTP 触发示例。 |
+| 配方 | 难度 | 说明 |
+| --- | --- | --- |
+| [AI Image Generation](examples/ai-and-agents/ai_image_generation/) | 中级 | 向 Azure OpenAI 图像生成发送提示并返回生成图像 URL 的 HTTP 触发示例。 |
+| [Azure OpenAI Direct Chat](examples/ai-and-agents/openai_direct_chat/) | 初级 | 使用 `openai` Python SDK 向 Azure OpenAI 发送一条消息的最小化 HTTP 触发 Azure Functions 示例。 |
+| [Durable AI Pipeline](examples/ai-and-agents/durable_ai_pipeline/) | 高级 | 编排嵌入、向量搜索和答案生成三个 AI 步骤的 Durable Functions 示例。 |
+| [Embedding Vector Search](examples/ai-and-agents/embedding_vector_search/) | 高级 | 创建 Azure OpenAI 嵌入并使用其对 Azure AI Search 运行向量查询的 HTTP 触发示例。 |
+| [Knowledge Notion Search](examples/ai-and-agents/knowledge_notion_search/) | 中级 | 使用 azure-functions-knowledge 的 KnowledgeBindings input/inject_client 装饰器实现的基于 Notion 的知识检索。 |
+| [LangGraph Agent](examples/ai-and-agents/langgraph_agent/) | 中级 | 演示 `azure-functions-langgraph-python` 适配器与 `azure-functions-logging-python`、`azure-functions-validation-python` 和 `azure-functions-openapi-python` 的结合。 |
+| [LangGraph RAG Agent](examples/ai-and-agents/langgraph_rag_agent/) | 高级 | 本示例展示了如何组合: |
+| [Langgraph Tool Use](examples/ai-and-agents/langgraph_tool_use/) | 高级 | 在推理节点与可调用工具之间路由的、基于 azure-functions-langgraph 的工具使用 LangGraph 智能体。 |
+| [MCP Server Example](examples/ai-and-agents/mcp_server_example/) | 高级 | 本示例使用标准 HTTP 触发器和 JSON-RPC 2.0 消息在 Azure Functions 上托管一个手动的 Model Context Protocol (MCP) 服务器。 |
+| [RAG Knowledge API](examples/ai-and-agents/rag_knowledge_api/) | 高级 | 演示使用 Azure AI Search 和 Azure OpenAI，并结合 `azure-functions-validation-python`、`azure-functions-openapi-python` 和 `azure-functions-logging-python` 的最小化 RAG API。 |
+| [Streaming AI Response](examples/ai-and-agents/streaming_ai_response/) | 中级 | 将 Azure OpenAI 流式聊天补全转换为 Server-Sent Events 的 HTTP 触发示例。 |
 
 ### Guides
 
-| 配方 | 说明 |
-| --- | --- |
-| [Local Run and Direct Invoke](examples/guides/local_run_and_direct_invoke/) | 本示例展示了 Azure Functions Python 应用的两种本地测试工作流: |
+| 配方 | 难度 | 说明 |
+| --- | --- | --- |
+| [Local Run and Direct Invoke](examples/guides/local_run_and_direct_invoke/) | 初级 | 本示例展示了 Azure Functions Python 应用的两种本地测试工作流: |
 
-_80 个配方。每个配方的难度标签在 [#117](https://github.com/yeongseon/azure-functions-cookbook-python/issues/117) 中跟踪。_
+_80 个配方。_
 
 每个模式页面位于 `docs/patterns/` 下，并在 `examples/` 中有对应的可运行项目。
 

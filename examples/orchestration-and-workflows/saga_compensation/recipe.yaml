@@ -1,5 +1,6 @@
 slug: saga-compensation
 title: Saga Compensation
 category: orchestration-and-workflows
+difficulty: Advanced
 description: Durable Functions saga orchestration that compensates previously completed steps on failure.
 docs_url: https://yeongseon.github.io/azure-functions-cookbook-python/patterns/orchestration-and-workflows/saga-compensation/

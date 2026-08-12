@@ -1,5 +1,6 @@
 slug: cold-start-mitigation
 title: Cold Start Mitigation
 category: runtime-and-ops
+difficulty: Intermediate
 description: 'This recipe demonstrates practical cold-start mitigation for Azure Functions Python:'
 docs_url: https://yeongseon.github.io/azure-functions-cookbook-python/patterns/runtime-and-ops/cold-start-mitigation/

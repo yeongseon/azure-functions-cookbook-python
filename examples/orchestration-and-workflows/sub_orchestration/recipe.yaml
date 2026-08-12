@@ -1,5 +1,6 @@
 slug: sub-orchestration
 title: Sub-Orchestration
 category: orchestration-and-workflows
+difficulty: Advanced
 description: Durable Functions parent orchestration delegating work to two child sub-orchestrators.
 docs_url: https://yeongseon.github.io/azure-functions-cookbook-python/patterns/orchestration-and-workflows/sub-orchestration/

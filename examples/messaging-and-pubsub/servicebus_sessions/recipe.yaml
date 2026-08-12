@@ -1,5 +1,6 @@
 slug: servicebus-sessions
 title: Service Bus Sessions
 category: messaging-and-pubsub
+difficulty: Advanced
 description: Azure Functions example showing ordered message processing with Azure Service Bus sessions.
 docs_url: https://yeongseon.github.io/azure-functions-cookbook-python/patterns/messaging-and-pubsub/servicebus-sessions/

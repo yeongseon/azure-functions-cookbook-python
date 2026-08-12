@@ -1,5 +1,6 @@
 slug: langgraph-rag-agent
 title: LangGraph RAG Agent
 category: ai-and-agents
+difficulty: Advanced
 description: 'This example shows how to combine:'
 docs_url: https://yeongseon.github.io/azure-functions-cookbook-python/patterns/ai-and-agents/langgraph-rag-agent/
