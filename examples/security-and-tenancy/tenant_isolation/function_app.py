@@ -91,8 +91,8 @@ def resolve_tenant_db_url(req: func.HttpRequest) -> str:
     response={200: TenantInvoiceListResponse},
     tags=["security", "tenancy", "db"],
 )
-@validate_http(body=TenantInvoiceQuery, response_model=TenantInvoiceListResponse)
 @db.inject_reader("reader", url=resolve_tenant_db_url, table="invoices")
+@validate_http(body=TenantInvoiceQuery, response_model=TenantInvoiceListResponse)
 def query_tenant_invoices(
     req: func.HttpRequest,
     body: TenantInvoiceQuery,

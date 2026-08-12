@@ -12,7 +12,7 @@ description = "Bff Facade Api example for Azure Functions."
 requires-python = ">=3.10"
 dependencies = [
   "azure-functions",
-  "azure-functions-validation>=0.10,<1",
+  "azure-functions-validation>=0.11,<1",
   "azure-functions-openapi",
   "azure-functions-logging",
   "requests",
