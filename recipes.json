@@ -50,7 +50,7 @@
     "category": "ai-and-agents",
     "description": "Notion-backed knowledge retrieval with azure-functions-knowledge KnowledgeBindings input/inject_client decorators.",
     "example_path": "ai-and-agents/knowledge_notion_search",
-    "docs_url": "https://yeongseon.dev/azure-functions-python/cookbook/patterns/ai-and-agents/knowledge-notion-search/",
+    "docs_url": "https://yeongseon.dev/azure-functions-python/cookbook/patterns/ai-and-agents/",
     "difficulty": "Intermediate",
     "tags": [
       "ai-and-agents",
@@ -94,7 +94,7 @@
     "category": "ai-and-agents",
     "description": "Tool-use LangGraph agent with azure-functions-langgraph, routing between a reasoning node and callable tools.",
     "example_path": "ai-and-agents/langgraph_tool_use",
-    "docs_url": "https://yeongseon.dev/azure-functions-python/cookbook/patterns/ai-and-agents/langgraph-tool-use/",
+    "docs_url": "https://yeongseon.dev/azure-functions-python/cookbook/patterns/ai-and-agents/",
     "difficulty": "Advanced",
     "tags": [
       "ai-and-agents",
@@ -738,7 +738,7 @@
     "category": "orchestration-and-workflows",
     "description": "Fan-out/fan-in DAG orchestration with azure-functions-durable-graph, driven by a declarative ManifestBuilder graph.",
     "example_path": "orchestration-and-workflows/durable_graph_fan_out",
-    "docs_url": "https://yeongseon.dev/azure-functions-python/cookbook/patterns/orchestration-and-workflows/durable-graph-fan-out/",
+    "docs_url": "https://yeongseon.dev/azure-functions-python/cookbook/patterns/orchestration-and-workflows/",
     "difficulty": "Advanced",
     "tags": [
       "durable",
@@ -988,7 +988,7 @@
     "category": "runtime-and-ops",
     "description": "Expose [`azure-functions-doctor`](https://github.com/yeongseon/azure-functions-doctor-python) diagnostics as authenticated HTTP endpoints so operators can query deployment health post-deploy without shelling into the container.",
     "example_path": "runtime-and-ops/doctor_diagnostics_endpoint",
-    "docs_url": "https://yeongseon.dev/azure-functions-python/cookbook/patterns/runtime-and-ops/doctor-diagnostics-endpoint/",
+    "docs_url": "https://yeongseon.dev/azure-functions-python/cookbook/patterns/runtime-and-ops/",
     "difficulty": "Intermediate",
     "tags": [
       "diagnostics",

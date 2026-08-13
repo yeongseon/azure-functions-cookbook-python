@@ -3,4 +3,4 @@ title: Langgraph Tool Use
 category: ai-and-agents
 difficulty: Advanced
 description: Tool-use LangGraph agent with azure-functions-langgraph, routing between a reasoning node and callable tools.
-docs_url: https://yeongseon.dev/azure-functions-python/cookbook/patterns/ai-and-agents/langgraph-tool-use/
+docs_url: https://yeongseon.dev/azure-functions-python/cookbook/patterns/ai-and-agents/
