@@ -1,6 +1,6 @@
 # Change Feed Processor
 
-📖 [Full documentation](https://yeongseon.github.io/azure-functions-cookbook-python/patterns/data-and-pipelines/change-feed-processor/)
+📖 [Full documentation](https://yeongseon.dev/azure-functions-python/cookbook/patterns/data-and-pipelines/change-feed-processor/)
 
 Cosmos DB change feed-triggered Azure Function for downstream synchronization.
 

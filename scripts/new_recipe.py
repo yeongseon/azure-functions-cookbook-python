@@ -18,7 +18,7 @@ import sys
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_EXAMPLES_DIR = REPO_ROOT / "examples"
-DOCS_BASE = "https://yeongseon.github.io/azure-functions-cookbook-python/patterns"
+DOCS_BASE = "https://yeongseon.dev/azure-functions-python/cookbook/patterns"
 
 
 def _title_from_name(name: str) -> str:

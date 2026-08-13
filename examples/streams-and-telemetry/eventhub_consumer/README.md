@@ -1,6 +1,6 @@
 # Event Hub Consumer
 
-📖 [Full documentation](https://yeongseon.github.io/azure-functions-cookbook-python/patterns/streams-and-telemetry/eventhub-consumer/)
+📖 [Full documentation](https://yeongseon.dev/azure-functions-python/cookbook/patterns/streams-and-telemetry/eventhub-consumer/)
 
 Event Hub-triggered Azure Function for near real-time telemetry stream processing.
 

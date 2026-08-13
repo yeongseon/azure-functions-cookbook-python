@@ -1,6 +1,6 @@
 # Local Run and Direct Invoke
 
-📖 [Full documentation](https://yeongseon.github.io/azure-functions-cookbook-python/guides/local-run-and-direct-invoke/)
+📖 [Full documentation](https://yeongseon.dev/azure-functions-python/cookbook/guides/local-run-and-direct-invoke/)
 
 This example shows two local testing workflows for an Azure Functions Python app:
 

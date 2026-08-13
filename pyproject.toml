@@ -59,8 +59,8 @@ docs = [
 ]
 
 [project.urls]
-Homepage = "https://yeongseon.github.io/azure-functions-cookbook-python/"
-Documentation = "https://yeongseon.github.io/azure-functions-cookbook-python/"
+Homepage = "https://yeongseon.dev/azure-functions-python/cookbook/"
+Documentation = "https://yeongseon.dev/azure-functions-python/cookbook/"
 Repository = "https://github.com/yeongseon/azure-functions-cookbook-python"
 Issues = "https://github.com/yeongseon/azure-functions-cookbook-python/issues"
 

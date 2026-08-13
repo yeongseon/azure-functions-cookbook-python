@@ -1,6 +1,6 @@
 # Timer Cron Job
 
-📖 [Full documentation](https://yeongseon.github.io/azure-functions-cookbook-python/patterns/scheduled-and-background/timer-cron-job/)
+📖 [Full documentation](https://yeongseon.dev/azure-functions-python/cookbook/patterns/scheduled-and-background/timer-cron-job/)
 
 Timer-triggered Azure Function that runs a scheduled maintenance job every 5 minutes.
 

@@ -1,6 +1,6 @@
 # Observability Tracing
 
-📖 [Full documentation](https://yeongseon.github.io/azure-functions-cookbook-python/patterns/runtime-and-ops/observability-tracing/)
+📖 [Full documentation](https://yeongseon.dev/azure-functions-python/cookbook/patterns/runtime-and-ops/observability-tracing/)
 
 HTTP-triggered tracing recipe showing correlation ID propagation,
 structured logging,

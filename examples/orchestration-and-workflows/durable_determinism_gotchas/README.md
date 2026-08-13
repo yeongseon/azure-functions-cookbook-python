@@ -1,6 +1,6 @@
 # Durable Determinism Gotchas
 
-📖 [Full documentation](https://yeongseon.github.io/azure-functions-cookbook-python/patterns/orchestration-and-workflows/durable-determinism-gotchas/)
+📖 [Full documentation](https://yeongseon.dev/azure-functions-python/cookbook/patterns/orchestration-and-workflows/durable-determinism-gotchas/)
 
 Durable Functions orchestrator showing deterministic coding patterns.
 

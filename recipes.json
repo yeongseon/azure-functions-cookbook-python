@@ -5,7 +5,7 @@
     "category": "ai-and-agents",
     "description": "HTTP-triggered sample that sends a prompt to Azure OpenAI image generation and returns the generated image URL.",
     "example_path": "ai-and-agents/ai_image_generation",
-    "docs_url": "https://yeongseon.github.io/azure-functions-cookbook-python/patterns/ai-and-agents/ai-image-generation/",
+    "docs_url": "https://yeongseon.dev/azure-functions-python/cookbook/patterns/ai-and-agents/ai-image-generation/",
     "difficulty": "Intermediate",
     "tags": [
       "ai",
@@ -20,7 +20,7 @@
     "category": "ai-and-agents",
     "description": "Durable Functions sample that orchestrates three AI steps: embedding, vector search, and answer generation.",
     "example_path": "ai-and-agents/durable_ai_pipeline",
-    "docs_url": "https://yeongseon.github.io/azure-functions-cookbook-python/patterns/ai-and-agents/durable-ai-pipeline/",
+    "docs_url": "https://yeongseon.dev/azure-functions-python/cookbook/patterns/ai-and-agents/durable-ai-pipeline/",
     "difficulty": "Advanced",
     "tags": [
       "ai",
@@ -35,7 +35,7 @@
     "category": "ai-and-agents",
     "description": "HTTP-triggered sample that creates Azure OpenAI embeddings and uses them to run a vector query against Azure AI Search.",
     "example_path": "ai-and-agents/embedding_vector_search",
-    "docs_url": "https://yeongseon.github.io/azure-functions-cookbook-python/patterns/ai-and-agents/embedding-vector-search/",
+    "docs_url": "https://yeongseon.dev/azure-functions-python/cookbook/patterns/ai-and-agents/embedding-vector-search/",
     "difficulty": "Advanced",
     "tags": [
       "ai-and-agents",
@@ -50,7 +50,7 @@
     "category": "ai-and-agents",
     "description": "Notion-backed knowledge retrieval with azure-functions-knowledge KnowledgeBindings input/inject_client decorators.",
     "example_path": "ai-and-agents/knowledge_notion_search",
-    "docs_url": "https://yeongseon.github.io/azure-functions-cookbook-python/patterns/ai-and-agents/knowledge-notion-search/",
+    "docs_url": "https://yeongseon.dev/azure-functions-python/cookbook/patterns/ai-and-agents/knowledge-notion-search/",
     "difficulty": "Intermediate",
     "tags": [
       "ai-and-agents",
@@ -65,7 +65,7 @@
     "category": "ai-and-agents",
     "description": "Demonstrates `azure-functions-langgraph-python` adapter with `azure-functions-logging-python`, `azure-functions-validation-python`, and `azure-functions-openapi-python`.",
     "example_path": "ai-and-agents/langgraph_agent",
-    "docs_url": "https://yeongseon.github.io/azure-functions-cookbook-python/patterns/ai-and-agents/langgraph-agent/",
+    "docs_url": "https://yeongseon.dev/azure-functions-python/cookbook/patterns/ai-and-agents/langgraph-agent/",
     "difficulty": "Intermediate",
     "tags": [
       "agent",
@@ -79,7 +79,7 @@
     "category": "ai-and-agents",
     "description": "This example shows how to combine:",
     "example_path": "ai-and-agents/langgraph_rag_agent",
-    "docs_url": "https://yeongseon.github.io/azure-functions-cookbook-python/patterns/ai-and-agents/langgraph-rag-agent/",
+    "docs_url": "https://yeongseon.dev/azure-functions-python/cookbook/patterns/ai-and-agents/langgraph-rag-agent/",
     "difficulty": "Advanced",
     "tags": [
       "agent",
@@ -94,7 +94,7 @@
     "category": "ai-and-agents",
     "description": "Tool-use LangGraph agent with azure-functions-langgraph, routing between a reasoning node and callable tools.",
     "example_path": "ai-and-agents/langgraph_tool_use",
-    "docs_url": "https://yeongseon.github.io/azure-functions-cookbook-python/patterns/ai-and-agents/langgraph-tool-use/",
+    "docs_url": "https://yeongseon.dev/azure-functions-python/cookbook/patterns/ai-and-agents/langgraph-tool-use/",
     "difficulty": "Advanced",
     "tags": [
       "ai-and-agents",
@@ -109,7 +109,7 @@
     "category": "ai-and-agents",
     "description": "This example hosts a manual Model Context Protocol (MCP) server on Azure Functions using a standard HTTP trigger and JSON-RPC 2.0 messages.",
     "example_path": "ai-and-agents/mcp_server_example",
-    "docs_url": "https://yeongseon.github.io/azure-functions-cookbook-python/patterns/ai-and-agents/mcp-server-example/",
+    "docs_url": "https://yeongseon.dev/azure-functions-python/cookbook/patterns/ai-and-agents/mcp-server-example/",
     "difficulty": "Advanced",
     "tags": [
       "ai-and-agents",
@@ -124,7 +124,7 @@
     "category": "ai-and-agents",
     "description": "Minimal HTTP-triggered Azure Functions sample that sends one message to Azure OpenAI with the `openai` Python SDK.",
     "example_path": "ai-and-agents/openai_direct_chat",
-    "docs_url": "https://yeongseon.github.io/azure-functions-cookbook-python/patterns/ai-and-agents/openai-direct-chat/",
+    "docs_url": "https://yeongseon.dev/azure-functions-python/cookbook/patterns/ai-and-agents/openai-direct-chat/",
     "difficulty": "Beginner",
     "tags": [
       "ai-and-agents",
@@ -139,7 +139,7 @@
     "category": "ai-and-agents",
     "description": "Demonstrates a minimal RAG API using Azure AI Search and Azure OpenAI, combined with `azure-functions-validation-python`, `azure-functions-openapi-python`, and `azure-functions-logging-python`.",
     "example_path": "ai-and-agents/rag_knowledge_api",
-    "docs_url": "https://yeongseon.github.io/azure-functions-cookbook-python/patterns/ai-and-agents/rag-knowledge-api/",
+    "docs_url": "https://yeongseon.dev/azure-functions-python/cookbook/patterns/ai-and-agents/rag-knowledge-api/",
     "difficulty": "Advanced",
     "tags": [
       "ai-and-agents",
@@ -154,7 +154,7 @@
     "category": "ai-and-agents",
     "description": "HTTP-triggered sample that converts Azure OpenAI streaming chat completions into Server-Sent Events.",
     "example_path": "ai-and-agents/streaming_ai_response",
-    "docs_url": "https://yeongseon.github.io/azure-functions-cookbook-python/patterns/ai-and-agents/streaming-ai-response/",
+    "docs_url": "https://yeongseon.dev/azure-functions-python/cookbook/patterns/ai-and-agents/streaming-ai-response/",
     "difficulty": "Intermediate",
     "tags": [
       "ai",
@@ -169,7 +169,7 @@
     "category": "apis-and-ingress",
     "description": "HTTP-triggered Azure Functions backend intended to sit behind Azure API Management policies for auth, rate limiting, and caching.",
     "example_path": "apis-and-ingress/apim_function_backend",
-    "docs_url": "https://yeongseon.github.io/azure-functions-cookbook-python/patterns/apis-and-ingress/apim-function-backend/",
+    "docs_url": "https://yeongseon.dev/azure-functions-python/cookbook/patterns/apis-and-ingress/apim-function-backend/",
     "difficulty": "Intermediate",
     "tags": [
       "apim",
@@ -184,7 +184,7 @@
     "category": "apis-and-ingress",
     "description": "EasyAuth principal extraction with role-based access control for Azure Functions.",
     "example_path": "apis-and-ingress/auth_easyauth",
-    "docs_url": "https://yeongseon.github.io/azure-functions-cookbook-python/patterns/apis-and-ingress/auth-easyauth-claims/",
+    "docs_url": "https://yeongseon.dev/azure-functions-python/cookbook/patterns/apis-and-ingress/auth-easyauth-claims/",
     "difficulty": "Intermediate",
     "tags": [
       "apis-and-ingress",
@@ -199,7 +199,7 @@
     "category": "apis-and-ingress",
     "description": "JWT Bearer token validation with claim-based access control for Azure Functions.",
     "example_path": "apis-and-ingress/auth_jwt_validation",
-    "docs_url": "https://yeongseon.github.io/azure-functions-cookbook-python/patterns/apis-and-ingress/auth-jwt-validation/",
+    "docs_url": "https://yeongseon.dev/azure-functions-python/cookbook/patterns/apis-and-ingress/auth-jwt-validation/",
     "difficulty": "Intermediate",
     "tags": [
       "apis-and-ingress",
@@ -214,7 +214,7 @@
     "category": "apis-and-ingress",
     "description": "Multi-tenant access control with tenant allowlist for Azure Functions.",
     "example_path": "apis-and-ingress/auth_multitenant",
-    "docs_url": "https://yeongseon.github.io/azure-functions-cookbook-python/patterns/apis-and-ingress/auth-multitenant/",
+    "docs_url": "https://yeongseon.dev/azure-functions-python/cookbook/patterns/apis-and-ingress/auth-multitenant/",
     "difficulty": "Intermediate",
     "tags": [
       "apis-and-ingress",
@@ -228,7 +228,7 @@
     "category": "apis-and-ingress",
     "description": "HTTP Backend-for-Frontend facade that aggregates multiple backend service calls into one client-facing response.",
     "example_path": "apis-and-ingress/bff_facade_api",
-    "docs_url": "https://yeongseon.github.io/azure-functions-cookbook-python/patterns/apis-and-ingress/bff-facade-api/",
+    "docs_url": "https://yeongseon.dev/azure-functions-python/cookbook/patterns/apis-and-ingress/bff-facade-api/",
     "difficulty": "Intermediate",
     "tags": [
       "api",
@@ -243,7 +243,7 @@
     "category": "apis-and-ingress",
     "description": "Showcase HTTP API that wires the Azure Functions Python DX Toolkit together around one `items` resource.",
     "example_path": "apis-and-ingress/full_stack_crud_api",
-    "docs_url": "https://yeongseon.github.io/azure-functions-cookbook-python/patterns/apis-and-ingress/full-stack-crud-api/",
+    "docs_url": "https://yeongseon.dev/azure-functions-python/cookbook/patterns/apis-and-ingress/full-stack-crud-api/",
     "difficulty": "Advanced",
     "tags": [
       "api",
@@ -259,7 +259,7 @@
     "category": "apis-and-ingress",
     "description": "Minimal HTTP-triggered Azure Function that returns a greeting.",
     "example_path": "apis-and-ingress/hello_http_minimal",
-    "docs_url": "https://yeongseon.github.io/azure-functions-cookbook-python/patterns/apis-and-ingress/hello-http-minimal/",
+    "docs_url": "https://yeongseon.dev/azure-functions-python/cookbook/patterns/apis-and-ingress/hello-http-minimal/",
     "difficulty": "Beginner",
     "tags": [
       "apis-and-ingress",
@@ -274,7 +274,7 @@
     "category": "apis-and-ingress",
     "description": "HTTP trigger example that demonstrates anonymous, function-key, and admin-key endpoints.",
     "example_path": "apis-and-ingress/http_auth_levels",
-    "docs_url": "https://yeongseon.github.io/azure-functions-cookbook-python/patterns/apis-and-ingress/http-auth-levels/",
+    "docs_url": "https://yeongseon.dev/azure-functions-python/cookbook/patterns/apis-and-ingress/http-auth-levels/",
     "difficulty": "Beginner",
     "tags": [
       "apis-and-ingress",
@@ -289,7 +289,7 @@
     "category": "apis-and-ingress",
     "description": "HTTP CRUD and search example showing route params, query strings, JSON body parsing, and status codes.",
     "example_path": "apis-and-ingress/http_routing_query_body",
-    "docs_url": "https://yeongseon.github.io/azure-functions-cookbook-python/patterns/apis-and-ingress/http-routing-query-body/",
+    "docs_url": "https://yeongseon.dev/azure-functions-python/cookbook/patterns/apis-and-ingress/http-routing-query-body/",
     "difficulty": "Beginner",
     "tags": [
       "apis-and-ingress",
@@ -320,7 +320,7 @@
     "category": "apis-and-ingress",
     "description": "GitHub webhook receiver example with HMAC-SHA256 signature verification.",
     "example_path": "apis-and-ingress/webhook_github",
-    "docs_url": "https://yeongseon.github.io/azure-functions-cookbook-python/patterns/apis-and-ingress/webhook-github/",
+    "docs_url": "https://yeongseon.dev/azure-functions-python/cookbook/patterns/apis-and-ingress/webhook-github/",
     "difficulty": "Intermediate",
     "tags": [
       "apis-and-ingress",
@@ -334,7 +334,7 @@
     "category": "async-apis-and-jobs",
     "description": "HTTP-triggered Durable Functions example that returns `202 Accepted` and a `statusQueryGetUri` for client polling.",
     "example_path": "async-apis-and-jobs/async_http_polling",
-    "docs_url": "https://yeongseon.github.io/azure-functions-cookbook-python/patterns/async-apis-and-jobs/async-http-202-polling/",
+    "docs_url": "https://yeongseon.dev/azure-functions-python/cookbook/patterns/async-apis-and-jobs/async-http-202-polling/",
     "difficulty": "Intermediate",
     "tags": [
       "202",
@@ -350,7 +350,7 @@
     "category": "async-apis-and-jobs",
     "description": "HTTP + Queue example that accepts work at `/api/tasks` and sends an HTTP callback when background processing finishes.",
     "example_path": "async-apis-and-jobs/callback_completion",
-    "docs_url": "https://yeongseon.github.io/azure-functions-cookbook-python/patterns/async-apis-and-jobs/callback-completion/",
+    "docs_url": "https://yeongseon.dev/azure-functions-python/cookbook/patterns/async-apis-and-jobs/callback-completion/",
     "difficulty": "Intermediate",
     "tags": [
       "async-apis-and-jobs",
@@ -364,7 +364,7 @@
     "category": "async-apis-and-jobs",
     "description": "HTTP + Storage Queue recipe for accepting a job, returning `202 Accepted`, and polling a stored status record.",
     "example_path": "async-apis-and-jobs/queue_backed_job",
-    "docs_url": "https://yeongseon.github.io/azure-functions-cookbook-python/patterns/async-apis-and-jobs/queue-backed-job/",
+    "docs_url": "https://yeongseon.dev/azure-functions-python/cookbook/patterns/async-apis-and-jobs/queue-backed-job/",
     "difficulty": "Intermediate",
     "tags": [
       "async-apis-and-jobs",
@@ -379,7 +379,7 @@
     "category": "blob-and-file-triggers",
     "description": "Event Grid-driven ingestion pattern that reads uploaded CSV blobs and writes normalized rows into Azure Table Storage.",
     "example_path": "blob-and-file-triggers/blob_csv_to_table",
-    "docs_url": "https://yeongseon.github.io/azure-functions-cookbook-python/patterns/blob-and-file-triggers/blob-csv-to-table/",
+    "docs_url": "https://yeongseon.dev/azure-functions-python/cookbook/patterns/blob-and-file-triggers/blob-csv-to-table/",
     "difficulty": "Intermediate",
     "tags": [
       "blob",
@@ -395,7 +395,7 @@
     "category": "blob-and-file-triggers",
     "description": "Blob-triggered Azure Function configured for Event Grid source notifications.",
     "example_path": "blob-and-file-triggers/blob_eventgrid_trigger",
-    "docs_url": "https://yeongseon.github.io/azure-functions-cookbook-python/patterns/blob-and-file-triggers/blob-eventgrid-trigger/",
+    "docs_url": "https://yeongseon.dev/azure-functions-python/cookbook/patterns/blob-and-file-triggers/blob-eventgrid-trigger/",
     "difficulty": "Intermediate",
     "tags": [
       "blob",
@@ -410,7 +410,7 @@
     "category": "blob-and-file-triggers",
     "description": "Event Grid-driven blob processor that generates thumbnails and writes them to a separate output container.",
     "example_path": "blob-and-file-triggers/blob_thumbnail_generator",
-    "docs_url": "https://yeongseon.github.io/azure-functions-cookbook-python/patterns/blob-and-file-triggers/blob-thumbnail-generator/",
+    "docs_url": "https://yeongseon.dev/azure-functions-python/cookbook/patterns/blob-and-file-triggers/blob-thumbnail-generator/",
     "difficulty": "Intermediate",
     "tags": [
       "blob",
@@ -425,7 +425,7 @@
     "category": "blob-and-file-triggers",
     "description": "Blob-triggered Azure Function that processes uploaded files from `uploads/{name}`.",
     "example_path": "blob-and-file-triggers/blob_upload_processor",
-    "docs_url": "https://yeongseon.github.io/azure-functions-cookbook-python/patterns/blob-and-file-triggers/blob-upload-processor/",
+    "docs_url": "https://yeongseon.dev/azure-functions-python/cookbook/patterns/blob-and-file-triggers/blob-upload-processor/",
     "difficulty": "Intermediate",
     "tags": [
       "blob",
@@ -440,7 +440,7 @@
     "category": "data-and-pipelines",
     "description": "Cosmos DB change feed-triggered Azure Function for downstream synchronization.",
     "example_path": "data-and-pipelines/change_feed_processor",
-    "docs_url": "https://yeongseon.github.io/azure-functions-cookbook-python/patterns/data-and-pipelines/change-feed-processor/",
+    "docs_url": "https://yeongseon.dev/azure-functions-python/cookbook/patterns/data-and-pipelines/change-feed-processor/",
     "difficulty": "Intermediate",
     "tags": [
       "change",
@@ -455,7 +455,7 @@
     "category": "data-and-pipelines",
     "description": "CQRS sample for Azure Functions Python where:",
     "example_path": "data-and-pipelines/cqrs_read_projection",
-    "docs_url": "https://yeongseon.github.io/azure-functions-cookbook-python/patterns/data-and-pipelines/cqrs-read-projection/",
+    "docs_url": "https://yeongseon.dev/azure-functions-python/cookbook/patterns/data-and-pipelines/cqrs-read-projection/",
     "difficulty": "Advanced",
     "tags": [
       "cqrs",
@@ -470,7 +470,7 @@
     "category": "data-and-pipelines",
     "description": "Demonstrates `azure-functions-db-python` input/output bindings with SQLAlchemy-backed storage, combined with `azure-functions-validation-python` and `azure-functions-openapi-python`.",
     "example_path": "data-and-pipelines/db_input_output",
-    "docs_url": "https://yeongseon.github.io/azure-functions-cookbook-python/patterns/data-and-pipelines/db-input-output/",
+    "docs_url": "https://yeongseon.dev/azure-functions-python/cookbook/patterns/data-and-pipelines/db-input-output/",
     "difficulty": "Intermediate",
     "tags": [
       "data-and-pipelines",
@@ -485,7 +485,7 @@
     "category": "data-and-pipelines",
     "description": "Blob-triggered ETL example that reads raw JSON customer records, enriches them with lookup data, and writes the enriched rows to a database.",
     "example_path": "data-and-pipelines/etl_enrichment",
-    "docs_url": "https://yeongseon.github.io/azure-functions-cookbook-python/patterns/data-and-pipelines/etl-enrichment/",
+    "docs_url": "https://yeongseon.dev/azure-functions-python/cookbook/patterns/data-and-pipelines/etl-enrichment/",
     "difficulty": "Intermediate",
     "tags": [
       "data-and-pipelines",
@@ -499,7 +499,7 @@
     "category": "data-and-pipelines",
     "description": "Blob-triggered Azure Function that validates uploaded CSV or JSON files, transforms the records, and persists the processed result to a database.",
     "example_path": "data-and-pipelines/file_processing_pipeline",
-    "docs_url": "https://yeongseon.github.io/azure-functions-cookbook-python/patterns/data-and-pipelines/file-processing-pipeline/",
+    "docs_url": "https://yeongseon.dev/azure-functions-python/cookbook/patterns/data-and-pipelines/file-processing-pipeline/",
     "difficulty": "Intermediate",
     "tags": [
       "data-and-pipelines",
@@ -514,7 +514,7 @@
     "category": "data-and-pipelines",
     "description": "HTTP API example that combines:",
     "example_path": "data-and-pipelines/sqlalchemy_rest_pagination",
-    "docs_url": "https://yeongseon.github.io/azure-functions-cookbook-python/patterns/data-and-pipelines/sqlalchemy-rest-pagination/",
+    "docs_url": "https://yeongseon.dev/azure-functions-python/cookbook/patterns/data-and-pipelines/sqlalchemy-rest-pagination/",
     "difficulty": "Intermediate",
     "tags": [
       "data-and-pipelines",
@@ -546,7 +546,7 @@
     "category": "messaging-and-pubsub",
     "description": "Large-message pattern that stores payloads in Blob Storage and passes only a reference through the queue.",
     "example_path": "messaging-and-pubsub/claim_check_pattern",
-    "docs_url": "https://yeongseon.github.io/azure-functions-cookbook-python/patterns/messaging-and-pubsub/claim-check-pattern/",
+    "docs_url": "https://yeongseon.dev/azure-functions-python/cookbook/patterns/messaging-and-pubsub/claim-check-pattern/",
     "difficulty": "Advanced",
     "tags": [
       "check",
@@ -561,7 +561,7 @@
     "category": "messaging-and-pubsub",
     "description": "HTTP-triggered Azure Function that publishes custom order domain events to an Event Grid custom topic, plus an Event Grid-triggered subscriber that logs the resulting events.",
     "example_path": "messaging-and-pubsub/eventgrid_domain_events",
-    "docs_url": "https://yeongseon.github.io/azure-functions-cookbook-python/patterns/messaging-and-pubsub/eventgrid-domain-events/",
+    "docs_url": "https://yeongseon.dev/azure-functions-python/cookbook/patterns/messaging-and-pubsub/eventgrid-domain-events/",
     "difficulty": "Intermediate",
     "tags": [
       "domain",
@@ -576,7 +576,7 @@
     "category": "messaging-and-pubsub",
     "description": "Event Grid-triggered Azure Function that routes events to different handlers using event type and subject filters.",
     "example_path": "messaging-and-pubsub/eventgrid_router",
-    "docs_url": "https://yeongseon.github.io/azure-functions-cookbook-python/patterns/messaging-and-pubsub/eventgrid-event-router/",
+    "docs_url": "https://yeongseon.dev/azure-functions-python/cookbook/patterns/messaging-and-pubsub/eventgrid-event-router/",
     "difficulty": "Intermediate",
     "tags": [
       "event",
@@ -591,7 +591,7 @@
     "category": "messaging-and-pubsub",
     "description": "Queue-triggered Azure Function that parses and processes task messages.",
     "example_path": "messaging-and-pubsub/queue_consumer",
-    "docs_url": "https://yeongseon.github.io/azure-functions-cookbook-python/patterns/messaging-and-pubsub/queue-consumer/",
+    "docs_url": "https://yeongseon.dev/azure-functions-python/cookbook/patterns/messaging-and-pubsub/queue-consumer/",
     "difficulty": "Beginner",
     "tags": [
       "consumer",
@@ -605,7 +605,7 @@
     "category": "messaging-and-pubsub",
     "description": "HTTP-triggered Azure Function that validates JSON and enqueues tasks to Storage Queue.",
     "example_path": "messaging-and-pubsub/queue_producer",
-    "docs_url": "https://yeongseon.github.io/azure-functions-cookbook-python/patterns/messaging-and-pubsub/queue-producer/",
+    "docs_url": "https://yeongseon.dev/azure-functions-python/cookbook/patterns/messaging-and-pubsub/queue-producer/",
     "difficulty": "Beginner",
     "tags": [
       "messaging-and-pubsub",
@@ -619,7 +619,7 @@
     "category": "messaging-and-pubsub",
     "description": "Replay dead-lettered Service Bus queue messages back to the main queue after inspection and remediation.",
     "example_path": "messaging-and-pubsub/servicebus_dlq_replay",
-    "docs_url": "https://yeongseon.github.io/azure-functions-cookbook-python/patterns/messaging-and-pubsub/servicebus-dlq-replay/",
+    "docs_url": "https://yeongseon.dev/azure-functions-python/cookbook/patterns/messaging-and-pubsub/servicebus-dlq-replay/",
     "difficulty": "Advanced",
     "tags": [
       "dlq",
@@ -634,7 +634,7 @@
     "category": "messaging-and-pubsub",
     "description": "Azure Functions example showing ordered message processing with Azure Service Bus sessions.",
     "example_path": "messaging-and-pubsub/servicebus_sessions",
-    "docs_url": "https://yeongseon.github.io/azure-functions-cookbook-python/patterns/messaging-and-pubsub/servicebus-sessions/",
+    "docs_url": "https://yeongseon.dev/azure-functions-python/cookbook/patterns/messaging-and-pubsub/servicebus-sessions/",
     "difficulty": "Advanced",
     "tags": [
       "messaging-and-pubsub",
@@ -648,7 +648,7 @@
     "category": "messaging-and-pubsub",
     "description": "Azure Functions example showing Service Bus topic fan-out with three independent subscription handlers.",
     "example_path": "messaging-and-pubsub/servicebus_topic_fanout",
-    "docs_url": "https://yeongseon.github.io/azure-functions-cookbook-python/patterns/messaging-and-pubsub/servicebus-topic-fanout/",
+    "docs_url": "https://yeongseon.dev/azure-functions-python/cookbook/patterns/messaging-and-pubsub/servicebus-topic-fanout/",
     "difficulty": "Intermediate",
     "tags": [
       "fanout",
@@ -663,7 +663,7 @@
     "category": "messaging-and-pubsub",
     "description": "Service Bus queue-triggered Azure Function for reliable background work consumption.",
     "example_path": "messaging-and-pubsub/servicebus_worker",
-    "docs_url": "https://yeongseon.github.io/azure-functions-cookbook-python/patterns/messaging-and-pubsub/servicebus-worker/",
+    "docs_url": "https://yeongseon.dev/azure-functions-python/cookbook/patterns/messaging-and-pubsub/servicebus-worker/",
     "difficulty": "Intermediate",
     "tags": [
       "messaging-and-pubsub",
@@ -677,7 +677,7 @@
     "category": "orchestration-and-workflows",
     "description": "Durable Functions recipe for full async job lifecycle management: create, status, cancel, and purge.",
     "example_path": "orchestration-and-workflows/async_job_lifecycle",
-    "docs_url": "https://yeongseon.github.io/azure-functions-cookbook-python/patterns/orchestration-and-workflows/async-job-lifecycle/",
+    "docs_url": "https://yeongseon.dev/azure-functions-python/cookbook/patterns/orchestration-and-workflows/async-job-lifecycle/",
     "difficulty": "Advanced",
     "tags": [
       "async",
@@ -692,7 +692,7 @@
     "category": "orchestration-and-workflows",
     "description": "Durable Functions orchestrator showing deterministic coding patterns.",
     "example_path": "orchestration-and-workflows/durable_determinism_gotchas",
-    "docs_url": "https://yeongseon.github.io/azure-functions-cookbook-python/patterns/orchestration-and-workflows/durable-determinism-gotchas/",
+    "docs_url": "https://yeongseon.dev/azure-functions-python/cookbook/patterns/orchestration-and-workflows/durable-determinism-gotchas/",
     "difficulty": "Advanced",
     "tags": [
       "determinism",
@@ -707,7 +707,7 @@
     "category": "orchestration-and-workflows",
     "description": "Durable Entity example managing counter state.",
     "example_path": "orchestration-and-workflows/durable_entity_counter",
-    "docs_url": "https://yeongseon.github.io/azure-functions-cookbook-python/patterns/orchestration-and-workflows/durable-entity-counter/",
+    "docs_url": "https://yeongseon.dev/azure-functions-python/cookbook/patterns/orchestration-and-workflows/durable-entity-counter/",
     "difficulty": "Intermediate",
     "tags": [
       "counter",
@@ -722,7 +722,7 @@
     "category": "orchestration-and-workflows",
     "description": "Durable Functions fan-out/fan-in orchestration with parallel activities.",
     "example_path": "orchestration-and-workflows/durable_fan_out_fan_in",
-    "docs_url": "https://yeongseon.github.io/azure-functions-cookbook-python/patterns/orchestration-and-workflows/durable-fan-out-fan-in/",
+    "docs_url": "https://yeongseon.dev/azure-functions-python/cookbook/patterns/orchestration-and-workflows/durable-fan-out-fan-in/",
     "difficulty": "Intermediate",
     "tags": [
       "durable",
@@ -738,7 +738,7 @@
     "category": "orchestration-and-workflows",
     "description": "Fan-out/fan-in DAG orchestration with azure-functions-durable-graph, driven by a declarative ManifestBuilder graph.",
     "example_path": "orchestration-and-workflows/durable_graph_fan_out",
-    "docs_url": "https://yeongseon.github.io/azure-functions-cookbook-python/patterns/orchestration-and-workflows/durable-graph-fan-out/",
+    "docs_url": "https://yeongseon.dev/azure-functions-python/cookbook/patterns/orchestration-and-workflows/durable-graph-fan-out/",
     "difficulty": "Advanced",
     "tags": [
       "durable",
@@ -754,7 +754,7 @@
     "category": "orchestration-and-workflows",
     "description": "Durable Functions orchestrator chaining activities in sequence.",
     "example_path": "orchestration-and-workflows/durable_hello_sequence",
-    "docs_url": "https://yeongseon.github.io/azure-functions-cookbook-python/patterns/orchestration-and-workflows/durable-hello-sequence/",
+    "docs_url": "https://yeongseon.dev/azure-functions-python/cookbook/patterns/orchestration-and-workflows/durable-hello-sequence/",
     "difficulty": "Beginner",
     "tags": [
       "durable",
@@ -769,7 +769,7 @@
     "category": "orchestration-and-workflows",
     "description": "Durable Functions workflow waiting for an external approval event with timeout.",
     "example_path": "orchestration-and-workflows/durable_human_interaction",
-    "docs_url": "https://yeongseon.github.io/azure-functions-cookbook-python/patterns/orchestration-and-workflows/durable-human-interaction/",
+    "docs_url": "https://yeongseon.dev/azure-functions-python/cookbook/patterns/orchestration-and-workflows/durable-human-interaction/",
     "difficulty": "Intermediate",
     "tags": [
       "durable",
@@ -784,7 +784,7 @@
     "category": "orchestration-and-workflows",
     "description": "Durable Functions orchestration retrying a flaky activity.",
     "example_path": "orchestration-and-workflows/durable_retry_pattern",
-    "docs_url": "https://yeongseon.github.io/azure-functions-cookbook-python/patterns/orchestration-and-workflows/durable-retry-pattern/",
+    "docs_url": "https://yeongseon.dev/azure-functions-python/cookbook/patterns/orchestration-and-workflows/durable-retry-pattern/",
     "difficulty": "Intermediate",
     "tags": [
       "durable",
@@ -799,7 +799,7 @@
     "category": "orchestration-and-workflows",
     "description": "Durable Functions singleton orchestration that continuously polls an external dependency and emits alerts on changes.",
     "example_path": "orchestration-and-workflows/durable_singleton_monitor",
-    "docs_url": "https://yeongseon.github.io/azure-functions-cookbook-python/patterns/orchestration-and-workflows/durable-singleton-monitor/",
+    "docs_url": "https://yeongseon.dev/azure-functions-python/cookbook/patterns/orchestration-and-workflows/durable-singleton-monitor/",
     "difficulty": "Advanced",
     "tags": [
       "durable",
@@ -814,7 +814,7 @@
     "category": "orchestration-and-workflows",
     "description": "Durable Functions sample focused on mock-based orchestrator unit testing.",
     "example_path": "orchestration-and-workflows/durable_unit_testing",
-    "docs_url": "https://yeongseon.github.io/azure-functions-cookbook-python/patterns/orchestration-and-workflows/durable-unit-testing/",
+    "docs_url": "https://yeongseon.dev/azure-functions-python/cookbook/patterns/orchestration-and-workflows/durable-unit-testing/",
     "difficulty": "Intermediate",
     "tags": [
       "durable",
@@ -829,7 +829,7 @@
     "category": "orchestration-and-workflows",
     "description": "Durable Functions saga orchestration that compensates previously completed steps on failure.",
     "example_path": "orchestration-and-workflows/saga_compensation",
-    "docs_url": "https://yeongseon.github.io/azure-functions-cookbook-python/patterns/orchestration-and-workflows/saga-compensation/",
+    "docs_url": "https://yeongseon.dev/azure-functions-python/cookbook/patterns/orchestration-and-workflows/saga-compensation/",
     "difficulty": "Advanced",
     "tags": [
       "compensation",
@@ -843,7 +843,7 @@
     "category": "orchestration-and-workflows",
     "description": "Durable Functions parent orchestration delegating work to two child sub-orchestrators.",
     "example_path": "orchestration-and-workflows/sub_orchestration",
-    "docs_url": "https://yeongseon.github.io/azure-functions-cookbook-python/patterns/orchestration-and-workflows/sub-orchestration/",
+    "docs_url": "https://yeongseon.dev/azure-functions-python/cookbook/patterns/orchestration-and-workflows/sub-orchestration/",
     "difficulty": "Advanced",
     "tags": [
       "orchestration",
@@ -857,7 +857,7 @@
     "category": "realtime",
     "description": "Azure Functions front door for Azure Web PubSub that negotiates client tokens and forwards publish requests.",
     "example_path": "realtime/websocket_proxy",
-    "docs_url": "https://yeongseon.github.io/azure-functions-cookbook-python/patterns/realtime/websocket-proxy/",
+    "docs_url": "https://yeongseon.dev/azure-functions-python/cookbook/patterns/realtime/websocket-proxy/",
     "difficulty": "Advanced",
     "tags": [
       "proxy",
@@ -871,7 +871,7 @@
     "category": "reliability",
     "description": "This recipe shows an HTTP-triggered Azure Function protecting a downstream API with a simple in-memory circuit breaker.",
     "example_path": "reliability/circuit_breaker",
-    "docs_url": "https://yeongseon.github.io/azure-functions-cookbook-python/patterns/reliability/circuit-breaker/",
+    "docs_url": "https://yeongseon.dev/azure-functions-python/cookbook/patterns/reliability/circuit-breaker/",
     "difficulty": "Intermediate",
     "tags": [
       "breaker",
@@ -885,7 +885,7 @@
     "category": "reliability",
     "description": "Transactional outbox sample for Azure Functions Python where:",
     "example_path": "reliability/outbox_pattern",
-    "docs_url": "https://yeongseon.github.io/azure-functions-cookbook-python/patterns/reliability/outbox-pattern/",
+    "docs_url": "https://yeongseon.dev/azure-functions-python/cookbook/patterns/reliability/outbox-pattern/",
     "difficulty": "Advanced",
     "tags": [
       "outbox",
@@ -899,7 +899,7 @@
     "category": "reliability",
     "description": "Queue-triggered Azure Functions recipe that lets repeated failures move automatically to the poison queue and then logs the failed payload for operator follow-up.",
     "example_path": "reliability/poison_message_handling",
-    "docs_url": "https://yeongseon.github.io/azure-functions-cookbook-python/patterns/reliability/poison-message-handling/",
+    "docs_url": "https://yeongseon.dev/azure-functions-python/cookbook/patterns/reliability/poison-message-handling/",
     "difficulty": "Intermediate",
     "tags": [
       "handling",
@@ -914,7 +914,7 @@
     "category": "reliability",
     "description": "This recipe shows an HTTP-triggered Azure Function using an in-memory token bucket to throttle requests and return `429 Too Many Requests` when the local bucket is empty.",
     "example_path": "reliability/rate_limiting",
-    "docs_url": "https://yeongseon.github.io/azure-functions-cookbook-python/patterns/reliability/rate-limiting-throttle/",
+    "docs_url": "https://yeongseon.dev/azure-functions-python/cookbook/patterns/reliability/rate-limiting-throttle/",
     "difficulty": "Intermediate",
     "tags": [
       "limiting",
@@ -929,7 +929,7 @@
     "category": "reliability",
     "description": "This recipe shows two related resilience patterns:",
     "example_path": "reliability/retry_and_idempotency",
-    "docs_url": "https://yeongseon.github.io/azure-functions-cookbook-python/patterns/reliability/retry-and-idempotency/",
+    "docs_url": "https://yeongseon.dev/azure-functions-python/cookbook/patterns/reliability/retry-and-idempotency/",
     "difficulty": "Intermediate",
     "tags": [
       "and",
@@ -944,7 +944,7 @@
     "category": "runtime-and-ops",
     "description": "This recipe demonstrates a modular Azure Functions app using `func.Blueprint`.",
     "example_path": "runtime-and-ops/blueprint_modular_app",
-    "docs_url": "https://yeongseon.github.io/azure-functions-cookbook-python/patterns/runtime-and-ops/blueprint-modular-app/",
+    "docs_url": "https://yeongseon.dev/azure-functions-python/cookbook/patterns/runtime-and-ops/blueprint-modular-app/",
     "difficulty": "Intermediate",
     "tags": [
       "app",
@@ -959,7 +959,7 @@
     "category": "runtime-and-ops",
     "description": "This recipe demonstrates practical cold-start mitigation for Azure Functions Python:",
     "example_path": "runtime-and-ops/cold_start_mitigation",
-    "docs_url": "https://yeongseon.github.io/azure-functions-cookbook-python/patterns/runtime-and-ops/cold-start-mitigation/",
+    "docs_url": "https://yeongseon.dev/azure-functions-python/cookbook/patterns/runtime-and-ops/cold-start-mitigation/",
     "difficulty": "Intermediate",
     "tags": [
       "cold",
@@ -974,7 +974,7 @@
     "category": "runtime-and-ops",
     "description": "This recipe demonstrates host-level dynamic concurrency:",
     "example_path": "runtime-and-ops/concurrency_tuning",
-    "docs_url": "https://yeongseon.github.io/azure-functions-cookbook-python/patterns/runtime-and-ops/concurrency-tuning/",
+    "docs_url": "https://yeongseon.dev/azure-functions-python/cookbook/patterns/runtime-and-ops/concurrency-tuning/",
     "difficulty": "Advanced",
     "tags": [
       "concurrency",
@@ -988,7 +988,7 @@
     "category": "runtime-and-ops",
     "description": "Expose [`azure-functions-doctor`](https://github.com/yeongseon/azure-functions-doctor-python) diagnostics as authenticated HTTP endpoints so operators can query deployment health post-deploy without shelling into the container.",
     "example_path": "runtime-and-ops/doctor_diagnostics_endpoint",
-    "docs_url": "https://yeongseon.github.io/azure-functions-cookbook-python/patterns/runtime-and-ops/doctor-diagnostics-endpoint/",
+    "docs_url": "https://yeongseon.dev/azure-functions-python/cookbook/patterns/runtime-and-ops/doctor-diagnostics-endpoint/",
     "difficulty": "Intermediate",
     "tags": [
       "diagnostics",
@@ -1003,7 +1003,7 @@
     "category": "runtime-and-ops",
     "description": "This recipe focuses on host-level tuning using a timer trigger plus a richly configured `host.json`.",
     "example_path": "runtime-and-ops/host_json_tuning",
-    "docs_url": "https://yeongseon.github.io/azure-functions-cookbook-python/patterns/runtime-and-ops/host-json-tuning/",
+    "docs_url": "https://yeongseon.dev/azure-functions-python/cookbook/patterns/runtime-and-ops/host-json-tuning/",
     "difficulty": "Advanced",
     "tags": [
       "host",
@@ -1018,7 +1018,7 @@
     "category": "runtime-and-ops",
     "description": "HTTP-triggered tracing recipe showing correlation ID propagation, structured logging, and Application Insights-friendly trace context.",
     "example_path": "runtime-and-ops/observability_tracing",
-    "docs_url": "https://yeongseon.github.io/azure-functions-cookbook-python/patterns/runtime-and-ops/observability-tracing/",
+    "docs_url": "https://yeongseon.dev/azure-functions-python/cookbook/patterns/runtime-and-ops/observability-tracing/",
     "difficulty": "Intermediate",
     "tags": [
       "observability",
@@ -1032,7 +1032,7 @@
     "category": "runtime-and-ops",
     "description": "This recipe compares two ways to send the same queue message:",
     "example_path": "runtime-and-ops/output_binding_vs_sdk",
-    "docs_url": "https://yeongseon.github.io/azure-functions-cookbook-python/patterns/runtime-and-ops/output-binding-vs-sdk/",
+    "docs_url": "https://yeongseon.dev/azure-functions-python/cookbook/patterns/runtime-and-ops/output-binding-vs-sdk/",
     "difficulty": "Intermediate",
     "tags": [
       "binding",
@@ -1048,7 +1048,7 @@
     "category": "scheduled-and-background",
     "description": "Durable Functions orchestration that waits for a long delay and then executes a reminder callback activity.",
     "example_path": "scheduled-and-background/durable_timer_reminder",
-    "docs_url": "https://yeongseon.github.io/azure-functions-cookbook-python/patterns/scheduled-and-background/durable-timer-reminder/",
+    "docs_url": "https://yeongseon.dev/azure-functions-python/cookbook/patterns/scheduled-and-background/durable-timer-reminder/",
     "difficulty": "Intermediate",
     "tags": [
       "durable",
@@ -1063,7 +1063,7 @@
     "category": "scheduled-and-background",
     "description": "Timer-driven scheduled dispatch pattern that releases due work onto Azure Storage Queue for downstream workers.",
     "example_path": "scheduled-and-background/queue_scheduled_dispatch",
-    "docs_url": "https://yeongseon.github.io/azure-functions-cookbook-python/patterns/scheduled-and-background/queue-scheduled-dispatch/",
+    "docs_url": "https://yeongseon.dev/azure-functions-python/cookbook/patterns/scheduled-and-background/queue-scheduled-dispatch/",
     "difficulty": "Intermediate",
     "tags": [
       "dispatch",
@@ -1078,7 +1078,7 @@
     "category": "scheduled-and-background",
     "description": "Timer-triggered Azure Function that runs a scheduled maintenance job every 5 minutes.",
     "example_path": "scheduled-and-background/timer_cron_job",
-    "docs_url": "https://yeongseon.github.io/azure-functions-cookbook-python/patterns/scheduled-and-background/timer-cron-job/",
+    "docs_url": "https://yeongseon.dev/azure-functions-python/cookbook/patterns/scheduled-and-background/timer-cron-job/",
     "difficulty": "Beginner",
     "tags": [
       "cron",
@@ -1093,7 +1093,7 @@
     "category": "security-and-tenancy",
     "description": "This recipe shows a Service Bus queue trigger using `connection=\"ServiceBusConnection\"`.",
     "example_path": "security-and-tenancy/managed_identity_servicebus",
-    "docs_url": "https://yeongseon.github.io/azure-functions-cookbook-python/patterns/security-and-tenancy/managed-identity-servicebus/",
+    "docs_url": "https://yeongseon.dev/azure-functions-python/cookbook/patterns/security-and-tenancy/managed-identity-servicebus/",
     "difficulty": "Advanced",
     "tags": [
       "identity",
@@ -1108,7 +1108,7 @@
     "category": "security-and-tenancy",
     "description": "This recipe shows an Azure Storage Queue trigger using `connection=\"StorageConnection\"`. You can back that setting with either a connection string or managed identity settings.",
     "example_path": "security-and-tenancy/managed_identity_storage",
-    "docs_url": "https://yeongseon.github.io/azure-functions-cookbook-python/patterns/security-and-tenancy/managed-identity-storage/",
+    "docs_url": "https://yeongseon.dev/azure-functions-python/cookbook/patterns/security-and-tenancy/managed-identity-storage/",
     "difficulty": "Advanced",
     "tags": [
       "identity",
@@ -1123,7 +1123,7 @@
     "category": "security-and-tenancy",
     "description": "HTTP-triggered Azure Function that reads secrets from environment variables populated by Azure Key Vault references. The function uses standard environment access and `azure_functions_logging` only.",
     "example_path": "security-and-tenancy/secretless_keyvault",
-    "docs_url": "https://yeongseon.github.io/azure-functions-cookbook-python/patterns/security-and-tenancy/secretless-keyvault/",
+    "docs_url": "https://yeongseon.dev/azure-functions-python/cookbook/patterns/security-and-tenancy/secretless-keyvault/",
     "difficulty": "Intermediate",
     "tags": [
       "keyvault",
@@ -1137,7 +1137,7 @@
     "category": "security-and-tenancy",
     "description": "HTTP recipe for resolving tenant context from `X-Tenant-ID` or a bearer token claim, then querying a tenant-specific database with `azure-functions-db-python`.",
     "example_path": "security-and-tenancy/tenant_isolation",
-    "docs_url": "https://yeongseon.github.io/azure-functions-cookbook-python/patterns/security-and-tenancy/tenant-isolation/",
+    "docs_url": "https://yeongseon.dev/azure-functions-python/cookbook/patterns/security-and-tenancy/tenant-isolation/",
     "difficulty": "Advanced",
     "tags": [
       "isolation",
@@ -1151,7 +1151,7 @@
     "category": "streams-and-telemetry",
     "description": "Event Hub-triggered Azure Function that processes a batch window and logs aggregate telemetry totals.",
     "example_path": "streams-and-telemetry/eventhub_batch_window",
-    "docs_url": "https://yeongseon.github.io/azure-functions-cookbook-python/patterns/streams-and-telemetry/eventhub-batch-window/",
+    "docs_url": "https://yeongseon.dev/azure-functions-python/cookbook/patterns/streams-and-telemetry/eventhub-batch-window/",
     "difficulty": "Intermediate",
     "tags": [
       "batch",
@@ -1166,7 +1166,7 @@
     "category": "streams-and-telemetry",
     "description": "Azure Functions example showing replay-aware Event Hub consumption with offset tracking and idempotent processing.",
     "example_path": "streams-and-telemetry/eventhub_checkpoint_replay",
-    "docs_url": "https://yeongseon.github.io/azure-functions-cookbook-python/patterns/streams-and-telemetry/eventhub-checkpoint-replay/",
+    "docs_url": "https://yeongseon.dev/azure-functions-python/cookbook/patterns/streams-and-telemetry/eventhub-checkpoint-replay/",
     "difficulty": "Advanced",
     "tags": [
       "checkpoint",
@@ -1181,7 +1181,7 @@
     "category": "streams-and-telemetry",
     "description": "Event Hub-triggered Azure Function for near real-time telemetry stream processing.",
     "example_path": "streams-and-telemetry/eventhub_consumer",
-    "docs_url": "https://yeongseon.github.io/azure-functions-cookbook-python/patterns/streams-and-telemetry/eventhub-consumer/",
+    "docs_url": "https://yeongseon.dev/azure-functions-python/cookbook/patterns/streams-and-telemetry/eventhub-consumer/",
     "difficulty": "Intermediate",
     "tags": [
       "consumer",

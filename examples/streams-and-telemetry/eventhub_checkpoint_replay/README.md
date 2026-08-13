@@ -1,6 +1,6 @@
 # Event Hub Checkpoint Replay
 
-📖 [Full documentation](https://yeongseon.github.io/azure-functions-cookbook-python/patterns/streams-and-telemetry/eventhub-checkpoint-replay/)
+📖 [Full documentation](https://yeongseon.dev/azure-functions-python/cookbook/patterns/streams-and-telemetry/eventhub-checkpoint-replay/)
 
 Azure Functions example showing replay-aware Event Hub consumption with offset tracking and idempotent processing.
 

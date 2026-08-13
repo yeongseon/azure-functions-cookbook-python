@@ -3,4 +3,4 @@ title: LangGraph Agent
 category: ai-and-agents
 difficulty: Intermediate
 description: Demonstrates `azure-functions-langgraph-python` adapter with `azure-functions-logging-python`, `azure-functions-validation-python`, and `azure-functions-openapi-python`.
-docs_url: https://yeongseon.github.io/azure-functions-cookbook-python/patterns/ai-and-agents/langgraph-agent/
+docs_url: https://yeongseon.dev/azure-functions-python/cookbook/patterns/ai-and-agents/langgraph-agent/

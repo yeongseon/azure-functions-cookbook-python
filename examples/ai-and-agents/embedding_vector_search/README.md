@@ -1,6 +1,6 @@
 # Embedding Vector Search
 
-📖 [Full documentation](https://yeongseon.github.io/azure-functions-cookbook-python/patterns/ai-and-agents/embedding-vector-search/)
+📖 [Full documentation](https://yeongseon.dev/azure-functions-python/cookbook/patterns/ai-and-agents/embedding-vector-search/)
 
 HTTP-triggered sample that creates Azure OpenAI embeddings and uses them to run
 a vector query against Azure AI Search.

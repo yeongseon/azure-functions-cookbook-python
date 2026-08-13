@@ -1,6 +1,6 @@
 # CQRS Read Projection
 
-📖 [Full documentation](https://yeongseon.github.io/azure-functions-cookbook-python/patterns/data-and-pipelines/cqrs-read-projection/)
+📖 [Full documentation](https://yeongseon.dev/azure-functions-python/cookbook/patterns/data-and-pipelines/cqrs-read-projection/)
 
 CQRS sample for Azure Functions Python where:
 

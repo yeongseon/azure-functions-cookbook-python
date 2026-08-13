@@ -1,6 +1,6 @@
 # Blob Upload Processor
 
-📖 [Full documentation](https://yeongseon.github.io/azure-functions-cookbook-python/patterns/blob-and-file-triggers/blob-upload-processor/)
+📖 [Full documentation](https://yeongseon.dev/azure-functions-python/cookbook/patterns/blob-and-file-triggers/blob-upload-processor/)
 
 Blob-triggered Azure Function that processes uploaded files from `uploads/{name}`.
 

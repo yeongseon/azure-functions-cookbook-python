@@ -1,6 +1,6 @@
 # Circuit Breaker
 
-📖 [Full documentation](https://yeongseon.github.io/azure-functions-cookbook-python/patterns/reliability/circuit-breaker/)
+📖 [Full documentation](https://yeongseon.dev/azure-functions-python/cookbook/patterns/reliability/circuit-breaker/)
 
 This recipe shows an HTTP-triggered Azure Function protecting a downstream API with a simple
 in-memory circuit breaker.

@@ -1,6 +1,6 @@
 # Claim Check Pattern
 
-📖 [Full documentation](https://yeongseon.github.io/azure-functions-cookbook-python/patterns/messaging-and-pubsub/claim-check-pattern/)
+📖 [Full documentation](https://yeongseon.dev/azure-functions-python/cookbook/patterns/messaging-and-pubsub/claim-check-pattern/)
 
 Large-message pattern that stores payloads in Blob Storage and passes only a reference through the queue.
 

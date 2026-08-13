@@ -3,4 +3,4 @@ title: WebSocket Proxy
 category: realtime
 difficulty: Advanced
 description: Azure Functions front door for Azure Web PubSub that negotiates client tokens and forwards publish requests.
-docs_url: https://yeongseon.github.io/azure-functions-cookbook-python/patterns/realtime/websocket-proxy/
+docs_url: https://yeongseon.dev/azure-functions-python/cookbook/patterns/realtime/websocket-proxy/

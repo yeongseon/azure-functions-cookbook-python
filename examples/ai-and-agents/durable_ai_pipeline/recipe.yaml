@@ -3,4 +3,4 @@ title: Durable AI Pipeline
 category: ai-and-agents
 difficulty: Advanced
 description: 'Durable Functions sample that orchestrates three AI steps: embedding, vector search, and answer generation.'
-docs_url: https://yeongseon.github.io/azure-functions-cookbook-python/patterns/ai-and-agents/durable-ai-pipeline/
+docs_url: https://yeongseon.dev/azure-functions-python/cookbook/patterns/ai-and-agents/durable-ai-pipeline/

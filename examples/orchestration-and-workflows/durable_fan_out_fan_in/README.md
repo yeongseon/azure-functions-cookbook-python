@@ -1,6 +1,6 @@
 # Durable Fan-Out Fan-In
 
-📖 [Full documentation](https://yeongseon.github.io/azure-functions-cookbook-python/patterns/orchestration-and-workflows/durable-fan-out-fan-in/)
+📖 [Full documentation](https://yeongseon.dev/azure-functions-python/cookbook/patterns/orchestration-and-workflows/durable-fan-out-fan-in/)
 
 Durable Functions fan-out/fan-in orchestration with parallel activities.
 

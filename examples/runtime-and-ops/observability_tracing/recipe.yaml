@@ -3,4 +3,4 @@ title: Observability Tracing
 category: runtime-and-ops
 difficulty: Intermediate
 description: HTTP-triggered tracing recipe showing correlation ID propagation, structured logging, and Application Insights-friendly trace context.
-docs_url: https://yeongseon.github.io/azure-functions-cookbook-python/patterns/runtime-and-ops/observability-tracing/
+docs_url: https://yeongseon.dev/azure-functions-python/cookbook/patterns/runtime-and-ops/observability-tracing/

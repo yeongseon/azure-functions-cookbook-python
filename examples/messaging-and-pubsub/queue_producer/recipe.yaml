@@ -3,4 +3,4 @@ title: Queue Producer
 category: messaging-and-pubsub
 difficulty: Beginner
 description: HTTP-triggered Azure Function that validates JSON and enqueues tasks to Storage Queue.
-docs_url: https://yeongseon.github.io/azure-functions-cookbook-python/patterns/messaging-and-pubsub/queue-producer/
+docs_url: https://yeongseon.dev/azure-functions-python/cookbook/patterns/messaging-and-pubsub/queue-producer/

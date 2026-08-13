@@ -3,4 +3,4 @@ title: Doctor Diagnostics Endpoint
 category: runtime-and-ops
 difficulty: Intermediate
 description: Expose [`azure-functions-doctor`](https://github.com/yeongseon/azure-functions-doctor-python) diagnostics as authenticated HTTP endpoints so operators can query deployment health post-deploy without shelling into the container.
-docs_url: https://yeongseon.github.io/azure-functions-cookbook-python/patterns/runtime-and-ops/doctor-diagnostics-endpoint/
+docs_url: https://yeongseon.dev/azure-functions-python/cookbook/patterns/runtime-and-ops/doctor-diagnostics-endpoint/

@@ -1,6 +1,6 @@
 # Blob CSV to Table
 
-📖 [Full documentation](https://yeongseon.github.io/azure-functions-cookbook-python/patterns/blob-and-file-triggers/blob-csv-to-table/)
+📖 [Full documentation](https://yeongseon.dev/azure-functions-python/cookbook/patterns/blob-and-file-triggers/blob-csv-to-table/)
 
 Event Grid-driven ingestion pattern that reads uploaded CSV blobs and writes normalized rows into Azure Table Storage.
 

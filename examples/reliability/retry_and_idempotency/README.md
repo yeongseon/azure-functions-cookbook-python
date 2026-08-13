@@ -1,6 +1,6 @@
 # Retry and Idempotency
 
-📖 [Full documentation](https://yeongseon.github.io/azure-functions-cookbook-python/patterns/reliability/retry-and-idempotency/)
+📖 [Full documentation](https://yeongseon.dev/azure-functions-python/cookbook/patterns/reliability/retry-and-idempotency/)
 
 This recipe shows two related resilience patterns:
 

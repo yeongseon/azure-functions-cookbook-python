@@ -3,4 +3,4 @@ title: Durable Fan-Out Fan-In
 category: orchestration-and-workflows
 difficulty: Intermediate
 description: Durable Functions fan-out/fan-in orchestration with parallel activities.
-docs_url: https://yeongseon.github.io/azure-functions-cookbook-python/patterns/orchestration-and-workflows/durable-fan-out-fan-in/
+docs_url: https://yeongseon.dev/azure-functions-python/cookbook/patterns/orchestration-and-workflows/durable-fan-out-fan-in/

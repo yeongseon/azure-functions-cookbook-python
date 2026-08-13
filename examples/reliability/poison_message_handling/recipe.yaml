@@ -3,4 +3,4 @@ title: Poison Message Handling
 category: reliability
 difficulty: Intermediate
 description: Queue-triggered Azure Functions recipe that lets repeated failures move automatically to the poison queue and then logs the failed payload for operator follow-up.
-docs_url: https://yeongseon.github.io/azure-functions-cookbook-python/patterns/reliability/poison-message-handling/
+docs_url: https://yeongseon.dev/azure-functions-python/cookbook/patterns/reliability/poison-message-handling/

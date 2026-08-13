@@ -3,4 +3,4 @@ title: RAG Knowledge API
 category: ai-and-agents
 difficulty: Advanced
 description: Demonstrates a minimal RAG API using Azure AI Search and Azure OpenAI, combined with `azure-functions-validation-python`, `azure-functions-openapi-python`, and `azure-functions-logging-python`.
-docs_url: https://yeongseon.github.io/azure-functions-cookbook-python/patterns/ai-and-agents/rag-knowledge-api/
+docs_url: https://yeongseon.dev/azure-functions-python/cookbook/patterns/ai-and-agents/rag-knowledge-api/

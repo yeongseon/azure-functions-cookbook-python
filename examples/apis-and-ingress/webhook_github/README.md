@@ -1,6 +1,6 @@
 # Webhook GitHub
 
-📖 [Full documentation](https://yeongseon.github.io/azure-functions-cookbook-python/patterns/apis-and-ingress/webhook-github/)
+📖 [Full documentation](https://yeongseon.dev/azure-functions-python/cookbook/patterns/apis-and-ingress/webhook-github/)
 
 GitHub webhook receiver example with HMAC-SHA256 signature verification.
 
