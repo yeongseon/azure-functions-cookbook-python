@@ -32,7 +32,7 @@ compared.
 The cookbook is the dogfood integration point where both producers and the
 consumer are import-available, so it is the right place to hold this contract.
 
-See yeongseon/azure-functions-python-cookbook#149.
+See yeongseon/azure-functions-cookbook-python#149.
 """
 
 from __future__ import annotations
