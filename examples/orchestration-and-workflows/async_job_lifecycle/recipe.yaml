@@ -3,4 +3,4 @@ title: Async Job Lifecycle
 category: orchestration-and-workflows
 difficulty: Advanced
 description: 'Durable Functions recipe for full async job lifecycle management: create, status, cancel, and purge.'
-docs_url: https://yeongseon.github.io/azure-functions-cookbook-python/patterns/orchestration-and-workflows/async-job-lifecycle/
+docs_url: https://yeongseon.dev/azure-functions-python/cookbook/patterns/orchestration-and-workflows/async-job-lifecycle/

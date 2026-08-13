@@ -3,4 +3,4 @@ title: Streaming AI Response
 category: ai-and-agents
 difficulty: Intermediate
 description: HTTP-triggered sample that converts Azure OpenAI streaming chat completions into Server-Sent Events.
-docs_url: https://yeongseon.github.io/azure-functions-cookbook-python/patterns/ai-and-agents/streaming-ai-response/
+docs_url: https://yeongseon.dev/azure-functions-python/cookbook/patterns/ai-and-agents/streaming-ai-response/

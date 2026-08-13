@@ -1,6 +1,6 @@
 # Durable Human Interaction
 
-📖 [Full documentation](https://yeongseon.github.io/azure-functions-cookbook-python/patterns/orchestration-and-workflows/durable-human-interaction/)
+📖 [Full documentation](https://yeongseon.dev/azure-functions-python/cookbook/patterns/orchestration-and-workflows/durable-human-interaction/)
 
 Durable Functions workflow waiting for an external approval event with timeout.
 

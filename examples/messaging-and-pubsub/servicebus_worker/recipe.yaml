@@ -3,4 +3,4 @@ title: Service Bus Worker
 category: messaging-and-pubsub
 difficulty: Intermediate
 description: Service Bus queue-triggered Azure Function for reliable background work consumption.
-docs_url: https://yeongseon.github.io/azure-functions-cookbook-python/patterns/messaging-and-pubsub/servicebus-worker/
+docs_url: https://yeongseon.dev/azure-functions-python/cookbook/patterns/messaging-and-pubsub/servicebus-worker/

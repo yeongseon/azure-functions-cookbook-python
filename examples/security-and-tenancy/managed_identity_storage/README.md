@@ -1,6 +1,6 @@
 # Managed Identity Storage
 
-📖 [Full documentation](https://yeongseon.github.io/azure-functions-cookbook-python/patterns/security-and-tenancy/managed-identity-storage/)
+📖 [Full documentation](https://yeongseon.dev/azure-functions-python/cookbook/patterns/security-and-tenancy/managed-identity-storage/)
 
 This recipe shows an Azure Storage Queue trigger using `connection="StorageConnection"`.
 You can back that setting with either a connection string or managed identity settings.

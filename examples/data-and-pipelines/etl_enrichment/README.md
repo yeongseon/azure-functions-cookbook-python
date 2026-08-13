@@ -1,6 +1,6 @@
 # ETL Enrichment
 
-📖 [Full documentation](https://yeongseon.github.io/azure-functions-cookbook-python/patterns/data-and-pipelines/etl-enrichment/)
+📖 [Full documentation](https://yeongseon.dev/azure-functions-python/cookbook/patterns/data-and-pipelines/etl-enrichment/)
 
 Blob-triggered ETL example that reads raw JSON customer records, enriches them with lookup data, and writes the enriched rows to a database.
 

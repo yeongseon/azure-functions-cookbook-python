@@ -1,6 +1,6 @@
 # WebSocket Proxy
 
-📖 [Full documentation](https://yeongseon.github.io/azure-functions-cookbook-python/patterns/realtime/websocket-proxy/)
+📖 [Full documentation](https://yeongseon.dev/azure-functions-python/cookbook/patterns/realtime/websocket-proxy/)
 
 Azure Functions front door for Azure Web PubSub that negotiates client tokens and forwards publish requests.
 

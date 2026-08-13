@@ -1,6 +1,6 @@
 # Queue Scheduled Dispatch
 
-📖 [Full documentation](https://yeongseon.github.io/azure-functions-cookbook-python/patterns/scheduled-and-background/queue-scheduled-dispatch/)
+📖 [Full documentation](https://yeongseon.dev/azure-functions-python/cookbook/patterns/scheduled-and-background/queue-scheduled-dispatch/)
 
 Timer-driven scheduled dispatch pattern that releases due work onto Azure Storage Queue for downstream workers.
 

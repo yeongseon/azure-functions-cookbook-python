@@ -1,6 +1,6 @@
 # Sub-Orchestration
 
-📖 [Full documentation](https://yeongseon.github.io/azure-functions-cookbook-python/patterns/orchestration-and-workflows/sub-orchestration/)
+📖 [Full documentation](https://yeongseon.dev/azure-functions-python/cookbook/patterns/orchestration-and-workflows/sub-orchestration/)
 
 Durable Functions parent orchestration delegating work to two child sub-orchestrators.
 

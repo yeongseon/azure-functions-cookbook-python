@@ -3,4 +3,4 @@ title: Queue Scheduled Dispatch
 category: scheduled-and-background
 difficulty: Intermediate
 description: Timer-driven scheduled dispatch pattern that releases due work onto Azure Storage Queue for downstream workers.
-docs_url: https://yeongseon.github.io/azure-functions-cookbook-python/patterns/scheduled-and-background/queue-scheduled-dispatch/
+docs_url: https://yeongseon.dev/azure-functions-python/cookbook/patterns/scheduled-and-background/queue-scheduled-dispatch/

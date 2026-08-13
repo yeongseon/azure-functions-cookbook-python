@@ -1,6 +1,6 @@
 # Concurrency Tuning
 
-📖 [Full documentation](https://yeongseon.github.io/azure-functions-cookbook-python/patterns/runtime-and-ops/concurrency-tuning/)
+📖 [Full documentation](https://yeongseon.dev/azure-functions-python/cookbook/patterns/runtime-and-ops/concurrency-tuning/)
 
 This recipe demonstrates host-level dynamic concurrency:
 

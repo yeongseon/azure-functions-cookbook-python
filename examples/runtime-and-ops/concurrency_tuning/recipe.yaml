@@ -3,4 +3,4 @@ title: Concurrency Tuning
 category: runtime-and-ops
 difficulty: Advanced
 description: 'This recipe demonstrates host-level dynamic concurrency:'
-docs_url: https://yeongseon.github.io/azure-functions-cookbook-python/patterns/runtime-and-ops/concurrency-tuning/
+docs_url: https://yeongseon.dev/azure-functions-python/cookbook/patterns/runtime-and-ops/concurrency-tuning/

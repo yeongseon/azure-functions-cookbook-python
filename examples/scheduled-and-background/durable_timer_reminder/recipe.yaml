@@ -3,4 +3,4 @@ title: Durable Timer Reminder
 category: scheduled-and-background
 difficulty: Intermediate
 description: Durable Functions orchestration that waits for a long delay and then executes a reminder callback activity.
-docs_url: https://yeongseon.github.io/azure-functions-cookbook-python/patterns/scheduled-and-background/durable-timer-reminder/
+docs_url: https://yeongseon.dev/azure-functions-python/cookbook/patterns/scheduled-and-background/durable-timer-reminder/

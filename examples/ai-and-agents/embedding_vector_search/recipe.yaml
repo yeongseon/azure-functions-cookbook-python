@@ -3,4 +3,4 @@ title: Embedding Vector Search
 category: ai-and-agents
 difficulty: Advanced
 description: HTTP-triggered sample that creates Azure OpenAI embeddings and uses them to run a vector query against Azure AI Search.
-docs_url: https://yeongseon.github.io/azure-functions-cookbook-python/patterns/ai-and-agents/embedding-vector-search/
+docs_url: https://yeongseon.dev/azure-functions-python/cookbook/patterns/ai-and-agents/embedding-vector-search/

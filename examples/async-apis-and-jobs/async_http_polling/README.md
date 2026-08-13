@@ -1,6 +1,6 @@
 # Async HTTP 202 Polling
 
-📖 [Full documentation](https://yeongseon.github.io/azure-functions-cookbook-python/patterns/async-apis-and-jobs/async-http-202-polling/)
+📖 [Full documentation](https://yeongseon.dev/azure-functions-python/cookbook/patterns/async-apis-and-jobs/async-http-202-polling/)
 
 HTTP-triggered Durable Functions example that returns `202 Accepted` and a `statusQueryGetUri` for client polling.
 

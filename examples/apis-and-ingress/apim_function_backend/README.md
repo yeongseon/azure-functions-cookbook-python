@@ -1,6 +1,6 @@
 # APIM Function Backend
 
-📖 [Full documentation](https://yeongseon.github.io/azure-functions-cookbook-python/patterns/apis-and-ingress/apim-function-backend/)
+📖 [Full documentation](https://yeongseon.dev/azure-functions-python/cookbook/patterns/apis-and-ingress/apim-function-backend/)
 
 HTTP-triggered Azure Functions backend intended to sit behind Azure API Management policies for auth, rate limiting, and caching.
 

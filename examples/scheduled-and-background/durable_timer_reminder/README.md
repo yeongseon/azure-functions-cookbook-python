@@ -1,6 +1,6 @@
 # Durable Timer Reminder
 
-📖 [Full documentation](https://yeongseon.github.io/azure-functions-cookbook-python/patterns/scheduled-and-background/durable-timer-reminder/)
+📖 [Full documentation](https://yeongseon.dev/azure-functions-python/cookbook/patterns/scheduled-and-background/durable-timer-reminder/)
 
 Durable Functions orchestration that waits for a long delay and then executes a reminder callback activity.
 

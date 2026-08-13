@@ -1,6 +1,6 @@
 # Service Bus Sessions
 
-📖 [Full documentation](https://yeongseon.github.io/azure-functions-cookbook-python/patterns/messaging-and-pubsub/servicebus-sessions/)
+📖 [Full documentation](https://yeongseon.dev/azure-functions-python/cookbook/patterns/messaging-and-pubsub/servicebus-sessions/)
 
 Azure Functions example showing ordered message processing with Azure Service Bus sessions.
 

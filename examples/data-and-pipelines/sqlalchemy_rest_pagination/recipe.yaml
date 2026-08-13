@@ -3,4 +3,4 @@ title: SQLAlchemy REST Pagination
 category: data-and-pipelines
 difficulty: Intermediate
 description: 'HTTP API example that combines:'
-docs_url: https://yeongseon.github.io/azure-functions-cookbook-python/patterns/data-and-pipelines/sqlalchemy-rest-pagination/
+docs_url: https://yeongseon.dev/azure-functions-python/cookbook/patterns/data-and-pipelines/sqlalchemy-rest-pagination/
