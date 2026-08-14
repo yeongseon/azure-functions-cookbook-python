@@ -73,7 +73,25 @@ if _db_available:
 
     @app.route(route="items", methods=["GET"])
     @with_context
-    @openapi(summary="List items", responses={200: list[ItemResponse]}, tags=["items"])
+    @openapi(
+        summary="List items",
+        responses={
+            200: {
+                "description": "Successful Response",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "type": "array",
+                            "items": ItemResponse.model_json_schema(
+                                ref_template="#/components/schemas/{model}"
+                            ),
+                        }
+                    }
+                },
+            }
+        },
+        tags=["items"],
+    )
     @db.inject_reader("reader", url="%DB_URL%", table="items")
     def list_items(req: func.HttpRequest, reader: DbReader) -> func.HttpResponse:
         rows = reader.fetch_all()
