@@ -298,7 +298,7 @@ if GRAPH is not None:
     tags=["ai-and-agents"],
 )
 @validate_http(body=ChatRequest, response_model=ChatResponse)
-def chat(req: func.HttpRequest, body: ChatRequest) -> func.HttpResponse:
+def chat(req: func.HttpRequest, body: ChatRequest, context: func.Context) -> func.HttpResponse:
     thread_id = body.thread_id or str(uuid.uuid4())
     history = list(THREAD_MEMORY.get(thread_id, []))
     messages = history + [{"role": "user", "content": body.message}]

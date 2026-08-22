@@ -75,7 +75,7 @@ def _stream_frames(message: str, system_prompt: str) -> str:
     tags=["ai"],
 )
 @validate_http(body=StreamRequest)
-def stream_chat(req: func.HttpRequest, body: StreamRequest) -> func.HttpResponse:
+def stream_chat(req: func.HttpRequest, body: StreamRequest, context: func.Context) -> func.HttpResponse:
     del req
     payload = _stream_frames(body.message, body.system_prompt)
     logger.info(

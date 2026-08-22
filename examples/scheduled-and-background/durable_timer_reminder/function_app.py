@@ -62,7 +62,7 @@ class ReminderAccepted(BaseModel):
 async def start_reminder(
     req: func.HttpRequest,
     body: ReminderRequest,
-    client: df.DurableOrchestrationClient,
+    client: df.DurableOrchestrationClient, context: func.Context,
 ) -> func.HttpResponse:
     payload = body.model_dump()
     instance_id = await client.start_new("reminder_orchestrator", client_input=payload)

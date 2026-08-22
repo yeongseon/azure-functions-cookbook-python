@@ -49,7 +49,7 @@ class CatalogResponse(BaseModel):
     method="get",
 )
 @validate_http(path=CatalogPath, response_model=CatalogResponse)
-def get_catalog_item(req: func.HttpRequest, path: CatalogPath) -> CatalogResponse:
+def get_catalog_item(req: func.HttpRequest, path: CatalogPath, context: func.Context) -> CatalogResponse:
     response = CatalogResponse(
         item_id=path.item_id,
         routed_by=req.headers.get("x-apim-gateway", "azure-api-management"),
@@ -62,7 +62,7 @@ def get_catalog_item(req: func.HttpRequest, path: CatalogPath) -> CatalogRespons
 
 @app.route(route="catalog/health", methods=["GET"])
 @with_context
-def health(req: func.HttpRequest) -> func.HttpResponse:
+def health(req: func.HttpRequest, context: func.Context) -> func.HttpResponse:
     return func.HttpResponse(
         body=json.dumps({"status": "ok", "backend": "functions"}), mimetype="application/json"
     )

@@ -56,7 +56,7 @@ def _json_response(payload: dict[str, str], headers: dict[str, str]) -> func.Htt
 
 @app.route(route="trace-demo", methods=["GET", "POST"], auth_level=func.AuthLevel.ANONYMOUS)
 @with_context
-def trace_demo(req: func.HttpRequest) -> func.HttpResponse:
+def trace_demo(req: func.HttpRequest, context: func.Context) -> func.HttpResponse:
     traceparent, trace_id, span_id, generated_traceparent = _extract_or_create_traceparent(req)
     correlation_id = _extract_or_create_correlation_id(req)
     tracestate = req.headers.get(TRACESTATE_HEADER)

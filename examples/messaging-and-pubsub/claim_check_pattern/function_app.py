@@ -51,7 +51,7 @@ class ClaimCheckRequest(BaseModel):
 def enqueue_claim_check(
     req: func.HttpRequest,
     body: ClaimCheckRequest,
-    claim_queue: func.Out[str],
+    claim_queue: func.Out[str], context: func.Context,
 ) -> func.HttpResponse:
     from azure.storage.blob import BlobClient
 
@@ -81,7 +81,7 @@ def enqueue_claim_check(
 @app.function_name(name="process_claim_check")
 @app.queue_trigger(arg_name="msg", queue_name="claim-check-jobs", connection="AzureWebJobsStorage")
 @with_context
-def process_claim_check(msg: func.QueueMessage) -> None:
+def process_claim_check(msg: func.QueueMessage, context: func.Context) -> None:
     from azure.storage.blob import BlobClient
 
     reference = json.loads(msg.get_body().decode("utf-8"))

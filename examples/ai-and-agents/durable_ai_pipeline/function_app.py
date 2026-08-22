@@ -151,7 +151,7 @@ def _json_response(model: BaseModel, *, status_code: int = 200) -> func.HttpResp
 @app.durable_client_input(client_name="client")
 @validate_http(body=PipelineRequest, response_model=PipelineStartResponse)
 async def start_pipeline(
-    req: func.HttpRequest, body: PipelineRequest, client: Any
+    req: func.HttpRequest, body: PipelineRequest, client: Any, context: func.Context
 ) -> func.HttpResponse:
     instance_id = f"pipeline-{uuid.uuid4()}"
     if hasattr(client, "start_new"):
