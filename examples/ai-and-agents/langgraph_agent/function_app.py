@@ -100,7 +100,7 @@ if graph and _langgraph_app is not None:
     tags=["agent"],
 )
 @validate_http(body=InvokeRequest, response_model=InvokeResponse)
-def invoke_agent(req: func.HttpRequest, body: InvokeRequest) -> func.HttpResponse:
+def invoke_agent(req: func.HttpRequest, body: InvokeRequest, context: func.Context) -> func.HttpResponse:
     thread_id = body.thread_id or str(uuid.uuid4())
     logger.info("Invoking agent", extra={"thread_id": thread_id})
     result = {"response": f"Agent received: {body.message}", "thread_id": thread_id}

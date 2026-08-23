@@ -24,7 +24,7 @@ def _blob_parts(blob_url: str) -> tuple[str, str]:
 @app.function_name(name="blob_csv_to_table")
 @app.event_grid_trigger(arg_name="event")
 @with_context
-def blob_csv_to_table(event: func.EventGridEvent) -> None:
+def blob_csv_to_table(event: func.EventGridEvent, context: func.Context) -> None:
     data = event.get_json()
     container, blob_name = _blob_parts(str(data["url"]))
 

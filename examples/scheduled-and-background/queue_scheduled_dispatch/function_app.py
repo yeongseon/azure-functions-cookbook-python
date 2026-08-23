@@ -27,7 +27,7 @@ def _load_schedule() -> list[dict[str, object]]:
     arg_name="outbox", queue_name="scheduled-dispatch", connection="AzureWebJobsStorage"
 )
 @with_context
-def dispatch_due_messages(timer: func.TimerRequest, outbox: func.Out[str]) -> None:
+def dispatch_due_messages(timer: func.TimerRequest, outbox: func.Out[str], context: func.Context) -> None:
     now = datetime.now(timezone.utc)
     due_messages: list[dict[str, object]] = []
 

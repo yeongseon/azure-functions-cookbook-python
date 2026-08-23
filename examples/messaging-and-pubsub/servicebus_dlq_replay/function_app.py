@@ -409,7 +409,7 @@ def log_dead_lettered_message(msg: ServiceBusTriggerMessageProtocol) -> None:
 
 @app.route(route="servicebus/dlq/replay", methods=["POST"])
 @with_context
-def replay_dead_letter_queue(req: HttpRequestProtocol) -> HttpResponseProtocol:
+def replay_dead_letter_queue(req: HttpRequestProtocol, context: func.Context) -> HttpResponseProtocol:
     batch_size = _resolve_batch_size(req)
     replayed: list[dict[str, object]] = []
 

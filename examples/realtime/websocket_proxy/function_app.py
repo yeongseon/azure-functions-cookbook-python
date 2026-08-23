@@ -47,7 +47,7 @@ def _build_webpubsub_client() -> Any:
 
 @app.route(route="websocket/negotiate", methods=["POST"])
 @with_context
-def negotiate(req: func.HttpRequest) -> func.HttpResponse:
+def negotiate(req: func.HttpRequest, context: func.Context) -> func.HttpResponse:
     user_id = req.headers.get("x-user-id", "local-user")
     client = _build_webpubsub_client()
     token = client.get_client_access_token(
@@ -66,7 +66,7 @@ def negotiate(req: func.HttpRequest) -> func.HttpResponse:
     method="post",
 )
 @validate_http(body=PublishRequest)
-def publish(req: func.HttpRequest, body: PublishRequest) -> func.HttpResponse:
+def publish(req: func.HttpRequest, body: PublishRequest, context: func.Context) -> func.HttpResponse:
     client = _build_webpubsub_client()
     client.send_to_group(group=body.room, message=body.message, content_type="text/plain")
     logger.info("Forwarded WebSocket message through Web PubSub", extra=body.model_dump())
@@ -77,7 +77,7 @@ def publish(req: func.HttpRequest, body: PublishRequest) -> func.HttpResponse:
 
 @app.route(route="websocket/events", methods=["POST", "OPTIONS"])
 @with_context
-def handle_event(req: func.HttpRequest) -> func.HttpResponse:
+def handle_event(req: func.HttpRequest, context: func.Context) -> func.HttpResponse:
     event_type = req.headers.get("ce-type", req.headers.get("WebHook-Request-Origin", "unknown"))
     logger.info("Received Web PubSub upstream callback", extra={"event_type": event_type})
     if req.method == "OPTIONS":

@@ -33,7 +33,7 @@ def _generate_thumbnail(source_bytes: bytes) -> bytes:
 @app.function_name(name="blob_thumbnail_generator")
 @app.event_grid_trigger(arg_name="event")
 @with_context
-def blob_thumbnail_generator(event: func.EventGridEvent) -> None:
+def blob_thumbnail_generator(event: func.EventGridEvent, context: func.Context) -> None:
     data = event.get_json()
     blob_url = str(data["url"])
     source_container, blob_name = _blob_parts(blob_url)

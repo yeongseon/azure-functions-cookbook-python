@@ -93,7 +93,7 @@ if _db_available:
         tags=["items"],
     )
     @db.inject_reader("reader", url="%DB_URL%", table="items")
-    def list_items(req: func.HttpRequest, reader: DbReader) -> func.HttpResponse:
+    def list_items(req: func.HttpRequest, reader: DbReader, context: func.Context) -> func.HttpResponse:
         rows = reader.fetch_all()
         logger.info("Listed items", extra={"count": len(rows)})
         return func.HttpResponse(
@@ -111,7 +111,7 @@ if _db_available:
     )
     @db.output("out", url="%DB_URL%", table="items")
     @validate_http(body=ItemCreate, response_model=ItemResponse)
-    def create_item(req: func.HttpRequest, body: ItemCreate, out: DbOut) -> func.HttpResponse:
+    def create_item(req: func.HttpRequest, body: ItemCreate, out: DbOut, context: func.Context) -> func.HttpResponse:
         item_id = str(uuid.uuid4())
         out.set({"id": item_id, **body.model_dump()})
         logger.info("Created item", extra={"item_id": item_id})
@@ -125,13 +125,13 @@ else:
 
     @app.route(route="items", methods=["GET"])
     @with_context
-    def list_items(req: func.HttpRequest) -> func.HttpResponse:  # type: ignore[misc]
+    def list_items(req: func.HttpRequest, context: func.Context) -> func.HttpResponse:  # type: ignore[misc]
         logger.warning("azure-functions-db not installed; returning empty list")
         return func.HttpResponse(body="[]", mimetype="application/json")
 
     @app.route(route="items", methods=["POST"])
     @with_context
-    def create_item(req: func.HttpRequest) -> func.HttpResponse:  # type: ignore[misc]
+    def create_item(req: func.HttpRequest, context: func.Context) -> func.HttpResponse:  # type: ignore[misc]
         logger.warning("azure-functions-db not installed; item not persisted")
         return func.HttpResponse(
             body='{"error": "db not available"}',

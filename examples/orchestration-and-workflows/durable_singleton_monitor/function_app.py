@@ -53,7 +53,7 @@ async def _ensure_monitor(client: df.DurableOrchestrationClient) -> str:
 )
 @app.durable_client_input(client_name="client")
 async def start_monitor(
-    req: func.HttpRequest, client: df.DurableOrchestrationClient
+    req: func.HttpRequest, client: df.DurableOrchestrationClient, context: func.Context
 ) -> func.HttpResponse:
     instance_id = await _ensure_monitor(client)
     logger.info("Ensured singleton monitor orchestration", extra={"instance_id": instance_id})
@@ -68,7 +68,7 @@ async def start_monitor(
 @app.durable_client_input(client_name="client")
 @with_context
 async def ensure_monitor_timer(
-    timer: func.TimerRequest, client: df.DurableOrchestrationClient
+    timer: func.TimerRequest, client: df.DurableOrchestrationClient, context: func.Context
 ) -> None:
     instance_id = await _ensure_monitor(client)
     logger.info(

@@ -129,7 +129,7 @@ def _build_saga_input(req: func.HttpRequest) -> SagaInput:
 @with_context
 async def start_saga_compensation(
     req: func.HttpRequest,
-    client: df.DurableOrchestrationClient,
+    client: df.DurableOrchestrationClient, context: func.Context,
 ) -> func.HttpResponse:
     payload = _build_saga_input(req)
     logger.info(

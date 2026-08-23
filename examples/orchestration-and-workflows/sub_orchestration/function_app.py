@@ -79,7 +79,7 @@ def _build_input(req: func.HttpRequest) -> WorkflowInput:
 @with_context
 async def start_sub_orchestration(
     req: func.HttpRequest,
-    client: df.DurableOrchestrationClient,
+    client: df.DurableOrchestrationClient, context: func.Context,
 ) -> func.HttpResponse:
     workflow_input = _build_input(req)
     instance_id = await client.start_new("parent_workflow_orchestrator", None, workflow_input)

@@ -72,7 +72,7 @@ def _generate_image(prompt: str, size: str) -> ImageResponse:
     tags=["ai"],
 )
 @validate_http(body=ImageRequest, response_model=ImageResponse)
-def generate_image(req: func.HttpRequest, body: ImageRequest) -> func.HttpResponse:
+def generate_image(req: func.HttpRequest, body: ImageRequest, context: func.Context) -> func.HttpResponse:
     del req
     response = _generate_image(body.prompt, body.size)
     logger.info("Generated image", extra={"deployment": response.deployment, "size": body.size})
