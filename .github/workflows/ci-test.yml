@@ -13,14 +13,23 @@ jobs:
   test:
     runs-on: ubuntu-latest
     strategy:
+      fail-fast: false
       matrix:
         python-version: ["3.10", "3.11", "3.12", "3.13", "3.14"]
+        # Default axis resolves the latest compatible dependencies.
+        resolution: ["latest"]
+        include:
+          # Extra job: resolve to the minimum declared dependency floors on the
+          # lowest supported Python, catching breaks at the advertised lower
+          # bounds (see constraints-min.txt).
+          - python-version: "3.10"
+            resolution: "minimum"
 
     steps:
       - name: Checkout code
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v6
 
-      - name: Set up Python ${{ matrix.python-version }}
+      - name: Set up Python ${{ matrix.python-version }} (${{ matrix.resolution }} deps)
         uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
         with:
           python-version: ${{ matrix.python-version }}
@@ -29,6 +38,10 @@ jobs:
         run: |
           pip install hatch
           make install
+
+      - name: Downgrade to minimum dependency floors
+        if: matrix.resolution == 'minimum'
+        run: hatch run pip install -c constraints-min.txt -e ".[dev]"
 
       - name: Run full quality checks
         run: make check
@@ -40,7 +53,7 @@ jobs:
         run: ls -lh coverage.xml
 
       - name: Upload coverage to Codecov
-        if: matrix.python-version == '3.10' && github.actor != 'dependabot[bot]'
+        if: matrix.python-version == '3.10' && matrix.resolution == 'latest' && github.actor != 'dependabot[bot]'
         uses: codecov/codecov-action@fb8b3582c8e4def4969c97caa2f19720cb33a72f # v5
         with:
           token: ${{ secrets.CODECOV_TOKEN }}

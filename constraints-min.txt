@@ -1,0 +1,21 @@
+# Minimum dependency floors for the "minimum" CI resolution axis.
+# Pins each DIRECT declared integration/runtime dependency (from the `dev`
+# optional-dependencies group in pyproject.toml) to the lowest version allowed
+# by pyproject.toml, so compatibility breaks at the advertised floor are caught
+# in CI. Tooling-only dependencies (linters, build, test runners) are omitted.
+# Keep in sync with pyproject.toml [project.optional-dependencies].dev.
+azure-cosmos==4.16
+azure-functions==1.22.1
+azure-functions-durable==1.2.4
+azure-functions-langgraph==0.7
+azure-functions-logging==0.7
+azure-functions-db==0.4.2
+azure-functions-doctor==0.17
+azure-functions-openapi==0.24
+azure-functions-validation==0.11
+azure-identity==1.25
+azure-storage-blob==12.30
+azure-storage-queue==12.17
+langgraph==1.0
+pyyaml==6.0
+requests==2.34
