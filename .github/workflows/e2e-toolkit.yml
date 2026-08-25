@@ -1,0 +1,146 @@
+name: E2E Toolkit Matrix
+
+# Cross-repo regression net for the Azure Functions Python DX Toolkit.
+#
+# Runs the cookbook smoke + e2e tiers against a 2-axis toolkit source matrix:
+#   - latest: toolkit libraries as published on PyPI (what recipes advertise)
+#   - main:   toolkit libraries installed from each sibling repo's main branch
+#             (catches drift before it is ever released)
+#
+# The repository_dispatch trigger lets a sibling library's release workflow
+# re-run this suite immediately after it publishes, so downstream breakage is
+# caught per-release instead of by manual verification.
+
+on:
+  schedule:
+    # Weekly baseline run (Mondays 06:00 UTC) so drift is caught even without
+    # a sibling release or manual dispatch.
+    - cron: "0 6 * * 1"
+  workflow_dispatch:
+    inputs:
+      toolkit-source:
+        description: "Toolkit source axis to run (latest, main, or both)"
+        required: false
+        default: "both"
+        type: choice
+        options: ["both", "latest", "main"]
+  repository_dispatch:
+    # Sibling release workflows dispatch this event after publishing so the
+    # cookbook re-verifies against the freshly released library.
+    types: [sibling-release]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: e2e-toolkit-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  resolve-axes:
+    name: Resolve toolkit-source axes
+    runs-on: ubuntu-latest
+    outputs:
+      sources: ${{ steps.pick.outputs.sources }}
+    steps:
+      - name: Pick axes
+        id: pick
+        run: |
+          # repository_dispatch and schedule always run the full matrix; a
+          # manual dispatch may narrow it to a single axis.
+          choice="${{ github.event.inputs.toolkit-source }}"
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ] && [ "$choice" != "both" ] && [ -n "$choice" ]; then
+            echo "sources=[\"$choice\"]" >> "$GITHUB_OUTPUT"
+          else
+            echo 'sources=["latest","main"]' >> "$GITHUB_OUTPUT"
+          fi
+
+  e2e:
+    name: E2E (${{ matrix.toolkit-source }} toolkit)
+    needs: resolve-axes
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        toolkit-source: ${{ fromJSON(needs.resolve-axes.outputs.sources) }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v6
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: "3.11"
+
+      - name: Set up Node.js (for Azurite)
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: "20"
+
+      - name: Install Azure Functions Core Tools
+        run: |
+          curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.gpg
+          sudo mv microsoft.gpg /etc/apt/trusted.gpg.d/microsoft.gpg
+          sudo sh -c 'echo "deb [arch=amd64] https://packages.microsoft.com/repos/microsoft-ubuntu-$(lsb_release -cs)-prod $(lsb_release -cs) main" > /etc/apt/sources.list.d/dotnetdev.list'
+          sudo apt-get update
+          sudo apt-get install -y azure-functions-core-tools-4
+
+      - name: Install Azurite
+        run: npm install -g azurite
+
+      - name: Install Hatch and dependencies via Makefile
+        run: |
+          pip install hatch
+          make install
+
+      - name: Override toolkit libraries from sibling main branches
+        if: matrix.toolkit-source == 'main'
+        run: |
+          # Swap only the toolkit packages (not their transitive deps) for their
+          # main-branch source, so we test unreleased toolkit code against the
+          # already-resolved dependency set.
+          hatch run pip install --upgrade --force-reinstall --no-deps \
+            "azure-functions-logging @ git+https://github.com/yeongseon/azure-functions-logging-python@main" \
+            "azure-functions-openapi @ git+https://github.com/yeongseon/azure-functions-openapi-python@main" \
+            "azure-functions-validation @ git+https://github.com/yeongseon/azure-functions-validation-python@main" \
+            "azure-functions-doctor @ git+https://github.com/yeongseon/azure-functions-doctor-python@main" \
+            "azure-functions-db @ git+https://github.com/yeongseon/azure-functions-db-python@main" \
+            "azure-functions-langgraph @ git+https://github.com/yeongseon/azure-functions-langgraph-python@main"
+
+      - name: Record resolved toolkit versions
+        run: |
+          hatch run pip list 2>/dev/null | grep -Ei '^azure-functions(-|\s)' || true
+
+      - name: Run smoke tier (toolkit warnings are failures)
+        run: >-
+          hatch run pytest -v -m smoke tests/e2e/ --no-cov
+          -W error::DeprecationWarning:azure_functions_logging.*
+          -W error::DeprecationWarning:azure_functions_openapi.*
+          -W error::DeprecationWarning:azure_functions_validation.*
+          -W error::DeprecationWarning:azure_functions_doctor.*
+          -W error::DeprecationWarning:azure_functions_db.*
+          -W error::DeprecationWarning:azure_functions_langgraph.*
+          -W error::RuntimeWarning:azure_functions_logging.*
+          -W error::RuntimeWarning:azure_functions_openapi.*
+          -W error::RuntimeWarning:azure_functions_validation.*
+          -W error::RuntimeWarning:azure_functions_doctor.*
+          -W error::RuntimeWarning:azure_functions_db.*
+          -W error::RuntimeWarning:azure_functions_langgraph.*
+        timeout-minutes: 10
+
+      - name: Run e2e tier (toolkit warnings are failures)
+        run: >-
+          hatch run pytest -v -m e2e tests/e2e/ --no-cov
+          -W error::DeprecationWarning:azure_functions_logging.*
+          -W error::DeprecationWarning:azure_functions_openapi.*
+          -W error::DeprecationWarning:azure_functions_validation.*
+          -W error::DeprecationWarning:azure_functions_doctor.*
+          -W error::DeprecationWarning:azure_functions_db.*
+          -W error::DeprecationWarning:azure_functions_langgraph.*
+          -W error::RuntimeWarning:azure_functions_logging.*
+          -W error::RuntimeWarning:azure_functions_openapi.*
+          -W error::RuntimeWarning:azure_functions_validation.*
+          -W error::RuntimeWarning:azure_functions_doctor.*
+          -W error::RuntimeWarning:azure_functions_db.*
+          -W error::RuntimeWarning:azure_functions_langgraph.*
+        timeout-minutes: 20
