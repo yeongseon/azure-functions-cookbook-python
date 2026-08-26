@@ -8,6 +8,9 @@ decorator (e.g. ``@app.route``, ``@app.durable_client_input``,
 under every host configuration is expensive. This AST-only check statically
 scans all example source files so a regressed recipe fails fast and clearly,
 independent of whether the example is imported during the smoke/e2e suites.
+
+See [how the worker binds handlers, §2](https://yeongseon.dev/azure-functions-python/platform/how-the-worker-binds-handlers/#binding)
+-- why decorator order matters.
 """
 
 from __future__ import annotations
