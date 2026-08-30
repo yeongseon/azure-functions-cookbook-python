@@ -17,5 +17,5 @@ azure-identity==1.25
 azure-storage-blob==12.30
 azure-storage-queue==12.17
 langgraph==1.0
-pyyaml==6.0
+pyyaml==6.0.3
 requests==2.34
