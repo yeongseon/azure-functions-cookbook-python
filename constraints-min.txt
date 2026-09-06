@@ -4,7 +4,7 @@
 # by pyproject.toml, so compatibility breaks at the advertised floor are caught
 # in CI. Tooling-only dependencies (linters, build, test runners) are omitted.
 # Keep in sync with pyproject.toml [project.optional-dependencies].dev.
-azure-cosmos==4.16
+azure-cosmos==4.16.3
 azure-functions==1.22.1
 azure-functions-durable==1.2.4
 azure-functions-langgraph==0.7
