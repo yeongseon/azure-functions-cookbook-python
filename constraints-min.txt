@@ -13,7 +13,7 @@ azure-functions-db==0.4.2
 azure-functions-doctor==0.17
 azure-functions-openapi==0.24
 azure-functions-validation==0.11
-azure-identity==1.25
+azure-identity==1.25.3
 azure-storage-blob==12.30
 azure-storage-queue==12.17
 langgraph==1.0
