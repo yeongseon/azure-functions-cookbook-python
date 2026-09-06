@@ -9,7 +9,7 @@ azure-functions==1.22.1
 azure-functions-durable==1.2.4
 azure-functions-langgraph==0.7
 azure-functions-logging==0.7
-azure-functions-db==0.4.2
+azure-functions-db==0.5.1
 azure-functions-doctor==0.17
 azure-functions-openapi==0.24
 azure-functions-validation==0.11
