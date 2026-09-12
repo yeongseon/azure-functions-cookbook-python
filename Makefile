@@ -55,6 +55,9 @@ typecheck: ensure-hatch
 lint: ensure-hatch
 	@$(HATCH) run lint
 
+.PHONY: lint-workflows
+lint-workflows: ensure-hatch
+	@$(HATCH) run python tools/lint_hatch_matrix.py
 .PHONY: security
 security: ensure-hatch
 	@$(HATCH) run security
@@ -62,6 +65,7 @@ security: ensure-hatch
 .PHONY: check
 check: ensure-hatch
 	@$(MAKE) lint
+	@$(MAKE) lint-workflows
 	@$(MAKE) typecheck
 	@echo "Lint and type check passed."
 
