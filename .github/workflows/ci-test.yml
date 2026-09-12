@@ -10,7 +10,37 @@ permissions:
   contents: read
 
 jobs:
+  # Lint, type-check and workflow hygiene run once on a single pinned
+  # interpreter (Python 3.10). These checks are interpreter-agnostic, so
+  # fanning them across the matrix would only duplicate work.
+  quality:
+    name: Lint, type-check & workflow hygiene (Py 3.10)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v6
+
+      - name: Set up Python 3.10
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: "3.10"
+
+      - name: Install package with dev extras
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e ".[dev]"
+
+      - name: Workflow hygiene lint (hatch-matrix)
+        run: python tools/lint_hatch_matrix.py
+
+      - name: Ruff style check
+        run: ruff check src tests
+
+      - name: Type check (mypy)
+        run: mypy src tests
+
   test:
+    name: Test (Py ${{ matrix.python-version }}, ${{ matrix.resolution }} deps)
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -35,9 +65,9 @@ jobs:
           python-version: ${{ matrix.python-version }}
 
       - name: Assert the runtime interpreter matches the matrix cell
-        # Tests run through the Python-3.10-pinned hatch env, so without this
-        # guard every matrix cell would silently execute on 3.10 and the
-        # 3.11-3.14 cells would never actually run. Fail loudly on drift.
+        # Belt-and-braces: tests below run directly on this interpreter (raw
+        # pytest, NOT the Python-3.10-pinned hatch env), so 3.11-3.14 are
+        # genuinely exercised. This guard fails loudly if that ever drifts.
         env:
           EXPECTED: ${{ matrix.python-version }}
         run: |
@@ -49,20 +79,20 @@ jobs:
           print(f"interpreter OK: {sys.version.split()[0]}")
           PY
 
-      - name: Install Hatch and dependencies via Makefile
+      - name: Install package with dev extras (on the matrix interpreter)
         run: |
-          pip install hatch
-          make install
+          python -m pip install --upgrade pip
+          pip install -e ".[dev]"
 
       - name: Downgrade to minimum dependency floors
         if: matrix.resolution == 'minimum'
-        run: hatch run pip install -c constraints-min.txt -e ".[dev]"
+        run: python -m pip install -c constraints-min.txt -e ".[dev]"
 
-      - name: Run full quality checks
-        run: make check
-
-      - name: Run tests with coverage
-        run: hatch run pytest --cov-report=xml --cov-report=term-missing --cov=src/azure_functions_python_cookbook tests/
+      - name: Run tests on the matrix interpreter
+        # Raw pytest on the interpreter provisioned above (NOT through the
+        # Python-3.10-pinned hatch env). The repo pytest config enables --cov
+        # with fail_under=95.
+        run: pytest --cov-report=xml --cov-report=term-missing --cov=src/azure_functions_python_cookbook tests/
 
       - name: Verify coverage output
         run: ls -lh coverage.xml
