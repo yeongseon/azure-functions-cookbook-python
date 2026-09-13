@@ -11,7 +11,7 @@ azure-functions-langgraph==0.8.2
 azure-functions-logging==0.12.0
 azure-functions-db==0.5.1
 azure-functions-doctor==0.20
-azure-functions-openapi==0.24
+azure-functions-openapi==0.25.0
 azure-functions-validation==0.11.2
 azure-identity==1.25.3
 azure-storage-blob==12.30.1
