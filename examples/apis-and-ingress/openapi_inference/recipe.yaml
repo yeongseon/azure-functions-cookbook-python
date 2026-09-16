@@ -1,0 +1,6 @@
+slug: openapi-inference
+title: OpenAPI Return-Type Inference
+category: apis-and-ingress
+difficulty: Intermediate
+description: Infer the OpenAPI 200 response schema directly from a handler's return-type annotation using azure-functions-openapi.
+docs_url: https://yeongseon.dev/azure-functions-python/cookbook/patterns/apis-and-ingress/openapi-inference/

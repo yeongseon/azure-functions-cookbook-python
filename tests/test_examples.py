@@ -953,6 +953,55 @@ class TestOpenaiDirectChat:
                 os.environ["AZURE_OPENAI_KEY"] = api_key_backup
 
 
+class TestOpenapiInference:
+    """Smoke tests for examples/apis-and-ingress/openapi_inference."""
+
+    def test_inferred_greeting_default(self) -> None:
+        module = _load_example_module("apis-and-ingress/openapi_inference")
+        req = func.HttpRequest(
+            method="GET",
+            url="/api/openapi/inference/greeting",
+            body=b"",
+            params={},
+        )
+        response = module.inferred_greeting(req)
+        assert response.status_code == 200
+        data = json.loads(response.get_body())
+        assert data["message"] == "Hello, Azure Functions!"
+        assert data["source"] == "return_annotation"
+
+    def test_inferred_greeting_with_name(self) -> None:
+        module = _load_example_module("apis-and-ingress/openapi_inference")
+        req = func.HttpRequest(
+            method="GET",
+            url="/api/openapi/inference/greeting",
+            body=b"",
+            params={"name": "Ada"},
+        )
+        response = module.inferred_greeting(req)
+        assert response.status_code == 200
+        assert json.loads(response.get_body())["message"] == "Hello, Ada!"
+
+
+class TestOpenapiSupersedes:
+    """Smoke tests for examples/apis-and-ingress/openapi_supersedes."""
+
+    def test_supersedes_greeting_returns_explicit_model(self) -> None:
+        module = _load_example_module("apis-and-ingress/openapi_supersedes")
+        req = func.HttpRequest(
+            method="GET",
+            url="/api/openapi/supersedes/greeting",
+            body=b"",
+            params={"name": "Ada"},
+        )
+        response = module.supersedes_greeting(req)
+        assert response.status_code == 200
+        data = json.loads(response.get_body())
+        assert data["message"] == "Hello, Ada!"
+        assert data["source"] == "validation_response_model"
+        assert data["precedence"] == "validation > return annotation"
+
+
 class TestDurableAiPipeline:
     def test_openai_and_search_clients_return_none_without_env_vars(self) -> None:
         module = _load_example_module("ai-and-agents/durable_ai_pipeline")
