@@ -164,8 +164,12 @@ Use imperative present tense and keep the message concise.
 ## Releases
 
 Merging to `main` does not publish anything. This repository is a collection of
-runnable examples; it is not packaged or published to PyPI, and it has no
-publish workflow. Contributors never need to bump a version or tag anything.
+runnable examples; it is not packaged or published to PyPI, and no workflow is
+triggered by a tag.
+
+Contributors never need to bump a version or create a tag. Maintainers cut a
+versioned snapshot with the `make release-*` targets, which tag the repository
+for reference only -- no artifact is produced or uploaded.
 
 ## Code of Conduct
 
