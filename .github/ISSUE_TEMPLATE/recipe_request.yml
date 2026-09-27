@@ -1,5 +1,6 @@
 name: Recipe Request
 description: Suggest a new recipe for the cookbook
+title: "feat(recipe): "
 labels: ["enhancement", "recipe-request"]
 body:
   - type: textarea

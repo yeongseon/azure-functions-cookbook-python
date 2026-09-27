@@ -280,6 +280,11 @@ make check-all
 make docs
 ```
 
+PR을 열기 전에 변경한 Python 파일에 `ruff format --check <변경한-Python-파일>`을 실행하세요.
+필요하면 `ruff format <변경한-Python-파일>`로 수정할 수 있습니다. `make format-check`는
+파일을 변경하지 않고 `src`와 `tests`를 검사합니다. CI도 이 경로를 검사하며,
+별도 단계에서 PR의 변경된 Python 파일의 포맷 오류를 보고합니다.
+
 ## Documentation
 
 - 제품 요구사항: `PRD.md`

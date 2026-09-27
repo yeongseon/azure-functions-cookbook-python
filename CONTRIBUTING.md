@@ -43,6 +43,11 @@ make cov         # Run tests with coverage
 make check-all   # Run the full local gate
 ```
 
+Before opening a PR, run `ruff format --check <changed-python-files>` (or
+`ruff format <changed-python-files>` to fix them). `make format-check` checks
+`src` and `tests` without changing files. CI checks those same trees and also
+reports formatting failures on changed Python files in a dedicated step.
+
 ## GitHub Actions Pinning
 
 All external `uses:` references in `.github/workflows/` MUST pin to a
@@ -156,10 +161,15 @@ git commit -m "chore: update dev dependencies"
 
 Use imperative present tense and keep the message concise.
 
-## Deployment
+## Releases
 
-- A merge to `main` triggers the production deployment workflow.
-- Deployment status can be tracked from the related GitHub Actions run.
+Merging to `main` does not publish anything. This repository is a collection of
+runnable examples; it is not packaged or published to PyPI, and no workflow is
+triggered by a tag.
+
+Contributors never need to bump a version or create a tag. Maintainers cut a
+versioned snapshot with the `make release-*` targets, which tag the repository
+for reference only -- no artifact is produced or uploaded.
 
 ## Code of Conduct
 

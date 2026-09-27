@@ -98,9 +98,7 @@ def test_path_parameter_is_discovered_from_endpoint_metadata() -> None:
     parameters = operation.get("parameters", [])
     assert isinstance(parameters, list)
     path_params = {
-        p["name"]: p
-        for p in parameters
-        if isinstance(p, dict) and p.get("in") == "path"
+        p["name"]: p for p in parameters if isinstance(p, dict) and p.get("in") == "path"
     }
     assert "item_id" in path_params, (
         "item_id path parameter missing: endpoint-metadata discovery did not run"

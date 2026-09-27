@@ -280,6 +280,11 @@ make check-all
 make docs
 ```
 
+提交 PR 前，请对修改过的 Python 文件运行 `ruff format --check <修改过的-Python-文件>`。
+如需修复，可运行 `ruff format <修改过的-Python-文件>`。`make format-check` 不修改文件，
+只检查 `src` 和 `tests`。CI 也会检查这两个目录，并在独立步骤中报告 PR 修改过的
+Python 文件的格式问题。
+
 ## Documentation
 
 - 产品需求: `PRD.md`

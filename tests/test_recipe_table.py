@@ -51,9 +51,7 @@ def test_ecosystem_example_count_matches_inventory(readme_name: str) -> None:
         ),
         None,
     )
-    assert row is not None, (
-        f"{readme_name}: Ecosystem row '{_ECOSYSTEM_ROW_TOKEN}' not found"
-    )
+    assert row is not None, f"{readme_name}: Ecosystem row '{_ECOSYSTEM_ROW_TOKEN}' not found"
     last_cell = row.strip().strip("|").split("|")[-1]
     match = re.search(r"[\d,]+", last_cell)
     assert match, f"{readme_name}: no example count found in Ecosystem row:\n{row}"

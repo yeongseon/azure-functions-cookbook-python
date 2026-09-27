@@ -231,9 +231,9 @@ def _request_schema(operation: dict[str, Any]) -> dict[str, Any] | None:
 
 
 def _success_schema(operation: dict[str, Any], status: int) -> dict[str, Any]:
-    schema: dict[str, Any] = operation["responses"][str(status)]["content"][
-        "application/json"
-    ]["schema"]
+    schema: dict[str, Any] = operation["responses"][str(status)]["content"]["application/json"][
+        "schema"
+    ]
     return schema
 
 
@@ -248,6 +248,7 @@ def _required_names(schema: dict[str, Any], spec: dict[str, Any]) -> set[str]:
     if "$ref" in schema:
         schema = _resolve_pointer(spec, schema["$ref"])
     return set(schema.get("required", []))
+
 
 def _expected_field_names(model: type[BaseModel]) -> set[str]:
     """Client-visible field names for a model, honoring ``by_alias=True``."""
