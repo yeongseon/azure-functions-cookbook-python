@@ -15,7 +15,11 @@ schema proves the documented behavior:
 from __future__ import annotations
 
 import json
+import logging
 from typing import Any
+
+import azure.functions as func
+import pytest
 
 from azure_functions_openapi import (
     clear_openapi_registry,
@@ -92,7 +96,7 @@ def test_supersedes_recipe_prefers_validation_response_model() -> None:
         "single-field return annotation"
     )
 
-    assert registry["supersedes_greeting"]["_response_inferred"] is not True
+    assert registry["supersedes_greeting"]["_response_inferred"] is False
 
 
 def test_supersedes_beats_the_bare_inferred_annotation() -> None:
@@ -108,3 +112,33 @@ def test_supersedes_beats_the_bare_inferred_annotation() -> None:
     properties = schema.get("properties", {})
     assert "source" in properties
     assert "precedence" in properties
+
+
+@pytest.mark.parametrize(
+    ("example", "handler_name", "route"),
+    [
+        (INFERENCE_EXAMPLE, "inferred_greeting", "/api/openapi/inference/greeting"),
+        (SUPERSEDES_EXAMPLE, "supersedes_greeting", "/api/openapi/supersedes/greeting"),
+    ],
+)
+def test_recipe_handler_actually_serves_a_request(
+    caplog: pytest.LogCaptureFixture, example: str, handler_name: str, route: str
+) -> None:
+    """Invoke the handler for real; the registry tests never execute one.
+
+    INFO must be enabled explicitly. ``logger.info`` only builds a ``LogRecord``
+    when the level passes, so a handler that corrupts the record -- for example
+    by passing a reserved key through ``extra`` -- raises in production and
+    stays silent in a default-level test run.
+    """
+    clear_openapi_registry()
+    module = load_example_module(example)
+    handler = getattr(module, handler_name)
+
+    request = func.HttpRequest(method="GET", url=route, body=b"", params={"name": "Ada"})
+
+    with caplog.at_level(logging.INFO):
+        response = handler(request)
+
+    assert response.status_code == 200
+    assert json.loads(response.get_body())["message"] == "Hello, Ada!"
