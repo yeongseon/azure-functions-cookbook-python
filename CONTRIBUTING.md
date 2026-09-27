@@ -161,10 +161,11 @@ git commit -m "chore: update dev dependencies"
 
 Use imperative present tense and keep the message concise.
 
-## Deployment
+## Releases
 
-- A merge to `main` triggers the production deployment workflow.
-- Deployment status can be tracked from the related GitHub Actions run.
+Merging to `main` does not publish anything. This repository is a collection of
+runnable examples; it is not packaged or published to PyPI, and it has no
+publish workflow. Contributors never need to bump a version or tag anything.
 
 ## Code of Conduct
 
