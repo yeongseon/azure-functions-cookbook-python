@@ -1,0 +1,6 @@
+slug: openapi-supersedes
+title: OpenAPI Validation Supersedes Inference
+category: apis-and-ingress
+difficulty: Intermediate
+description: Show how a validation response_model supersedes the return-type-inferred OpenAPI 200 schema.
+docs_url: https://yeongseon.dev/azure-functions-python/cookbook/patterns/apis-and-ingress/openapi-supersedes/

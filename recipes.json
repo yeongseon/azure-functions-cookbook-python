@@ -300,6 +300,34 @@
     ]
   },
   {
+    "slug": "openapi-inference",
+    "title": "OpenAPI Return-Type Inference",
+    "category": "apis-and-ingress",
+    "description": "Infer the OpenAPI 200 response schema directly from a handler's return-type annotation using azure-functions-openapi.",
+    "example_path": "apis-and-ingress/openapi_inference",
+    "docs_url": "https://yeongseon.dev/azure-functions-python/cookbook/patterns/apis-and-ingress/openapi-inference/",
+    "difficulty": "Intermediate",
+    "tags": [
+      "apis-and-ingress",
+      "inference",
+      "openapi"
+    ]
+  },
+  {
+    "slug": "openapi-supersedes",
+    "title": "OpenAPI Validation Supersedes Inference",
+    "category": "apis-and-ingress",
+    "description": "Show how a validation response_model supersedes the return-type-inferred OpenAPI 200 schema.",
+    "example_path": "apis-and-ingress/openapi_supersedes",
+    "docs_url": "https://yeongseon.dev/azure-functions-python/cookbook/patterns/apis-and-ingress/openapi-supersedes/",
+    "difficulty": "Intermediate",
+    "tags": [
+      "apis-and-ingress",
+      "openapi",
+      "supersedes"
+    ]
+  },
+  {
     "slug": "scaffold-walkthrough-app",
     "title": "Scaffold Walkthrough — from afs new to a running HTTP API",
     "category": "apis-and-ingress",
