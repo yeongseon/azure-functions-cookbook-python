@@ -20,6 +20,26 @@ Because the Azure Functions worker only serializes `str`/`bytes`, a small
 runtime. The handler keeps its model annotation (so inference works), while the
 adapter makes it actually runnable under `func start`.
 
+## When Inference Does Nothing
+
+Inference only fires for a return annotation it can turn into a schema — in
+practice a Pydantic model. Everything else is **silently skipped**: no schema is
+produced, no warning is emitted, and the operation simply has no inferred `200`
+body.
+
+| Return annotation | Inferred? |
+| --- | --- |
+| `-> GreetingResponse` (Pydantic model) | yes |
+| `-> func.HttpResponse` | no |
+| `-> None` | no |
+| `-> int` and other bare scalars | no |
+
+This matters because the failure mode is invisible. A handler annotated
+`-> func.HttpResponse` looks correctly decorated and produces a spec with no
+response body, so the omission surfaces only when a consumer reads the
+generated document. If you need a body documented for one of these handlers,
+pass `responses=` explicitly rather than relying on inference.
+
 ## Files
 
 ```text
