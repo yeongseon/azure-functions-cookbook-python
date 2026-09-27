@@ -34,3 +34,7 @@ local.settings.json
 # Review
 .venv-review/
 *.db
+
+# uv is not part of this toolchain; a lockfile nothing refreshes is
+# worse than none, because uv honours it automatically.
+uv.lock
