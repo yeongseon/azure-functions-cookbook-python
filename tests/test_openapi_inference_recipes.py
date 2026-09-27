@@ -19,14 +19,13 @@ import logging
 from typing import Any
 
 import azure.functions as func
-import pytest
-
 from azure_functions_openapi import (
     clear_openapi_registry,
     get_openapi_json,
     scan_endpoint_metadata,
 )
 from azure_functions_openapi.decorator import get_openapi_registry
+import pytest
 
 from tests._isolation import load_example_module
 
