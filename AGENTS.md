@@ -3,6 +3,14 @@
 ## Purpose
 `azure-functions-cookbook-python` provides practical recipes and runnable examples for Azure Functions Python v2 applications. It is the dogfood of the Azure Functions Python DX Toolkit — every recipe should be a real, runnable Function App that uses the toolkit libraries in production-realistic scenarios.
 
+## Repository Identity
+
+- Project: `azure-functions-cookbook-python`
+- Project type: Python examples and recipes repository
+- Runtime scope: Azure Functions Python v2 programming model
+- Minimum supported Python: `3.10`
+- Packaging: `pyproject.toml` with Hatch
+
 ## Read First
 - `README.md`
 - `CONTRIBUTING.md`
@@ -133,3 +141,44 @@ This cookbook is the dogfood verification gate for every toolkit library (`azure
 2. Treat any new `RuntimeWarning`/`DeprecationWarning` surfaced by a toolkit library during the run as a release-blocking signal — decorator-order and API-drift problems are reported as warnings, so a clean run (zero warnings from toolkit packages) is required.
 3. Bump the affected lower-bound pins (`<package>>=X.Y,<1`) across `pyproject.toml` and every example that pins the package, in the same verification PR, so examples are tested against the version they advertise.
 4. The upstream release is **not** considered done until this cookbook passes on the published version.
+
+## Golden Commands
+
+Use Makefile entry points only. Do not bypass the Makefile in CI or contributor guidance.
+
+| Purpose | Command |
+| --- | --- |
+| Environment setup | `make install` |
+| Format code | `make format` |
+| Check formatting (`src`, `tests`) | `make format-check` |
+| Lint | `make lint` |
+| Type check | `make typecheck` |
+| Tests | `make test` |
+| Coverage | `make cov` |
+| Full validation | `make check-all` |
+| Docs build | `make docs` |
+| Package build | `make build` |
+
+## Commit Rules
+
+Use Conventional Commits:
+
+```text
+<type>: <short imperative summary>
+```
+
+Allowed types: `feat`, `fix`, `refactor`, `docs`, `test`, `chore`, `ci`
+
+## Agent Rules
+
+When using AI-assisted development:
+
+- Prefer small, reviewable changes.
+- Do not guess about behavior that can be verified.
+- Keep repository structure aligned with sibling repositories.
+- Update docs, examples, and tests together when behavior changes.
+
+## Final Rule
+
+If it is not automated, it will drift.
+If it is not documented, it is not a stable rule.
