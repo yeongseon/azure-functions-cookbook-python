@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from collections.abc import Generator
 from contextlib import contextmanager
 import importlib
 import json
@@ -15,7 +16,6 @@ import sys
 import tempfile
 import time
 from types import ModuleType
-from typing import Generator
 
 import pytest
 
@@ -70,7 +70,7 @@ def wait_for_port(port: int, host: str = "127.0.0.1", timeout: int = 60) -> None
         try:
             with socket.create_connection((host, port), timeout=2):
                 return
-        except (ConnectionRefusedError, OSError, socket.timeout):
+        except (TimeoutError, ConnectionRefusedError, OSError):
             time.sleep(0.5)
     raise TimeoutError(f"Port {port} not ready after {timeout}s")
 
