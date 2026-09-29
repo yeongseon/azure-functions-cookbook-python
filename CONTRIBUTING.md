@@ -167,8 +167,8 @@ Merging to `main` does not publish anything. This repository is a collection of
 runnable examples; it is not packaged or published to PyPI, and no workflow is
 triggered by a tag.
 
-Contributors never need to bump a version or create a tag. Maintainers cut a
-versioned snapshot with the `make release-*` targets, which tag the repository
+Contributors never need to bump a version or create a tag. Release Please cuts a
+versioned snapshot when its Release PR is merged, tagging the repository
 for reference only -- no artifact is produced or uploaded.
 
 ## Code of Conduct
