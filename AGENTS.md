@@ -120,20 +120,21 @@ This repository is **issue-based, not milestone-based**. Track and group work us
 - `make build`
 
 ## Release Process
-- Version is managed via `hatch` (dynamic from `src/azure_functions_python_cookbook/__init__.py`).
-- **Do NOT manually edit version strings.** Use the Makefile targets below.
 
-### Commands
-- `make release-patch` — bump patch version, update changelog, tag, and push
-- `make release-minor` — bump minor version, update changelog, tag, and push
-- `make release-major` — bump major version, update changelog, tag, and push
-- `make release VERSION=x.y.z` — set explicit version, update changelog, tag, and push
-- `make tag-release VERSION=x.y.z` — create and push an annotated tag (used internally by release targets)
+| Tool | Owns |
+|---|---|
+| **Release Please** | version decision, `__version__`, `CHANGELOG.md`, Release PR, tag, GitHub Release |
+| **Hatch** | the `__version__` source (`src/azure_functions_python_cookbook/__init__.py`) |
+
+- **Do NOT manually edit version strings, `CHANGELOG.md`, `.release-please-manifest.json`, or tags.** Release Please owns all of them.
+- Releases are driven by **Conventional Commits** on `main`: `fix:` → patch, `feat:` → minor, `feat!:`/`fix!:`/`BREAKING CHANGE:` → breaking. While pre-1.0, `bump-minor-pre-major` keeps a breaking change on the `0.x` line.
+- There are **no release Makefile targets**; `make release-*`, `make changelog` and `make tag-release` were deleted.
+- This repository is a content/examples project. A release produces a tag, a GitHub Release and a changelog entry for consumers to pin against. There is intentionally **no** PyPI publication.
+- `release-please.yml` runs with `secrets.RELEASE_PLEASE_TOKEN` (a fine-grained PAT) so the required status checks run on the Release PR. **The PAT expires**; when it does, no Release PR appears. Regenerate it and update the secret before the expiry date.
 
 ### Flow
-1. `make release-patch` (or `-minor` / `-major`) on `main`
-2. This runs: `hatch version` → `git commit` → `make changelog` → `git commit` → `git tag` → `git push`
-3. This repository is a content/examples project — the release cycle produces a tag and updated changelog for consumers to pin against. There is intentionally **no** automated `publish-pypi.yml` workflow.
+1. Merge Conventional-Commit PRs into `main`. Release Please keeps an open **Release PR** with the next version and the changelog.
+2. Merging that Release PR tags the release commit and publishes the GitHub Release.
 
 ### Upstream Toolkit Release Gate
 This cookbook is the dogfood verification gate for every toolkit library (`azure-functions-openapi`, `azure-functions-validation`, `azure-functions-logging`, `azure-functions-db`, `azure-functions-langgraph`, `azure-functions-knowledge`, `azure-functions-scaffold`, `azure-functions-doctor`, `azure-functions-durable-graph`). When any of those libraries publishes a new release:

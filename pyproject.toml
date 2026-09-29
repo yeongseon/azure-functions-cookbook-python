@@ -39,7 +39,6 @@ dev = [
     "bandit>=1.9,<2",
     "build>=1.5,<2",
     "coverage>=7.15,<8",
-    "git-cliff>=2.13,<3",
     "hatch>=1.17,<2",
     "langgraph>=1.0,<2",
     "mypy>=2.3,<3",
