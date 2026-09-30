@@ -124,7 +124,8 @@ This repository is **issue-based, not milestone-based**. Track and group work us
 | **Hatch** | the `__version__` source (`src/azure_functions_python_cookbook/__init__.py`) |
 
 - **Do NOT manually edit version strings, `CHANGELOG.md`, `.release-please-manifest.json`, or tags.** Release Please owns all of them.
-- Releases are driven by **Conventional Commits** on `main`: `fix:` → patch, `feat:` → minor, `feat!:`/`fix!:`/`BREAKING CHANGE:` → breaking. While pre-1.0, `bump-minor-pre-major` keeps a breaking change on the `0.x` line.
+- Releases are driven by **Conventional Commits** on `main`, but only **user-facing** types cut one: `fix:` → patch, `perf:`/`revert:` → patch, `feat:` → minor, `feat!:`/`fix!:`/`BREAKING CHANGE:` → breaking. While pre-1.0, `bump-minor-pre-major` keeps a breaking change on the `0.x` line.
+- **`docs:`, `ci:`, `chore:`, `test:`, `build:`, `style:` and `refactor:` do not cut a release.** They are marked `"hidden": true` in `release-please-config.json`, which keeps them out of `CHANGELOG.md`; when a batch of commits contains nothing else, the release notes render empty and Release Please logs `No user facing commits found since <sha> - skipping` and opens no Release PR. Merging such a PR and seeing no version change is the intended outcome, not a broken pipeline. A breaking change still releases whatever its type is.
 - There are **no release Makefile targets**; `make release-*`, `make changelog` and `make tag-release` were deleted.
 - This repository is a content/examples project. A release produces a tag, a GitHub Release and a changelog entry for consumers to pin against. There is intentionally **no** PyPI publication.
 - `release-please.yml` runs with `secrets.RELEASE_PLEASE_TOKEN` (a fine-grained PAT) so the required status checks run on the Release PR. **The PAT expires**; when it does, no Release PR appears. Regenerate it and update the secret before the expiry date.
