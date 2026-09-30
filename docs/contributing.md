@@ -98,16 +98,7 @@ Running `make format` will automatically apply the required formatting to your c
 
 ## Commit Messages
 
-We follow the Conventional Commits specification for all commit messages. This helps in generating changelogs and understanding the project history. Use the following prefixes:
-
-- `feat:` for a new feature.
-- `fix:` for a bug fix.
-- `docs:` for documentation updates.
-- `build:` for changes that affect the build system or dependencies.
-- `test:` for adding or correcting tests.
-- `chore:` for maintenance tasks that do not modify source or test files.
-
-Example: `feat: add recipe for durable entities in python`
+Titles for issues, pull requests, and commits follow the **Title Convention** in [`CONTRIBUTING.md`](https://github.com/yeongseon/azure-functions-cookbook-python/blob/main/CONTRIBUTING.md#title-convention), the single source of truth for the format and the allowed types.
 
 ## Code of Conduct
 
