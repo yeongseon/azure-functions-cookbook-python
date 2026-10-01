@@ -67,15 +67,17 @@ def _stream_frames(message: str, system_prompt: str) -> str:
 
 
 @app.route(route="stream", methods=["POST"])
-@with_context
 @openapi(
     summary="Stream Azure OpenAI response",
     description="Returns SSE frames generated from Azure OpenAI streaming chat completions.",
     requests=StreamRequest,
     tags=["ai"],
 )
+@with_context(param="invocation_context")
 @validate_http(body=StreamRequest)
-def stream_chat(req: func.HttpRequest, body: StreamRequest, context: func.Context) -> func.HttpResponse:
+def stream_chat(
+    req: func.HttpRequest, body: StreamRequest, invocation_context: func.Context
+) -> func.HttpResponse:
     del req
     payload = _stream_frames(body.message, body.system_prompt)
     logger.info(

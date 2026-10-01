@@ -84,7 +84,6 @@ def resolve_tenant_db_url(req: func.HttpRequest) -> str:
 
 
 @app.route(route="tenant/invoices/query", methods=["POST"])
-@with_context
 @openapi(
     summary="Query invoices from a tenant-isolated database",
     requests=TenantInvoiceQuery,
@@ -92,11 +91,13 @@ def resolve_tenant_db_url(req: func.HttpRequest) -> str:
     tags=["security", "tenancy", "db"],
 )
 @db.inject_reader("reader", url=resolve_tenant_db_url, table="invoices")
+@with_context(param="invocation_context")
 @validate_http(body=TenantInvoiceQuery, response_model=TenantInvoiceListResponse)
 def query_tenant_invoices(
     req: func.HttpRequest,
     body: TenantInvoiceQuery,
-    reader: DbReader, context: func.Context,
+    reader: DbReader,
+    invocation_context: func.Context,
 ) -> func.HttpResponse:
     try:
         tenant_id = resolve_tenant_id(req)

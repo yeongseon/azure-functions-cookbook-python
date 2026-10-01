@@ -63,7 +63,6 @@ def _generate_image(prompt: str, size: str) -> ImageResponse:
 
 
 @app.route(route="images/generate", methods=["POST"])
-@with_context
 @openapi(
     summary="Generate an image with Azure OpenAI",
     description="Calls Azure OpenAI image generation and returns the resulting image URL.",
@@ -71,8 +70,11 @@ def _generate_image(prompt: str, size: str) -> ImageResponse:
     responses={200: ImageResponse},
     tags=["ai"],
 )
+@with_context(param="invocation_context")
 @validate_http(body=ImageRequest, response_model=ImageResponse)
-def generate_image(req: func.HttpRequest, body: ImageRequest, context: func.Context) -> func.HttpResponse:
+def generate_image(
+    req: func.HttpRequest, body: ImageRequest, invocation_context: func.Context
+) -> func.HttpResponse:
     del req
     response = _generate_image(body.prompt, body.size)
     logger.info("Generated image", extra={"deployment": response.deployment, "size": body.size})

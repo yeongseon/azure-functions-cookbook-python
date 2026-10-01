@@ -58,15 +58,17 @@ def negotiate(req: func.HttpRequest, context: func.Context) -> func.HttpResponse
 
 
 @app.route(route="websocket/publish", methods=["POST"])
-@with_context
 @openapi(
     summary="Publish Web PubSub message",
     tags=["Realtime"],
     route="/api/websocket/publish",
     method="post",
 )
+@with_context(param="invocation_context")
 @validate_http(body=PublishRequest)
-def publish(req: func.HttpRequest, body: PublishRequest, context: func.Context) -> func.HttpResponse:
+def publish(
+    req: func.HttpRequest, body: PublishRequest, invocation_context: func.Context
+) -> func.HttpResponse:
     client = _build_webpubsub_client()
     client.send_to_group(group=body.room, message=body.message, content_type="text/plain")
     logger.info("Forwarded WebSocket message through Web PubSub", extra=body.model_dump())
