@@ -49,7 +49,9 @@ class CatalogResponse(BaseModel):
 )
 @with_context(param="invocation_context")
 @validate_http(path=CatalogPath, response_model=CatalogResponse)
-def get_catalog_item(req: func.HttpRequest, path: CatalogPath, invocation_context: func.Context) -> CatalogResponse:
+def get_catalog_item(
+    req: func.HttpRequest, path: CatalogPath, invocation_context: func.Context
+) -> CatalogResponse:
     response = CatalogResponse(
         item_id=path.item_id,
         routed_by=req.headers.get("x-apim-gateway", "azure-api-management"),

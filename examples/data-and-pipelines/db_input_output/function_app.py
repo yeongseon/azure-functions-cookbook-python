@@ -93,7 +93,9 @@ if _db_available:
         tags=["items"],
     )
     @db.inject_reader("reader", url="%DB_URL%", table="items")
-    def list_items(req: func.HttpRequest, reader: DbReader, context: func.Context) -> func.HttpResponse:
+    def list_items(
+        req: func.HttpRequest, reader: DbReader, context: func.Context
+    ) -> func.HttpResponse:
         rows = reader.fetch_all()
         logger.info("Listed items", extra={"count": len(rows)})
         return func.HttpResponse(
@@ -111,7 +113,9 @@ if _db_available:
     @db.output("out", url="%DB_URL%", table="items")
     @with_context(param="invocation_context")
     @validate_http(body=ItemCreate, response_model=ItemResponse)
-    def create_item(req: func.HttpRequest, body: ItemCreate, out: DbOut, invocation_context: func.Context) -> func.HttpResponse:
+    def create_item(
+        req: func.HttpRequest, body: ItemCreate, out: DbOut, invocation_context: func.Context
+    ) -> func.HttpResponse:
         item_id = str(uuid.uuid4())
         out.set({"id": item_id, **body.model_dump()})
         logger.info("Created item", extra={"item_id": item_id})
