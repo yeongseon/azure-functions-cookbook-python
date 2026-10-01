@@ -41,15 +41,15 @@ class CatalogResponse(BaseModel):
 
 
 @app.route(route="catalog/{item_id}", methods=["GET"])
-@with_context
 @openapi(
     summary="APIM-backed function backend",
     tags=["Ingress"],
     route="/api/catalog/{item_id}",
     method="get",
 )
+@with_context(param="invocation_context")
 @validate_http(path=CatalogPath, response_model=CatalogResponse)
-def get_catalog_item(req: func.HttpRequest, path: CatalogPath, context: func.Context) -> CatalogResponse:
+def get_catalog_item(req: func.HttpRequest, path: CatalogPath, invocation_context: func.Context) -> CatalogResponse:
     response = CatalogResponse(
         item_id=path.item_id,
         routed_by=req.headers.get("x-apim-gateway", "azure-api-management"),
