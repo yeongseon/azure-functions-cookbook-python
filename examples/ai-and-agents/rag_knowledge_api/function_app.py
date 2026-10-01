@@ -119,7 +119,9 @@ def _json_response(model: BaseModel, *, status_code: int = 200) -> func.HttpResp
 )
 @with_context(param="invocation_context")
 @validate_http(body=AskRequest, response_model=AskResponse)
-def ask(req: func.HttpRequest, body: AskRequest, invocation_context: func.Context) -> func.HttpResponse:
+def ask(
+    req: func.HttpRequest, body: AskRequest, invocation_context: func.Context
+) -> func.HttpResponse:
     del req
     client = _create_knowledge_client()
     result = client.ask(
@@ -151,7 +153,9 @@ def ask(req: func.HttpRequest, body: AskRequest, invocation_context: func.Contex
 )
 @with_context(param="invocation_context")
 @validate_http(body=IngestRequest, response_model=IngestResponse)
-def ingest(req: func.HttpRequest, body: IngestRequest, invocation_context: func.Context) -> func.HttpResponse:
+def ingest(
+    req: func.HttpRequest, body: IngestRequest, invocation_context: func.Context
+) -> func.HttpResponse:
     del req
     client = _create_knowledge_client()
     payload = [document.model_dump(exclude_none=True) for document in body.documents]

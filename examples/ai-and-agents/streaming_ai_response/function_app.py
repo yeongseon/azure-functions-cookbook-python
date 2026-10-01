@@ -75,7 +75,9 @@ def _stream_frames(message: str, system_prompt: str) -> str:
 )
 @with_context(param="invocation_context")
 @validate_http(body=StreamRequest)
-def stream_chat(req: func.HttpRequest, body: StreamRequest, invocation_context: func.Context) -> func.HttpResponse:
+def stream_chat(
+    req: func.HttpRequest, body: StreamRequest, invocation_context: func.Context
+) -> func.HttpResponse:
     del req
     payload = _stream_frames(body.message, body.system_prompt)
     logger.info(
