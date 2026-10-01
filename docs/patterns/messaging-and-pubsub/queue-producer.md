@@ -52,7 +52,7 @@ sequenceDiagram
 The function combines HTTP trigger and queue output binding in one handler.
 
 ### Prerequisites
-- Python 3.11+
+- Python 3.10+
 - Azure Functions Core Tools v4
 - Azure Storage account or Azurite with queue `outbound-tasks`
 - HTTP client for testing (`curl`, Postman, or integration tests)

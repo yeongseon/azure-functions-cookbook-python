@@ -6,7 +6,7 @@ Durable Functions singleton orchestration that continuously polls an external de
 
 ## Prerequisites
 
-- Python 3.11+
+- Python 3.10+
 - Azure Functions Core Tools v4
 - Storage account or Azurite for Durable task state
 

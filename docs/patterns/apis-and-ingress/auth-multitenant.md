@@ -128,7 +128,7 @@ The `GET /api/auth/data` endpoint combines all checks:
 
 Prerequisites:
 
-- Python 3.11+
+- Python 3.10+
 - Azure Functions Core Tools v4
 - `azure-functions` package
 - App Service Authentication (EasyAuth) enabled on the Function App

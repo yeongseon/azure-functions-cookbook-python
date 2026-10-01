@@ -6,7 +6,7 @@ This recipe compares two ways to send the same queue message:
 
 ## Prerequisites
 
-- Python 3.11+
+- Python 3.10+
 - [Azure Functions Core Tools v4](https://learn.microsoft.com/azure/azure-functions/functions-run-local)
 - [Azurite](https://learn.microsoft.com/azure/storage/common/storage-use-azurite) (local Storage emulator)
 - `enqueue_via_binding` uses `@app.queue_output`

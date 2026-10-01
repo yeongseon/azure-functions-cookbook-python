@@ -6,7 +6,7 @@ This recipe focuses on host-level tuning using a timer trigger plus a richly con
 
 ## Prerequisites
 
-- Python 3.11+
+- Python 3.10+
 - [Azure Functions Core Tools v4](https://learn.microsoft.com/azure/azure-functions/functions-run-local)
 - [Azurite](https://learn.microsoft.com/azure/storage/common/storage-use-azurite) (local Storage emulator)
 ## Logging

@@ -6,7 +6,7 @@ HTTP + Storage Queue recipe for accepting a job, returning `202 Accepted`, and p
 
 ## Prerequisites
 
-- Python 3.11+
+- Python 3.10+
 - [Azure Functions Core Tools v4](https://learn.microsoft.com/azure/azure-functions/functions-run-local)
 - [Azurite](https://learn.microsoft.com/azure/storage/common/storage-use-azurite) or an Azure Storage account
 

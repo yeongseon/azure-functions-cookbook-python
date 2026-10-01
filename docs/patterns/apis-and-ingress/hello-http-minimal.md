@@ -100,7 +100,7 @@ curl "http://localhost:7071/api/hello?name=Ada"
 ## Run Locally
 Prerequisites:
 
-- Python 3.11+
+- Python 3.10+
 - Azure Functions Core Tools v4
 - `azure-functions` dependency from `pyproject.toml`
 - Optional: `curl` for local endpoint checks

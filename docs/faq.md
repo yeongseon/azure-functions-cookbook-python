@@ -27,7 +27,7 @@ with Azure Functions Core Tools. Queue workflows can be tested with Azurite.
 
 ## Which Python versions are supported?
 
-The project targets `>=3.11,<3.15`.
+The project targets `>=3.10,<3.15`.
 
 ## Which Azure Functions model is used?
 

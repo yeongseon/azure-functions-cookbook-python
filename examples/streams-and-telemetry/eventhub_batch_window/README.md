@@ -6,7 +6,7 @@ Event Hub-triggered Azure Function that processes a batch window and logs aggreg
 
 ## Prerequisites
 
-- Python 3.11+
+- Python 3.10+
 - [Azure Functions Core Tools v4](https://learn.microsoft.com/azure/azure-functions/functions-run-local)
 - [Azurite](https://learn.microsoft.com/azure/storage/common/storage-use-azurite) (local Storage emulator)
 - An Azure Event Hub namespace with a hub named `telemetry`

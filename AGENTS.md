@@ -8,7 +8,7 @@
 - Project: `azure-functions-cookbook-python`
 - Project type: Python examples and recipes repository
 - Runtime scope: Azure Functions Python v2 programming model
-- Minimum supported Python: `3.11`
+- Minimum supported Python: `3.10`
 - Packaging: `pyproject.toml` with Hatch
 
 ## Read First
@@ -26,7 +26,7 @@
 - Any PR that drops coverage below 95% must include additional tests to compensate.
 - This is an examples/recipes repository — not a runtime library.
 - All recipes must be runnable and tested against the supported Python versions.
-- Runtime code must remain compatible with Python 3.11+.
+- Runtime code must remain compatible with Python 3.10+.
 - Keep recipe examples, documentation, and tests synchronized.
 - When adding a new recipe, add a corresponding test and documentation entry.
 

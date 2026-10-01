@@ -57,7 +57,7 @@ sequenceDiagram
 ```
 
 ## Prerequisites
-- Python 3.11+
+- Python 3.10+
 - Azure Functions Core Tools v4
 - Azure Cosmos DB account or emulator with database `outboxdb` and containers `orders` and `leases`
 - SQLite CLI, or another database supported by `azure-functions-db-python`, for relay audit storage

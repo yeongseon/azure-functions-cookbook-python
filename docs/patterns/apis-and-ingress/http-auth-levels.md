@@ -116,7 +116,7 @@ GET /api/admin-only?code=<master>     -> 200
 ## Run Locally
 Prerequisites:
 
-- Python 3.11+
+- Python 3.10+
 - Azure Functions Core Tools v4
 - `azure-functions` dependency from `pyproject.toml`
 - Access to local or deployed host keys for protected routes

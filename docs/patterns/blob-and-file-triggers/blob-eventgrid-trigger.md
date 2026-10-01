@@ -53,7 +53,7 @@ polling pull to event push. The function still receives `func.InputStream` and c
 the same way as a standard blob trigger.
 
 ### Prerequisites
-- Python 3.11+
+- Python 3.10+
 - Azure Functions Core Tools v4
 - Azure Storage account with Event Grid integration
 - Storage extension bundle supporting Blob trigger Event Grid source (5.x+)

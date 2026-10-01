@@ -48,7 +48,7 @@ sequenceDiagram
 ```
 
 ## Prerequisites
-- Python 3.11+
+- Python 3.10+
 - Azure Functions Core Tools v4
 - Azure Cosmos DB account with database `maindb` and container `items`
 - Lease container `leases` (or permission to create it automatically)

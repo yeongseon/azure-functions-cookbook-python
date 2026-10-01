@@ -54,7 +54,7 @@ sequenceDiagram
 > **Maps to** `examples/orchestration-and-workflows/durable_unit_testing/`: `hello_test_orchestrator` and `say_hello` are exercised with a mocked `DurableOrchestrationContext` in `tests/` — no runtime required.
 
 ## Prerequisites
-- Python 3.11+
+- Python 3.10+
 - Azure Functions Core Tools v4
 - `pytest` for running unit tests
 - `unittest.mock` familiarity for context stubbing

@@ -6,7 +6,7 @@ Event Grid-driven blob processor that generates thumbnails and writes them to a 
 
 ## Prerequisites
 
-- Python 3.11+
+- Python 3.10+
 - Azure Functions Core Tools v4
 - Azurite or Azure Storage account with blob containers
 

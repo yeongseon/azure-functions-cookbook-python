@@ -150,7 +150,7 @@ GET    /api/search?q=ada&limit=5
 ## Run Locally
 Prerequisites:
 
-- Python 3.11+
+- Python 3.10+
 - Azure Functions Core Tools v4
 - `azure-functions` dependency from `pyproject.toml`
 - HTTP client tool such as `curl` or Postman
