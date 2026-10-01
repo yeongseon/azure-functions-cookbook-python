@@ -70,7 +70,6 @@ def _complete_chat(message: str, system_prompt: str) -> str:
 
 
 @app.route(route="chat", methods=["POST"])
-@with_context
 @openapi(
     summary="Chat with Azure OpenAI",
     description="Sends a single user message to Azure OpenAI and returns the answer.",
@@ -78,8 +77,9 @@ def _complete_chat(message: str, system_prompt: str) -> str:
     responses={200: ChatResponse},
     tags=["ai"],
 )
+@with_context(param="invocation_context")
 @validate_http(body=ChatRequest, response_model=ChatResponse)
-def chat(req: func.HttpRequest, body: ChatRequest, context: func.Context) -> func.HttpResponse:
+def chat(req: func.HttpRequest, body: ChatRequest, invocation_context: func.Context) -> func.HttpResponse:
     del req
     answer = _complete_chat(body.message, body.system_prompt)
     deployment = os.getenv("AZURE_OPENAI_CHAT_DEPLOYMENT", "gpt-4o-mini")
