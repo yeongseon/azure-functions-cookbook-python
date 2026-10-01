@@ -96,7 +96,8 @@ def resolve_tenant_db_url(req: func.HttpRequest) -> str:
 def query_tenant_invoices(
     req: func.HttpRequest,
     body: TenantInvoiceQuery,
-    reader: DbReader, invocation_context: func.Context,
+    reader: DbReader,
+    invocation_context: func.Context,
 ) -> func.HttpResponse:
     try:
         tenant_id = resolve_tenant_id(req)
