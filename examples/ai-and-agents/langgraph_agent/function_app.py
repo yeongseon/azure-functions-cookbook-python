@@ -92,15 +92,15 @@ if graph and _langgraph_app is not None:
 
 
 @app.route(route="agent/invoke", methods=["POST"])
-@with_context
 @openapi(
     summary="Invoke LangGraph agent",
     requests=InvokeRequest,
     responses={200: InvokeResponse},
     tags=["agent"],
 )
+@with_context(param="invocation_context")
 @validate_http(body=InvokeRequest, response_model=InvokeResponse)
-def invoke_agent(req: func.HttpRequest, body: InvokeRequest, context: func.Context) -> func.HttpResponse:
+def invoke_agent(req: func.HttpRequest, body: InvokeRequest, invocation_context: func.Context) -> func.HttpResponse:
     thread_id = body.thread_id or str(uuid.uuid4())
     logger.info("Invoking agent", extra={"thread_id": thread_id})
     result = {"response": f"Agent received: {body.message}", "thread_id": thread_id}
