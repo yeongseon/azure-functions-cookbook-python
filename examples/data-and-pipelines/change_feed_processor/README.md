@@ -9,7 +9,7 @@ Cosmos DB change feed-triggered Azure Function for downstream synchronization.
 - Python 3.10+
 - [Azure Functions Core Tools v4](https://learn.microsoft.com/azure/azure-functions/functions-run-local)
 - [Azurite](https://learn.microsoft.com/azure/storage/common/storage-use-azurite) (local Storage emulator)
-- An Azure Cosmos DB account (or [Cosmos DB emulator](https://learn.microsoft.com/azure/cosmos-db/how-to-develop-emulator)) with a database `demodb` and containers `items` and `leases`
+- An Azure Cosmos DB account (or [Cosmos DB emulator](https://learn.microsoft.com/azure/cosmos-db/how-to-develop-emulator)) with a database `maindb` and containers `items` and `leases`
 
 ## Environment Variables
 
@@ -23,7 +23,7 @@ Set in `local.settings.json` under `Values`. Copy `local.settings.json.example` 
 
 - `@app.cosmos_db_trigger` configuration with lease container support
 - Iterating changed documents and logging per-document processing output
-- Isolated `_process_change` helper for business workflow extension
+- Isolated `process_change` helper for business workflow extension
 
 ## Run Locally
 
