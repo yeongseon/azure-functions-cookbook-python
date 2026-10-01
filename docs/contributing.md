@@ -8,7 +8,7 @@ As this project grows, we aim to cover more complex scenarios such as event driv
 
 Before contributing, ensure you have the following tools and knowledge:
 
-1.  Python 3.10 or higher.
+1.  Python 3.11 or higher.
 2.  Git for version control.
 3.  GNU Make for running development commands.
 4.  Familiarity with the Azure Functions Python v2 model (decorator-based).

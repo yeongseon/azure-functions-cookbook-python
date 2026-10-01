@@ -14,7 +14,7 @@ HTTP Backend-for-Frontend facade that aggregates multiple backend service calls 
 
 ## Prerequisites
 
-- Python 3.10+
+- Python 3.11+
 - [Azure Functions Core Tools v4](https://learn.microsoft.com/azure/azure-functions/functions-run-local)
 - Internet access to `httpbin.org` or replacement backend URLs
 

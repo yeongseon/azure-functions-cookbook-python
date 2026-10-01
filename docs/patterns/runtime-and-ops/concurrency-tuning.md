@@ -31,7 +31,7 @@ flowchart LR
 ```
 
 ## Prerequisites
-- Python 3.10+
+- Python 3.11+
 - Azure Functions Core Tools v4
 - Azure Storage account or Azurite with queue `work-items`
 - Baseline load test plan to compare behavior under different settings

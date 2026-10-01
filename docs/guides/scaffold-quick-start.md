@@ -30,7 +30,7 @@ flowchart TD
 ```
 
 ## Prerequisites
-- Python 3.10+
+- Python 3.11+
 - pip
 
 ## Templates

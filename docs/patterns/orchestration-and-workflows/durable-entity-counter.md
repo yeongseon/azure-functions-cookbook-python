@@ -49,7 +49,7 @@ stateDiagram-v2
 > **Maps to** `examples/orchestration-and-workflows/durable_entity_counter/`: `signal_counter` sends operations to the `counter_entity` state, and `get_counter` reads the current entity value.
 
 ## Prerequisites
-- Python 3.10+
+- Python 3.11+
 - Azure Functions Core Tools v4
 - Durable backend storage configured for entity state persistence
 - JSON client for passing optional `{ "value": n }` payloads

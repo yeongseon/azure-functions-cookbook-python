@@ -11,10 +11,10 @@ permissions:
 
 jobs:
   # Lint, type-check and workflow hygiene run once on a single pinned
-  # interpreter (Python 3.10). These checks are interpreter-agnostic, so
+  # interpreter (Python 3.11). These checks are interpreter-agnostic, so
   # fanning them across the matrix would only duplicate work.
   quality:
-    name: Lint, type-check & workflow hygiene (Py 3.10)
+    name: Lint, type-check & workflow hygiene (Py 3.11)
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -22,10 +22,10 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Set up Python 3.10
+      - name: Set up Python 3.11
         uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
         with:
-          python-version: "3.10"
+          python-version: "3.11"
 
       - name: Install package with dev extras
         run: |
@@ -59,14 +59,14 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        python-version: ["3.10", "3.11", "3.12", "3.13", "3.14"]
+        python-version: ["3.11", "3.12", "3.13", "3.14"]
         # Default axis resolves the latest compatible dependencies.
         resolution: ["latest"]
         include:
           # Extra job: resolve to the minimum declared dependency floors on the
           # lowest supported Python, catching breaks at the advertised lower
           # bounds (see constraints-min.txt).
-          - python-version: "3.10"
+          - python-version: "3.11"
             resolution: "minimum"
 
     steps:
@@ -80,7 +80,7 @@ jobs:
 
       - name: Assert the runtime interpreter matches the matrix cell
         # Belt-and-braces: tests below run directly on this interpreter (raw
-        # pytest, NOT the Python-3.10-pinned hatch env), so 3.11-3.14 are
+        # pytest, NOT the pinned hatch env), so 3.11-3.14 are
         # genuinely exercised. This guard fails loudly if that ever drifts.
         env:
           EXPECTED: ${{ matrix.python-version }}
@@ -104,7 +104,7 @@ jobs:
 
       - name: Run tests on the matrix interpreter
         # Raw pytest on the interpreter provisioned above (NOT through the
-        # Python-3.10-pinned hatch env). The repo pytest config enables --cov
+        # pinned hatch env). The repo pytest config enables --cov
         # with fail_under=95.
         run: pytest --cov-report=xml --cov-report=term-missing --cov=src/azure_functions_python_cookbook tests/
 
@@ -112,7 +112,7 @@ jobs:
         run: ls -lh coverage.xml
 
       - name: Upload coverage to Codecov
-        if: matrix.python-version == '3.10' && matrix.resolution == 'latest' && github.actor != 'dependabot[bot]'
+        if: matrix.python-version == '3.11' && matrix.resolution == 'latest' && github.actor != 'dependabot[bot]'
         uses: codecov/codecov-action@303a32d7a59b442fa8d48b6a1cc6825c09c847a5 # v7.1.1
         with:
           token: ${{ secrets.CODECOV_TOKEN }}

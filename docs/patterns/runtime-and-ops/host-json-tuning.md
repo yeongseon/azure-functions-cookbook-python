@@ -32,7 +32,7 @@ flowchart TD
 ```
 
 ## Prerequisites
-- Python 3.10+
+- Python 3.11+
 - Azure Functions Core Tools v4
 - Understanding of queue/service bus workloads in your environment
 - Application Insights configured for telemetry validation

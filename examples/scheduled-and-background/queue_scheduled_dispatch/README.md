@@ -6,7 +6,7 @@ Timer-driven scheduled dispatch pattern that releases due work onto Azure Storag
 
 ## Prerequisites
 
-- Python 3.10+
+- Python 3.11+
 - Azure Functions Core Tools v4
 - Azurite or an Azure Storage account with queue support
 

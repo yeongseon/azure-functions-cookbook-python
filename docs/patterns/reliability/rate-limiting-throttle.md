@@ -58,7 +58,7 @@ flowchart LR
 ```
 
 ## Prerequisites
-- Python 3.10+
+- Python 3.11+
 - Azure Functions Core Tools v4
 - Optional: Azure API Management if you want to layer gateway throttling ahead of the function
 

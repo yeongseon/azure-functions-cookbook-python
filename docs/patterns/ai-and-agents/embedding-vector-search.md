@@ -52,7 +52,7 @@ sequenceDiagram
 ```
 
 ## Prerequisites
-- Python 3.10+
+- Python 3.11+
 - Azure Functions Core Tools v4
 - `openai` SDK
 - `azure-search-documents` SDK

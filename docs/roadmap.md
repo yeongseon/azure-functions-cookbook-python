@@ -11,7 +11,7 @@ The project has reached **v0.1.2** with **31 production-ready recipes** covering
 The primary goal of this phase was to build the infrastructure required to support a long-term, high-quality documentation project.
 
 - Repository structure and organization established using modern Python standards.
-- Continuous Integration (CI/CD) with multi-version Python testing (3.10–3.14), CodeQL, SBOM, and security workflows.
+- Continuous Integration (CI/CD) with multi-version Python testing (3.11-3.14), CodeQL, SBOM, and security workflows.
 - Documentation site architecture using MkDocs Material theme for a modern, searchable experience.
 - Recipe template and formal contract definition to ensure all recipes are consistent and complete.
 - Internationalization support with translated READMEs for Korean, Japanese, and Chinese audiences.
@@ -72,7 +72,7 @@ To maintain focus and ensure high quality, we have explicitly defined what this 
 - **Not a runtime library**: This is a content-first project. There is no package API to import.
 - **Not a CLI** (yet): Content quality comes before tooling in the current phase.
 - **Not a replacement for official docs**: This cookbook complements Microsoft documentation with opinionated, production-ready patterns.
-- **No legacy support**: We exclusively focus on the Python v2 programming model and Python 3.10+.
+- **No legacy support**: We exclusively focus on the Python v2 programming model and Python 3.11+.
 - **Quality over quantity**: We focus on high-impact, well-documented patterns rather than exhaustive variations.
 
 ## How We Prioritize

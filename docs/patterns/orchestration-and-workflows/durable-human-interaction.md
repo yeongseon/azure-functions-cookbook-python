@@ -61,7 +61,7 @@ sequenceDiagram
 > **Maps to** `examples/orchestration-and-workflows/durable_human_interaction/`: `approval_orchestrator` waits on an external event that `approve_instance` raises via `raise_event`, unblocking the pending approval.
 
 ## Prerequisites
-- Python 3.10+
+- Python 3.11+
 - Azure Functions Core Tools v4
 - Durable Functions storage connection in local settings
 - Ability to call two local HTTP endpoints (`start-approval` and `approve/{id}`)

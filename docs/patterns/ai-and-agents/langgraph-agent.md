@@ -35,7 +35,7 @@ flowchart TD
 > **Maps to** `examples/ai-and-agents/langgraph_agent/function_app.py`: `B`/`D` = the `invoke_agent` route (decorated with `@validate_http`/`@openapi`/`@with_context`), `G`/`H` = `build_graph()` and `langgraph_app.register(graph)` at module load. The graph path is a **stub** — `azure-functions-langgraph` real execution is *future/optional* ([#50](https://github.com/yeongseon/azure-functions-cookbook-python/issues/50)).
 
 ## Prerequisites
-- Python 3.10+
+- Python 3.11+
 - Azure Functions Core Tools v4
 - `langgraph` and `azure-functions-langgraph-python` packages
 - Pydantic for request and response models

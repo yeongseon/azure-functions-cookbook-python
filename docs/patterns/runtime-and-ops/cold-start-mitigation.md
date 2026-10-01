@@ -44,7 +44,7 @@ flowchart TD
 ```
 
 ## Prerequisites
-- Python 3.10+
+- Python 3.11+
 - Azure Functions Core Tools v4
 - An Azure Functions app using the Python v2 programming model
 - Premium plan if you need pre-warmed instances in production

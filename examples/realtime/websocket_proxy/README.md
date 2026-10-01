@@ -6,7 +6,7 @@ Azure Functions front door for Azure Web PubSub that negotiates client tokens an
 
 ## Prerequisites
 
-- Python 3.10+
+- Python 3.11+
 - Azure Functions Core Tools v4
 - Azure Web PubSub service
 
