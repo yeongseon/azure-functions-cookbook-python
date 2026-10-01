@@ -155,4 +155,4 @@ help:
 .PHONY: doctor
 doctor: ensure-hatch
 	@echo "Checking project health..."
-	@$(MAKE) check-all && echo "All checks passed." || echo "Some checks failed."
+	@$(MAKE) check-all && echo "All checks passed." || { echo "Some checks failed."; exit 1; }
