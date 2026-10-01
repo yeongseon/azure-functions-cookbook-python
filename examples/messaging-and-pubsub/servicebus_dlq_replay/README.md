@@ -6,7 +6,7 @@ Replay dead-lettered Service Bus queue messages back to the main queue after ins
 
 ## Prerequisites
 
-- Python 3.10+
+- Python 3.11+
 - [Azure Functions Core Tools v4](https://learn.microsoft.com/azure/azure-functions/functions-run-local)
 - [Azurite](https://learn.microsoft.com/azure/storage/common/storage-use-azurite)
 - An Azure Service Bus namespace with a queue named `orders` or your configured `SERVICEBUS_QUEUE_NAME`

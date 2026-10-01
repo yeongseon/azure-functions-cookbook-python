@@ -68,7 +68,7 @@ sequenceDiagram
 ```
 
 ## Prerequisites
-- Python 3.10+
+- Python 3.11+
 - Azure Functions Core Tools v4
 - Azure Cosmos DB account or emulator
 - A read-model database reachable through `azure-functions-db-python` (the sample uses SQLite)

@@ -59,7 +59,7 @@ The function binds directly to `tasks` and reads both payload and transport meta
 business logic. This makes retries and diagnostics explicit.
 
 ### Prerequisites
-- Python 3.10+
+- Python 3.11+
 - Azure Functions Core Tools v4
 - Azure Service Bus namespace with queue `tasks`
 - `ServiceBusConnection` app setting (connection string or identity-based config)

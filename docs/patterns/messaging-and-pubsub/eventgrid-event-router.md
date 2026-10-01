@@ -51,7 +51,7 @@ sequenceDiagram
 The function uses `@app.event_grid_trigger(...)` and a small routing table.
 
 ### Prerequisites
-- Python 3.10+
+- Python 3.11+
 - Azure Functions Core Tools v4
 - An Event Grid topic or Azure service publishing into Event Grid
 - Optional: `azure-functions-logging-python` for structured JSON logs

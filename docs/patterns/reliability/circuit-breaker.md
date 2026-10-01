@@ -67,7 +67,7 @@ sequenceDiagram
 ```
 
 ## Prerequisites
-- Python 3.10+
+- Python 3.11+
 - Azure Functions Core Tools v4
 - Internet access to reach a downstream test API, or a substitute URL you control
 

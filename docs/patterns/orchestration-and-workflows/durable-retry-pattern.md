@@ -49,7 +49,7 @@ stateDiagram-v2
 > **Maps to** `examples/orchestration-and-workflows/durable_retry_pattern/`: `retry_orchestrator` calls `flaky_activity` under a `RetryOptions` policy until it succeeds or the attempt budget is exhausted.
 
 ## Prerequisites
-- Python 3.10+
+- Python 3.11+
 - Azure Functions Core Tools v4
 - Durable storage connection for orchestration history
 - Test client (`curl` or Postman) to trigger retries repeatedly

@@ -6,7 +6,7 @@ JWT Bearer token validation with claim-based access control for Azure Functions.
 
 ## Prerequisites
 
-- Python 3.10+
+- Python 3.11+
 - [Azure Functions Core Tools v4](https://learn.microsoft.com/azure/azure-functions/functions-run-local)
 - [Azurite](https://learn.microsoft.com/azure/storage/common/storage-use-azurite) (local Storage emulator)
 - An Azure AD (Entra ID) app registration

@@ -204,7 +204,7 @@ As recipes expand, keep compatibility by evolving contracts rather than replacin
 - Add fields as optional first, then enforce in a later version.
 - Keep existing route names stable unless migration guidance is documented.
 - Add new trigger recipes as additive pages to avoid breaking reader workflows.
-- Keep code examples executable and parseable with Python 3.10+ syntax.
+- Keep code examples executable and parseable with Python 3.11+ syntax.
 
 ## Reference Production Shapes
 

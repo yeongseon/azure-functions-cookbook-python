@@ -7,7 +7,7 @@ Grid-triggered subscriber that logs the resulting events.
 
 ## Prerequisites
 
-- Python 3.10+
+- Python 3.11+
 - [Azure Functions Core Tools v4](https://learn.microsoft.com/azure/azure-functions/functions-run-local)
 - An Event Grid custom topic endpoint and access key
 - Optional but recommended: an Event Grid subscription that routes the custom topic to `handle_order_domain_event`
