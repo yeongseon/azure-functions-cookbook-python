@@ -102,7 +102,6 @@ if _db_available:
         )
 
     @app.route(route="items", methods=["POST"])
-    @with_context
     @openapi(
         summary="Create item",
         requests=ItemCreate,
@@ -110,8 +109,9 @@ if _db_available:
         tags=["items"],
     )
     @db.output("out", url="%DB_URL%", table="items")
+    @with_context(param="invocation_context")
     @validate_http(body=ItemCreate, response_model=ItemResponse)
-    def create_item(req: func.HttpRequest, body: ItemCreate, out: DbOut, context: func.Context) -> func.HttpResponse:
+    def create_item(req: func.HttpRequest, body: ItemCreate, out: DbOut, invocation_context: func.Context) -> func.HttpResponse:
         item_id = str(uuid.uuid4())
         out.set({"id": item_id, **body.model_dump()})
         logger.info("Created item", extra={"item_id": item_id})
