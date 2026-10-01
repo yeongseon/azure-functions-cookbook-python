@@ -48,7 +48,7 @@ sequenceDiagram
 ```
 
 ## Prerequisites
-- Python 3.11+
+- Python 3.10+
 - Azure Functions Core Tools v4
 - `openai` SDK
 - Azure OpenAI resource with a chat deployment

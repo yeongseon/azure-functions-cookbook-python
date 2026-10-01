@@ -54,7 +54,7 @@ sequenceDiagram
 The trigger reads message text and logs delivery metadata useful during retries and incident triage.
 
 ### Prerequisites
-- Python 3.11+
+- Python 3.10+
 - Azure Functions Core Tools v4
 - Azure Storage account or Azurite with queue `outbound-tasks`
 - Producer path such as `examples/messaging-and-pubsub/queue_producer/` for message generation

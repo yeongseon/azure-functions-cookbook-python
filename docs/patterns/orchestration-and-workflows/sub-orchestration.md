@@ -64,7 +64,7 @@ sequenceDiagram
 ```
 
 ## Prerequisites
-- Python 3.11+
+- Python 3.10+
 - Azure Functions Core Tools v4
 - Durable storage configured in local settings
 - `azure-functions`, `azure-functions-durable`, and `azure-functions-logging-python` installed

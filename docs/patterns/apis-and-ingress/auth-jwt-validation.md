@@ -138,7 +138,7 @@ Both endpoints return 401 for missing or invalid tokens.
 
 Prerequisites:
 
-- Python 3.11+
+- Python 3.10+
 - Azure Functions Core Tools v4
 - `azure-functions` and `PyJWT[crypto]>=2.8.0` packages
 - An Azure AD (Entra ID) app registration with `AZURE_TENANT_ID` and `AZURE_CLIENT_ID`

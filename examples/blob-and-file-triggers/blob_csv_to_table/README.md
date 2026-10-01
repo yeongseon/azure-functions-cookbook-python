@@ -6,7 +6,7 @@ Event Grid-driven ingestion pattern that reads uploaded CSV blobs and writes nor
 
 ## Prerequisites
 
-- Python 3.11+
+- Python 3.10+
 - Azure Functions Core Tools v4
 - Azurite or Azure Storage account with blob and table endpoints
 

@@ -78,7 +78,7 @@ sequenceDiagram
 ```
 
 ## Prerequisites
-- Python 3.11+
+- Python 3.10+
 - Azure Functions Core Tools v4
 - Durable Functions extension bundle enabled in `host.json`
 - Storage connection for Durable Functions (`AzureWebJobsStorage`)

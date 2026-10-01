@@ -48,7 +48,7 @@ sequenceDiagram
 ```
 
 ## Prerequisites
-- Python 3.11+
+- Python 3.10+
 - Azure Functions Core Tools v4
 - Azure Service Bus namespace with queue `orders`
 - Managed identity with `Azure Service Bus Data Receiver` role

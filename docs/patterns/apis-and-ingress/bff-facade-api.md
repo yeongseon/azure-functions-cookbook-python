@@ -66,7 +66,7 @@ sequenceDiagram
 ```
 
 ## Prerequisites
-- Python 3.11+
+- Python 3.10+
 - Azure Functions Core Tools v4
 - Dependencies from `pyproject.toml`, including `azure-functions`, `azure-functions-validation-python`,
   `azure-functions-openapi-python`, `azure-functions-logging-python`, and `requests`

@@ -6,7 +6,7 @@ HTTP-triggered Azure Functions backend intended to sit behind Azure API Manageme
 
 ## Prerequisites
 
-- Python 3.11+
+- Python 3.10+
 - Azure Functions Core Tools v4
 - Optional Azure API Management instance for front-door policy enforcement
 

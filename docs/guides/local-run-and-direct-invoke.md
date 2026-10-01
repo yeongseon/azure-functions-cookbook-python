@@ -31,7 +31,7 @@ flowchart TD
 ```
 
 ## Prerequisites
-- Python 3.11+
+- Python 3.10+
 - Azure Functions Core Tools v4
 - `azure-functions` package installed in local environment
 - Optional: `curl` for endpoint calls when running full host

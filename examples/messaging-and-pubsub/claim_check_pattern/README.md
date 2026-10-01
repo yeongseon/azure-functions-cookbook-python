@@ -6,7 +6,7 @@ Large-message pattern that stores payloads in Blob Storage and passes only a ref
 
 ## Prerequisites
 
-- Python 3.11+
+- Python 3.10+
 - Azure Functions Core Tools v4
 - Azurite or Azure Storage account with queue and blob support
 

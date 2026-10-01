@@ -33,7 +33,7 @@ flowchart TD
 > **Maps to** `examples/runtime-and-ops/blueprint_modular_app/` — node labels are the actual files; `register_functions()` lives in `function_app.py`.
 
 ## Prerequisites
-- Python 3.11+
+- Python 3.10+
 - Azure Functions Core Tools v4
 - HTTP client such as curl or Postman
 - Local storage emulator for standard Functions runtime dependencies

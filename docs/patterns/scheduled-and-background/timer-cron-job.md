@@ -61,7 +61,7 @@ The function body handles timing context,
 then calls a helper for actual maintenance behavior.
 
 ### Prerequisites
-- Python 3.11+
+- Python 3.10+
 - Azure Functions Core Tools v4
 - `azure-functions` dependency from `pyproject.toml`
 - Logging sink (console locally, Application Insights in Azure)

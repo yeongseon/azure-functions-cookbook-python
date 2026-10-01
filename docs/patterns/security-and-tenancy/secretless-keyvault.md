@@ -58,7 +58,7 @@ sequenceDiagram
 ```
 
 ## Prerequisites
-- Python 3.11+
+- Python 3.10+
 - Azure Functions Core Tools v4
 - Azure Function App with a system-assigned or user-assigned managed identity
 - Azure Key Vault secret such as `demo-api-key`

@@ -59,7 +59,7 @@ sequenceDiagram
 > **Maps to** `examples/orchestration-and-workflows/durable_hello_sequence/`: `Starter` = `start_sequence`, `Orch` = `hello_sequence_orchestrator`, `Activity` = `say_hello` (all in `app/functions/orchestration.py`).
 
 ## Prerequisites
-- Python 3.11+
+- Python 3.10+
 - Azure Functions Core Tools v4
 - Durable Functions extension bundles enabled through `host.json`
 - `azure-functions` and `azure-functions-durable` from `pyproject.toml`

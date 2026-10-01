@@ -59,7 +59,7 @@ The trigger listens on `uploads/{name}` through `@app.blob_trigger(...)`. The ha
 attributes from `func.InputStream`, logs context, and exits early for empty uploads.
 
 ### Prerequisites
-- Python 3.11+
+- Python 3.10+
 - Azure Functions Core Tools v4
 - Azure Storage account or Azurite
 - `AzureWebJobsStorage` configured in local settings or app settings

@@ -31,7 +31,7 @@ flowchart LR
 ```
 
 ## Prerequisites
-- Python 3.11+
+- Python 3.10+
 - Azure Functions Core Tools v4
 - Application Insights connection string for Azure-side telemetry validation
 - Familiarity with HTTP headers such as `traceparent` and `x-correlation-id`
