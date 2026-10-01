@@ -298,7 +298,9 @@ if GRAPH is not None:
 )
 @with_context(param="invocation_context")
 @validate_http(body=ChatRequest, response_model=ChatResponse)
-def chat(req: func.HttpRequest, body: ChatRequest, invocation_context: func.Context) -> func.HttpResponse:
+def chat(
+    req: func.HttpRequest, body: ChatRequest, invocation_context: func.Context
+) -> func.HttpResponse:
     thread_id = body.thread_id or str(uuid.uuid4())
     history = list(THREAD_MEMORY.get(thread_id, []))
     messages = history + [{"role": "user", "content": body.message}]

@@ -127,7 +127,9 @@ def _vector_search(query: str, top_k: int) -> list[SearchResult]:
 )
 @with_context(param="invocation_context")
 @validate_http(body=VectorSearchRequest, response_model=VectorSearchResponse)
-def search(req: func.HttpRequest, body: VectorSearchRequest, invocation_context: func.Context) -> func.HttpResponse:
+def search(
+    req: func.HttpRequest, body: VectorSearchRequest, invocation_context: func.Context
+) -> func.HttpResponse:
     del req
     results = _vector_search(body.query, body.top_k)
     logger.info("Completed vector search", extra={"top_k": body.top_k, "matches": len(results)})
