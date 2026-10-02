@@ -45,9 +45,7 @@ def validate_jwt(
         return None
 
     if jwks_uri is None:
-        jwks_uri = (
-            f"https://login.microsoftonline.com/{tenant_id}/discovery/v2.0/keys"
-        )
+        jwks_uri = f"https://login.microsoftonline.com/{tenant_id}/discovery/v2.0/keys"
 
     try:
         jwks_client = PyJWKClient(jwks_uri, cache_keys=True)
@@ -92,10 +90,7 @@ def require_claim(
         def wrapper(claims: dict[str, Any]) -> ClaimsResponse:
             if not has_claim(claims, claim_name, expected_value):
                 return {
-                    "error": (
-                        f"Forbidden. Claim '{claim_name}'"
-                        f" must be '{expected_value}'."
-                    )
+                    "error": (f"Forbidden. Claim '{claim_name}' must be '{expected_value}'.")
                 }, 403
             return handler(claims)
 
