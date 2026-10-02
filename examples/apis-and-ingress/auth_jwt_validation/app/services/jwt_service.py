@@ -76,6 +76,8 @@ def has_claim(claims: dict[str, Any], claim_name: str, expected_value: str | Non
         val = claims[claim_name]
         if isinstance(val, bool):
             return str(val).lower() == expected_value.lower()
+        if isinstance(val, list):
+            return expected_value in val
         return str(val) == expected_value
     return True
 
