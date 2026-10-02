@@ -1,0 +1,6 @@
+slug: openapi-inference-opt-out
+title: OpenAPI Return-Type Inference Opt-Out
+category: apis-and-ingress
+difficulty: Intermediate
+description: Opt out of inferred OpenAPI 200 response schemas per handler with infer_return_types=False.
+docs_url: https://yeongseon.dev/azure-functions-python/cookbook/patterns/apis-and-ingress/openapi-inference-opt-out/

@@ -1,0 +1,4 @@
+.git*
+.venv/
+local.settings.json
+tests/

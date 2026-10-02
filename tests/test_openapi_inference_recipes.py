@@ -10,6 +10,8 @@ schema proves the documented behavior:
 * ``openapi_supersedes`` — a validation ``response_model`` *supersedes* the
   inferred annotation (``_response_inferred`` is ``False`` and the richer model
   wins the 200 schema).
+* ``openapi_inference_opt_out`` — two equally annotated handlers contrast the
+  default inferred ``200`` schema with ``infer_return_types=False``.
 """
 
 from __future__ import annotations
@@ -30,6 +32,7 @@ import pytest
 from tests._isolation import load_example_module
 
 INFERENCE_EXAMPLE = "apis-and-ingress/openapi_inference"
+OPT_OUT_EXAMPLE = "apis-and-ingress/openapi_inference_opt_out"
 SUPERSEDES_EXAMPLE = "apis-and-ingress/openapi_supersedes"
 
 
@@ -81,6 +84,24 @@ def test_inference_recipe_infers_response_from_return_annotation() -> None:
     assert set(schema.get("properties", {})) == {"message", "source"}
 
     assert registry["inferred_greeting"]["_response_inferred"] is True
+
+
+def test_opt_out_recipe_suppresses_return_annotation_schema() -> None:
+    # Given: two handlers with the same Pydantic return annotation.
+    spec, registry = _spec_and_registry(OPT_OUT_EXAMPLE)
+
+    # When: one handler uses the default and one sets infer_return_types=False.
+    inferred = _get_operation(spec, "/api/openapi/inference/default")
+    opted_out = _get_operation(spec, "/api/openapi/inference/opt-out")
+
+    # Then: only the default handler exposes its annotation as a 200 schema.
+    inferred_schema = _resolve_schema(spec, _success_schema(inferred))
+    assert set(inferred_schema.get("properties", {})) == {"message", "source"}
+    opted_out_schema = _success_schema(opted_out)
+    assert opted_out_schema == {"type": "object"}
+    assert "$ref" not in opted_out_schema
+    assert registry["inferred_greeting"]["_response_inferred"] is True
+    assert registry["opted_out_greeting"]["_response_inferred"] is False
 
 
 def test_supersedes_recipe_prefers_validation_response_model() -> None:
