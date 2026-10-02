@@ -134,7 +134,6 @@ durable = find_recipe(tag="durable")
 | [Durable Determinism Gotchas](examples/orchestration-and-workflows/durable_determinism_gotchas/) | 고급 | 결정적 코딩 패턴을 보여주는 Durable Functions 오케스트레이터. |
 | [Durable Entity Counter](examples/orchestration-and-workflows/durable_entity_counter/) | 중급 | 카운터 상태를 관리하는 Durable Entity 예제. |
 | [Durable Fan-Out Fan-In](examples/orchestration-and-workflows/durable_fan_out_fan_in/) | 중급 | 병렬 액티비티를 사용한 Durable Functions 팬아웃/팬인 오케스트레이션. |
-| [Durable Graph Fan Out](examples/orchestration-and-workflows/durable_graph_fan_out/) | 고급 | 선언적 ManifestBuilder 그래프로 구동되는 azure-functions-durable-graph 기반 팬아웃/팬인 DAG 오케스트레이션. |
 | [Durable Hello Sequence](examples/orchestration-and-workflows/durable_hello_sequence/) | 초급 | 액티비티를 순차적으로 연결하는 Durable Functions 오케스트레이터. |
 | [Durable Human Interaction](examples/orchestration-and-workflows/durable_human_interaction/) | 중급 | 타임아웃과 함께 외부 승인 이벤트를 기다리는 Durable Functions 워크플로. |
 | [Durable Retry Pattern](examples/orchestration-and-workflows/durable_retry_pattern/) | 중급 | 불안정한 액티비티를 재시도하는 Durable Functions 오케스트레이션. |
@@ -188,7 +187,6 @@ durable = find_recipe(tag="durable")
 | [Azure OpenAI Direct Chat](examples/ai-and-agents/openai_direct_chat/) | 초급 | `openai` Python SDK로 Azure OpenAI에 메시지 하나를 보내는 최소한의 HTTP 트리거 Azure Functions 샘플. |
 | [Durable AI Pipeline](examples/ai-and-agents/durable_ai_pipeline/) | 고급 | 임베딩, 벡터 검색, 답변 생성의 세 가지 AI 단계를 오케스트레이션하는 Durable Functions 샘플. |
 | [Embedding Vector Search](examples/ai-and-agents/embedding_vector_search/) | 고급 | Azure OpenAI 임베딩을 생성하고 이를 사용하여 Azure AI Search에 대해 벡터 쿼리를 실행하는 HTTP 트리거 샘플. |
-| [Knowledge Notion Search](examples/ai-and-agents/knowledge_notion_search/) | 중급 | azure-functions-knowledge KnowledgeBindings input/inject_client 데코레이터를 사용한 Notion 기반 지식 검색. |
 | [LangGraph Agent](examples/ai-and-agents/langgraph_agent/) | 중급 | `azure-functions-langgraph-python` 어댑터를 `azure-functions-logging-python`, `azure-functions-validation-python`, `azure-functions-openapi-python`과 함께 보여줍니다. |
 | [LangGraph RAG Agent](examples/ai-and-agents/langgraph_rag_agent/) | 고급 | 이 예제는 다음을 결합하는 방법을 보여줍니다: |
 | [Langgraph Tool Use](examples/ai-and-agents/langgraph_tool_use/) | 고급 | 추론 노드와 호출 가능한 도구 사이를 라우팅하는 azure-functions-langgraph 기반 도구 사용 LangGraph 에이전트. |
@@ -306,9 +304,7 @@ PR을 열기 전에 변경한 Python 파일에 `ruff format --check <변경한-P
 | [azure-functions-langgraph-python](https://github.com/yeongseon/azure-functions-langgraph-python) | Azure Functions용 LangGraph 배포 어댑터 | Dogfooded ([예제 3개](https://github.com/search?q=repo%3Ayeongseon%2Fazure-functions-cookbook-python+azure_functions_langgraph+path%3Aexamples&type=code)) |
 | [azure-functions-scaffold-python](https://github.com/yeongseon/azure-functions-scaffold-python) | 프로젝트 스캐폴딩 CLI | Dogfooded ([예제 1개, CLI 생성](examples/apis-and-ingress/scaffold_walkthrough_app/)) |
 | [azure-functions-doctor-python](https://github.com/yeongseon/azure-functions-doctor-python) | 배포 전 진단 CLI | Dogfooded ([예제 1개](https://github.com/search?q=repo%3Ayeongseon%2Fazure-functions-cookbook-python+azure_functions_doctor+path%3Aexamples&type=code)) |
-| [azure-functions-durable-graph-python](https://github.com/yeongseon/azure-functions-durable-graph-python) | Durable Functions 기반 매니페스트 우선 그래프 런타임 *(실험적)* | Dogfooded ([예제 1개](examples/orchestration-and-workflows/durable_graph_fan_out/) — `durable_graph_fan_out`) |
-| [azure-functions-knowledge-python](https://github.com/yeongseon/azure-functions-knowledge-python) | 지식 검색(RAG) 데코레이터 | Dogfooded ([예제 1개](examples/ai-and-agents/knowledge_notion_search/) — `knowledge_notion_search`가 실제 `KnowledgeBindings` API 사용) |
-| **azure-functions-cookbook-python** *(이 저장소)* | 전체 툴킷을 위한 도그푸드 예제 | 예제 82개 |
+| **azure-functions-cookbook-python** *(이 저장소)* | 전체 툴킷을 위한 도그푸드 예제 | 예제 80개 |
 
 ## For AI Coding Assistants
 
