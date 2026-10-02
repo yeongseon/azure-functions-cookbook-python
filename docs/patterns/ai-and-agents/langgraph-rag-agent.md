@@ -33,7 +33,7 @@ flowchart LR
     F --> G
 ```
 
-> **Maps to** `examples/ai-and-agents/langgraph_rag_agent/function_app.py`: `B` = the `chat` route, `C`/`D` = `router_node`, `F` = the direct-response path. `E` (`Tool: Knowledge Search`) = `knowledge_search_node`/`search_knowledge` and is *future/optional* — it depends on `azure-functions-knowledge` (marked Experimental / not-yet-dogfooded in the README), so the example ships a lightweight stub.
+> **Maps to** `examples/ai-and-agents/langgraph_rag_agent/function_app.py`: `B` = the `chat` route, `C`/`D` = `router_node`, `F` = the direct-response path. `E` (`Tool: Knowledge Search`) = `knowledge_search_node`/`search_knowledge` and uses a lightweight local stub.
 
 ## Prerequisites
 - Python 3.10+
@@ -113,7 +113,7 @@ stateDiagram-v2
     PersistThread --> [*]
 ```
 
-> **Maps to** `examples/ai-and-agents/langgraph_rag_agent/function_app.py`: `DecideRoute` = `router_node`, `DirectResponse` = the direct path, `ComposeAnswer` = `build_rag_answer`. The `KnowledgeSearch` state is *future/optional* (backed by the Experimental `azure-functions-knowledge` package) until a real dogfooding example exists.
+> **Maps to** `examples/ai-and-agents/langgraph_rag_agent/function_app.py`: `DecideRoute` = `router_node`, `DirectResponse` = the direct path, `ComposeAnswer` = `build_rag_answer`. The `KnowledgeSearch` state uses the local retrieval stub.
 
 The sample keeps conversation state in memory with `thread_id`.
 For production, switch to a persistent checkpointer or external thread store.
