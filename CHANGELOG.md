@@ -1,5 +1,52 @@
 # Changelog
 
+## [0.3.0](https://github.com/yeongseon/azure-functions-cookbook-python/compare/v0.2.0...v0.3.0) (2026-10-01)
+
+
+### Features
+
+* add recipe index and find_recipe helper ([#127](https://github.com/yeongseon/azure-functions-cookbook-python/issues/127)) ([178fcff](https://github.com/yeongseon/azure-functions-cookbook-python/commit/178fcff4e21f3d30ce4f66434b42e12bd2dd2dc5))
+* **examples:** add doctor diagnostics endpoint recipe ([#59](https://github.com/yeongseon/azure-functions-cookbook-python/issues/59)) ([08b8f98](https://github.com/yeongseon/azure-functions-cookbook-python/commit/08b8f98b9d1027986297ccb895795d444b1e122b)), closes [#58](https://github.com/yeongseon/azure-functions-cookbook-python/issues/58)
+* **examples:** add per-example recipe.yaml metadata ([#94](https://github.com/yeongseon/azure-functions-cookbook-python/issues/94)) ([e0d3806](https://github.com/yeongseon/azure-functions-cookbook-python/commit/e0d380671d24b6d46aac107d8ab3d6f6c83dd60d))
+* **examples:** add scaffold walkthrough recipe ([#61](https://github.com/yeongseon/azure-functions-cookbook-python/issues/61)) ([78747d3](https://github.com/yeongseon/azure-functions-cookbook-python/commit/78747d3ec0dd4197794af3023cc7c27b9fa940a2)), closes [#60](https://github.com/yeongseon/azure-functions-cookbook-python/issues/60) [#50](https://github.com/yeongseon/azure-functions-cookbook-python/issues/50)
+* **examples:** dogfood durable-graph, knowledge, and langgraph tool-use recipes ([#100](https://github.com/yeongseon/azure-functions-cookbook-python/issues/100)) ([cf47696](https://github.com/yeongseon/azure-functions-cookbook-python/commit/cf476967cfb824e3c651124d3512a1169adb3e9c)), closes [#50](https://github.com/yeongseon/azure-functions-cookbook-python/issues/50)
+* **recipes:** support multi-term keyword search in find_recipe ([#141](https://github.com/yeongseon/azure-functions-cookbook-python/issues/141)) ([5703f08](https://github.com/yeongseon/azure-functions-cookbook-python/commit/5703f0870292e8289ac80d4b7f02a2fa7af1db83))
+
+
+### Bug Fixes
+
+* add conservative version bounds to optional dependencies ([#125](https://github.com/yeongseon/azure-functions-cookbook-python/issues/125)) ([9eeeac0](https://github.com/yeongseon/azure-functions-cookbook-python/commit/9eeeac0fe1291bcf20fd94960daca901f8edd7c2))
+* all tests passing — add missing deps, fix API compat, remove broken SignalR examples ([#40](https://github.com/yeongseon/azure-functions-cookbook-python/issues/40)) ([edbcfcd](https://github.com/yeongseon/azure-functions-cookbook-python/commit/edbcfcd426d6e688570c61c0040acc4965fb5e33))
+* **async_job_lifecycle:** place [@validate](https://github.com/validate)_http below [@app](https://github.com/app).durable_client_input so validation runs ([496c0c3](https://github.com/yeongseon/azure-functions-cookbook-python/commit/496c0c383f3b88ba2a145db603a8083fc5e0b71b))
+* **build:** fail make doctor when checks fail ([#260](https://github.com/yeongseon/azure-functions-cookbook-python/issues/260)) ([95bf85a](https://github.com/yeongseon/azure-functions-cookbook-python/commit/95bf85a90b7d8cb95fdff4ae3fa2037329e6a8cc))
+* **ci:** pin a mutable action, adopt the pin linter, correct release wording and stale inputs ([#237](https://github.com/yeongseon/azure-functions-cookbook-python/issues/237)) ([661d4bb](https://github.com/yeongseon/azure-functions-cookbook-python/commit/661d4bb733f5ac6a1c405353ca344286c5fd0a62))
+* **ci:** remove global --cov from addopts; add dedicated smoke/e2e hatch scripts ([ea928bc](https://github.com/yeongseon/azure-functions-cookbook-python/commit/ea928bc17930506ef7b503c2a4241cbcef93dbe8))
+* **ci:** remove global --cov from addopts; add dedicated smoke/e2e hatch scripts ([ea928bc](https://github.com/yeongseon/azure-functions-cookbook-python/commit/ea928bc17930506ef7b503c2a4241cbcef93dbe8))
+* **ci:** remove global --cov from addopts; add smoke/e2e hatch scripts ([1086b10](https://github.com/yeongseon/azure-functions-cookbook-python/commit/1086b103db551b63e7beaf84bbc42e035e77cf6e))
+* **ci:** stop the changed-file format gate failing open ([#234](https://github.com/yeongseon/azure-functions-cookbook-python/issues/234)) ([f4c5102](https://github.com/yeongseon/azure-functions-cookbook-python/commit/f4c5102c48a09309f825dc65bf6bbf58204395de))
+* **compat:** deprecate Python 3.10 ahead of its removal ([#259](https://github.com/yeongseon/azure-functions-cookbook-python/issues/259)) ([0c38fb3](https://github.com/yeongseon/azure-functions-cookbook-python/commit/0c38fb333142258e1dd8c8e8bdefa3ff44a57ae6))
+* completely remove azure_functions_knowledge dead code from tracked files ([ca14d44](https://github.com/yeongseon/azure-functions-cookbook-python/commit/ca14d443bdd6f9db22dd64dc78aba38ac7d19aae))
+* db_input_output use proper [@db](https://github.com/db).inject_reader decorator pattern ([bda68e2](https://github.com/yeongseon/azure-functions-cookbook-python/commit/bda68e23a8d12b6bae07b82116d764c84c540f2b))
+* declare wheel packages explicitly for hatchling ([7a2e936](https://github.com/yeongseon/azure-functions-cookbook-python/commit/7a2e93627ccc51bb363fd9b05f2a1da906554a70))
+* declare wheel packages explicitly for hatchling ([8d6ebe1](https://github.com/yeongseon/azure-functions-cookbook-python/commit/8d6ebe1b23950b3b9a7823a72a3c4d27d1b68122))
+* **deps:** use unsuffixed azure-functions-openapi dep name ([3567f8b](https://github.com/yeongseon/azure-functions-cookbook-python/commit/3567f8b78b7220bb5ca8c3d37f70809e3f01afa7))
+* **examples:** adapt db_input_output bare-array OpenAPI response ([#158](https://github.com/yeongseon/azure-functions-cookbook-python/issues/158)) ([075fa3a](https://github.com/yeongseon/azure-functions-cookbook-python/commit/075fa3a82d78bff112560107524a880cffd09e8b))
+* **examples:** add context: func.Context to [@with](https://github.com/with)_context handlers ([#169](https://github.com/yeongseon/azure-functions-cookbook-python/issues/169)) ([33d4a7f](https://github.com/yeongseon/azure-functions-cookbook-python/commit/33d4a7ff41d2af87dba01252554d47dc63f45e34)), closes [#168](https://github.com/yeongseon/azure-functions-cookbook-python/issues/168)
+* **examples:** restore active [@validate](https://github.com/validate)_http on binding-composed handlers ([#143](https://github.com/yeongseon/azure-functions-cookbook-python/issues/143)) ([9556a28](https://github.com/yeongseon/azure-functions-cookbook-python/commit/9556a28f20f90d228d61a2dec53842854cb1a0f7))
+* **full-stack-crud-api:** package the flat-layout modules ([#262](https://github.com/yeongseon/azure-functions-cookbook-python/issues/262)) ([aee06c9](https://github.com/yeongseon/azure-functions-cookbook-python/commit/aee06c9f0b1e2268365174f30818d5b85bebb7eb))
+* **langgraph:** pass required name to register() in agent examples ([#121](https://github.com/yeongseon/azure-functions-cookbook-python/issues/121)) ([0f7cbe4](https://github.com/yeongseon/azure-functions-cookbook-python/commit/0f7cbe4d36406af43bc34c4c508dfa958a8d86d5))
+* make langgraph_agent and db_input_output resilient to optional deps ([3a6b15a](https://github.com/yeongseon/azure-functions-cookbook-python/commit/3a6b15a635cae28b77a0d8ef9ff5320ada8ce7f0))
+* migrate scaffold_walkthrough_app to openapi 0.24 requests=/responses= ([#212](https://github.com/yeongseon/azure-functions-cookbook-python/issues/212)) ([586a0be](https://github.com/yeongseon/azure-functions-cookbook-python/commit/586a0be94445cd6bd952f8e5ebd24fedb773bbf2))
+* **packaging:** ship the cookbook package in the wheel ([#261](https://github.com/yeongseon/azure-functions-cookbook-python/issues/261)) ([674e4fa](https://github.com/yeongseon/azure-functions-cookbook-python/commit/674e4fa6fcce9b6b75d7f2ff8447c667de7462eb))
+* remove the uv.lock reintroduced by [#219](https://github.com/yeongseon/azure-functions-cookbook-python/issues/219) ([#243](https://github.com/yeongseon/azure-functions-cookbook-python/issues/243)) ([723365f](https://github.com/yeongseon/azure-functions-cookbook-python/commit/723365ffe16f4938bf972eb30ce1babfb953688c)), closes [#242](https://github.com/yeongseon/azure-functions-cookbook-python/issues/242)
+* remove unpublished dependency, stale SignalR refs, add missing smoke tests ([1b84c61](https://github.com/yeongseon/azure-functions-cookbook-python/commit/1b84c61f74bc44a08460c51fc276e84b0246e738))
+* resolve hatchling wheel build failure blocking docs deployment ([7a2e936](https://github.com/yeongseon/azure-functions-cookbook-python/commit/7a2e93627ccc51bb363fd9b05f2a1da906554a70))
+* **templates:** prefill Conventional Commit prefixes in issue forms ([#239](https://github.com/yeongseon/azure-functions-cookbook-python/issues/239)) ([804cde0](https://github.com/yeongseon/azure-functions-cookbook-python/commit/804cde0846de9e9116395e365efcf8fab714a5f0))
+* **tests:** assert version format instead of a hardcoded literal ([#90](https://github.com/yeongseon/azure-functions-cookbook-python/issues/90)) ([ccc5c44](https://github.com/yeongseon/azure-functions-cookbook-python/commit/ccc5c44a22095b14be8b266ceef2363e155b74a5)), closes [#89](https://github.com/yeongseon/azure-functions-cookbook-python/issues/89)
+* **websocket-proxy:** keep the context parameter visible to with_context ([#264](https://github.com/yeongseon/azure-functions-cookbook-python/issues/264)) ([8f0e939](https://github.com/yeongseon/azure-functions-cookbook-python/commit/8f0e9390f5549ef77e5b8ea912f456450798003a))
+
+## Changelog
+
 All notable changes to this project will be documented in this file.
 
 ### Bug Fixes
