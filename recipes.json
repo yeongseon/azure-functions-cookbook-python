@@ -299,6 +299,22 @@
     ]
   },
   {
+    "slug": "openapi-inference-opt-out",
+    "title": "OpenAPI Return-Type Inference Opt-Out",
+    "category": "apis-and-ingress",
+    "description": "Opt out of inferred OpenAPI 200 response schemas per handler with infer_return_types=False.",
+    "example_path": "apis-and-ingress/openapi_inference_opt_out",
+    "docs_url": "https://yeongseon.dev/azure-functions-python/cookbook/patterns/apis-and-ingress/openapi-inference-opt-out/",
+    "difficulty": "Intermediate",
+    "tags": [
+      "apis-and-ingress",
+      "inference",
+      "openapi",
+      "opt",
+      "out"
+    ]
+  },
+  {
     "slug": "openapi-supersedes",
     "title": "OpenAPI Validation Supersedes Inference",
     "category": "apis-and-ingress",
