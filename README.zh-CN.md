@@ -134,7 +134,6 @@ durable = find_recipe(tag="durable")
 | [Durable Determinism Gotchas](examples/orchestration-and-workflows/durable_determinism_gotchas/) | 高级 | 演示确定性编码模式的 Durable Functions 编排器。 |
 | [Durable Entity Counter](examples/orchestration-and-workflows/durable_entity_counter/) | 中级 | 管理计数器状态的 Durable Entity 示例。 |
 | [Durable Fan-Out Fan-In](examples/orchestration-and-workflows/durable_fan_out_fan_in/) | 中级 | 使用并行活动的 Durable Functions 扇出/扇入编排。 |
-| [Durable Graph Fan Out](examples/orchestration-and-workflows/durable_graph_fan_out/) | 高级 | 由声明式 ManifestBuilder 图驱动的、基于 azure-functions-durable-graph 的扇出/扇入 DAG 编排。 |
 | [Durable Hello Sequence](examples/orchestration-and-workflows/durable_hello_sequence/) | 初级 | 按顺序链接活动的 Durable Functions 编排器。 |
 | [Durable Human Interaction](examples/orchestration-and-workflows/durable_human_interaction/) | 中级 | 带超时等待外部审批事件的 Durable Functions 工作流。 |
 | [Durable Retry Pattern](examples/orchestration-and-workflows/durable_retry_pattern/) | 中级 | 重试不稳定活动的 Durable Functions 编排。 |
@@ -188,7 +187,6 @@ durable = find_recipe(tag="durable")
 | [Azure OpenAI Direct Chat](examples/ai-and-agents/openai_direct_chat/) | 初级 | 使用 `openai` Python SDK 向 Azure OpenAI 发送一条消息的最小化 HTTP 触发 Azure Functions 示例。 |
 | [Durable AI Pipeline](examples/ai-and-agents/durable_ai_pipeline/) | 高级 | 编排嵌入、向量搜索和答案生成三个 AI 步骤的 Durable Functions 示例。 |
 | [Embedding Vector Search](examples/ai-and-agents/embedding_vector_search/) | 高级 | 创建 Azure OpenAI 嵌入并使用其对 Azure AI Search 运行向量查询的 HTTP 触发示例。 |
-| [Knowledge Notion Search](examples/ai-and-agents/knowledge_notion_search/) | 中级 | 使用 azure-functions-knowledge 的 KnowledgeBindings input/inject_client 装饰器实现的基于 Notion 的知识检索。 |
 | [LangGraph Agent](examples/ai-and-agents/langgraph_agent/) | 中级 | 演示 `azure-functions-langgraph-python` 适配器与 `azure-functions-logging-python`、`azure-functions-validation-python` 和 `azure-functions-openapi-python` 的结合。 |
 | [LangGraph RAG Agent](examples/ai-and-agents/langgraph_rag_agent/) | 高级 | 本示例展示了如何组合: |
 | [Langgraph Tool Use](examples/ai-and-agents/langgraph_tool_use/) | 高级 | 在推理节点与可调用工具之间路由的、基于 azure-functions-langgraph 的工具使用 LangGraph 智能体。 |
@@ -306,9 +304,7 @@ Python 文件的格式问题。
 | [azure-functions-langgraph-python](https://github.com/yeongseon/azure-functions-langgraph-python) | 面向 Azure Functions 的 LangGraph 部署适配器 | Dogfooded ([3 个示例](https://github.com/search?q=repo%3Ayeongseon%2Fazure-functions-cookbook-python+azure_functions_langgraph+path%3Aexamples&type=code)) |
 | [azure-functions-scaffold-python](https://github.com/yeongseon/azure-functions-scaffold-python) | 项目脚手架 CLI | Dogfooded ([1 个示例，CLI 生成](examples/apis-and-ingress/scaffold_walkthrough_app/)) |
 | [azure-functions-doctor-python](https://github.com/yeongseon/azure-functions-doctor-python) | 部署前诊断 CLI | Dogfooded ([1 个示例](https://github.com/search?q=repo%3Ayeongseon%2Fazure-functions-cookbook-python+azure_functions_doctor+path%3Aexamples&type=code)) |
-| [azure-functions-durable-graph-python](https://github.com/yeongseon/azure-functions-durable-graph-python) | 基于 Durable Functions 的清单优先图运行时 *(实验性)* | Dogfooded ([1 个示例](examples/orchestration-and-workflows/durable_graph_fan_out/) — `durable_graph_fan_out`) |
-| [azure-functions-knowledge-python](https://github.com/yeongseon/azure-functions-knowledge-python) | 知识检索（RAG）装饰器 | Dogfooded ([1 个示例](examples/ai-and-agents/knowledge_notion_search/) — `knowledge_notion_search` 使用真实的 `KnowledgeBindings` API) |
-| **azure-functions-cookbook-python** *(本仓库)* | 面向整个工具包的 dogfood 示例 | 82 个示例 |
+| **azure-functions-cookbook-python** *(本仓库)* | 面向整个工具包的 dogfood 示例 | 80 个示例 |
 
 ## For AI Coding Assistants
 

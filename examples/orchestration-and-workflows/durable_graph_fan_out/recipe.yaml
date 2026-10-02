@@ -1,6 +1,0 @@
-slug: durable-graph-fan-out
-title: Durable Graph Fan Out
-category: orchestration-and-workflows
-difficulty: Advanced
-description: Fan-out/fan-in DAG orchestration with azure-functions-durable-graph, driven by a declarative ManifestBuilder graph.
-docs_url: https://yeongseon.dev/azure-functions-python/cookbook/patterns/orchestration-and-workflows/

@@ -1,6 +1,0 @@
-slug: knowledge-notion-search
-title: Knowledge Notion Search
-category: ai-and-agents
-difficulty: Intermediate
-description: Notion-backed knowledge retrieval with azure-functions-knowledge KnowledgeBindings input/inject_client decorators.
-docs_url: https://yeongseon.dev/azure-functions-python/cookbook/patterns/ai-and-agents/

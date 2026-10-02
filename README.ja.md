@@ -134,7 +134,6 @@ durable = find_recipe(tag="durable")
 | [Durable Determinism Gotchas](examples/orchestration-and-workflows/durable_determinism_gotchas/) | 上級 | 決定論的なコーディングパターンを示す Durable Functions オーケストレーター。 |
 | [Durable Entity Counter](examples/orchestration-and-workflows/durable_entity_counter/) | 中級 | カウンター状態を管理する Durable Entity の例。 |
 | [Durable Fan-Out Fan-In](examples/orchestration-and-workflows/durable_fan_out_fan_in/) | 中級 | 並列アクティビティを使用した Durable Functions のファンアウト/ファンインオーケストレーション。 |
-| [Durable Graph Fan Out](examples/orchestration-and-workflows/durable_graph_fan_out/) | 上級 | 宣言的な ManifestBuilder グラフで駆動される azure-functions-durable-graph によるファンアウト/ファンイン DAG オーケストレーション。 |
 | [Durable Hello Sequence](examples/orchestration-and-workflows/durable_hello_sequence/) | 初級 | アクティビティを順番に連結する Durable Functions オーケストレーター。 |
 | [Durable Human Interaction](examples/orchestration-and-workflows/durable_human_interaction/) | 中級 | タイムアウト付きで外部承認イベントを待つ Durable Functions ワークフロー。 |
 | [Durable Retry Pattern](examples/orchestration-and-workflows/durable_retry_pattern/) | 中級 | 不安定なアクティビティを再試行する Durable Functions オーケストレーション。 |
@@ -188,7 +187,6 @@ durable = find_recipe(tag="durable")
 | [Azure OpenAI Direct Chat](examples/ai-and-agents/openai_direct_chat/) | 初級 | `openai` Python SDK で Azure OpenAI に 1 つのメッセージを送信する最小限の HTTP トリガー Azure Functions サンプル。 |
 | [Durable AI Pipeline](examples/ai-and-agents/durable_ai_pipeline/) | 上級 | 埋め込み、ベクトル検索、回答生成の 3 つの AI ステップをオーケストレーションする Durable Functions サンプル。 |
 | [Embedding Vector Search](examples/ai-and-agents/embedding_vector_search/) | 上級 | Azure OpenAI の埋め込みを作成し、それを使用して Azure AI Search に対してベクトルクエリを実行する HTTP トリガーサンプル。 |
-| [Knowledge Notion Search](examples/ai-and-agents/knowledge_notion_search/) | 中級 | azure-functions-knowledge の KnowledgeBindings input/inject_client デコレーターを使用した Notion 基盤のナレッジ検索。 |
 | [LangGraph Agent](examples/ai-and-agents/langgraph_agent/) | 中級 | `azure-functions-langgraph-python` アダプターを `azure-functions-logging-python`、`azure-functions-validation-python`、`azure-functions-openapi-python` とともに示します。 |
 | [LangGraph RAG Agent](examples/ai-and-agents/langgraph_rag_agent/) | 上級 | この例は、次を組み合わせる方法を示します: |
 | [Langgraph Tool Use](examples/ai-and-agents/langgraph_tool_use/) | 上級 | 推論ノードと呼び出し可能なツールの間をルーティングする azure-functions-langgraph によるツール使用 LangGraph エージェント。 |
@@ -306,9 +304,7 @@ PR を作成する前に、変更した Python ファイルで `ruff format --ch
 | [azure-functions-langgraph-python](https://github.com/yeongseon/azure-functions-langgraph-python) | Azure Functions 向け LangGraph デプロイアダプター | Dogfooded ([3 例](https://github.com/search?q=repo%3Ayeongseon%2Fazure-functions-cookbook-python+azure_functions_langgraph+path%3Aexamples&type=code)) |
 | [azure-functions-scaffold-python](https://github.com/yeongseon/azure-functions-scaffold-python) | プロジェクトスキャフォールディング CLI | Dogfooded ([1 例、CLI 生成](examples/apis-and-ingress/scaffold_walkthrough_app/)) |
 | [azure-functions-doctor-python](https://github.com/yeongseon/azure-functions-doctor-python) | デプロイ前診断 CLI | Dogfooded ([1 例](https://github.com/search?q=repo%3Ayeongseon%2Fazure-functions-cookbook-python+azure_functions_doctor+path%3Aexamples&type=code)) |
-| [azure-functions-durable-graph-python](https://github.com/yeongseon/azure-functions-durable-graph-python) | Durable Functions によるマニフェストファーストのグラフランタイム *(実験的)* | Dogfooded ([1 例](examples/orchestration-and-workflows/durable_graph_fan_out/) — `durable_graph_fan_out`) |
-| [azure-functions-knowledge-python](https://github.com/yeongseon/azure-functions-knowledge-python) | ナレッジ検索(RAG)デコレーター | Dogfooded ([1 例](examples/ai-and-agents/knowledge_notion_search/) — `knowledge_notion_search` が実際の `KnowledgeBindings` API を使用) |
-| **azure-functions-cookbook-python** *(このリポジトリ)* | 全ツールキットのドッグフード例 | 82 例 |
+| **azure-functions-cookbook-python** *(このリポジトリ)* | 全ツールキットのドッグフード例 | 80 例 |
 
 ## For AI Coding Assistants
 

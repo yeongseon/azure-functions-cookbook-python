@@ -141,7 +141,6 @@ durable = find_recipe(tag="durable")
 | [Durable Determinism Gotchas](examples/orchestration-and-workflows/durable_determinism_gotchas/) | Advanced | Durable Functions orchestrator showing deterministic coding patterns. |
 | [Durable Entity Counter](examples/orchestration-and-workflows/durable_entity_counter/) | Intermediate | Durable Entity example managing counter state. |
 | [Durable Fan-Out Fan-In](examples/orchestration-and-workflows/durable_fan_out_fan_in/) | Intermediate | Durable Functions fan-out/fan-in orchestration with parallel activities. |
-| [Durable Graph Fan Out](examples/orchestration-and-workflows/durable_graph_fan_out/) | Advanced | Fan-out/fan-in DAG orchestration with azure-functions-durable-graph, driven by a declarative ManifestBuilder graph. |
 | [Durable Hello Sequence](examples/orchestration-and-workflows/durable_hello_sequence/) | Beginner | Durable Functions orchestrator chaining activities in sequence. |
 | [Durable Human Interaction](examples/orchestration-and-workflows/durable_human_interaction/) | Intermediate | Durable Functions workflow waiting for an external approval event with timeout. |
 | [Durable Retry Pattern](examples/orchestration-and-workflows/durable_retry_pattern/) | Intermediate | Durable Functions orchestration retrying a flaky activity. |
@@ -195,7 +194,6 @@ durable = find_recipe(tag="durable")
 | [Azure OpenAI Direct Chat](examples/ai-and-agents/openai_direct_chat/) | Beginner | Minimal HTTP-triggered Azure Functions sample that sends one message to Azure OpenAI with the `openai` Python SDK. |
 | [Durable AI Pipeline](examples/ai-and-agents/durable_ai_pipeline/) | Advanced | Durable Functions sample that orchestrates three AI steps: embedding, vector search, and answer generation. |
 | [Embedding Vector Search](examples/ai-and-agents/embedding_vector_search/) | Advanced | HTTP-triggered sample that creates Azure OpenAI embeddings and uses them to run a vector query against Azure AI Search. |
-| [Knowledge Notion Search](examples/ai-and-agents/knowledge_notion_search/) | Intermediate | Notion-backed knowledge retrieval with azure-functions-knowledge KnowledgeBindings input/inject_client decorators. |
 | [LangGraph Agent](examples/ai-and-agents/langgraph_agent/) | Intermediate | Demonstrates `azure-functions-langgraph-python` adapter with `azure-functions-logging-python`, `azure-functions-validation-python`, and `azure-functions-openapi-python`. |
 | [LangGraph RAG Agent](examples/ai-and-agents/langgraph_rag_agent/) | Advanced | This example shows how to combine: |
 | [Langgraph Tool Use](examples/ai-and-agents/langgraph_tool_use/) | Advanced | Tool-use LangGraph agent with azure-functions-langgraph, routing between a reasoning node and callable tools. |
@@ -209,7 +207,7 @@ durable = find_recipe(tag="durable")
 | --- | --- | --- |
 | [Local Run and Direct Invoke](examples/guides/local_run_and_direct_invoke/) | Beginner | This example shows two local testing workflows for an Azure Functions Python app: |
 
-_82 recipes._
+_80 recipes._
 
 <!-- END RECIPES -->
 
@@ -310,9 +308,7 @@ The **Status** column reflects how each package is currently exercised in this r
 | [azure-functions-langgraph-python](https://github.com/yeongseon/azure-functions-langgraph-python) | LangGraph deployment adapter for Azure Functions | Dogfooded ([3 examples](https://github.com/search?q=repo%3Ayeongseon%2Fazure-functions-cookbook-python+azure_functions_langgraph+path%3Aexamples&type=code)) |
 | [azure-functions-scaffold-python](https://github.com/yeongseon/azure-functions-scaffold-python) | Project scaffolding CLI | Dogfooded ([1 example, CLI-generated](examples/apis-and-ingress/scaffold_walkthrough_app/)) |
 | [azure-functions-doctor-python](https://github.com/yeongseon/azure-functions-doctor-python) | Pre-deploy diagnostic CLI | Dogfooded ([1 example](https://github.com/search?q=repo%3Ayeongseon%2Fazure-functions-cookbook-python+azure_functions_doctor+path%3Aexamples&type=code)) |
-| [azure-functions-durable-graph-python](https://github.com/yeongseon/azure-functions-durable-graph-python) | Manifest-first graph runtime with Durable Functions *(experimental)* | Dogfooded ([1 example](examples/orchestration-and-workflows/durable_graph_fan_out/) — `durable_graph_fan_out`) |
-| [azure-functions-knowledge-python](https://github.com/yeongseon/azure-functions-knowledge-python) | Knowledge retrieval (RAG) decorators | Dogfooded ([1 example](examples/ai-and-agents/knowledge_notion_search/) — `knowledge_notion_search` uses the real `KnowledgeBindings` API) |
-| **azure-functions-cookbook-python** *(this repo)* | Dogfood examples for the full toolkit | 82 examples |
+| **azure-functions-cookbook-python** *(this repo)* | Dogfood examples for the full toolkit | 80 examples |
 
 ## For AI Coding Assistants
 
