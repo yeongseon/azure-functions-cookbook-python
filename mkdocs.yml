@@ -35,6 +35,8 @@ nav:
           - Multi-Tenant Auth: patterns/apis-and-ingress/auth-multitenant.md
           - BFF Facade API: patterns/apis-and-ingress/bff-facade-api.md
           - Full-Stack CRUD API: patterns/apis-and-ingress/full-stack-crud-api.md
+          - OpenAPI Return-Type Inference: patterns/apis-and-ingress/openapi-inference.md
+          - OpenAPI Validation Supersedes Inference: patterns/apis-and-ingress/openapi-supersedes.md
       - Scheduled & Background:
           - Overview: patterns/scheduled-and-background/index.md
           - Timer Cron Job: patterns/scheduled-and-background/timer-cron-job.md
