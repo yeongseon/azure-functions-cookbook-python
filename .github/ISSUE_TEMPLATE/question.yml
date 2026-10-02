@@ -1,7 +1,7 @@
 name: Question
 description: Ask a question about using the cookbook
 title: "docs: "
-labels: ["question"]
+labels: ["question", "needs-triage"]
 body:
   - type: textarea
     id: question
