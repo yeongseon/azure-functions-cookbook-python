@@ -758,6 +758,15 @@ class TestAuthJwtValidation:
         assert status == 200
         assert body["message"] == "Access granted to protected resource."
 
+    def test_get_protected_response_with_role_array(self) -> None:
+        _load_example_module("apis-and-ingress/auth_jwt_validation")
+        svc = _import_service("apis-and-ingress/auth_jwt_validation", "app.services.jwt_service")
+        claims = {"sub": "user-1", "roles": ["api.read", "api.write"]}
+
+        _body, status = svc.get_protected_response(claims)
+
+        assert status == 200
+
     def test_get_protected_response_without_claim(self) -> None:
         _load_example_module("apis-and-ingress/auth_jwt_validation")
         svc = _import_service("apis-and-ingress/auth_jwt_validation", "app.services.jwt_service")
