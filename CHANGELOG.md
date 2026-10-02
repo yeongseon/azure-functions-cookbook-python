@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.3.1](https://github.com/yeongseon/azure-functions-cookbook-python/compare/v0.3.0...v0.3.1) (2026-10-02)
+
+
+### Bug Fixes
+
+* **auth-jwt:** accept role arrays during authorization ([#271](https://github.com/yeongseon/azure-functions-cookbook-python/issues/271)) ([2c64ecc](https://github.com/yeongseon/azure-functions-cookbook-python/commit/2c64ecc6a7f36a48584746a65cf3c81adb859ab8))
+
 ## [0.3.0](https://github.com/yeongseon/azure-functions-cookbook-python/compare/v0.2.0...v0.3.0) (2026-10-01)
 
 
