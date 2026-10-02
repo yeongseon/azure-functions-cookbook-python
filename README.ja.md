@@ -304,7 +304,7 @@ PR を作成する前に、変更した Python ファイルで `ruff format --ch
 | [azure-functions-langgraph-python](https://github.com/yeongseon/azure-functions-langgraph-python) | Azure Functions 向け LangGraph デプロイアダプター | Dogfooded ([3 例](https://github.com/search?q=repo%3Ayeongseon%2Fazure-functions-cookbook-python+azure_functions_langgraph+path%3Aexamples&type=code)) |
 | [azure-functions-scaffold-python](https://github.com/yeongseon/azure-functions-scaffold-python) | プロジェクトスキャフォールディング CLI | Dogfooded ([1 例、CLI 生成](examples/apis-and-ingress/scaffold_walkthrough_app/)) |
 | [azure-functions-doctor-python](https://github.com/yeongseon/azure-functions-doctor-python) | デプロイ前診断 CLI | Dogfooded ([1 例](https://github.com/search?q=repo%3Ayeongseon%2Fazure-functions-cookbook-python+azure_functions_doctor+path%3Aexamples&type=code)) |
-| **azure-functions-cookbook-python** *(このリポジトリ)* | 全ツールキットのドッグフード例 | 80 例 |
+| **azure-functions-cookbook-python** *(このリポジトリ)* | 全ツールキットのドッグフード例 | 81 例 |
 
 ## For AI Coding Assistants
 
