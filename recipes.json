@@ -45,21 +45,6 @@
     ]
   },
   {
-    "slug": "knowledge-notion-search",
-    "title": "Knowledge Notion Search",
-    "category": "ai-and-agents",
-    "description": "Notion-backed knowledge retrieval with azure-functions-knowledge KnowledgeBindings input/inject_client decorators.",
-    "example_path": "ai-and-agents/knowledge_notion_search",
-    "docs_url": "https://yeongseon.dev/azure-functions-python/cookbook/patterns/ai-and-agents/",
-    "difficulty": "Intermediate",
-    "tags": [
-      "ai-and-agents",
-      "knowledge",
-      "notion",
-      "search"
-    ]
-  },
-  {
     "slug": "langgraph-agent",
     "title": "LangGraph Agent",
     "category": "ai-and-agents",
@@ -756,22 +741,6 @@
       "durable",
       "fan",
       "in",
-      "orchestration-and-workflows",
-      "out"
-    ]
-  },
-  {
-    "slug": "durable-graph-fan-out",
-    "title": "Durable Graph Fan Out",
-    "category": "orchestration-and-workflows",
-    "description": "Fan-out/fan-in DAG orchestration with azure-functions-durable-graph, driven by a declarative ManifestBuilder graph.",
-    "example_path": "orchestration-and-workflows/durable_graph_fan_out",
-    "docs_url": "https://yeongseon.dev/azure-functions-python/cookbook/patterns/orchestration-and-workflows/",
-    "difficulty": "Advanced",
-    "tags": [
-      "durable",
-      "fan",
-      "graph",
       "orchestration-and-workflows",
       "out"
     ]
