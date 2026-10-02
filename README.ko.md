@@ -304,7 +304,7 @@ PR을 열기 전에 변경한 Python 파일에 `ruff format --check <변경한-P
 | [azure-functions-langgraph-python](https://github.com/yeongseon/azure-functions-langgraph-python) | Azure Functions용 LangGraph 배포 어댑터 | Dogfooded ([예제 3개](https://github.com/search?q=repo%3Ayeongseon%2Fazure-functions-cookbook-python+azure_functions_langgraph+path%3Aexamples&type=code)) |
 | [azure-functions-scaffold-python](https://github.com/yeongseon/azure-functions-scaffold-python) | 프로젝트 스캐폴딩 CLI | Dogfooded ([예제 1개, CLI 생성](examples/apis-and-ingress/scaffold_walkthrough_app/)) |
 | [azure-functions-doctor-python](https://github.com/yeongseon/azure-functions-doctor-python) | 배포 전 진단 CLI | Dogfooded ([예제 1개](https://github.com/search?q=repo%3Ayeongseon%2Fazure-functions-cookbook-python+azure_functions_doctor+path%3Aexamples&type=code)) |
-| **azure-functions-cookbook-python** *(이 저장소)* | 전체 툴킷을 위한 도그푸드 예제 | 예제 80개 |
+| **azure-functions-cookbook-python** *(이 저장소)* | 전체 툴킷을 위한 도그푸드 예제 | 예제 81개 |
 
 ## For AI Coding Assistants
 
