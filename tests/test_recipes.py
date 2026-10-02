@@ -8,6 +8,7 @@ trustworthy single source of truth.
 from __future__ import annotations
 
 import re
+from urllib.parse import urlparse
 
 import pytest
 
@@ -65,6 +66,19 @@ def test_recipe_title_matches_readme(recipe: Recipe) -> None:
     readme_title = match.group(1).strip().replace("`", "")
     assert recipe.title == readme_title, (
         f"{recipe.example_path}: title `{recipe.title}` != README heading `{readme_title}`"
+    )
+
+
+@pytest.mark.parametrize("recipe", RECIPES, ids=lambda r: r.example_path)
+def test_recipe_docs_url_maps_to_source_page(recipe: Recipe) -> None:
+    if recipe.docs_url is None:
+        return
+
+    docs_path = urlparse(recipe.docs_url).path.partition("/cookbook/")[2].rstrip("/")
+    page_name = "index.md" if docs_path == f"patterns/{recipe.category}" else f"{recipe.slug}.md"
+    source_page = EXAMPLES_DIR.parent / "docs" / "patterns" / recipe.category / page_name
+    assert source_page.is_file(), (
+        f"{recipe.example_path}: docs_url `{recipe.docs_url}` has no source page `{source_page}`"
     )
 
 
