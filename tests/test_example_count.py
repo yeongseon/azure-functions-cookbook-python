@@ -9,6 +9,7 @@ any documented count diverges, so prose and reality stay in lockstep.
 
 from __future__ import annotations
 
+from collections import Counter
 from pathlib import Path
 import re
 
@@ -19,6 +20,10 @@ EXAMPLES_DIR = REPO_ROOT / "examples"
 def _actual_example_count() -> int:
     """Count example projects as ``examples/<category>/<name>/function_app.py``."""
     return len(list(EXAMPLES_DIR.glob("*/*/function_app.py")))
+
+
+def _recipe_counts() -> Counter[str]:
+    return Counter(path.parent.parent.name for path in EXAMPLES_DIR.glob("*/*/recipe.yaml"))
 
 
 def test_examples_exist() -> None:
@@ -51,3 +56,23 @@ def test_readme_count_matches_filesystem() -> None:
         f"README.md documents {documented} example projects but the filesystem has {actual}. "
         f"Update the '(this repo)' row count in README.md."
     )
+
+
+def test_prd_recipe_counts_match_inventory() -> None:
+    text = (REPO_ROOT / "PRD.md").read_text(encoding="utf-8")
+    total = sum(_recipe_counts().values())
+    assert text.count(f"{total} curated recipes") == 1
+    assert text.count(f"{total} published recipes") == 1
+
+
+def test_pattern_index_counts_match_inventory() -> None:
+    text = (REPO_ROOT / "docs" / "patterns" / "index.md").read_text(encoding="utf-8")
+    counts = _recipe_counts()
+    rows = {
+        link: int(count)
+        for count, link in re.findall(
+            r"\| [^|]+ \| (\d+) \| \[Open category\]\((?:\./|\.\./)([^/]+)/", text
+        )
+    }
+    assert rows == counts
+    assert f"Total published recipes: **{sum(counts.values())}**." in text
