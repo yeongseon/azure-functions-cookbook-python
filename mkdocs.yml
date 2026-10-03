@@ -36,6 +36,7 @@ nav:
           - BFF Facade API: patterns/apis-and-ingress/bff-facade-api.md
           - Full-Stack CRUD API: patterns/apis-and-ingress/full-stack-crud-api.md
           - OpenAPI Return-Type Inference: patterns/apis-and-ingress/openapi-inference.md
+          - OpenAPI Return-Type Inference Opt-Out: patterns/apis-and-ingress/openapi-inference-opt-out.md
           - OpenAPI Validation Supersedes Inference: patterns/apis-and-ingress/openapi-supersedes.md
       - Scheduled & Background:
           - Overview: patterns/scheduled-and-background/index.md

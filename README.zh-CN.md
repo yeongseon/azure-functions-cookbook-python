@@ -304,7 +304,7 @@ Python 文件的格式问题。
 | [azure-functions-langgraph-python](https://github.com/yeongseon/azure-functions-langgraph-python) | 面向 Azure Functions 的 LangGraph 部署适配器 | Dogfooded ([3 个示例](https://github.com/search?q=repo%3Ayeongseon%2Fazure-functions-cookbook-python+azure_functions_langgraph+path%3Aexamples&type=code)) |
 | [azure-functions-scaffold-python](https://github.com/yeongseon/azure-functions-scaffold-python) | 项目脚手架 CLI | Dogfooded ([1 个示例，CLI 生成](examples/apis-and-ingress/scaffold_walkthrough_app/)) |
 | [azure-functions-doctor-python](https://github.com/yeongseon/azure-functions-doctor-python) | 部署前诊断 CLI | Dogfooded ([1 个示例](https://github.com/search?q=repo%3Ayeongseon%2Fazure-functions-cookbook-python+azure_functions_doctor+path%3Aexamples&type=code)) |
-| **azure-functions-cookbook-python** *(本仓库)* | 面向整个工具包的 dogfood 示例 | 80 个示例 |
+| **azure-functions-cookbook-python** *(本仓库)* | 面向整个工具包的 dogfood 示例 | 81 个示例 |
 
 ## For AI Coding Assistants
 

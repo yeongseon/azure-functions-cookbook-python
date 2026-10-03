@@ -71,6 +71,7 @@ durable = find_recipe(tag="durable")
 | [JWT Bearer Validation](examples/apis-and-ingress/auth_jwt_validation/) | Intermediate | JWT Bearer token validation with claim-based access control for Azure Functions. |
 | [Multi-Tenant Auth](examples/apis-and-ingress/auth_multitenant/) | Intermediate | Multi-tenant access control with tenant allowlist for Azure Functions. |
 | [OpenAPI Return-Type Inference](examples/apis-and-ingress/openapi_inference/) | Intermediate | Infer the OpenAPI 200 response schema directly from a handler's return-type annotation using azure-functions-openapi. |
+| [OpenAPI Return-Type Inference Opt-Out](examples/apis-and-ingress/openapi_inference_opt_out/) | Intermediate | Opt out of inferred OpenAPI 200 response schemas per handler with infer_return_types=False. |
 | [OpenAPI Validation Supersedes Inference](examples/apis-and-ingress/openapi_supersedes/) | Intermediate | Show how a validation response_model supersedes the return-type-inferred OpenAPI 200 schema. |
 | [Scaffold Walkthrough — from afs new to a running HTTP API](examples/apis-and-ingress/scaffold_walkthrough_app/) | Beginner | This recipe is the **committed output of `azure-functions-scaffold`** with the default `strict` preset. Use it to see exactly what the scaffold CLI generates for a fresh Azure Functions Python v2 HTTP project and to learn the recommended local dev loop. |
 | [Webhook GitHub](examples/apis-and-ingress/webhook_github/) | Intermediate | GitHub webhook receiver example with HMAC-SHA256 signature verification. |
@@ -207,7 +208,7 @@ durable = find_recipe(tag="durable")
 | --- | --- | --- |
 | [Local Run and Direct Invoke](examples/guides/local_run_and_direct_invoke/) | Beginner | This example shows two local testing workflows for an Azure Functions Python app: |
 
-_80 recipes._
+_81 recipes._
 
 <!-- END RECIPES -->
 
@@ -308,7 +309,7 @@ The **Status** column reflects how each package is currently exercised in this r
 | [azure-functions-langgraph-python](https://github.com/yeongseon/azure-functions-langgraph-python) | LangGraph deployment adapter for Azure Functions | Dogfooded ([3 examples](https://github.com/search?q=repo%3Ayeongseon%2Fazure-functions-cookbook-python+azure_functions_langgraph+path%3Aexamples&type=code)) |
 | [azure-functions-scaffold-python](https://github.com/yeongseon/azure-functions-scaffold-python) | Project scaffolding CLI | Dogfooded ([1 example, CLI-generated](examples/apis-and-ingress/scaffold_walkthrough_app/)) |
 | [azure-functions-doctor-python](https://github.com/yeongseon/azure-functions-doctor-python) | Pre-deploy diagnostic CLI | Dogfooded ([1 example](https://github.com/search?q=repo%3Ayeongseon%2Fazure-functions-cookbook-python+azure_functions_doctor+path%3Aexamples&type=code)) |
-| **azure-functions-cookbook-python** *(this repo)* | Dogfood examples for the full toolkit | 80 examples |
+| **azure-functions-cookbook-python** *(this repo)* | Dogfood examples for the full toolkit | 81 examples |
 
 ## For AI Coding Assistants
 
