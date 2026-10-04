@@ -1,56 +1,19 @@
 from __future__ import annotations
 
-import logging
 import uuid
 from typing import Any
 
 import azure.functions as func
+from azure_functions_db import DbBindings, DbOut, DbReader
+from azure_functions_logging import get_logger, setup_logging, with_context
+from azure_functions_openapi import openapi
+from azure_functions_validation import validate_http
 from pydantic import BaseModel
 
-try:
-    from azure_functions_db import DbBindings, DbOut, DbReader
-
-    db: Any = DbBindings()
-    _db_available = True
-except ImportError:
-    db = None
-    _db_available = False
-    DbReader = Any  # type: ignore[assignment,misc]
-    DbOut = Any  # type: ignore[assignment,misc]
-
-try:
-    from azure_functions_logging import get_logger, setup_logging, with_context
-
-    setup_logging(format="json")
-    logger = get_logger(__name__)
-except ImportError:
-    logging.basicConfig(level=logging.INFO)
-    logger = logging.getLogger(__name__)  # type: ignore[assignment]
-
-    def with_context(fn: Any) -> Any:  # type: ignore[misc]
-        return fn
-
-
-try:
-    from azure_functions_validation import validate_http
-except ImportError:
-
-    def validate_http(**kwargs: Any) -> Any:  # type: ignore[misc]
-        def decorator(fn: Any) -> Any:
-            return fn
-
-        return decorator
-
-
-try:
-    from azure_functions_openapi import openapi
-except ImportError:
-
-    def openapi(**kwargs: Any) -> Any:  # type: ignore[misc]
-        def decorator(fn: Any) -> Any:
-            return fn
-
-        return decorator
+db: Any = DbBindings()
+_db_available = True
+setup_logging(format="json")
+logger = get_logger(__name__)
 
 
 app = func.FunctionApp(http_auth_level=func.AuthLevel.FUNCTION)

@@ -6,60 +6,24 @@ conditionally routes to a callable **tool** (a calculator or a time lookup)
 before returning. This shows LangGraph conditional edges wired to tools while
 staying inside the Azure Functions ``azure-functions-langgraph`` adapter.
 
-Every optional import (langgraph, the azure-functions-* siblings) is guarded so
-the module imports cleanly under the cookbook smoke suite, which only imports
-``function_app`` and asserts it exposes ``app``.
+The family packages are hard dependencies so API drift fails during import.
 """
 
 from __future__ import annotations
 
-import logging
 import uuid
 from typing import Any
 
 import azure.functions as func
+from azure_functions_langgraph import LangGraphApp
+from azure_functions_logging import get_logger, setup_logging, with_context
+from azure_functions_openapi import openapi
+from azure_functions_validation import validate_http
 from pydantic import BaseModel
 
-try:
-    from azure_functions_langgraph import LangGraphApp as _LangGraphApp
-
-    _langgraph_app: Any = _LangGraphApp()
-except ImportError:
-    _langgraph_app = None
-
-try:
-    from azure_functions_logging import get_logger, setup_logging, with_context
-
-    setup_logging(format="json")
-    logger = get_logger(__name__)
-except ImportError:
-    logging.basicConfig(level=logging.INFO)
-    logger = logging.getLogger(__name__)  # type: ignore[assignment]
-
-    def with_context(fn: Any) -> Any:  # type: ignore[misc]
-        return fn
-
-
-try:
-    from azure_functions_validation import validate_http
-except ImportError:
-
-    def validate_http(**kwargs: Any) -> Any:  # type: ignore[misc]
-        def decorator(fn: Any) -> Any:
-            return fn
-
-        return decorator
-
-
-try:
-    from azure_functions_openapi import openapi
-except ImportError:
-
-    def openapi(**kwargs: Any) -> Any:  # type: ignore[misc]
-        def decorator(fn: Any) -> Any:
-            return fn
-
-        return decorator
+_langgraph_app = LangGraphApp()
+setup_logging(format="json")
+logger = get_logger(__name__)
 
 
 app = func.FunctionApp(http_auth_level=func.AuthLevel.FUNCTION)
@@ -137,7 +101,7 @@ def build_graph() -> Any:
 
 
 graph = build_graph()
-if graph is not None and _langgraph_app is not None:
+if graph is not None:
     _langgraph_app.register(graph=graph, name="langgraph_tool_use")
 
 
