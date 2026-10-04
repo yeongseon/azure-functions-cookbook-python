@@ -29,12 +29,15 @@ resource uploadsContainer 'Microsoft.Storage/storageAccounts/blobServices/contai
 resource plan 'Microsoft.Web/serverfarms@2023-01-01' = {
   name: '${baseName}-plan'
   location: location
-  kind: 'functionapp'
+  kind: 'linux'
   sku: {
     name: 'Y1'
     tier: 'Dynamic'
   }
   properties: {}
+  properties: {
+    reserved: true
+  }
 }
 
 resource functionApp 'Microsoft.Web/sites@2023-01-01' = {
