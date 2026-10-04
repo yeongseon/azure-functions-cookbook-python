@@ -1,73 +1,16 @@
 from __future__ import annotations
 
-import importlib
 import json
-import logging
 import uuid
 from typing import Any, Literal, TypedDict
 
 import azure.functions as func
+from azure_functions_langgraph import LangGraphApp
+from azure_functions_logging import get_logger, setup_logging, with_context
+from azure_functions_openapi import openapi
+from azure_functions_validation import validate_http
+from langgraph.graph import END, START, StateGraph
 from pydantic import BaseModel, Field
-
-
-class FallbackLangGraphApp:
-    def __init__(self, auth_level: func.AuthLevel = func.AuthLevel.ANONYMOUS):
-        self.auth_level = auth_level
-        self.function_app = func.FunctionApp(http_auth_level=auth_level)
-        self.graph: object | None = None
-        self.graph_name: str | None = None
-        self.graph_description: str | None = None
-
-    def register(self, graph: object, name: str, description: str | None = None) -> None:
-        self.graph = graph
-        self.graph_name = name
-        self.graph_description = description
-
-
-def _load_attr(module_name: str, attr_name: str, default: object) -> object:
-    try:
-        module = importlib.import_module(module_name)
-    except ImportError:
-        return default
-    return getattr(module, attr_name, default)
-
-
-def _setup_logging_fallback(*args: object, **kwargs: object) -> None:
-    logging.basicConfig(level=logging.INFO)
-
-
-def _get_logger_fallback(name: str) -> logging.Logger:
-    return logging.getLogger(name)
-
-
-def _identity_decorator(*args: object, **kwargs: object):
-    def decorator(func_handler):
-        return func_handler
-
-    return decorator
-
-
-def _with_context_fallback(func_handler):
-    return func_handler
-
-
-LangGraphApp = _load_attr("azure_functions_langgraph", "LangGraphApp", FallbackLangGraphApp)
-get_logger = _load_attr("azure_functions_logging", "get_logger", _get_logger_fallback)
-setup_logging = _load_attr("azure_functions_logging", "setup_logging", _setup_logging_fallback)
-with_context = _load_attr("azure_functions_logging", "with_context", _with_context_fallback)
-openapi = _load_attr("azure_functions_openapi", "openapi", _identity_decorator)
-validate_http = _load_attr("azure_functions_validation", "validate_http", _identity_decorator)
-
-_langgraph_graph = importlib.util.find_spec("langgraph.graph")
-if _langgraph_graph is not None:
-    _graph_module = importlib.import_module("langgraph.graph")
-    END = _graph_module.END
-    START = _graph_module.START
-    StateGraph = _graph_module.StateGraph
-else:
-    END = None
-    START = None
-    StateGraph = None
 
 
 setup_logging(format="json")
@@ -239,11 +182,7 @@ def direct_response_node(state: AgentState) -> AgentState:
     }
 
 
-def build_graph() -> Any | None:
-    if StateGraph is None or START is None or END is None:
-        logger.warning("langgraph is not installed; using direct Python fallback.")
-        return None
-
+def build_graph() -> Any:
     builder = StateGraph(AgentState)
     builder.add_node("router", router_node)
     builder.add_node("knowledge_search", knowledge_search_node)

@@ -10,6 +10,8 @@ from dataclasses import dataclass
 from http import HTTPStatus
 from typing import Protocol, TypeVar, cast
 
+from azure_functions_logging import get_logger, setup_logging, with_context
+
 F = TypeVar("F", bound=Callable[..., object])
 Decorator = Callable[[Callable[..., object]], Callable[..., object]]
 
@@ -253,16 +255,6 @@ except ImportError:
     func = _FallbackFuncModule()
 
 try:
-    logging_toolkit = importlib.import_module("azure_functions_logging")
-    get_logger = cast(Callable[[str], LoggerProtocol], getattr(logging_toolkit, "get_logger"))
-    setup_logging = cast(Callable[..., None], getattr(logging_toolkit, "setup_logging"))
-    with_context = cast(Decorator, getattr(logging_toolkit, "with_context"))
-except ImportError:
-    get_logger = _fallback_get_logger
-    setup_logging = _fallback_setup_logging
-    with_context = cast(Decorator, _passthrough)
-
-try:
     servicebus_module = importlib.import_module("azure.servicebus")
     ServiceBusClient = cast(
         ServiceBusClientProtocol, getattr(servicebus_module, "ServiceBusClient")
@@ -409,7 +401,9 @@ def log_dead_lettered_message(msg: ServiceBusTriggerMessageProtocol) -> None:
 
 @app.route(route="servicebus/dlq/replay", methods=["POST"])
 @with_context
-def replay_dead_letter_queue(req: HttpRequestProtocol, context: func.Context) -> HttpResponseProtocol:
+def replay_dead_letter_queue(
+    req: HttpRequestProtocol, context: func.Context
+) -> HttpResponseProtocol:
     batch_size = _resolve_batch_size(req)
     replayed: list[dict[str, object]] = []
 
