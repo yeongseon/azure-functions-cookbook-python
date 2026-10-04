@@ -38,6 +38,9 @@ jobs:
       - name: Workflow hygiene lint (action pins)
         run: python tools/lint_workflow_pins.py
 
+      - name: Check generated recipe requirements
+        run: python scripts/gen_requirements.py --check
+
       - name: Ruff style check
         run: |
           ruff check src tests
