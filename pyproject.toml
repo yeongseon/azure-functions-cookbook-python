@@ -48,6 +48,7 @@ dev = [
     "pyyaml>=6.0,<7",
     "requests>=2.34,<3",
     "ruff>=0.15,<1",
+    "tomli>=2.4,<3",
     "twine>=6.2,<8",
     "types-PyYAML>=6.0,<7",
 ]
