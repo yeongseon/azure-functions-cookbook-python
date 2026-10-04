@@ -8,6 +8,8 @@ from collections.abc import Callable
 from dataclasses import dataclass
 from typing import Protocol, TypeVar, cast
 
+from azure_functions_logging import get_logger, setup_logging
+
 F = TypeVar("F", bound=Callable[..., object])
 
 
@@ -91,15 +93,6 @@ try:
     func = cast(FuncModuleProtocol, cast(object, importlib.import_module("azure.functions")))
 except ImportError:
     func = _FallbackFuncModule()
-
-
-try:
-    logging_toolkit = importlib.import_module("azure_functions_logging")
-    get_logger = cast(Callable[[str], logging.Logger], getattr(logging_toolkit, "get_logger"))
-    setup_logging = cast(Callable[..., None], getattr(logging_toolkit, "setup_logging"))
-except ImportError:
-    get_logger = _fallback_get_logger
-    setup_logging = _fallback_setup_logging
 
 
 setup_logging(format="json")

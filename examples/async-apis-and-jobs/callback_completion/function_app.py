@@ -14,6 +14,8 @@ from typing import Any, Protocol, TypeVar, cast
 from urllib import error, parse, request
 from uuid import uuid4
 
+from azure_functions_logging import get_logger, setup_logging
+from azure_functions_validation import validate_http
 from pydantic import BaseModel, Field, field_validator
 
 F = TypeVar("F", bound=Callable[..., object])
@@ -142,22 +144,6 @@ except ImportError:
             return _FallbackFunctionApp()
 
     func = _FallbackFuncModule()
-
-
-try:
-    logging_toolkit = importlib.import_module("azure_functions_logging")
-    get_logger = cast(Callable[[str], LoggerProtocol], getattr(logging_toolkit, "get_logger"))
-    setup_logging = cast(Callable[..., None], getattr(logging_toolkit, "setup_logging"))
-except ImportError:
-    get_logger = _fallback_get_logger
-    setup_logging = _fallback_setup_logging
-
-
-try:
-    validation_toolkit = importlib.import_module("azure_functions_validation")
-    validate_http = cast(Callable[..., Decorator], getattr(validation_toolkit, "validate_http"))
-except ImportError:
-    validate_http = _fallback_validate_http
 
 
 setup_logging(format="json")
