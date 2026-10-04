@@ -22,9 +22,12 @@ resource storage 'Microsoft.Storage/storageAccounts@2023-01-01' = {
 resource plan 'Microsoft.Web/serverfarms@2023-01-01' = {
   name: '${baseName}-plan'
   location: location
-  kind: 'functionapp'
+  kind: 'linux'
   sku: { name: 'Y1', tier: 'Dynamic' }
   properties: {}
+  properties: {
+    reserved: true
+  }
 }
 
 resource redis 'Microsoft.Cache/redis@2023-08-01' = {
