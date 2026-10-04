@@ -76,3 +76,10 @@ def test_pattern_index_counts_match_inventory() -> None:
     }
     assert rows == counts
     assert f"Total published recipes: **{sum(counts.values())}**." in text
+
+
+def test_roadmap_recipe_counts_match_inventory() -> None:
+    text = (REPO_ROOT / "docs" / "roadmap.md").read_text(encoding="utf-8")
+    total = sum(_recipe_counts().values())
+    assert text.count(f"{total} production-ready recipes") == 1
+    assert text.count(f"**{total} recipes**") == 1

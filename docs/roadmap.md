@@ -4,7 +4,7 @@ The Azure Functions Python Cookbook is a mission-driven project aimed at providi
 
 ## Current Status
 
-The project has reached **v0.1.2** with **31 production-ready recipes** covering all major Azure Functions trigger types, Durable Functions orchestration patterns, and cross-cutting concerns like managed identity, retry/idempotency, authentication, and performance tuning. The documentation site is live and auto-deployed via GitHub Pages.
+The project has reached **v0.1.2** with **81 production-ready recipes** covering all major Azure Functions trigger types, Durable Functions orchestration patterns, and cross-cutting concerns like managed identity, retry/idempotency, authentication, and performance tuning. The documentation site is live and auto-deployed via GitHub Pages.
 
 ## Phase 1: Foundation (COMPLETE)
 
@@ -21,7 +21,7 @@ The primary goal of this phase was to build the infrastructure required to suppo
 
 This phase delivered comprehensive recipes across all major Azure Functions trigger types.
 
-- ✅ **31 recipes** written with production-ready content across 11 categories.
+- ✅ **81 recipes** written with production-ready content across the current catalog categories.
 - ✅ **31 runnable example projects** with `pyproject.toml`, `function_app.py`, and local run instructions.
 - ✅ Deep-dive production notes covering performance, scaling, retries, and security.
 - ✅ Mermaid architectural diagrams for pattern visualization.
