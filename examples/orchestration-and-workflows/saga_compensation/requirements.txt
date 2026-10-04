@@ -1,0 +1,4 @@
+azure-functions
+azure-functions-db
+azure-functions-durable
+azure-functions-logging
