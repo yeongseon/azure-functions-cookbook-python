@@ -5,7 +5,7 @@ import warnings
 
 __all__ = ["__version__"]
 
-__version__ = "0.3.1"  # x-release-please-version
+__version__ = "0.3.2"  # x-release-please-version
 
 
 if sys.version_info < (3, 11):
