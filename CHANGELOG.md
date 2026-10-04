@@ -1,5 +1,16 @@
 # Changelog
 
+## [0.3.2](https://github.com/yeongseon/azure-functions-cookbook-python/compare/v0.3.1...v0.3.2) (2026-10-04)
+
+
+### Bug Fixes
+
+* **deps:** bump azure-functions-logging ([91b08ba](https://github.com/yeongseon/azure-functions-cookbook-python/commit/91b08baf2150d1c0b8f3c3ae5dfeb480c4fda77e))
+* **deps:** bump azure-functions-logging from 0.12.0 to 0.12.1 in the python-dependencies group ([#284](https://github.com/yeongseon/azure-functions-cookbook-python/issues/284)) ([91b08ba](https://github.com/yeongseon/azure-functions-cookbook-python/commit/91b08baf2150d1c0b8f3c3ae5dfeb480c4fda77e))
+* **examples:** import family packages directly in recipes ([#288](https://github.com/yeongseon/azure-functions-cookbook-python/issues/288)) ([80c2515](https://github.com/yeongseon/azure-functions-cookbook-python/commit/80c2515bbb1ece6f55269deee7c885da4f0b4726))
+* **examples:** raise family dependency floors to working versions ([#287](https://github.com/yeongseon/azure-functions-cookbook-python/issues/287)) ([8789fbd](https://github.com/yeongseon/azure-functions-cookbook-python/commit/8789fbd3ac1edc50265491045f87f28d85fcacbd))
+* **infra:** declare Linux plans in recipe Bicep files ([#290](https://github.com/yeongseon/azure-functions-cookbook-python/issues/290)) ([4f7a7a8](https://github.com/yeongseon/azure-functions-cookbook-python/commit/4f7a7a87f7ad699169f74f6dce73ad0d077ddcf8))
+
 ## [0.3.1](https://github.com/yeongseon/azure-functions-cookbook-python/compare/v0.3.0...v0.3.1) (2026-10-02)
 
 
