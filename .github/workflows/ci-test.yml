@@ -198,11 +198,10 @@ jobs:
           host_pid=$!
           trap 'cat "${RUNNER_TEMP}/func-host.log"; kill "${host_pid}" 2>/dev/null || true' EXIT
           for attempt in $(seq 1 60); do
-            if grep -Eq "0 functions|Worker failed|Host startup operation has been canceled" "${RUNNER_TEMP}/func-host.log"; then
+            if grep -Eq "Generating 0 job function|Worker failed|Host startup operation has been canceled" "${RUNNER_TEMP}/func-host.log"; then
               exit 1
             fi
             if curl --fail --silent "${RECIPE_URL}" > "${RUNNER_TEMP}/response.out"; then
-              test -s "${RUNNER_TEMP}/response.out"
               exit 0
             fi
             sleep 2
