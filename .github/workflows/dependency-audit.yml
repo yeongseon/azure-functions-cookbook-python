@@ -1,0 +1,88 @@
+name: Dependency Audit
+
+on:
+  schedule:
+    - cron: "41 6 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  pip-audit:
+    name: Audit root and recipe dependencies
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: "3.12"
+
+      - name: Install pip-audit and root development dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install "pip-audit==2.10.1" -e ".[dev]"
+
+      - name: Audit root package dependencies
+        id: root
+        run: |
+          set +e
+          pip-audit --local --format json --output root-audit.json
+          status=$?
+          echo "exit_code=$status" >> "$GITHUB_OUTPUT"
+          exit 0
+
+      - name: Build the union of recipe requirements
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          requirements = {
+              line.strip()
+              for path in Path("examples").glob("**/requirements.txt")
+              for line in path.read_text(encoding="utf-8").splitlines()
+              if line.strip() and not line.lstrip().startswith("#")
+          }
+          Path("recipe-requirements.txt").write_text(
+              "".join(f"{requirement}\n" for requirement in sorted(requirements, key=str.casefold)),
+              encoding="utf-8",
+          )
+          PY
+
+      - name: Audit recipe dependency union
+        id: recipes
+        run: |
+          set +e
+          pip-audit --requirement recipe-requirements.txt --format json --output recipe-audit.json
+          status=$?
+          echo "exit_code=$status" >> "$GITHUB_OUTPUT"
+          exit 0
+
+      - name: Write audit summary
+        env:
+          ROOT_EXIT_CODE: ${{ steps.root.outputs.exit_code }}
+          RECIPE_EXIT_CODE: ${{ steps.recipes.outputs.exit_code }}
+        run: |
+          {
+            echo "## pip-audit"
+            echo
+            echo "| Scope | Exit code | Report |"
+            echo "| --- | ---: | --- |"
+            echo "| Root package + dev extras | ${ROOT_EXIT_CODE} | \`root-audit.json\` |"
+            echo "| Union of recipe requirements | ${RECIPE_EXIT_CODE} | \`recipe-audit.json\` |"
+            echo
+            echo "Exit code 0 means no known vulnerabilities; findings are currently non-blocking."
+            echo
+            echo "### Root report"
+            echo '```json'
+            python -m json.tool root-audit.json
+            echo '```'
+            echo
+            echo "### Recipe union report"
+            echo '```json'
+            python -m json.tool recipe-audit.json
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
