@@ -16,6 +16,7 @@ webhooks_blueprint = func.Blueprint()  # type: ignore[no-untyped-call]
 # POST /api/webhooks/inbound — receive inbound webhook events
 # ---------------------------------------------------------------------------
 
+
 @webhooks_blueprint.route(
     route="webhooks/inbound",
     methods=["POST"],
