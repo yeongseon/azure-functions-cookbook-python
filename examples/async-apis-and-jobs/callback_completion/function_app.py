@@ -9,7 +9,7 @@ import os
 import time
 from collections.abc import Callable, Mapping
 from dataclasses import dataclass
-from datetime import datetime, timezone, UTC
+from datetime import UTC, datetime
 from typing import Any, Protocol, TypeVar, cast
 from urllib import error, parse, request
 from uuid import uuid4

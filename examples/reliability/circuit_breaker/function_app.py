@@ -7,14 +7,12 @@ import logging
 import os
 import threading
 import time
-import socket
 import urllib.error
 import urllib.request
 from dataclasses import asdict, dataclass
 from enum import StrEnum
 
 import azure.functions as func
-
 
 logging.basicConfig(
     level=logging.INFO,

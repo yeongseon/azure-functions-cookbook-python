@@ -12,7 +12,6 @@ from azure_functions_validation import validate_http
 from langgraph.graph import END, START, StateGraph
 from pydantic import BaseModel, Field
 
-
 setup_logging(format="json")
 logger = get_logger(__name__)
 

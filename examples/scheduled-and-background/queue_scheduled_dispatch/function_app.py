@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import json
 import os
-from datetime import datetime, timezone, UTC
+from datetime import UTC, datetime
 
 import azure.functions as func
 from azure_functions_logging import get_logger, setup_logging, with_context

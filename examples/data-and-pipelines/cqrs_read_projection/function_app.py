@@ -2,7 +2,7 @@ from __future__ import annotations
 
 # pyright: reportMissingImports=false, reportAttributeAccessIssue=false, reportUnknownVariableType=false, reportUnknownMemberType=false, reportUnknownParameterType=false, reportUntypedFunctionDecorator=false, reportUntypedBaseClass=false, reportExplicitAny=false, reportAny=false, reportUnknownArgumentType=false, reportUnusedParameter=false
 import json
-from datetime import datetime, timezone, UTC
+from datetime import UTC, datetime
 from decimal import Decimal
 from typing import Any
 

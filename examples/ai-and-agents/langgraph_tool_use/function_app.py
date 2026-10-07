@@ -12,6 +12,7 @@ The family packages are hard dependencies so API drift fails during import.
 from __future__ import annotations
 
 import uuid
+from datetime import UTC
 from typing import Any
 
 import azure.functions as func
@@ -20,7 +21,6 @@ from azure_functions_logging import get_logger, setup_logging, with_context
 from azure_functions_openapi import openapi
 from azure_functions_validation import validate_http
 from pydantic import BaseModel
-from datetime import UTC
 
 _langgraph_app = LangGraphApp()
 setup_logging(format="json")
@@ -59,7 +59,7 @@ def calculator_tool(expression: str) -> str:
 
 def time_tool(_query: str) -> str:
     """Return the current UTC time."""
-    from datetime import datetime, timezone
+    from datetime import datetime
 
     return datetime.now(UTC).isoformat()
 

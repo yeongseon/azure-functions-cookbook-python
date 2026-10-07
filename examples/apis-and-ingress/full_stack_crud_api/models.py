@@ -1,8 +1,7 @@
 from __future__ import annotations
 
 # pyright: reportMissingImports=false, reportUnknownVariableType=false, reportUntypedBaseClass=false, reportUnannotatedClassAttribute=false
-
-from datetime import datetime, timezone, UTC
+from datetime import UTC, datetime
 from decimal import Decimal
 
 from sqlalchemy import DateTime, Integer, Numeric, String, Text

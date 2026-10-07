@@ -41,7 +41,7 @@ This is the initial release of the Azure Functions Python Cookbook, establishing
 - Comprehensive development tooling integration:
     - Ruff: Fast linting and code analysis.
     - Black: Deterministic code formatting.
-    - Mypy: Static type checking for Python 3.10+.
+- Mypy: Static type checking for supported Python versions.
     - Pytest: Robust testing framework.
     - Bandit: Security-focused static analysis.
     - Hatch: Modern project management and build system.

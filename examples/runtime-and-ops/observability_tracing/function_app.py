@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 # pyright: reportMissingImports=false, reportUnknownVariableType=false, reportUnknownMemberType=false, reportUnknownParameterType=false, reportUntypedFunctionDecorator=false, reportAny=false, reportExplicitAny=false, reportUnknownArgumentType=false
-
 import json
 import uuid
 
