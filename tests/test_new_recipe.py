@@ -34,6 +34,7 @@ def test_create_recipe_writes_full_flat_file_set(examples_dir: Path) -> None:
         "host.json",
         "local.settings.json.example",
         "pyproject.toml",
+        "requirements.txt",
     }
     assert {p.name for p in target.iterdir()} == expected
 
@@ -77,6 +78,11 @@ def test_generated_recipe_targets_python_311_and_current_family_floors(
         "azure-functions-logging>=0.14.0",
         "azure-functions-openapi>=0.29.0",
     ]
+    assert (target / "requirements.txt").read_text() == (
+        "azure-functions-logging>=0.14.0\n"
+        "azure-functions-openapi>=0.29.0\n"
+        "azure-functions>=1.21.3\n"
+    )
 
 
 def test_rejects_unknown_category(examples_dir: Path) -> None:

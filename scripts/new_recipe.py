@@ -12,6 +12,7 @@ auto-discovery smoke and recipe-metadata guards out of the box.
 from __future__ import annotations
 
 import argparse
+import importlib.util
 import json
 from pathlib import Path
 import sys
@@ -19,6 +20,13 @@ import sys
 REPO_ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_EXAMPLES_DIR = REPO_ROOT / "examples"
 DOCS_BASE = "https://yeongseon.dev/azure-functions-python/cookbook/patterns"
+_REQUIREMENTS_SCRIPT = Path(__file__).with_name("gen_requirements.py")
+_REQUIREMENTS_SPEC = importlib.util.spec_from_file_location(
+    "gen_requirements", _REQUIREMENTS_SCRIPT
+)
+assert _REQUIREMENTS_SPEC is not None and _REQUIREMENTS_SPEC.loader is not None
+gen_requirements = importlib.util.module_from_spec(_REQUIREMENTS_SPEC)
+_REQUIREMENTS_SPEC.loader.exec_module(gen_requirements)
 
 
 def _title_from_name(name: str) -> str:
@@ -166,6 +174,7 @@ def create_recipe(
         json.dumps(_LOCAL_SETTINGS, indent=2) + "\n"
     )
     (target / "pyproject.toml").write_text(_pyproject_toml(name, title))
+    (target / "requirements.txt").write_text(gen_requirements.render(target / "pyproject.toml"))
     return target
 
 
@@ -187,7 +196,8 @@ def main(argv: list[str] | None = None) -> int:
     print("Next steps:")
     print(f"  1. Implement the trigger logic in {rel}/function_app.py")
     print(f"  2. Refine the description in {rel}/README.md and {rel}/recipe.yaml")
-    print("  3. Run: hatch run pytest tests/test_recipes.py tests/test_example_discovery.py -q")
+    print("  3. Sync requirements: python scripts/gen_requirements.py")
+    print("  4. Run: hatch run pytest tests/test_recipes.py tests/test_example_discovery.py -q")
     return 0
 
 
