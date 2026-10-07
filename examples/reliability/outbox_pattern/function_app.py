@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import json
 import os
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from decimal import Decimal, InvalidOperation
 from functools import lru_cache
 from typing import Any
@@ -29,7 +29,7 @@ OUTBOX_EVENT_TTL_SECONDS = int(os.getenv("OUTBOX_EVENT_TTL_SECONDS", "86400"))
 
 
 def _utc_now_iso() -> str:
-    return datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z")
+    return datetime.now(UTC).replace(microsecond=0).isoformat().replace("+00:00", "Z")
 
 
 def _json_response(payload: dict[str, Any], status_code: int) -> func.HttpResponse:

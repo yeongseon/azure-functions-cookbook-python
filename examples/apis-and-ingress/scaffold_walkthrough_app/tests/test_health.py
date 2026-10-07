@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+from types import SimpleNamespace
 
 import azure.functions as func
 
@@ -15,7 +16,8 @@ def test_health_returns_ok_status() -> None:
         body=b"",
     )
 
-    response = health(request)
+    context = SimpleNamespace(invocation_id="test", function_name="health", trace_context=None)
+    response = health(request, context)
 
     assert response.status_code == 200
     body = json.loads(response.get_body())

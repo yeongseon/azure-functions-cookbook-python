@@ -2,10 +2,10 @@
 
 from __future__ import annotations
 
-from collections.abc import Generator
 import json
 import logging
 import time
+from collections.abc import Generator
 from typing import Any
 
 import azure.durable_functions as df

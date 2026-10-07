@@ -34,7 +34,7 @@ flowchart TD
 ```
 
 ## Prerequisites
-- Python 3.10+
+- Python 3.11+
 - Azure Functions Core Tools v4
 - `azure-functions-db-python[postgres]` (or `[mysql]`, `[mssql]`)
 - A running database with an `items` table

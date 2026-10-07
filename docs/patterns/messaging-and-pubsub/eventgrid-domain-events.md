@@ -50,7 +50,7 @@ topic. The subscriber uses `@app.event_grid_trigger(...)` to receive those event
 configured.
 
 ### Prerequisites
-- Python 3.10+
+- Python 3.11+
 - Azure Functions Core Tools v4
 - An Event Grid custom topic and access key
 - An Event Grid subscription that points the custom topic at the subscriber function

@@ -55,7 +55,7 @@ The trigger receives `func.EventHubEvent`, decodes payload text, and attempts JS
 Invalid JSON is preserved as raw content so processing can continue without crashing the host.
 
 ### Prerequisites
-- Python 3.10+
+- Python 3.11+
 - Azure Functions Core Tools v4
 - Azure Event Hubs namespace and hub `telemetry`
 - `EventHubConnection` app setting for trigger binding

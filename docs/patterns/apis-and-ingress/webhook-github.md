@@ -130,7 +130,7 @@ Status code intent:
 ## Run Locally
 Prerequisites:
 
-- Python 3.10+
+- Python 3.11+
 - Azure Functions Core Tools v4
 - `azure-functions` dependency from `pyproject.toml`
 - `GITHUB_WEBHOOK_SECRET` configured in environment/local settings

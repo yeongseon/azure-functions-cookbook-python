@@ -5,6 +5,8 @@ from pathlib import Path
 import subprocess
 import sys
 
+_VERBATIM_GENERATED_ROOT = "examples/apis-and-ingress/scaffold_walkthrough_app/"
+
 
 def changed_python_files(base: str, head: str) -> list[str]:
     result = subprocess.run(
@@ -19,7 +21,9 @@ def changed_python_files(base: str, head: str) -> list[str]:
         path
         for raw_path in result.stdout.split(b"\0")
         if raw_path
-        if (path := os.fsdecode(raw_path)).endswith(".py") and Path(path).is_file()
+        if (path := os.fsdecode(raw_path)).endswith(".py")
+        and not path.startswith(_VERBATIM_GENERATED_ROOT)
+        and Path(path).is_file()
     ]
 
 

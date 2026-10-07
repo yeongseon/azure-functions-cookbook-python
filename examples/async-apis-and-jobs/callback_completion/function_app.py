@@ -9,7 +9,7 @@ import os
 import time
 from collections.abc import Callable, Mapping
 from dataclasses import dataclass
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from typing import Any, Protocol, TypeVar, cast
 from urllib import error, parse, request
 from uuid import uuid4
@@ -172,7 +172,7 @@ class TaskCreateRequest(BaseModel):
 
 
 def _utc_now_iso() -> str:
-    return datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z")
+    return datetime.now(UTC).replace(microsecond=0).isoformat().replace("+00:00", "Z")
 
 
 def _json_response(payload: dict[str, Any], *, status_code: int) -> HttpResponseProtocol:

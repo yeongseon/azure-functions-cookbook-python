@@ -9,7 +9,7 @@ packages = ["app"]
 name = "blob_upload_processor"
 version = "0.1.0"
 description = "Blob trigger (polling mode) that validates and processes uploaded blobs."
-requires-python = ">=3.10"
+requires-python = ">=3.11"
 dependencies = [
   "azure-functions>=1.21.0",
 ]
@@ -25,7 +25,7 @@ testpaths = ["tests"]
 
 [tool.ruff]
 line-length = 100
-target-version = "py310"
+target-version = "py311"
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "B", "UP"]

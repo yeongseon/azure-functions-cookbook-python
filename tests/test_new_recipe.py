@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import importlib.util
 from pathlib import Path
+import tomllib
 
 import pytest
 import yaml
@@ -33,6 +34,7 @@ def test_create_recipe_writes_full_flat_file_set(examples_dir: Path) -> None:
         "host.json",
         "local.settings.json.example",
         "pyproject.toml",
+        "requirements.txt",
     }
     assert {p.name for p in target.iterdir()} == expected
 
@@ -58,6 +60,29 @@ def test_generated_function_app_compiles_and_defines_app(examples_dir: Path) -> 
     source = (target / "function_app.py").read_text()
     compile(source, str(target / "function_app.py"), "exec")
     assert "app = func.FunctionApp" in source
+
+
+def test_generated_recipe_targets_python_311_and_current_family_floors(
+    examples_dir: Path,
+) -> None:
+    target = new_recipe.create_recipe(
+        "apis-and-ingress", "my_new_recipe", examples_dir=examples_dir
+    )
+
+    project = tomllib.loads((target / "pyproject.toml").read_text(encoding="utf-8"))
+
+    assert project["project"]["requires-python"] == ">=3.11"
+    assert project["tool"]["ruff"]["target-version"] == "py311"
+    assert project["project"]["dependencies"] == [
+        "azure-functions>=1.21.3",
+        "azure-functions-logging>=0.14.0",
+        "azure-functions-openapi>=0.29.0",
+    ]
+    assert (target / "requirements.txt").read_text() == (
+        "azure-functions-logging>=0.14.0\n"
+        "azure-functions-openapi>=0.29.0\n"
+        "azure-functions>=1.21.3\n"
+    )
 
 
 def test_rejects_unknown_category(examples_dir: Path) -> None:

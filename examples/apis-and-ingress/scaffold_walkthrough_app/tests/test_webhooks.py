@@ -4,12 +4,19 @@ import hashlib
 import hmac
 import json
 import os
+from types import SimpleNamespace
 from unittest.mock import patch
 
 import azure.functions as func
 
 from app.functions.webhooks import receive_webhook
 from app.services.webhook_service import webhook_store
+
+CONTEXT = SimpleNamespace(
+    invocation_id="test",
+    function_name="receive_webhook",
+    trace_context=None,
+)
 
 
 def _make_request(
@@ -59,7 +66,7 @@ class TestReceiveWebhook:
                     "X-Signature": signature,
                 },
             )
-            response = receive_webhook(request)
+            response = receive_webhook(request, CONTEXT)
 
         assert response.status_code == 202
         body = json.loads(response.get_body())
@@ -82,7 +89,7 @@ class TestReceiveWebhook:
                     "X-Signature": signature,
                 },
             )
-            response = receive_webhook(request)
+            response = receive_webhook(request, CONTEXT)
 
         assert response.status_code == 400
 
@@ -103,7 +110,7 @@ class TestReceiveWebhook:
                     "X-Signature": signature,
                 },
             )
-            response = receive_webhook(request)
+            response = receive_webhook(request, CONTEXT)
 
         assert response.status_code == 422
         body = json.loads(response.get_body())
@@ -125,7 +132,7 @@ class TestReceiveWebhook:
                     "X-Signature": signature,
                 },
             )
-            response = receive_webhook(request)
+            response = receive_webhook(request, CONTEXT)
 
         assert response.status_code == 422
 
@@ -144,7 +151,7 @@ class TestWebhookSignatureVerification:
                     "X-Signature": "sha256=invalid",
                 },
             )
-            response = receive_webhook(request)
+            response = receive_webhook(request, CONTEXT)
 
         assert response.status_code == 401
 
@@ -163,7 +170,7 @@ class TestWebhookSignatureVerification:
                     "X-Signature": signature,
                 },
             )
-            response = receive_webhook(request)
+            response = receive_webhook(request, CONTEXT)
 
         assert response.status_code == 202
 
@@ -177,7 +184,7 @@ class TestWebhookSignatureVerification:
                 body=VALID_PAYLOAD,
                 headers={"Content-Type": "application/json"},
             )
-            response = receive_webhook(request)
+            response = receive_webhook(request, CONTEXT)
 
         assert response.status_code == 503
         body = json.loads(response.get_body())
@@ -199,7 +206,7 @@ class TestWebhookSignatureVerification:
                     "X-Signature": "sha256=invalid",
                 },
             )
-            response = receive_webhook(request)
+            response = receive_webhook(request, CONTEXT)
 
         assert response.status_code == 401  # auth failure, not 422
 
@@ -219,7 +226,7 @@ class TestWebhookSignatureVerification:
                     "X-Signature": signature,
                 },
             )
-            response = receive_webhook(request)
+            response = receive_webhook(request, CONTEXT)
 
         assert response.status_code == 202
         body = json.loads(response.get_body())

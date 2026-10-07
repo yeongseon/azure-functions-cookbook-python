@@ -67,10 +67,10 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
-      - name: Set up Python 3.11
+      - name: Set up Python 3.12
         uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
         with:
-          python-version: "3.11"
+          python-version: "3.12"
 
       - name: Set up Node.js (for Azurite)
         uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
@@ -88,10 +88,10 @@ jobs:
       - name: Install Azurite
         run: npm install -g azurite
 
-      - name: Install Hatch and dependencies via Makefile
+      - name: Install dependencies into the Python 3.12 interpreter
         run: |
-          pip install hatch
-          make install
+          python -c "import sys; assert sys.version_info[:2] == (3, 12), sys.version"
+          python -m pip install -e ".[dev]"
 
       - name: Override toolkit libraries from sibling main branches
         if: matrix.toolkit-source == 'main'
@@ -99,7 +99,7 @@ jobs:
           # Swap only the toolkit packages (not their transitive deps) for their
           # main-branch source, so we test unreleased toolkit code against the
           # already-resolved dependency set.
-          hatch run pip install --upgrade --force-reinstall --no-deps \
+          python -m pip install --upgrade --force-reinstall --no-deps \
             "azure-functions-logging @ git+https://github.com/yeongseon/azure-functions-logging-python@main" \
             "azure-functions-openapi @ git+https://github.com/yeongseon/azure-functions-openapi-python@main" \
             "azure-functions-validation @ git+https://github.com/yeongseon/azure-functions-validation-python@main" \
@@ -109,11 +109,11 @@ jobs:
 
       - name: Record resolved toolkit versions
         run: |
-          hatch run pip list 2>/dev/null | grep -Ei '^azure-functions(-|\s)' || true
+          python -m pip list 2>/dev/null | grep -Ei '^azure-functions(-|\s)' || true
 
       - name: Run smoke tier (toolkit warnings are failures)
         run: >-
-          hatch run pytest -v -m smoke tests/e2e/ --no-cov
+          python -m pytest -v -m smoke tests/e2e/ --no-cov
           -W error::DeprecationWarning:azure_functions_logging.*
           -W error::DeprecationWarning:azure_functions_openapi.*
           -W error::DeprecationWarning:azure_functions_validation.*
@@ -130,7 +130,7 @@ jobs:
 
       - name: Run e2e tier (toolkit warnings are failures)
         run: >-
-          hatch run pytest -v -m e2e tests/e2e/ --no-cov
+          python -m pytest -v -m e2e tests/e2e/ --no-cov
           -W error::DeprecationWarning:azure_functions_logging.*
           -W error::DeprecationWarning:azure_functions_openapi.*
           -W error::DeprecationWarning:azure_functions_validation.*

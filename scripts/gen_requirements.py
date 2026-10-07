@@ -3,15 +3,14 @@ from __future__ import annotations
 import argparse
 from pathlib import Path
 import sys
-
-import tomli
+import tomllib
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 EXAMPLES = REPO_ROOT / "examples"
 
 
 def render(pyproject: Path) -> str:
-    metadata = tomli.loads(pyproject.read_text())
+    metadata = tomllib.loads(pyproject.read_text())
     dependencies = metadata["project"]["dependencies"]
     return "".join(f"{dependency}\n" for dependency in sorted(dependencies, key=str.casefold))
 

@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import json
 import os
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 
 import azure.functions as func
 from azure_functions_logging import get_logger, setup_logging, with_context
@@ -27,8 +27,10 @@ def _load_schedule() -> list[dict[str, object]]:
     arg_name="outbox", queue_name="scheduled-dispatch", connection="AzureWebJobsStorage"
 )
 @with_context
-def dispatch_due_messages(timer: func.TimerRequest, outbox: func.Out[str], context: func.Context) -> None:
-    now = datetime.now(timezone.utc)
+def dispatch_due_messages(
+    timer: func.TimerRequest, outbox: func.Out[str], context: func.Context
+) -> None:
+    now = datetime.now(UTC)
     due_messages: list[dict[str, object]] = []
 
     for item in _load_schedule():

@@ -12,6 +12,7 @@ import hashlib
 import hmac
 import json
 import os
+from types import SimpleNamespace
 
 import azure.functions as func
 
@@ -904,7 +905,12 @@ class TestScaffoldWalkthroughApp:
             params={},
             body=b"",
         )
-        response = fn.health(request)
+        context = SimpleNamespace(
+            invocation_id="test",
+            function_name="health",
+            trace_context=None,
+        )
+        response = fn.health(request, context)
         assert response.status_code == 200
         body = json.loads(response.get_body())
         assert body == {"status": "ok"}

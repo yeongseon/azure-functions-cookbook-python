@@ -73,7 +73,7 @@ sequenceDiagram
 > **Maps to** `examples/orchestration-and-workflows/durable_fan_out_fan_in/`: `start_fanout` launches `fan_out_fan_in_orchestrator`, which fans out to `process_item` activity calls and aggregates the results.
 
 ## Prerequisites
-- Python 3.10+
+- Python 3.11+
 - Azure Functions Core Tools v4
 - Durable storage configured in local settings
 - `azure-functions` and `azure-functions-durable` dependencies installed

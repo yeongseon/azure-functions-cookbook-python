@@ -12,6 +12,7 @@ The family packages are hard dependencies so API drift fails during import.
 from __future__ import annotations
 
 import uuid
+from datetime import UTC
 from typing import Any
 
 import azure.functions as func
@@ -58,9 +59,9 @@ def calculator_tool(expression: str) -> str:
 
 def time_tool(_query: str) -> str:
     """Return the current UTC time."""
-    from datetime import datetime, timezone
+    from datetime import datetime
 
-    return datetime.now(timezone.utc).isoformat()
+    return datetime.now(UTC).isoformat()
 
 
 def _select_tool(message: str) -> tuple[str, str]:

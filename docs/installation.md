@@ -10,7 +10,7 @@ repository, read a recipe, and run one of the matching example projects.
 
 ## Prerequisites
 
-- Python `3.10` through `3.14` (the project currently targets `>=3.10,<3.15`)
+- Python `3.11` through `3.14` (the project currently targets `>=3.11,<3.15`)
 - Azure Functions Core Tools v4 (`func` command)
 - Git
 - Optional: Azurite for local queue testing

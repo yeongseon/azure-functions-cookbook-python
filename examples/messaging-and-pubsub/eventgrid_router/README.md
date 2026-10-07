@@ -6,7 +6,7 @@ Event Grid-triggered Azure Function that routes events to different handlers usi
 
 ## Prerequisites
 
-- Python 3.10+
+- Python 3.11+
 - [Azure Functions Core Tools v4](https://learn.microsoft.com/azure/azure-functions/functions-run-local)
 - An Event Grid publisher or sample payloads posted to the local Event Grid webhook
 

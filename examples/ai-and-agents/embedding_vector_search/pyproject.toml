@@ -9,12 +9,12 @@ packages = ["app"]
 name = "embedding_vector_search"
 version = "0.1.0"
 description = "Embedding Vector Search example for Azure Functions."
-requires-python = ">=3.10"
+requires-python = ">=3.11"
 dependencies = [
   "azure-functions",
-  "azure-functions-logging",
-  "azure-functions-openapi",
-  "azure-functions-validation>=0.11,<1",
+  "azure-functions-logging>=0.14.0",
+  "azure-functions-openapi>=0.29.0",
+  "azure-functions-validation>=0.14.0,<1",
   "azure-search-documents>=11.6.0b1",
   "openai>=1.30.0",
   "pydantic>=2.0",
@@ -31,7 +31,7 @@ testpaths = ["tests"]
 
 [tool.ruff]
 line-length = 100
-target-version = "py310"
+target-version = "py311"
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "B", "UP"]

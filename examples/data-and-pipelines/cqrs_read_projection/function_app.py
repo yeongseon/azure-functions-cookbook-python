@@ -2,7 +2,7 @@ from __future__ import annotations
 
 # pyright: reportMissingImports=false, reportAttributeAccessIssue=false, reportUnknownVariableType=false, reportUnknownMemberType=false, reportUnknownParameterType=false, reportUntypedFunctionDecorator=false, reportUntypedBaseClass=false, reportExplicitAny=false, reportAny=false, reportUnknownArgumentType=false, reportUnusedParameter=false
 import json
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from decimal import Decimal
 from typing import Any
 
@@ -48,7 +48,7 @@ class OrderProjection(BaseModel):
 
 
 def _utc_now_iso() -> str:
-    return datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z")
+    return datetime.now(UTC).replace(microsecond=0).isoformat().replace("+00:00", "Z")
 
 
 def _build_order_document(body: OrderWriteRequest) -> dict[str, Any]:
@@ -97,7 +97,8 @@ def _build_projection(document: dict[str, Any]) -> dict[str, Any]:
 def create_order(
     req: func.HttpRequest,
     body: OrderWriteRequest,
-    order_doc: func.Out[str], context: func.Context,
+    order_doc: func.Out[str],
+    context: func.Context,
 ) -> func.HttpResponse:
     document = _build_order_document(body)
     order_doc.set(json.dumps(document))
@@ -149,7 +150,9 @@ def project_order_read_models(
 @with_context
 @openapi(summary="Get order projection", responses={200: OrderProjection}, tags=["orders"])
 @db.inject_reader("reader", url="%READ_DB_URL%", table="order_read_models")
-def get_order_projection(req: func.HttpRequest, reader: DbReader, context: func.Context) -> func.HttpResponse:
+def get_order_projection(
+    req: func.HttpRequest, reader: DbReader, context: func.Context
+) -> func.HttpResponse:
     order_id = req.route_params["id"]
     rows = [dict(row) for row in reader.fetch_all()]
     match = next((row for row in rows if str(row.get("id")) == order_id), None)

@@ -61,6 +61,24 @@ def test_non_python_or_deleted_files_skip_formatter(
     assert len(calls) == 1
 
 
+def test_verbatim_scaffold_snapshot_skips_formatter(
+    monkeypatch: pytest.MonkeyPatch, tmp_path: Path
+) -> None:
+    monkeypatch.chdir(tmp_path)
+    generated = tmp_path / "examples/apis-and-ingress/scaffold_walkthrough_app/function_app.py"
+    generated.parent.mkdir(parents=True)
+    generated.touch()
+    calls: list[list[str]] = []
+
+    def run(args: list[str], **kwargs: object) -> subprocess.CompletedProcess[bytes]:
+        calls.append(args)
+        return subprocess.CompletedProcess(args, 0, f"{generated.relative_to(tmp_path)}\0".encode())
+
+    monkeypatch.setattr(subprocess, "run", run)
+    assert check_pr_format.main("base", "head") == 0
+    assert len(calls) == 1
+
+
 def test_git_failure_is_not_skipped(monkeypatch: pytest.MonkeyPatch) -> None:
     def run(args: list[str], **kwargs: object) -> subprocess.CompletedProcess[bytes]:
         raise subprocess.CalledProcessError(1, args)
