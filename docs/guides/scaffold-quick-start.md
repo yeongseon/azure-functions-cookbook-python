@@ -46,7 +46,7 @@ flowchart TD
 ```
 
 ## Prerequisites
-- Python 3.11 or newer
+- Python 3.11–3.14 (`>=3.11,<3.15`)
 - pip
 
 ```bash
