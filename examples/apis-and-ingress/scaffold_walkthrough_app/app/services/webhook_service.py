@@ -28,7 +28,9 @@ def verify_signature(payload: bytes, signature: str, secret: str) -> bool:
     """
     if not signature.startswith("sha256="):
         return False
-    expected = hmac.new(secret.encode(), payload, hashlib.sha256).hexdigest()
+    expected = hmac.new(
+        secret.encode(), payload, hashlib.sha256
+    ).hexdigest()
     return hmac.compare_digest(signature.removeprefix("sha256="), expected)
 
 

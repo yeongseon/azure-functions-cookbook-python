@@ -42,14 +42,12 @@ def _sign(payload: bytes, secret: str) -> str:
     return f"sha256={digest}"
 
 
-VALID_PAYLOAD = json.dumps(
-    {
-        "event_type": "order.completed",
-        "source": "shopify",
-        "occurred_at": "2026-04-12T12:00:00Z",
-        "data": {"order_id": "12345"},
-    }
-).encode()
+VALID_PAYLOAD = json.dumps({
+    "event_type": "order.completed",
+    "source": "shopify",
+    "occurred_at": "2026-04-12T12:00:00Z",
+    "data": {"order_id": "12345"},
+}).encode()
 
 
 class TestReceiveWebhook:
@@ -94,6 +92,7 @@ class TestReceiveWebhook:
             response = receive_webhook(request, CONTEXT)
 
         assert response.status_code == 400
+
 
     def test_returns_422_for_invalid_schema(self) -> None:
         webhook_store.clear()
@@ -191,6 +190,7 @@ class TestWebhookSignatureVerification:
         body = json.loads(response.get_body())
         assert body["error"] == "Webhook signing secret not configured"
 
+
     def test_returns_401_before_422_when_secret_set(self) -> None:
         """Signature check must reject before Pydantic validation runs."""
         webhook_store.clear()
@@ -232,3 +232,4 @@ class TestWebhookSignatureVerification:
         body = json.loads(response.get_body())
         assert body["status"] == "accepted"
         assert body["delivery_id"].startswith("dlv_")
+

@@ -14,12 +14,12 @@ health_blueprint = func.Blueprint()  # type: ignore[no-untyped-call]
     route="health",
     methods=["GET"],
     auth_level=func.AuthLevel.ANONYMOUS,
-)
+    )
 @openapi(
     summary="Health check",
     description="Returns the current health status of the application.",
     tags=["health"],
-)
+    )
 @with_context(strict=True)
 def health(
     req: func.HttpRequest,

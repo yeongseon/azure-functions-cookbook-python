@@ -73,8 +73,8 @@ durable = find_recipe(tag="durable")
 | [OpenAPI Return-Type Inference](examples/apis-and-ingress/openapi_inference/) | Intermediate | Infer the OpenAPI 200 response schema directly from a handler's return-type annotation using azure-functions-openapi. |
 | [OpenAPI Return-Type Inference Opt-Out](examples/apis-and-ingress/openapi_inference_opt_out/) | Intermediate | Opt out of inferred OpenAPI 200 response schemas per handler with infer_return_types=False. |
 | [OpenAPI Validation Supersedes Inference](examples/apis-and-ingress/openapi_supersedes/) | Intermediate | Show how a validation response_model supersedes the return-type-inferred OpenAPI 200 schema. |
-| [Scaffold Walkthrough — from afs new to a running HTTP API](examples/apis-and-ingress/scaffold_walkthrough_app/) | Beginner | This recipe is the **committed output of `azure-functions-scaffold`** with the default `strict` preset. Use it to see exactly what the scaffold CLI generates for a fresh Azure Functions Python v2 HTTP project and to learn the recommended local dev loop. |
 | [Webhook GitHub](examples/apis-and-ingress/webhook_github/) | Intermediate | GitHub webhook receiver example with HMAC-SHA256 signature verification. |
+| [scaffold_walkthrough_app](examples/apis-and-ingress/scaffold_walkthrough_app/) | Beginner | This recipe is the **committed output of `azure-functions-scaffold`** with the default `strict` preset. Use it to see exactly what the scaffold CLI generates for a fresh Azure Functions Python v2 HTTP project and to learn the recommended local dev loop. |
 
 ### Scheduled and Background
 
