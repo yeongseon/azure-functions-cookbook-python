@@ -1,4 +1,4 @@
 azure-functions
-azure-functions-db
+azure-functions-db>=0.8.0
 azure-functions-durable
-azure-functions-logging
+azure-functions-logging>=0.14.0

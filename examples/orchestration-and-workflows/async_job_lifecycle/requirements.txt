@@ -1,5 +1,5 @@
 azure-functions
 azure-functions-durable
-azure-functions-logging
-azure-functions-openapi
+azure-functions-logging>=0.14.0
+azure-functions-openapi>=0.29.0
 azure-functions-validation>=0.14.0,<1

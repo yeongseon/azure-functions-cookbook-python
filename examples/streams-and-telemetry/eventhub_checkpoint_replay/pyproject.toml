@@ -12,7 +12,7 @@ description = "Eventhub Checkpoint Replay example for Azure Functions."
 requires-python = ">=3.11"
 dependencies = [
   "azure-functions",
-  "azure-functions-logging",
+  "azure-functions-logging>=0.14.0",
 ]
 
 [project.optional-dependencies]

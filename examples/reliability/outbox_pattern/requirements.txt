@@ -1,4 +1,4 @@
 azure-cosmos>=4.5.1
 azure-functions
-azure-functions-db
-azure-functions-logging
+azure-functions-db>=0.8.0
+azure-functions-logging>=0.14.0
