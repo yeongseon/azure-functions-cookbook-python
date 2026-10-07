@@ -61,7 +61,7 @@ sequenceDiagram
 > **Maps to** `examples/ai-and-agents/durable_ai_pipeline/function_app.py`: `pipeline_orchestrator` chains `embed_query` → `search_documents` → `generate_answer`; each activity is a no-op fallback when its external service is absent (see the `_openai_client`/`_search_client` guards).
 
 ## Prerequisites
-- Python 3.10+
+- Python 3.11+
 - Azure Functions Core Tools v4
 - `azure-functions-durable` extension
 - `openai` SDK

@@ -3,7 +3,8 @@ from __future__ import annotations
 import json
 import logging
 from importlib import import_module
-from typing import Callable, Protocol, cast
+from typing import Protocol, cast
+from collections.abc import Callable
 
 
 class QueueMessageLike(Protocol):

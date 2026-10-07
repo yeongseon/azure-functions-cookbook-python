@@ -9,13 +9,13 @@ packages = ["app"]
 name = "durable_timer_reminder"
 version = "0.1.0"
 description = "Durable Timer Reminder example for Azure Functions."
-requires-python = ">=3.10"
+requires-python = ">=3.11"
 dependencies = [
   "azure-functions>=1.21.3",
   "azure-functions-durable>=1.2.10",
-  "azure-functions-logging>=0.5.0",
-  "azure-functions-openapi>=0.20.0",
-  "azure-functions-validation>=0.11,<1",
+  "azure-functions-logging>=0.14.0",
+  "azure-functions-openapi>=0.29.0",
+  "azure-functions-validation>=0.14.0,<1",
   "pydantic>=2.11.3",
 ]
 
@@ -30,7 +30,7 @@ testpaths = ["tests"]
 
 [tool.ruff]
 line-length = 100
-target-version = "py310"
+target-version = "py311"
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "B", "UP"]

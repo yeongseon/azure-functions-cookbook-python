@@ -6,7 +6,7 @@ Durable Functions orchestration that waits for a long delay and then executes a 
 
 ## Prerequisites
 
-- Python 3.10+
+- Python 3.11+
 - Azure Functions Core Tools v4
 - Storage account or Azurite for Durable task state
 

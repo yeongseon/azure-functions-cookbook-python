@@ -7,7 +7,7 @@ references. The function uses standard environment access and `azure_functions_l
 
 ## Prerequisites
 
-- Python 3.10+
+- Python 3.11+
 - [Azure Functions Core Tools v4](https://learn.microsoft.com/azure/azure-functions/functions-run-local)
 - An Azure Function App with managed identity enabled
 - An Azure Key Vault secret such as `demo-api-key`

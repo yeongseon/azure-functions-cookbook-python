@@ -1,6 +1,6 @@
 # Azure Functions Python Cookbook
 
-[![Python Version](https://img.shields.io/badge/python-3.10%20%7C%203.11%20%7C%203.12%20%7C%203.13%20%7C%203.14-blue)](https://github.com/yeongseon/azure-functions-cookbook-python)
+[![Python Version](https://img.shields.io/badge/python-3.11%20%7C%203.12%20%7C%203.13%20%7C%203.14-blue)](https://github.com/yeongseon/azure-functions-cookbook-python)
 [![CI](https://github.com/yeongseon/azure-functions-cookbook-python/actions/workflows/ci-smoke.yml/badge.svg)](https://github.com/yeongseon/azure-functions-cookbook-python/actions/workflows/ci-smoke.yml)
 [![codecov](https://codecov.io/gh/yeongseon/azure-functions-cookbook-python/branch/main/graph/badge.svg)](https://codecov.io/gh/yeongseon/azure-functions-cookbook-python)
 [![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit)](https://pre-commit.com/)
@@ -11,7 +11,7 @@ Read this in: [한국어](README.ko.md) | [日本語](README.ja.md) | [简体中
 
 Practical recipes for building real-world Azure Functions with Python.
 
-> **Python 3.10 is deprecated.** Support ends in the next minor release — Python 3.10 reaches end of life in October 2026. Importing the package on Python 3.10 emits a `FutureWarning`; upgrade to Python 3.11 or newer.
+> **Python 3.11 is deprecated.** Support ends in the next minor release — Python 3.11 reaches end of life in October 2026. Importing the package on Python 3.11 emits a `FutureWarning`; upgrade to Python 3.11 or newer.
 
 ## Why Use It
 

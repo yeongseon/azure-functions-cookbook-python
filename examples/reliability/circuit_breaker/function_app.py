@@ -11,7 +11,7 @@ import socket
 import urllib.error
 import urllib.request
 from dataclasses import asdict, dataclass
-from enum import Enum
+from enum import StrEnum
 
 import azure.functions as func
 
@@ -22,7 +22,7 @@ logging.basicConfig(
 )
 
 
-class CircuitState(str, Enum):
+class CircuitState(StrEnum):
     CLOSED = "closed"
     OPEN = "open"
     HALF_OPEN = "half-open"
@@ -175,7 +175,7 @@ def call_downstream_api(status_code: int, timeout_seconds: float) -> dict[str, o
         raise DownstreamServiceError(f"downstream returned HTTP {exc.code}") from exc
     except urllib.error.URLError as exc:
         raise DownstreamServiceError(f"downstream unavailable: {exc.reason}") from exc
-    except (TimeoutError, socket.timeout) as exc:
+    except TimeoutError as exc:
         raise DownstreamServiceError("downstream timed out") from exc
 
 

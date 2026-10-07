@@ -82,7 +82,7 @@ sequenceDiagram
 ```
 
 ## Prerequisites
-- Python 3.10+
+- Python 3.11+
 - Azure Functions Core Tools v4
 - A SQLAlchemy-compatible database URL in `DB_URL` (SQLite works locally by default)
 - Dependencies from `pyproject.toml`, including `azure-functions-db-python`, `azure-functions-validation-python`,

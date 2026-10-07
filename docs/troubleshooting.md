@@ -5,7 +5,7 @@ recipes and examples.
 
 ## Quick triage checklist
 
-1. Confirm Python version is compatible (`3.10` to `3.14`).
+1. Confirm Python version is compatible (`3.11` to `3.14`).
 2. Confirm Azure Functions Core Tools v4 is installed.
 3. Confirm example-specific dependencies are installed.
 4. Confirm required environment variables are set.

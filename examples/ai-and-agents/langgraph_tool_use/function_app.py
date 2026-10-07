@@ -20,6 +20,7 @@ from azure_functions_logging import get_logger, setup_logging, with_context
 from azure_functions_openapi import openapi
 from azure_functions_validation import validate_http
 from pydantic import BaseModel
+from datetime import UTC
 
 _langgraph_app = LangGraphApp()
 setup_logging(format="json")
@@ -60,7 +61,7 @@ def time_tool(_query: str) -> str:
     """Return the current UTC time."""
     from datetime import datetime, timezone
 
-    return datetime.now(timezone.utc).isoformat()
+    return datetime.now(UTC).isoformat()
 
 
 def _select_tool(message: str) -> tuple[str, str]:

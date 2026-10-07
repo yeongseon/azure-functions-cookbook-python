@@ -36,7 +36,7 @@ flowchart LR
 > **Maps to** `examples/ai-and-agents/langgraph_rag_agent/function_app.py`: `B` = the `chat` route, `C`/`D` = `router_node`, `F` = the direct-response path. `E` (`Tool: Knowledge Search`) = `knowledge_search_node`/`search_knowledge` and uses a lightweight local stub.
 
 ## Prerequisites
-- Python 3.10+
+- Python 3.11+
 - Azure Functions Core Tools v4
 - `langgraph`, `azure-functions-langgraph-python`
 - `azure-functions-validation-python`, `azure-functions-openapi-python`, and `azure-functions-logging-python`

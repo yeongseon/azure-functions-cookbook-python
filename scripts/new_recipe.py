@@ -105,11 +105,11 @@ build-backend = "hatchling.build"
 name = "{name}"
 version = "0.1.0"
 description = "{title} example for Azure Functions."
-requires-python = ">=3.10"
+requires-python = ">=3.11"
 dependencies = [
   "azure-functions>=1.21.3",
-  "azure-functions-logging>=0.5.0",
-  "azure-functions-openapi>=0.10.0",
+  "azure-functions-logging>=0.14.0",
+  "azure-functions-openapi>=0.29.0",
 ]
 
 [project.optional-dependencies]
@@ -120,7 +120,7 @@ dev = [
 
 [tool.ruff]
 line-length = 100
-target-version = "py310"
+target-version = "py311"
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "B", "UP"]

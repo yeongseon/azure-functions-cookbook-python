@@ -33,7 +33,7 @@ flowchart LR
 ```
 
 ## Prerequisites
-- Python 3.10+
+- Python 3.11+
 - Azure Functions Core Tools v4
 - Function key available locally (`auth_level=FUNCTION`)
 - Basic JSON-RPC 2.0 request structure familiarity

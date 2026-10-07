@@ -2,7 +2,7 @@
 name = "managed-identity-servicebus"
 version = "0.1.0"
 description = "Use identity-based Service Bus connections in Azure Functions"
-requires-python = ">=3.10"
+requires-python = ">=3.11"
 dependencies = ["azure-functions"]
 
 [project.optional-dependencies]
@@ -14,7 +14,7 @@ build-backend = "setuptools.build_meta"
 
 [tool.ruff]
 line-length = 100
-target-version = "py310"
+target-version = "py311"
 
 [tool.pytest.ini_options]
 pythonpath = ["."]

@@ -10,7 +10,7 @@ Transactional outbox sample for Azure Functions Python where:
 
 ## Prerequisites
 
-- Python 3.10+
+- Python 3.11+
 - [Azure Functions Core Tools v4](https://learn.microsoft.com/azure/azure-functions/functions-run-local)
 - Azure Cosmos DB account or emulator with database `outboxdb` and containers `orders` and `leases`
 - SQLite CLI, or another `azure-functions-db-python` compatible database

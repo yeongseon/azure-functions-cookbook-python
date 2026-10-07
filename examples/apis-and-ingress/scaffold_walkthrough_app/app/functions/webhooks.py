@@ -1,9 +1,8 @@
-from __future__ import annotations
-
 import json
 import logging
 
 import azure.functions as func
+from azure_functions_logging import with_context
 from azure_functions_openapi.decorator import openapi
 from pydantic import ValidationError
 
@@ -40,7 +39,11 @@ webhooks_blueprint = func.Blueprint()  # type: ignore[no-untyped-call]
         422: {"description": "Request validation error"},
     },
 )
-def receive_webhook(req: func.HttpRequest) -> func.HttpResponse:
+@with_context(strict=True)
+def receive_webhook(
+    req: func.HttpRequest,
+    context: func.Context,
+) -> func.HttpResponse:
     # --- Signature verification (must run before body parsing) ---
     try:
         secret = get_webhook_secret()

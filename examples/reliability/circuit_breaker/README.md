@@ -7,7 +7,7 @@ in-memory circuit breaker.
 
 ## Prerequisites
 
-- Python 3.10+
+- Python 3.11+
 - [Azure Functions Core Tools v4](https://learn.microsoft.com/azure/azure-functions/functions-run-local)
 - Internet access to `https://httpstat.us`, or another endpoint set in `DOWNSTREAM_API_BASE_URL`
 

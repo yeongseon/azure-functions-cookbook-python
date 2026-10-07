@@ -7,7 +7,7 @@ You can back that setting with either a connection string or managed identity se
 
 ## Prerequisites
 
-- Python 3.10+
+- Python 3.11+
 - [Azure Functions Core Tools v4](https://learn.microsoft.com/azure/azure-functions/functions-run-local)
 - An Azure Storage account (Azurite does not support identity-based connections)
 

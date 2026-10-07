@@ -6,7 +6,7 @@ Service Bus queue-triggered Azure Function for reliable background work consumpt
 
 ## Prerequisites
 
-- Python 3.10+
+- Python 3.11+
 - [Azure Functions Core Tools v4](https://learn.microsoft.com/azure/azure-functions/functions-run-local)
 - [Azurite](https://learn.microsoft.com/azure/storage/common/storage-use-azurite) (local Storage emulator)
 - An Azure Service Bus namespace with a queue named `tasks`

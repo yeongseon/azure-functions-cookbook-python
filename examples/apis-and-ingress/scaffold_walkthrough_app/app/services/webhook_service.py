@@ -5,7 +5,7 @@ import hmac
 import logging
 import os
 import uuid
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 
 logger = logging.getLogger(__name__)
 
@@ -49,7 +49,7 @@ class WebhookStore:
     def record(self, event_type: str, source: str) -> dict[str, str]:
         """Record an accepted webhook delivery and return its metadata."""
         delivery_id = _generate_delivery_id()
-        received_at = datetime.now(timezone.utc).isoformat()  # noqa: UP017
+        received_at = datetime.now(UTC).isoformat()
         entry = {
             "delivery_id": delivery_id,
             "status": "accepted",

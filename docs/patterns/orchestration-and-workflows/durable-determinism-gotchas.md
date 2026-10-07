@@ -56,7 +56,7 @@ sequenceDiagram
 > **Maps to** `examples/orchestration-and-workflows/durable_determinism_gotchas/`: `determinism_orchestrator` pushes I/O and time into `fetch_data_activity` so the replayed orchestrator stays deterministic.
 
 ## Prerequisites
-- Python 3.10+
+- Python 3.11+
 - Azure Functions Core Tools v4
 - Durable backend storage for orchestration event sourcing
 - Familiarity with generator-based orchestrator syntax (`yield` tasks)

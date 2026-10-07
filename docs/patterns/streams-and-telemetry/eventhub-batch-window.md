@@ -54,7 +54,7 @@ event body is decoded as JSON when possible; malformed payloads are preserved as
 message does not fail the whole window.
 
 ### Prerequisites
-- Python 3.10+
+- Python 3.11+
 - Azure Functions Core Tools v4
 - Azure Event Hubs namespace and hub `telemetry`
 - `EventHubConnection` app setting for trigger binding

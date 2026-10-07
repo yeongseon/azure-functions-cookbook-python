@@ -243,7 +243,7 @@ def publish_order_event(
             id=str(uuid.uuid4()),
             subject=subject,
             event_type=custom_event_type,
-            event_time=dt.datetime.now(dt.timezone.utc),
+            event_time=dt.datetime.now(dt.UTC),
             data=_build_event_payload(payload),
             data_version="1.0",
         )

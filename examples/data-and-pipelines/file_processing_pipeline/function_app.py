@@ -4,7 +4,7 @@ import csv
 import io
 import json
 import uuid
-from datetime import datetime, timezone
+from datetime import datetime, timezone, UTC
 from pathlib import PurePosixPath
 from typing import TypedDict
 
@@ -187,6 +187,6 @@ def _build_persistence_record(
         "source_format": source_format,
         "record_count": len(transformed_records),
         "total_amount": total_amount,
-        "processed_at": datetime.now(timezone.utc).isoformat(),
+        "processed_at": datetime.now(UTC).isoformat(),
         "items": transformed_records,
     }

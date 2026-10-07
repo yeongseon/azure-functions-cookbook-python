@@ -2,7 +2,7 @@ from __future__ import annotations
 
 # pyright: reportMissingImports=false, reportUnknownVariableType=false, reportUntypedBaseClass=false, reportUnannotatedClassAttribute=false
 
-from datetime import datetime, timezone
+from datetime import datetime, timezone, UTC
 from decimal import Decimal
 
 from sqlalchemy import DateTime, Integer, Numeric, String
@@ -14,7 +14,7 @@ class Base(DeclarativeBase):
 
 
 def utc_now() -> datetime:
-    return datetime.now(timezone.utc)
+    return datetime.now(UTC)
 
 
 class Item(Base):

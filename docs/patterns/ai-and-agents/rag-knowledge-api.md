@@ -54,7 +54,7 @@ flowchart LR
 > **Maps to** `examples/ai-and-agents/rag_knowledge_api/function_app.py`: node `B` is the `ask` route, `H` is the `ingest` route. Nodes `C`–`F` (embedding, vector search, synthesis) run through a **local fallback stub**; Azure AI Search integration remains optional.
 
 ## Prerequisites
-- Python 3.10+
+- Python 3.11+
 - Azure Functions Core Tools v4
 - `azure-functions-validation-python`
 - `azure-functions-openapi-python`

@@ -2,7 +2,7 @@ from __future__ import annotations
 
 # pyright: reportMissingImports=false, reportAttributeAccessIssue=false, reportUnknownVariableType=false, reportUnknownMemberType=false, reportUnknownParameterType=false, reportUntypedFunctionDecorator=false, reportUntypedBaseClass=false, reportExplicitAny=false, reportAny=false, reportUnknownArgumentType=false, reportUnusedParameter=false
 import json
-from datetime import datetime, timezone
+from datetime import datetime, timezone, UTC
 from decimal import Decimal
 from typing import Any
 
@@ -48,7 +48,7 @@ class OrderProjection(BaseModel):
 
 
 def _utc_now_iso() -> str:
-    return datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z")
+    return datetime.now(UTC).replace(microsecond=0).isoformat().replace("+00:00", "Z")
 
 
 def _build_order_document(body: OrderWriteRequest) -> dict[str, Any]:

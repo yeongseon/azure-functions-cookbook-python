@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import logging
-from datetime import datetime, timezone
+from datetime import datetime, timezone, UTC
 
 import azure.functions as func
 
@@ -13,7 +13,7 @@ logger = logging.getLogger(__name__)
 
 @timer_blueprint.timer_trigger(schedule="0 */5 * * * *", arg_name="timer", run_on_startup=False)
 def scheduled_cleanup(timer: func.TimerRequest) -> None:
-    utc_now = datetime.now(tz=timezone.utc).isoformat()
+    utc_now = datetime.now(tz=UTC).isoformat()
 
     if timer.past_due:
         logger.warning("Timer is past due - running catch-up at %s", utc_now)

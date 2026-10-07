@@ -48,7 +48,7 @@ sequenceDiagram
 ```
 
 ## Prerequisites
-- Python 3.10+
+- Python 3.11+
 - Azure Functions Core Tools v4
 - Azure Storage Queue named `orders`
 - Managed identity with `Storage Queue Data Message Processor` or equivalent role
