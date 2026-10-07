@@ -168,13 +168,15 @@ POST /api/items {"name": "Gadget", "price": 19.99}
 
 ## Scaffold Starter
 ```bash
-afs new my-db-api --profile db-api
+afs api new my-db-api
 cd my-db-api
-pip install -e .
+pip install -e .[dev]
 func start
 ```
 
-The `db-api` profile generates a project with openapi, validation, and db integrations pre-wired.
+`afs api new` pre-wires OpenAPI, validation, and doctor. The scaffold CLI has no database
+feature flag, so add `azure-functions-db` to the generated `pyproject.toml` yourself and wire
+`EngineProvider` as shown above.
 
 ## Related Links
 - [Azure SQL bindings for Azure Functions](https://learn.microsoft.com/en-us/azure/azure-functions/functions-bindings-azure-sql)

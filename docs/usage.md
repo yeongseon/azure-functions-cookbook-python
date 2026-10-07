@@ -17,23 +17,27 @@ Use the repository in this order:
 
 ## How recipes are organized
 
-Current published pattern pages (67 total):
+Pattern pages live in `docs/patterns/<category>/`, one page per recipe, grouped into these
+categories:
 
-- **APIs & Ingress** (9)
-- **Scheduled & Background** (1)
-- **Blob & File Triggers** (2)
-- **Async APIs & Jobs** (4)
-- **Messaging & Pub/Sub** (8)
-- **Streams & Telemetry** (3)
-- **Data & Pipelines** (6)
-- **Orchestration & Workflows** (9)
-- **Reliability** (5)
-- **Security & Tenancy** (4)
-- **Runtime & Ops** (6)
-- **Realtime** (1)
-- **AI & Agents** (9)
+- **APIs & Ingress**
+- **Scheduled & Background**
+- **Blob & File Triggers**
+- **Async APIs & Jobs**
+- **Messaging & Pub/Sub**
+- **Streams & Telemetry**
+- **Data & Pipelines**
+- **Orchestration & Workflows**
+- **Reliability**
+- **Security & Tenancy**
+- **Runtime & Ops**
+- **Realtime**
+- **AI & Agents**
+- **Guides**
 
-Each recipe targets a specific trigger style and operational concern.
+Each recipe targets a specific trigger style and operational concern. For the current per-category
+counts and the full recipe list, see the [Patterns Overview](patterns/index.md); it is generated from
+the example inventory, so it never drifts from what is actually in the repository.
 
 | Recipe | Trigger | Focus |
 | --- | --- | --- |

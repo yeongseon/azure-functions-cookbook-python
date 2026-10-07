@@ -11,6 +11,8 @@
 
 Python で実運用レベルの Azure Functions を構築するための実践的なレシピ集です。
 
+> **サポート対象の Python: 3.11、3.12、3.13、3.14。** 正式な範囲は [`pyproject.toml`](pyproject.toml) の `requires-python` です。4 つのバージョンはいずれも Azure Functions Python ランタイムで一般提供されているため、依存関係が許す範囲で最も新しいバージョンを選んでください。ランタイムのサポート終了日は [Azure Functions のサポート対象言語](https://learn.microsoft.com/azure/azure-functions/supported-languages) を参照してください。
+
 ## Why Use It
 
 新しい Azure Functions プロジェクトを始めるには、散在するドキュメント、

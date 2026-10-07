@@ -6,9 +6,9 @@
 This showcase recipe demonstrates a complete REST CRUD API implemented in
 `examples/apis-and-ingress/full_stack_crud_api/`.
 It combines the Azure Functions Python DX Toolkit packages into one runnable Azure Functions Python v2 app:
-`azure-functions-db-python`, `azure-functions-validation-python`, `azure-functions-openapi-python`,
-`azure-functions-logging-python`, plus workflow guidance for `azure-functions-doctor-python` and
-`azure-functions-scaffold-python`.
+`azure-functions-db`, `azure-functions-validation`, `azure-functions-openapi`,
+`azure-functions-logging`, plus workflow guidance for `azure-functions-doctor` and
+`azure-functions-scaffold`.
 
 The sample exposes a full `items` resource with `GET` list pagination, `GET` by id, `POST`, `PUT`, and
 `DELETE`. It is designed as the canonical “everything working together” ingress sample for toolkit users
@@ -16,12 +16,12 @@ who want one recipe that shows request contracts, OpenAPI metadata, structured l
 and local project setup in one place.
 
 ## Integration Matrix
-- **db**: `azure-functions-db-python` manages the shared SQLAlchemy engine lifecycle.
-- **validation**: `azure-functions-validation-python` enforces query and body contracts.
-- **openapi**: `azure-functions-openapi-python` documents the CRUD endpoints.
-- **logging**: `azure-functions-logging-python` emits structured request telemetry.
-- **doctor**: `azure-functions-doctor-python` is the recommended pre-deploy health check.
-- **scaffold**: `azure-functions-scaffold-python` can generate the starting project structure.
+- **db**: `azure-functions-db` manages the shared SQLAlchemy engine lifecycle.
+- **validation**: `azure-functions-validation` enforces query and body contracts.
+- **openapi**: `azure-functions-openapi` documents the CRUD endpoints.
+- **logging**: `azure-functions-logging` emits structured request telemetry.
+- **doctor**: `azure-functions-doctor` is the recommended pre-deploy health check.
+- **scaffold**: `azure-functions-scaffold` can generate the starting project structure.
 
 ## When to Use
 - You want one end-to-end sample that demonstrates the full toolkit on a realistic HTTP API.
@@ -85,8 +85,8 @@ sequenceDiagram
 - Python 3.11+
 - Azure Functions Core Tools v4
 - A SQLAlchemy-compatible database URL in `DB_URL` (SQLite works locally by default)
-- Dependencies from `pyproject.toml`, including `azure-functions-db-python`, `azure-functions-validation-python`,
-  `azure-functions-openapi-python`, `azure-functions-logging-python`, `sqlalchemy`, and `pydantic`
+- Dependencies from `pyproject.toml`, including `azure-functions-db`, `azure-functions-validation`,
+  `azure-functions-openapi`, `azure-functions-logging`, `sqlalchemy`, and `pydantic`
 
 ## Implementation
 The example keeps the app compact while still showing the toolkit integration points clearly.
@@ -108,8 +108,8 @@ Key implementation details:
 - **openapi**: each CRUD route publishes summary, request-body, and response metadata.
 - **logging**: every operation emits structured fields like `operation`, `item_id`, `page`, and `total`.
 - **SQLAlchemy model**: `models.py` defines the `Item` entity and timestamp fields.
-- **doctor**: run `azure-functions-doctor-python` before shipping to catch missing settings or packaging drift.
-- **scaffold**: use `azure-functions-scaffold-python` to bootstrap a new Function App, then apply this recipe.
+- **doctor**: run `azure-functions-doctor` before shipping to catch missing settings or packaging drift.
+- **scaffold**: use `azure-functions-scaffold` to bootstrap a new Function App, then apply this recipe.
 
 ## CRUD Surface
 
@@ -192,7 +192,7 @@ DELETE /api/items/1
 - **Error handling**: extend the sample with standardized 404/409/problem-details responses if your API contract requires them.
 - **Observability**: keep structured logging fields consistent so CRUD operations are easy to trace in Application Insights.
 - **Database portability**: the local SQLite setup maps cleanly to Azure SQL or other SQLAlchemy-supported backends.
-- **Project hygiene**: run `azure-functions-doctor-python` during CI or before deployment to detect environment issues early.
+- **Project hygiene**: run `azure-functions-doctor` during CI or before deployment to detect environment issues early.
 
 ## Related Links
 - [Azure Functions Python developer guide](https://learn.microsoft.com/en-us/azure/azure-functions/functions-reference-python)

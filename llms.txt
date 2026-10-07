@@ -5,30 +5,51 @@
 ## Package Info
 
 - Repository: https://github.com/yeongseon/azure-functions-cookbook-python
-- Version: 0.1.2
+- Version: 0.4.0 <!-- x-release-please-version -->
 - Python: >=3.11, <3.15
 - License: MIT
 - Docs: https://yeongseon.dev/azure-functions-python/cookbook/
 
 ## What It Provides
 
-Content-first cookbook for Azure Functions Python v2 with curated recipe docs and matching runnable
-examples. This repository documents practical trigger patterns and architecture decisions; it does not
-provide a runtime API library.
+Content-first cookbook for Azure Functions Python v2 with curated pattern pages under `docs/patterns/`
+and matching runnable example projects under `examples/`. This repository documents practical trigger
+patterns and architecture decisions; it does not provide a runtime API library.
 
 ## Recipe Categories
 
-- HTTP: request/response, routing, auth, webhook, and multi-tenant patterns
-- Timer: scheduled jobs with NCRONTAB and timezone behavior
-- Queue: producer/consumer messaging with Azure Storage Queue
-- Blob: blob processing via polling and Event Grid triggers
-- Service Bus: enterprise queue processing pattern
-- Event Hub: stream ingestion and event processing
-- Cosmos DB: change feed-triggered processing
-- Patterns: blueprints, retries, idempotency, identity, and performance tuning
-- Durable Functions: orchestrations, entities, retries, determinism, and testing
-- AI: MCP server recipe on Azure Functions
-- Local Dev: local run and direct invocation workflow
+Pattern pages live in `docs/patterns/<category>/<slug>.md`; the runnable app for each one lives in
+`examples/<category>/<name>/`. 81 published recipes across 14 categories:
+
+- APIs & Ingress (14): hello HTTP, routing/query/body, auth levels, EasyAuth claims, JWT validation,
+  multi-tenant auth, GitHub webhook, APIM backend, BFF facade, full-stack CRUD, scaffold walkthrough,
+  and three OpenAPI return-type inference pages
+- Scheduled & Background (3): NCRONTAB timer job, scheduled queue dispatch, durable timer reminder
+- Blob & File Triggers (4): polling upload processor, Event Grid blob trigger, CSV-to-table load,
+  thumbnail generation
+- Async APIs & Jobs (3): HTTP 202 + polling, callback completion, queue-backed job
+- Messaging & Pub/Sub (9): Storage Queue producer/consumer, Service Bus worker, sessions, topic
+  fan-out, DLQ replay, Event Grid router and domain events, claim-check
+- Streams & Telemetry (3): Event Hub consumer, batch window, checkpoint replay
+- Data & Pipelines (6): Cosmos DB change feed, CQRS read projection, DB input/output bindings,
+  ETL enrichment, file-processing pipeline, SQLAlchemy REST pagination
+- Orchestration & Workflows (11): durable chaining, fan-out/fan-in, entities, sub-orchestration,
+  human interaction, singleton monitor, retry pattern, saga compensation, determinism gotchas,
+  async job lifecycle, durable unit testing
+- Reliability (5): retry and idempotency, poison-message handling, circuit breaker, rate limiting,
+  outbox pattern
+- Security & Tenancy (4): managed identity for Storage and Service Bus, secretless Key Vault,
+  tenant isolation
+- Runtime & Ops (7): modular blueprints, host.json tuning, concurrency tuning, cold-start mitigation,
+  observability tracing, output binding vs SDK, doctor diagnostics endpoint
+- Realtime (1): WebSocket proxy endpoint
+- AI & Agents (10): Azure OpenAI direct chat, streaming responses, image generation, embedding and
+  vector search, RAG knowledge API, durable AI pipeline, MCP server, and three LangGraph agents
+  (chat, RAG, tool use)
+- Guides (1): local run and direct invocation workflow
+
+The machine-readable inventory of every recipe (slug, title, category, example_path, tags) is
+`recipes.json`, regenerated with `python scripts/gen_recipe_index.py`.
 
 ## Trigger Patterns Covered
 
@@ -36,6 +57,7 @@ provide a runtime API library.
 - Timer
 - Queue
 - Blob
+- Event Grid
 - Service Bus
 - Event Hub
 - Cosmos DB

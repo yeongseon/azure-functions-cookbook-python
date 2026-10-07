@@ -79,7 +79,7 @@
     "category": "ai-and-agents",
     "description": "Tool-use LangGraph agent with azure-functions-langgraph, routing between a reasoning node and callable tools.",
     "example_path": "ai-and-agents/langgraph_tool_use",
-    "docs_url": "https://yeongseon.dev/azure-functions-python/cookbook/patterns/ai-and-agents/",
+    "docs_url": "https://yeongseon.dev/azure-functions-python/cookbook/patterns/ai-and-agents/langgraph-tool-use/",
     "difficulty": "Advanced",
     "tags": [
       "ai-and-agents",
@@ -1001,7 +1001,7 @@
     "category": "runtime-and-ops",
     "description": "Expose [`azure-functions-doctor`](https://github.com/yeongseon/azure-functions-doctor-python) diagnostics as authenticated HTTP endpoints so operators can query deployment health post-deploy without shelling into the container.",
     "example_path": "runtime-and-ops/doctor_diagnostics_endpoint",
-    "docs_url": "https://yeongseon.dev/azure-functions-python/cookbook/patterns/runtime-and-ops/",
+    "docs_url": "https://yeongseon.dev/azure-functions-python/cookbook/patterns/runtime-and-ops/doctor-diagnostics-endpoint/",
     "difficulty": "Intermediate",
     "tags": [
       "diagnostics",

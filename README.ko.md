@@ -11,6 +11,8 @@
 
 Python으로 실제 프로덕션 수준의 Azure Functions를 구축하기 위한 실용적인 레시피 모음입니다.
 
+> **지원 Python 버전: 3.11, 3.12, 3.13, 3.14.** 기준이 되는 범위는 [`pyproject.toml`](pyproject.toml)의 `requires-python`입니다. 네 버전 모두 Azure Functions Python 런타임에서 정식 지원되므로, 의존성이 허용하는 가장 최신 버전을 선택하세요. 런타임 지원 종료 일정은 [Azure Functions 지원 언어](https://learn.microsoft.com/azure/azure-functions/supported-languages) 문서를 참고하세요.
+
 ## Why Use It
 
 새로운 Azure Functions 프로젝트를 시작하려면 흩어져 있는 문서, 블로그 게시물,

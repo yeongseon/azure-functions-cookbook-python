@@ -14,7 +14,7 @@ graph TD
 
     subgraph Ecosystem["Azure Functions Python Ecosystem"]
         CB["📚 azure-functions-cookbook-python\nRecipe catalog & examples"]
-        SC["🔧 azure-functions-scaffold-python\nafs new · afs add"]
+        SC["🔧 azure-functions-scaffold-python\nafs api new · afs api add"]
         VAL["✅ azure-functions-validation-python\n@validate_http decorator"]
     end
 
@@ -22,9 +22,9 @@ graph TD
 
     DEV -- "1. learn patterns" --> CB
     CB -- "template reference" --> SC
-    DEV -- "2. afs new my-api\n   --template http\n   --with-validation" --> SC
+    DEV -- "2. afs api new my-api" --> SC
     SC -- "3. scaffold project" --> PROJ
-    SC -- "--with-validation" --> VAL
+    SC -- "validation pre-wired" --> VAL
     VAL -- "runtime integration" --> PROJ
     DEV -- "4. func start / publish" --> PROJ
 ```
@@ -36,7 +36,7 @@ graph TD
 | Project | Role | Key API |
 |---------|------|---------|
 | **cookbook** | Recipe catalog — shows *what* to build and *why* | `docs/`, `docs/patterns/`, `examples/` |
-| **scaffold** | CLI that generates projects from cookbook-aligned templates | `afs new`, `afs add` |
+| **scaffold** | CLI that generates projects from cookbook-aligned templates | `afs api new`, `afs api add`, `afs advanced new` |
 | **validation** | Runtime decorator that enforces HTTP input contracts | `@validate_http` |
 
 ### Developer Flow
@@ -51,7 +51,7 @@ sequenceDiagram
 
     Dev->>CB: browse recipes (e.g. HTTP API)
     CB-->>Dev: example code + architecture guidance
-    Dev->>SC: afs new my-api --template http --with-validation
+    Dev->>SC: afs api new my-api
     SC-->>Dev: project generated
     Dev->>VAL: apply @validate_http to handlers
     Dev->>AZ: func start  /  func publish

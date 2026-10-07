@@ -1,6 +1,6 @@
 # Doctor Diagnostics Endpoint
 
-📖 [Full documentation](https://yeongseon.dev/azure-functions-python/cookbook/patterns/runtime-and-ops/)
+📖 [Full documentation](https://yeongseon.dev/azure-functions-python/cookbook/patterns/runtime-and-ops/doctor-diagnostics-endpoint/)
 
 Expose [`azure-functions-doctor`](https://github.com/yeongseon/azure-functions-doctor-python)
 diagnostics as authenticated HTTP endpoints so operators can query deployment

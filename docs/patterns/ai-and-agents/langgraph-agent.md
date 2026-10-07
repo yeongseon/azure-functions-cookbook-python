@@ -4,12 +4,13 @@
 
 ## Overview
 This recipe shows how to keep a LangGraph graph alongside a regular Azure Functions
-HTTP app using `azure-functions-langgraph-python`.
-The example registers a compiled graph with `LangGraphApp`, but the public HTTP surface
-in the sample is a separate `func.FunctionApp` route at `/api/agent/invoke`.
+HTTP app using `azure-functions-langgraph` (source repository: `azure-functions-langgraph-python`).
+The example compiles a graph and registers it with `LangGraphApp`, while the public HTTP surface
+is a separate `func.FunctionApp` route at `/api/agent/invoke`.
 
-The example returns a minimal "Agent received" response and thread ID from that manual
-route. Replace the stubbed response with real graph execution or LLM calls for production use.
+That route returns a deterministic "Agent received" response and a thread ID instead of invoking
+the compiled graph, which keeps the sample runnable without model credentials or network access.
+Point the handler at the graph and add your LLM calls when you adapt it.
 
 ## When to Use
 - You want a standard Azure Functions HTTP endpoint that can live beside LangGraph registration.
@@ -32,12 +33,12 @@ flowchart TD
     G --> H[LangGraphApp.register(graph)]
 ```
 
-> **Maps to** `examples/ai-and-agents/langgraph_agent/function_app.py`: `B`/`D` = the `invoke_agent` route (decorated with `@validate_http`/`@openapi`/`@with_context`), `G`/`H` = `build_graph()` and `langgraph_app.register(graph)` at module load. The graph path is a **stub** — `azure-functions-langgraph` real execution is *future/optional* ([#50](https://github.com/yeongseon/azure-functions-cookbook-python/issues/50)).
+> **Maps to** `examples/ai-and-agents/langgraph_agent/function_app.py`: `B`/`D` = the `invoke_agent` route (decorated with `@validate_http`/`@openapi`/`@with_context`), `G`/`H` = `build_graph()` and `_langgraph_app.register(graph)` at module load. Both paths are real: `azure-functions-langgraph` and `langgraph` are hard dependencies of the example, and the graph is compiled and registered at import time. The HTTP handler deliberately returns a deterministic echo rather than calling the compiled graph, so the sample runs with no model credentials. Wiring the route to the graph is the first change you make when adapting it.
 
 ## Prerequisites
 - Python 3.11+
 - Azure Functions Core Tools v4
-- `langgraph` and `azure-functions-langgraph-python` packages
+- The `langgraph` and `azure-functions-langgraph` packages (both are hard dependencies of the example)
 - Pydantic for request and response models
 
 ## Project Structure
@@ -53,7 +54,7 @@ examples/ai-and-agents/langgraph_agent/
 ## Implementation
 The sample keeps everything in a single `function_app.py`, but it does two separate things:
 
-1. Creates and optionally registers a LangGraph graph at startup.
+1. Compiles a LangGraph graph at startup and registers it with `LangGraphApp`.
 2. Exposes a manual HTTP endpoint with Azure Functions decorators.
 
 ```python
@@ -200,13 +201,13 @@ curl -X POST http://localhost:7071/api/agent/invoke \
 - Scaling: Azure Functions scales the HTTP route independently; keep request handlers lightweight.
 - State: the sample echoes input and returns a thread ID, but does not persist conversation state.
 - Observability: the example enables structured logging and adds request context around the route.
-- Evolution path: if you later wire the HTTP route to execute the compiled graph, add checkpointing and explicit timeout handling.
+- Evolution path: when you wire the HTTP route to execute the compiled graph, add checkpointing and explicit timeout handling.
 
 ## Scaffold Starter
 ```bash
-afs new my-agent --template langgraph
+afs ai agent my-agent
 cd my-agent
-pip install -e .
+pip install -e .[dev]
 func start
 ```
 
