@@ -18,6 +18,22 @@ HTTP Backend-for-Frontend facade that aggregates multiple backend service calls 
 - [Azure Functions Core Tools v4](https://learn.microsoft.com/azure/azure-functions/functions-run-local)
 - Internet access to `httpbin.org` or replacement backend URLs
 
+## Environment Variables
+
+Copy `local.settings.json.example` to `local.settings.json` and adjust as needed. Every value has a
+working default, so the sample runs against `httpbin.org` with no configuration.
+
+| Setting | Required | Default | Purpose |
+| --- | --- | --- | --- |
+| `PROFILE_SERVICE_URL` | No | `https://httpbin.org/anything/profile` | Backend called for the `profile` fragment. |
+| `ORDERS_SERVICE_URL` | No | `https://httpbin.org/anything/orders` | Backend called for the `orders` fragment. |
+| `RECOMMENDATIONS_SERVICE_URL` | No | `https://httpbin.org/uuid` | Backend called for the `recommendations` fragment. |
+| `BACKEND_TIMEOUT_SECONDS` | No | `5` | Per-backend HTTP timeout in seconds. |
+| `AzureWebJobsStorage` | Yes | `UseDevelopmentStorage=true` | Functions runtime storage. Use Azurite locally. |
+| `FUNCTIONS_WORKER_RUNTIME` | Yes | `python` | Required by the Functions host. |
+
+The URLs are read once at module import, so changing them requires a host restart.
+
 ## Run Locally
 
 ```bash

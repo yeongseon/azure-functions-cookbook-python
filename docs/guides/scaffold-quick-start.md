@@ -1,13 +1,28 @@
 # Scaffold Quick Start
 
 ## Overview
-`azure-functions-scaffold-python` (alias: `afs`) generates production-ready Azure Functions
+`azure-functions-scaffold` (CLI name: `afs`) generates production-ready Azure Functions
 Python v2 projects in one command.
-It creates the full project layout — `function_app.py`, `host.json`, service modules,
-schemas, tests, and tooling config — so you can start writing business logic immediately.
+It creates the full project layout, `function_app.py`, `host.json`, service modules,
+schemas, tests, and tooling config, so you can start writing business logic immediately.
 
-Optional flags wire in toolkit packages like `azure-functions-openapi-python`,
-`azure-functions-validation-python`, and `azure-functions-db-python` at generation time.
+The CLI is organised around four task-oriented command groups plus a power-user group:
+
+| Group | What it builds | Entry command |
+| --- | --- | --- |
+| `afs api` | REST API project (HTTP template) with OpenAPI, validation, and doctor pre-wired | `afs api new my-api` |
+| `afs worker` | Background worker project for one trigger type | `afs worker queue my-worker` |
+| `afs ai` | LangGraph agent project | `afs ai agent my-agent` |
+| `afs advanced` | Any template plus explicit feature flags | `afs advanced new my-app --template timer` |
+
+`afs new` is a shortcut for `afs api new`.
+
+!!! warning "Renamed commands"
+    `afs add` and `afs profiles` still exist but are deprecated. Use `afs api add`
+    (HTTP functions) or `afs advanced add <trigger>` instead of `afs add`, and
+    `afs presets` instead of `afs profiles`. There is no `--profile` flag and no
+    `--with-db` flag: run `afs --help` to confirm the options your installed
+    version exposes.
 
 ## When to Use
 - You are starting a new Azure Functions project and want a proven layout.
@@ -17,9 +32,10 @@ Optional flags wire in toolkit packages like `azure-functions-openapi-python`,
 ## Architecture
 ```mermaid
 flowchart TD
-    developer[Developer] --> command["afs new my-api --profile api"]
-    command --> templates["Templates\n(http, timer, queue, blob, servicebus, langgraph)"]
-    command --> flags["Optional flags\n(--with-openapi, --with-validation, --with-db, --with-doctor)"]
+    developer[Developer] --> command["afs api new my-api"]
+    command --> templates["Templates\n(http, timer, queue, blob, servicebus,\neventhub, cosmosdb, durable, ai, langgraph)"]
+    command --> presets["Presets\n(minimal, standard, strict)"]
+    command --> flags["advanced-only flags\n(--with-openapi, --with-validation, --with-doctor)"]
     command --> project[Generated Project]
     project --> entry[function_app.py]
     project --> functions[app/functions/]
@@ -30,109 +46,156 @@ flowchart TD
 ```
 
 ## Prerequisites
-- Python 3.11+
+- Python 3.11 or newer
 - pip
+
+```bash
+pip install azure-functions-scaffold
+afs --version
+```
+
+The PyPI distribution is `azure-functions-scaffold`; the source repository is
+[`azure-functions-scaffold-python`](https://github.com/yeongseon/azure-functions-scaffold-python).
 
 ## Templates
 
-| Template | Command | Use Case |
+`afs templates` prints the live list. As of scaffold `0.9.1`:
+
+| Template | Use Case | Command |
 | --- | --- | --- |
-| http | `afs new my-api` | REST APIs, webhooks |
-| timer | `afs new my-job --template timer` | Scheduled tasks, cron |
-| queue | `afs new my-worker --template queue` | Message processing |
-| blob | `afs new my-blob --template blob` | File processing |
-| servicebus | `afs new my-bus --template servicebus` | Enterprise messaging |
-| langgraph | `afs new my-agent --template langgraph` | LangGraph AI agent deployment |
+| http | REST APIs, webhooks | `afs api new my-api` |
+| timer | Scheduled tasks, cron | `afs worker timer my-job` |
+| queue | Storage Queue message processing | `afs worker queue my-worker` |
+| blob | File processing | `afs worker blob my-blob` |
+| servicebus | Enterprise messaging | `afs worker servicebus my-bus` |
+| eventhub | Stream ingestion | `afs worker eventhub my-stream` |
+| cosmosdb | Change feed processing | `afs advanced new my-feed --template cosmosdb` |
+| durable | Durable Functions orchestrations | `afs advanced new my-flow --template durable` |
+| ai | Azure OpenAI application | `afs advanced new my-ai --template ai` |
+| langgraph | LangGraph agent deployment | `afs ai agent my-agent` |
 
-`afs` is short for `azure-functions-scaffold-python`. Both work interchangeably.
+## Presets
 
-## Profiles
+Presets choose the quality tooling wired into `pyproject.toml`. Run `afs presets`
+for the live list:
 
-Profiles combine a template with pre-selected optional features:
+| Preset | Tooling |
+| --- | --- |
+| `minimal` | none |
+| `standard` | Ruff, pytest |
+| `strict` | Ruff, mypy, pytest |
 
-| Profile | Template | Features Included | Command |
-|---------|----------|-------------------|---------|
-| `api` | http | openapi, validation | `afs new my-api --profile api` |
-| `db-api` | http | openapi, validation, db | `afs new my-api --profile db-api` |
-
-Profiles are a convenience — they set the same flags you could pass individually.
+`afs api new` applies the `strict` preset and enables OpenAPI, validation, and doctor.
+`afs worker *` and `afs ai agent` apply `standard`. Only `afs advanced new` lets you
+pick a preset explicitly with `--preset`.
 
 ## Project Structure
 
-The default HTTP template generates:
+`afs api new my-api` generates:
 
 ```text
 my-api/
-|- function_app.py          # Azure Functions v2 entrypoint
-|- host.json                # Runtime configuration
+|- function_app.py             # Azure Functions v2 entrypoint
+|- host.json                   # Runtime configuration
 |- local.settings.json.example
-|- pyproject.toml           # Dependencies and tooling config
+|- pyproject.toml              # Dependencies and tooling config
+|- requirements.txt
+|- Makefile
+|- .funcignore
 |- app/
 |  |- core/
-|  |  `- logging.py         # Structured JSON logging
+|  |  |- config.py             # Settings read from environment variables
+|  |  `- logging.py            # Structured JSON logging
+|  |- dependencies/
 |  |- functions/
-|  |  `- http.py            # HTTP trigger (Blueprint)
+|  |  |- health.py             # Health probe (Blueprint)
+|  |  `- webhooks.py           # Inbound webhook route (Blueprint)
 |  |- schemas/
-|  |  `- request_models.py  # Request/response models
+|  |  |- health.py
+|  |  `- webhooks.py           # Request/response models
 |  `- services/
-|     `- hello_service.py   # Business logic
+|     |- health_service.py
+|     `- webhook_service.py    # Business logic
 `- tests/
-   `- test_http.py          # Pytest tests
+   |- test_health.py
+   `- test_webhooks.py         # Pytest tests
 ```
 
 ## Implementation
 
-**Create a new project:**
+**Create a REST API project (OpenAPI + validation + doctor, `strict` preset):**
 
 ```bash
+afs api new my-api
+# or the shortcut
 afs new my-api
 ```
 
-**Create with the API profile (openapi + validation):**
+**Create a background worker:**
 
 ```bash
-afs new my-api --profile api
-```
-
-**Create with database support:**
-
-```bash
-afs new my-api --profile db-api
+afs worker queue my-worker
+afs worker timer my-job
+afs worker blob my-blob
+afs worker servicebus my-bus
+afs worker eventhub my-stream
 ```
 
 **Create a LangGraph agent project:**
 
 ```bash
-afs new my-agent --template langgraph
+afs ai agent my-agent
 ```
 
-**Mix individual flags:**
+**Pick template, preset, and features explicitly:**
 
 ```bash
-afs new my-api --with-openapi --with-validation --preset strict
+afs advanced new my-api \
+  --template http \
+  --preset strict \
+  --with-openapi \
+  --with-validation \
+  --with-doctor
 ```
+
+Other `afs advanced new` options worth knowing: `--python-version` (default `3.12`),
+`--git`, `--github-actions`, `--azd`, `--destination`, `--dry-run`, and `--overwrite`
+(which needs `-y` in a non-interactive shell).
 
 ### Expand an Existing Project
 
-Add new triggers to a scaffolded project:
+Add an HTTP function, a plain route, or a full CRUD resource to an API project:
 
 ```bash
-afs add http get-user --project-root ./my-api
-afs add timer cleanup --project-root ./my-api
-afs add queue sync-jobs --project-root ./my-api
+afs api add get-user --project-root ./my-api
+afs api add-route status --project-root ./my-api
+afs api add-resource products --project-root ./my-api
 ```
+
+Add any trigger type to any scaffolded project:
+
+```bash
+afs advanced add timer cleanup --project-root ./my-api
+afs advanced add queue sync-jobs --project-root ./my-api
+afs advanced add durable order-flow --project-root ./my-api
+```
+
+Supported `afs advanced add` triggers: `http`, `timer`, `queue`, `blob`, `servicebus`,
+`eventhub`, `cosmosdb`, `durable`, `ai`.
 
 Preview what will be generated:
 
 ```bash
-afs add http get-user --project-root ./my-api --dry-run
+afs api add get-user --project-root ./my-api --dry-run
 ```
 
 ## Run Locally
 ```bash
-afs new my-api
+afs api new my-api
 cd my-api
-pip install -e .
+python -m venv .venv
+source .venv/bin/activate
+pip install -e .[dev]
 func start
 ```
 
@@ -140,20 +203,33 @@ func start
 ```text
 Functions:
 
-    hello: [GET] http://localhost:7071/api/hello
+    health: [GET] http://localhost:7071/api/health
+
+    receive_webhook: [POST] http://localhost:7071/api/webhooks/inbound
+
+    docs: [GET] http://localhost:7071/api/docs
+
+    openapi_json: [GET] http://localhost:7071/api/openapi.json
+
+    openapi_yaml: [GET] http://localhost:7071/api/openapi.yaml
 ```
 
 ```bash
-curl http://localhost:7071/api/hello
+curl http://localhost:7071/api/health
 ```
 
-```text
-Hello, World!
+```json
+{"status": "ok"}
 ```
+
+`/api/health` is anonymous; `/api/webhooks/inbound` requires a function key.
+Swagger UI is served at `http://localhost:7071/api/docs`.
 
 ## Production Considerations
 - Review `host.json` and function auth levels before deploying.
 - Set required app settings (connection strings, API keys) in the Azure portal.
+- `WEBHOOK_SECRET` is required by the generated webhook route; until it is set the
+  endpoint returns `503 Service Unavailable`.
 - Run `pytest`, lint, and formatting checks before publishing.
 - Use `func azure functionapp publish <APP_NAME>` to deploy.
 

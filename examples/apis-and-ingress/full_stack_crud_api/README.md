@@ -6,12 +6,17 @@ Showcase HTTP API that wires the Azure Functions Python DX Toolkit together arou
 
 ## Toolkit Coverage
 
-- `azure-functions-db-python` for shared SQLAlchemy engine/session management
-- `azure-functions-validation-python` for query/body validation and response shaping
-- `azure-functions-openapi-python` for endpoint metadata
-- `azure-functions-logging-python` for structured telemetry
-- `azure-functions-doctor-python` as the recommended environment and dependency health check before deploy
-- `azure-functions-scaffold-python` as the fastest way to generate the starting project skeleton this example builds on
+Each row lists the PyPI distribution you install (what goes in `pyproject.toml`) and the GitHub
+repository it comes from. They differ: the repositories carry a `-python` suffix, the packages do not.
+
+| PyPI package | Repository | Role in this example |
+| --- | --- | --- |
+| `azure-functions-db` | [azure-functions-db-python](https://github.com/yeongseon/azure-functions-db-python) | Shared SQLAlchemy engine and session management |
+| `azure-functions-validation` | [azure-functions-validation-python](https://github.com/yeongseon/azure-functions-validation-python) | Query/body validation and response shaping |
+| `azure-functions-openapi` | [azure-functions-openapi-python](https://github.com/yeongseon/azure-functions-openapi-python) | Endpoint metadata |
+| `azure-functions-logging` | [azure-functions-logging-python](https://github.com/yeongseon/azure-functions-logging-python) | Structured telemetry |
+| `azure-functions-doctor` | [azure-functions-doctor-python](https://github.com/yeongseon/azure-functions-doctor-python) | Environment and dependency health check before deploy |
+| `azure-functions-scaffold` | [azure-functions-scaffold-python](https://github.com/yeongseon/azure-functions-scaffold-python) | Generates the starting project skeleton this example builds on |
 
 ## Files
 
@@ -66,5 +71,7 @@ curl -X DELETE http://localhost:7071/api/items/1 -i
 
 ## Adjacent Toolkit Workflow
 
-- Run `azure-functions-doctor-python` before deployment to catch missing settings, packaging issues, and runtime mismatches.
-- Use `azure-functions-scaffold-python` when you want to generate a new Azure Functions project and then apply this CRUD recipe pattern.
+- Run `azure-functions-doctor` (`pip install azure-functions-doctor`, then `azure-functions-doctor doctor`) before
+  deployment to catch missing settings, packaging issues, and runtime mismatches.
+- Use `azure-functions-scaffold` (`pip install azure-functions-scaffold`, then `afs api new`) when you
+  want to generate a new Azure Functions project and then apply this CRUD recipe pattern.

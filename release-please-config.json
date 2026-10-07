@@ -25,6 +25,14 @@
         {
           "type": "generic",
           "path": "src/azure_functions_python_cookbook/__init__.py"
+        },
+        {
+          "type": "generic",
+          "path": "llms.txt"
+        },
+        {
+          "type": "generic",
+          "path": "llms-full.txt"
         }
       ]
     }

@@ -86,7 +86,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
-          python-version: "3.11"
+          python-version: "3.12"
       - run: pip install -e .
       - run: pytest -q
       - uses: Azure/functions-action@v1
@@ -126,23 +126,36 @@ When to choose `azd`:
 - Teams standardizing app + infra lifecycle.
 - Multi-service solutions where Functions is one component.
 
-## Hosting plans: Consumption vs Premium vs Dedicated
+## Hosting plans: Flex Consumption vs Premium vs Dedicated
 
 | Plan | Cost model | Cold start profile | Scale behavior | Best fit |
 | --- | --- | --- | --- | --- |
-| Consumption | Pay per execution | Can be noticeable | Automatic elastic scaling | Event-driven, spiky workloads |
-| Premium | Pre-warmed + execution cost | Reduced cold starts | Elastic with pre-warmed instances | Latency-sensitive and bursty workloads |
+| **Flex Consumption** (recommended) | Pay per execution, plus any always-ready instances | Reduced; always-ready instances remove it for a baseline | Event-driven scale to zero with a configurable instance ceiling | New Python apps, including ones needing VNet |
+| Consumption (classic Linux) | Pay per execution | Can be noticeable | Automatic elastic scaling | Existing apps only; retires 30 September 2028 |
+| Premium | Pre-warmed + execution cost | Reduced cold starts | Elastic with pre-warmed instances | Apps needing App Service specific networking features |
 | Dedicated (App Service) | Fixed instance cost | No serverless cold start pattern | Manual/auto scale by plan | Predictable steady traffic |
 
 Selection guidance:
 
-- Start with Consumption for low/medium traffic asynchronous patterns.
-- Move to Premium when startup latency matters or VNET/performance needs increase.
+- Start with Flex Consumption for new apps: scale to zero, VNet integration, configurable
+  per-instance memory, and current Python versions.
+- Treat classic Linux Consumption as migrate-away. It receives no Python versions beyond 3.12 and
+  retires on 30 September 2028. See
+  [Migrate Consumption plan apps to Flex Consumption](https://learn.microsoft.com/azure/azure-functions/migration/migrate-plan-consumption-to-flex).
+- Move to Premium only when you need App Service features Flex Consumption does not offer.
 - Use Dedicated when workload is steady and you want full App Service control.
+
+See [Hosting Plans and Scale](../foundations/hosting-and-scale.md) for the full comparison and
+[IaC Reference Snippets](iac-snippets.md) for a deployable Flex Consumption Bicep template.
 
 ## Deployment slots
 
 Slots provide safer releases by separating staging from production runtime.
+
+!!! warning "Flex Consumption has no deployment slots"
+    Deployment slots are not available on Flex Consumption. If you deploy there, replace the
+    slot-swap release strategy below with a side-by-side app plus traffic cutover (Front Door,
+    APIM, or DNS), and keep the previous app running until smoke tests pass.
 
 ### Recommended slot workflow
 
@@ -185,6 +198,10 @@ AzureWebJobsStorage__queueServiceUri=https://mystorage.queue.core.windows.net
 ServiceBusConn__fullyQualifiedNamespace=my-namespace.servicebus.windows.net
 APP_ENV=production
 ```
+
+On Flex Consumption, drop `FUNCTIONS_EXTENSION_VERSION` and `FUNCTIONS_WORKER_RUNTIME`: the
+language and version live in `properties.functionAppConfig.runtime` on the site resource, and
+the platform rejects the legacy settings.
 
 ## Zero-downtime and rollback strategy
 
@@ -245,7 +262,8 @@ This reduces "works in dev but not in prod" differences.
 
 ## Practical checklist
 
-- [ ] Runtime version pinned (`~4`) and Python version aligned.
+- [ ] Hosting plan chosen deliberately (Flex Consumption unless a constraint says otherwise).
+- [ ] Runtime version pinned (`~4` on classic plans, `functionAppConfig.runtime` on Flex) and Python version aligned.
 - [ ] Tests pass before deployment.
 - [ ] Artifact is immutable and traceable to commit.
 - [ ] Identity and RBAC verified for all triggers/bindings.
@@ -258,6 +276,8 @@ This reduces "works in dev but not in prod" differences.
 - Deploy Azure Functions from package: https://learn.microsoft.com/azure/azure-functions/run-functions-from-deployment-package
 - Continuous deployment for Azure Functions: https://learn.microsoft.com/azure/azure-functions/functions-continuous-deployment
 - Azure Functions hosting options: https://learn.microsoft.com/azure/azure-functions/functions-scale
+- Flex Consumption plan: https://learn.microsoft.com/azure/azure-functions/flex-consumption-plan
+- Migrate Consumption apps to Flex Consumption: https://learn.microsoft.com/azure/azure-functions/migration/migrate-plan-consumption-to-flex
 - Deployment slots for Azure Functions: https://learn.microsoft.com/azure/azure-functions/functions-deployment-slots
 - Azure Developer CLI docs: https://learn.microsoft.com/azure/developer/azure-developer-cli/
 - GitHub Actions for Azure Functions: https://learn.microsoft.com/azure/azure-functions/functions-how-to-github-actions
@@ -265,6 +285,8 @@ This reduces "works in dev but not in prod" differences.
 ## Related pages
 
 - [Identity-Based Connections](identity-based-connections.md)
+- [IaC Reference Snippets](iac-snippets.md)
+- [Hosting Plans and Scale](../foundations/hosting-and-scale.md)
 - [Python v2 Programming Model](../foundations/execution-model.md)
 - [Triggers and Bindings Overview](../foundations/triggers-bindings-overview.md)
 - [Durable Functions Overview](../reference/durable.md)

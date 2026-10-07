@@ -11,7 +11,7 @@ Read this in: [한국어](README.ko.md) | [日本語](README.ja.md) | [简体中
 
 Practical recipes for building real-world Azure Functions with Python.
 
-> **Python 3.11 is deprecated.** Support ends in the next minor release — Python 3.11 reaches end of life in October 2026. Importing the package on Python 3.11 emits a `FutureWarning`; upgrade to Python 3.11 or newer.
+> **Supported Python: 3.11, 3.12, 3.13, and 3.14.** The authoritative range is `requires-python` in [`pyproject.toml`](pyproject.toml). All four minors are generally available on the Azure Functions Python runtime, so pick the newest one your dependencies allow. See [Azure Functions supported languages](https://learn.microsoft.com/azure/azure-functions/supported-languages) for runtime end-of-support dates.
 
 ## Why Use It
 

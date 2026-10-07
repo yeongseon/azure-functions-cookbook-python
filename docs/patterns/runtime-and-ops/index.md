@@ -19,3 +19,4 @@ flowchart LR
 | [Concurrency Tuning](./concurrency-tuning.md) | Runtime concurrency controls | Advanced |
 | [Observability Tracing](./observability-tracing.md) | Cross-trigger OpenTelemetry | Advanced |
 | [Cold Start Mitigation](./cold-start-mitigation.md) | Runtime optimization | Intermediate |
+| [Doctor Diagnostics Endpoint](./doctor-diagnostics-endpoint.md) | HTTP + azure-functions-doctor | Intermediate |
