@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.4.0](https://github.com/yeongseon/azure-functions-cookbook-python/compare/v0.3.2...v0.4.0) (2026-10-07)
+
+
+### Features
+
+* **python:** require Python 3.11 or newer ([#301](https://github.com/yeongseon/azure-functions-cookbook-python/issues/301)) ([f54642f](https://github.com/yeongseon/azure-functions-cookbook-python/commit/f54642f24e6693f6bcfea75899e66e77697735df)), closes [#298](https://github.com/yeongseon/azure-functions-cookbook-python/issues/298)
+
 ## [0.3.2](https://github.com/yeongseon/azure-functions-cookbook-python/compare/v0.3.1...v0.3.2) (2026-10-04)
 
 
