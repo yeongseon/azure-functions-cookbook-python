@@ -9,6 +9,7 @@
 
 Read this in: [Korean](README.ko.md) | [日本語](README.ja.md) | [简体中文](README.zh-CN.md)
 
+
 Practical recipes for building real-world Azure Functions with Python.
 
 > **Supported Python: 3.11, 3.12, 3.13, and 3.14.** The authoritative range is `requires-python` in [`pyproject.toml`](pyproject.toml). All four minors are generally available on the Azure Functions Python runtime, so pick the newest one your dependencies allow. See [Azure Functions supported languages](https://learn.microsoft.com/azure/azure-functions/supported-languages) for runtime end-of-support dates.
@@ -309,7 +310,7 @@ The **Status** column reflects how each package is currently exercised in this r
 | [azure-functions-langgraph-python](https://github.com/yeongseon/azure-functions-langgraph-python) | LangGraph deployment adapter for Azure Functions | Dogfooded ([3 examples](https://github.com/search?q=repo%3Ayeongseon%2Fazure-functions-cookbook-python+azure_functions_langgraph+path%3Aexamples&type=code)) |
 | [azure-functions-scaffold-python](https://github.com/yeongseon/azure-functions-scaffold-python) | Project scaffolding CLI | Dogfooded ([1 example, CLI-generated](examples/apis-and-ingress/scaffold_walkthrough_app/)) |
 | [azure-functions-doctor-python](https://github.com/yeongseon/azure-functions-doctor-python) | Pre-deploy diagnostic CLI | Dogfooded ([1 example](https://github.com/search?q=repo%3Ayeongseon%2Fazure-functions-cookbook-python+azure_functions_doctor+path%3Aexamples&type=code)) |
-| **azure-functions-cookbook-python** *(this repo)* | Dogfood examples for the full toolkit | 81 examples |
+| **azure-functions-cookbook-python** *(this repo)* | Dogfood examples for the full toolkit | 999 examples |
 
 ## For AI Coding Assistants
 
