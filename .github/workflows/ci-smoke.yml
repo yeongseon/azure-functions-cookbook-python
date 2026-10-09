@@ -3,6 +3,13 @@ name: Smoke Tests (Example Validation)
 on:
   pull_request:
     types: [opened, synchronize, reopened]
+    paths:
+      - "examples/**"
+      - "scripts/**"
+      - "src/**"
+      - "tests/**"
+      - "pyproject.toml"
+      - ".github/workflows/ci-smoke.yml"
   push:
     branches: [main]
   workflow_dispatch:
