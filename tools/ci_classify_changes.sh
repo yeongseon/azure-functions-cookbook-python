@@ -15,7 +15,8 @@ while IFS= read -r path || [ -n "$path" ]; do
   [ -z "$path" ] && continue
   count=$((count + 1))
   case "$path" in
-    mkdocs.yml | pyproject.toml | docs/*.py | docs/*.yml | docs/*.yaml | docs/*.json | \
+    mkdocs.yml | pyproject.toml | tools/forbid_korean.sh | .github/workflows/ci-test.yml | \
+    docs/*.py | docs/*.yml | docs/*.yaml | docs/*.json | \
     docs/*.toml | docs/*.js | docs/*.css | docs/*.html | docs/*.txt)
       docs_only=false
       docs_changed=true

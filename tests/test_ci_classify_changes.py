@@ -72,7 +72,14 @@ def test_anything_that_may_affect_code_runs_the_full_matrix(files: list[str]) ->
 
 @pytest.mark.parametrize(
     "files",
-    [["mkdocs.yml"], ["pyproject.toml"], ["docs/hooks.py"], ["docs/extra.css"]],
+    [
+        ["mkdocs.yml"],
+        ["pyproject.toml"],
+        ["docs/hooks.py"],
+        ["docs/extra.css"],
+        ["tools/forbid_korean.sh"],
+        [".github/workflows/ci-test.yml"],
+    ],
 )
 def test_docs_build_inputs_run_the_matrix_and_docs_build(files: list[str]) -> None:
     result = classify(files)
