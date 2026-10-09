@@ -38,31 +38,19 @@ jobs:
           BEFORE_SHA: ${{ github.event.before }}
           SHA: ${{ github.sha }}
         run: |
-          set -uo pipefail
-          emit_full() {
-            printf 'docs_only=false\ndocs_changed=true\nfull_required=true\n' >> "$GITHUB_OUTPUT"
-          }
-          changed_files=$(mktemp)
           if [ "$EVENT_NAME" = "pull_request" ]; then
             if [ "$SAME_REPOSITORY" != "true" ]; then
               git fetch --no-tags origin "refs/pull/${PR_NUMBER}/head" || {
-                emit_full
+                printf 'docs_only=false\ndocs_changed=true\nfull_required=true\n' >> "$GITHUB_OUTPUT"
                 exit 0
               }
             fi
             EVENT_NAME=$EVENT_NAME BASE_SHA=$BASE_SHA HEAD_SHA=$HEAD_SHA \
-              tools/ci_changed_files.sh "$changed_files" || {
-              emit_full
-              exit 0
-            }
+              tools/ci_classify_workflow.sh
           else
             EVENT_NAME=$EVENT_NAME BEFORE_SHA=$BEFORE_SHA SHA=$SHA \
-              tools/ci_changed_files.sh "$changed_files" || {
-              emit_full
-              exit 0
-            }
+              tools/ci_classify_workflow.sh
           fi
-          tools/ci_classify_changes.sh < "$changed_files" >> "$GITHUB_OUTPUT" || emit_full
 
   # Lint, type-check and workflow hygiene run once on a single pinned
   # interpreter (Python 3.11). These checks are interpreter-agnostic, so
