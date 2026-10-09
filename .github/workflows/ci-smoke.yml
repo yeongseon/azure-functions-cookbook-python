@@ -3,8 +3,28 @@ name: Smoke Tests (Example Validation)
 on:
   pull_request:
     types: [opened, synchronize, reopened]
+    paths:
+      - "examples/**"
+      - "src/**"
+      - "tests/e2e/**"
+      - "tests/_isolation.py"
+      - "tests/__init__.py"
+      - "Makefile"
+      - "README.md"
+      - "pyproject.toml"
+      - ".github/workflows/ci-smoke.yml"
   push:
     branches: [main]
+    paths:
+      - "examples/**"
+      - "src/**"
+      - "tests/e2e/**"
+      - "tests/_isolation.py"
+      - "tests/__init__.py"
+      - "Makefile"
+      - "README.md"
+      - "pyproject.toml"
+      - ".github/workflows/ci-smoke.yml"
   workflow_dispatch:
 
 permissions:
