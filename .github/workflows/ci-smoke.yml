@@ -9,6 +9,7 @@ on:
       - "src/**"
       - "tests/**"
       - "Makefile"
+      - "README.md"
       - "pyproject.toml"
       - ".github/workflows/ci-smoke.yml"
   push:
