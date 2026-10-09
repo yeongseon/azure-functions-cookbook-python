@@ -15,7 +15,14 @@ while IFS= read -r path || [ -n "$path" ]; do
   [ -z "$path" ] && continue
   count=$((count + 1))
   case "$path" in
-    mkdocs.yml | pyproject.toml | tools/forbid_korean.sh | .github/workflows/ci-test.yml | \
+    mkdocs.yml | pyproject.toml | \
+    tests/test_example_count.py | tests/test_llms_txt.py | tests/test_recipe_index.py | \
+    tests/test_recipe_table.py | tests/test_recipes.py | tests/test_requirements.py | \
+    tests/_isolation.py | tests/_recipes.py | \
+    scripts/gen_recipe_index.py | scripts/gen_recipe_table.py | scripts/gen_requirements.py | \
+    src/azure_functions_python_cookbook/recipes.py | \
+    src/azure_functions_python_cookbook/__init__.py | tools/forbid_korean.sh | \
+    .github/workflows/ci-test.yml | \
     docs/*.py | docs/*.yml | docs/*.yaml | docs/*.json | \
     docs/*.toml | docs/*.js | docs/*.css | docs/*.html | docs/*.txt)
       docs_only=false
