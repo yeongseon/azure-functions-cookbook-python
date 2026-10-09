@@ -39,11 +39,21 @@ def run_push_range(repository: Path, before: str, after: str) -> subprocess.Comp
 
 
 def run_workflow_wrapper_with_failing_git(tmp_path: Path, event_name: str) -> dict[str, str]:
-    # Given: git fails before it can produce a changed-file list.
+    # Given: range validation succeeds, but the final diff writes a docs path and fails.
     bin_dir = tmp_path / "bin"
     bin_dir.mkdir()
     fake_git = bin_dir / "git"
-    fake_git.write_text("#!/usr/bin/env bash\nexit 1\n", encoding="utf-8")
+    git_log = tmp_path / "git.log"
+    fake_git.write_text(
+        "#!/usr/bin/env bash\n"
+        'printf \'%s\\n\' "$*" >> "$FAKE_GIT_LOG"\n'
+        'case "$1" in\n'
+        "  cat-file|merge-base) exit 0 ;;\n"
+        "  diff) printf 'README.md\\n'; exit 42 ;;\n"
+        "  *) exit 99 ;;\n"
+        "esac\n",
+        encoding="utf-8",
+    )
     fake_git.chmod(0o755)
     output = tmp_path / "github-output.txt"
     environment = {
@@ -55,6 +65,7 @@ def run_workflow_wrapper_with_failing_git(tmp_path: Path, event_name: str) -> di
         "BEFORE_SHA": "before",
         "SHA": "after",
         "GITHUB_OUTPUT": str(output),
+        "FAKE_GIT_LOG": str(git_log),
     }
 
     # When: the same wrapper used by the changes job handles the event.
@@ -69,6 +80,8 @@ def run_workflow_wrapper_with_failing_git(tmp_path: Path, event_name: str) -> di
 
     # Then: failure is absorbed and the prewritten full-matrix outputs remain.
     assert result.returncode == 0, result.stderr
+    commands = git_log.read_text(encoding="utf-8").splitlines()
+    assert commands[-1].startswith("diff --name-only --no-renames ")
     return dict(line.split("=", 1) for line in output.read_text(encoding="utf-8").splitlines())
 
 
