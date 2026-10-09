@@ -9,12 +9,67 @@ on:
 permissions:
   contents: read
 
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
 jobs:
+  changes:
+    runs-on: ubuntu-latest
+    outputs:
+      docs_only: ${{ steps.classify.outputs.docs_only }}
+      docs_changed: ${{ steps.classify.outputs.docs_changed }}
+      full_required: ${{ steps.classify.outputs.full_required }}
+    steps:
+      - name: Checkout classification source
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+          ref: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository && github.event.pull_request.head.sha || github.sha }}
+
+      - name: Classify changed files
+        id: classify
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          SAME_REPOSITORY: ${{ github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository }}
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+          BEFORE_SHA: ${{ github.event.before }}
+          SHA: ${{ github.sha }}
+        run: |
+          set -uo pipefail
+          emit_full() {
+            printf 'docs_only=false\ndocs_changed=true\nfull_required=true\n' >> "$GITHUB_OUTPUT"
+          }
+          if [ "$SAME_REPOSITORY" != "true" ]; then
+            echo "Fork pull request: do not execute untrusted classifier content."
+            emit_full
+            exit 0
+          fi
+          changed_files=$(mktemp)
+          if [ "$EVENT_NAME" = "pull_request" ]; then
+            git diff --name-only --no-renames "$BASE_SHA...$HEAD_SHA" > "$changed_files" || {
+              emit_full
+              exit 0
+            }
+          elif [ -z "$BEFORE_SHA" ] || [[ "$BEFORE_SHA" =~ ^0+$ ]] || ! git cat-file -e "$BEFORE_SHA^{commit}" || ! git merge-base --is-ancestor "$BEFORE_SHA" "$SHA"; then
+            emit_full
+            exit 0
+          else
+            git diff --name-only --no-renames "$BEFORE_SHA" "$SHA" > "$changed_files" || {
+              emit_full
+              exit 0
+            }
+          fi
+          tools/ci_classify_changes.sh < "$changed_files" >> "$GITHUB_OUTPUT" || emit_full
+
   # Lint, type-check and workflow hygiene run once on a single pinned
   # interpreter (Python 3.11). These checks are interpreter-agnostic, so
   # fanning them across the matrix would only duplicate work.
   quality:
     name: Lint, type-check & workflow hygiene (Py 3.11)
+    needs: changes
+    if: needs.changes.outputs.full_required == 'true'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -26,6 +81,8 @@ jobs:
         uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
         with:
           python-version: "3.11"
+          cache: pip
+          cache-dependency-path: pyproject.toml
 
       - name: Install package with dev extras
         run: |
@@ -59,6 +116,8 @@ jobs:
 
   test:
     name: Test (Py ${{ matrix.python-version }}, ${{ matrix.resolution }} deps)
+    needs: changes
+    if: needs.changes.outputs.full_required == 'true'
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -81,6 +140,10 @@ jobs:
         uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
         with:
           python-version: ${{ matrix.python-version }}
+          cache: pip
+          cache-dependency-path: |
+            pyproject.toml
+            constraints-min.txt
 
       - name: Assert the runtime interpreter matches the matrix cell
         # Belt-and-braces: tests below run directly on this interpreter (raw
@@ -149,6 +212,8 @@ jobs:
 
   recipe-tests:
     name: Per-recipe tests (Py 3.11)
+    needs: changes
+    if: needs.changes.outputs.full_required == 'true'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -158,6 +223,8 @@ jobs:
         uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
         with:
           python-version: "3.11"
+          cache: pip
+          cache-dependency-path: pyproject.toml
 
       - name: Install uv
         run: python -m pip install uv
@@ -167,6 +234,8 @@ jobs:
 
   artifact-python310-negative:
     name: Wheel install rejection (Py 3.10)
+    needs: changes
+    if: needs.changes.outputs.full_required == 'true'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -176,6 +245,8 @@ jobs:
         uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
         with:
           python-version: "3.11"
+          cache: pip
+          cache-dependency-path: pyproject.toml
 
       - name: Build wheel
         run: |
@@ -186,6 +257,8 @@ jobs:
         uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
         with:
           python-version: "3.10"
+          cache: pip
+          cache-dependency-path: pyproject.toml
 
       - name: Require rejection by Requires-Python
         run: |
@@ -211,6 +284,8 @@ jobs:
   # job cannot pass by not being a failure.
   host-smoke:
     name: Recipe host smoke (${{ matrix.recipe.name }})
+    needs: changes
+    if: needs.changes.outputs.full_required == 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 8
     strategy:
@@ -231,6 +306,10 @@ jobs:
         uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
         with:
           python-version: "3.12"
+          cache: pip
+          cache-dependency-path: |
+            pyproject.toml
+            examples/**/requirements.txt
 
       - name: Install Functions Core Tools v4 and Azurite
         run: |
@@ -263,8 +342,52 @@ jobs:
           done
           exit 1
 
+  docs-check:
+    needs: changes
+    if: needs.changes.outputs.docs_changed == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: "3.11"
+          cache: pip
+          cache-dependency-path: pyproject.toml
+
+      - name: Install docs and drift-check dependencies
+        run: pip install -e ".[docs]" pytest pytest-cov pyyaml
+
+      - name: Run documentation-dependent tests
+        run: >-
+          pytest --no-cov
+          tests/test_example_count.py
+          tests/test_llms_txt.py
+          tests/test_recipe_index.py
+          tests/test_recipe_table.py
+          tests/test_recipes.py
+          tests/test_requirements.py
+
+      - name: Check generated recipe artifacts
+        run: |
+          python scripts/gen_recipe_index.py --check
+          python scripts/gen_recipe_table.py --check
+          python scripts/gen_requirements.py --check
+
+      - name: Build documentation strictly
+        run: mkdocs build --strict
+
   ci-required:
-    needs: [quality, test, recipe-tests, artifact-python310-negative, host-smoke]
+    needs:
+      - changes
+      - quality
+      - test
+      - recipe-tests
+      - artifact-python310-negative
+      - host-smoke
+      - docs-check
     if: always()
     runs-on: ubuntu-latest
     steps:
@@ -275,11 +398,66 @@ jobs:
           python3 - <<'EVAL'
           import json, os, sys
 
+          matrix_jobs = {
+              "quality", "test", "recipe-tests", "artifact-python310-negative", "host-smoke"
+          }
+
+          def failures(results):
+              changes = results["changes"]
+              if changes["result"] != "success":
+                  return ["changes"]
+              outputs = changes.get("outputs", {})
+              if any(outputs.get(name) not in {"true", "false"} for name in (
+                  "docs_only", "docs_changed", "full_required"
+              )):
+                  return ["changes"]
+              docs_only = outputs["docs_only"] == "true"
+              docs_changed = outputs["docs_changed"] == "true"
+              full_required = outputs["full_required"] == "true"
+              if docs_only == full_required or docs_only and not docs_changed:
+                  return ["changes"]
+              expected = {job: "success" if full_required else "skipped" for job in matrix_jobs}
+              expected["docs-check"] = "success" if docs_changed else "skipped"
+              return sorted(
+                  job for job, wanted in expected.items() if results[job]["result"] != wanted
+              )
+
+          def scenario(full_required, docs_changed, overrides=None, changes_result="success"):
+              results = {
+                  "changes": {
+                      "result": changes_result,
+                      "outputs": {
+                          "docs_only": str(not full_required).lower(),
+                          "full_required": str(full_required).lower(),
+                          "docs_changed": str(docs_changed).lower(),
+                      },
+                  },
+                  **{job: {"result": "success" if full_required else "skipped"} for job in matrix_jobs},
+                  "docs-check": {"result": "success" if docs_changed else "skipped"},
+              }
+              for job, result in (overrides or {}).items():
+                  results[job]["result"] = result
+              return results
+
+          dry_runs = {
+              "docs-only+docs ok": (scenario(False, True), []),
+              "docs-only+docs-check fail": (scenario(False, True, {"docs-check": "failure"}), ["docs-check"]),
+              "code+matrix skipped": (scenario(True, False, {"quality": "skipped"}), ["quality"]),
+              "code+test fail": (scenario(True, False, {"test": "failure"}), ["test"]),
+              "classifier failure": (scenario(True, True, changes_result="failure"), ["changes"]),
+              "cancelled": (scenario(True, False, {"host-smoke": "cancelled"}), ["host-smoke"]),
+          }
+          for name, (sample, expected) in dry_runs.items():
+              actual = failures(sample)
+              print(f"dry-run {name}: {'pass' if actual == expected else 'FAIL'}")
+              if actual != expected:
+                  sys.exit(f"::error::Evaluator dry-run failed for {name}: {actual} != {expected}")
+
           results = json.loads(os.environ["RESULTS"])
           for job, data in sorted(results.items()):
               print(f"{job}: {data['result']}")
-          failed = sorted(j for j, d in results.items() if d["result"] != "success")
+          failed = failures(results)
           if failed:
-              sys.exit(f"::error::Required checks did not all succeed: {failed}")
-          print("All gating jobs succeeded.")
+              sys.exit(f"::error::Required checks violated their expectations: {failed}")
+          print("All gating jobs met their expectations.")
           EVAL
