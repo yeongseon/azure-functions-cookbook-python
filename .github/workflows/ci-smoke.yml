@@ -5,15 +5,26 @@ on:
     types: [opened, synchronize, reopened]
     paths:
       - "examples/**"
-      - "scripts/**"
       - "src/**"
-      - "tests/**"
+      - "tests/e2e/**"
+      - "tests/_isolation.py"
+      - "tests/__init__.py"
       - "Makefile"
       - "README.md"
       - "pyproject.toml"
       - ".github/workflows/ci-smoke.yml"
   push:
     branches: [main]
+    paths:
+      - "examples/**"
+      - "src/**"
+      - "tests/e2e/**"
+      - "tests/_isolation.py"
+      - "tests/__init__.py"
+      - "Makefile"
+      - "README.md"
+      - "pyproject.toml"
+      - ".github/workflows/ci-smoke.yml"
   workflow_dispatch:
 
 permissions:
