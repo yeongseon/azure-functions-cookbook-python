@@ -14,8 +14,8 @@ dependencies = [
   "azure-functions",
   "azure-storage-blob",
   "azure-functions-logging>=0.14.0",
-  "azure-functions-validation>=0.14.0,<1",
-  "azure-functions-openapi>=0.29.0",
+  "azure-functions-validation>=0.15.0,<1",
+  "azure-functions-openapi>=0.30.0",
 ]
 
 [project.optional-dependencies]
