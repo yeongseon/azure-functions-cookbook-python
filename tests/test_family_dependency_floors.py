@@ -10,9 +10,9 @@ _KNOWN_GOOD = {
     "azure-functions-doctor": Version("0.22.0"),
     "azure-functions-langgraph": Version("0.10.0"),
     "azure-functions-logging": Version("0.14.0"),
-    "azure-functions-openapi": Version("0.29.0"),
+    "azure-functions-openapi": Version("0.30.0"),
     "azure-functions-scaffold": Version("0.9.1"),
-    "azure-functions-validation": Version("0.14.0"),
+    "azure-functions-validation": Version("0.15.0"),
 }
 
 
