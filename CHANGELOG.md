@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.4.1](https://github.com/yeongseon/azure-functions-cookbook-python/compare/v0.4.0...v0.4.1) (2026-10-11)
+
+
+### Bug Fixes
+
+* **deps:** bump azure-functions from 1.22.1 to 1.25.0 ([#321](https://github.com/yeongseon/azure-functions-cookbook-python/issues/321)) ([782d942](https://github.com/yeongseon/azure-functions-cookbook-python/commit/782d942c16020df63c577e047281b13e1ab020c7))
+* **deps:** bump the python-dependencies group with 10 updates ([#320](https://github.com/yeongseon/azure-functions-cookbook-python/issues/320)) ([e9945b3](https://github.com/yeongseon/azure-functions-cookbook-python/commit/e9945b3e7c25042c8816df285bb5b844f42c3809))
+
 ## [0.4.0](https://github.com/yeongseon/azure-functions-cookbook-python/compare/v0.3.2...v0.4.0) (2026-10-07)
 
 
