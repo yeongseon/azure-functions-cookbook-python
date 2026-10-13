@@ -70,7 +70,6 @@ def _json_response(payload: dict[str, Any], status_code: int) -> func.HttpRespon
 @openapi(
     summary="Submit a queue-backed job",
     description="Validates input, stores an accepted job record, and enqueues work for background processing.",
-    requests=JobSubmissionRequest,
     responses={202: dict[str, Any]},
     tags=["async-jobs"],
 )

@@ -31,7 +31,6 @@ class ReportJobRequest(BaseModel):
 @openapi(
     summary="Start a durable report job",
     description="Accepts work, returns 202, and provides the Durable statusQueryGetUri for polling.",
-    requests=ReportJobRequest,
     responses={202: dict[str, Any]},
     tags=["async-jobs"],
 )
