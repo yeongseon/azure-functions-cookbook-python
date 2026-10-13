@@ -4,3 +4,4 @@ category: reliability
 difficulty: Advanced
 description: 'Transactional outbox sample for Azure Functions Python where:'
 docs_url: https://yeongseon.dev/azure-functions-python/cookbook/patterns/reliability/outbox-pattern/
+verification: docs
