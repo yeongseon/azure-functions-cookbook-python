@@ -4,3 +4,4 @@ category: reliability
 difficulty: Intermediate
 description: This recipe shows an HTTP-triggered Azure Function protecting a downstream API with a simple in-memory circuit breaker.
 docs_url: https://yeongseon.dev/azure-functions-python/cookbook/patterns/reliability/circuit-breaker/
+verification: docs
