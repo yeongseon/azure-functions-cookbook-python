@@ -4,3 +4,4 @@ category: blob-and-file-triggers
 difficulty: Intermediate
 description: Blob-triggered Azure Function configured for Event Grid source notifications.
 docs_url: https://yeongseon.dev/azure-functions-python/cookbook/patterns/blob-and-file-triggers/blob-eventgrid-trigger/
+verification: unit
