@@ -4,3 +4,4 @@ category: streams-and-telemetry
 difficulty: Advanced
 description: Azure Functions example showing replay-aware Event Hub consumption with offset tracking and idempotent processing.
 docs_url: https://yeongseon.dev/azure-functions-python/cookbook/patterns/streams-and-telemetry/eventhub-checkpoint-replay/
+verification: docs
