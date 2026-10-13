@@ -4,3 +4,4 @@ category: apis-and-ingress
 difficulty: Intermediate
 description: HTTP-triggered Azure Functions backend intended to sit behind Azure API Management policies for auth, rate limiting, and caching.
 docs_url: https://yeongseon.dev/azure-functions-python/cookbook/patterns/apis-and-ingress/apim-function-backend/
+verification: docs

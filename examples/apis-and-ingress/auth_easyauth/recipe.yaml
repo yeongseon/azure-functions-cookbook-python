@@ -4,3 +4,4 @@ category: apis-and-ingress
 difficulty: Intermediate
 description: EasyAuth principal extraction with role-based access control for Azure Functions.
 docs_url: https://yeongseon.dev/azure-functions-python/cookbook/patterns/apis-and-ingress/auth-easyauth-claims/
+verification: unit
