@@ -166,6 +166,20 @@ def test_find_recipe_multi_term_no_match_when_one_term_absent() -> None:
     assert find_recipe("durable queue", recipes=corpus) == []
 
 
+def test_readme_quickstart_finds_durable_recipes() -> None:
+    # Given: the committed recipe index imported exactly as the README documents
+    # When: the README's free-text and exact-tag lookups run
+    query_results = find_recipe("durable retry")
+    durable = find_recipe(tag="durable")
+
+    # Then: both documented lookups produce usable recipe metadata
+    assert [(recipe.title, recipe.example_path) for recipe in query_results] == [
+        ("Durable Retry Pattern", "orchestration-and-workflows/durable_retry_pattern")
+    ]
+    assert durable
+    assert all("durable" in recipe.tags for recipe in durable)
+
+
 def test_recipes_json_index_is_up_to_date() -> None:
     """Drift guard: committed recipes.json must match the generated index."""
     committed = (_ROOT / "recipes.json").read_text()
