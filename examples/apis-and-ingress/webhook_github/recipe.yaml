@@ -4,3 +4,4 @@ category: apis-and-ingress
 difficulty: Intermediate
 description: GitHub webhook receiver example with HMAC-SHA256 signature verification.
 docs_url: https://yeongseon.dev/azure-functions-python/cookbook/patterns/apis-and-ingress/webhook-github/
+verification: unit

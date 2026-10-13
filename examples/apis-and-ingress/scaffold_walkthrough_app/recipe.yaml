@@ -3,3 +3,4 @@ title: scaffold_walkthrough_app
 category: apis-and-ingress
 difficulty: Beginner
 description: This recipe is the **committed output of `azure-functions-scaffold`** with the default `strict` preset. Use it to see exactly what the scaffold CLI generates for a fresh Azure Functions Python v2 HTTP project and to learn the recommended local dev loop.
+verification: unit
