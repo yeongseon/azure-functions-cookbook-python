@@ -4,3 +4,4 @@ category: data-and-pipelines
 difficulty: Intermediate
 description: Cosmos DB change feed-triggered Azure Function for downstream synchronization.
 docs_url: https://yeongseon.dev/azure-functions-python/cookbook/patterns/data-and-pipelines/change-feed-processor/
+verification: unit

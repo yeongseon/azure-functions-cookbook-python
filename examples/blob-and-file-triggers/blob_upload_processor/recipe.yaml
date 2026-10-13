@@ -4,3 +4,4 @@ category: blob-and-file-triggers
 difficulty: Intermediate
 description: Blob-triggered Azure Function that processes uploaded files from `uploads/{name}`.
 docs_url: https://yeongseon.dev/azure-functions-python/cookbook/patterns/blob-and-file-triggers/blob-upload-processor/
+verification: unit

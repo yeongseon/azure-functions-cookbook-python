@@ -4,3 +4,4 @@ category: data-and-pipelines
 difficulty: Advanced
 description: 'CQRS sample for Azure Functions Python where:'
 docs_url: https://yeongseon.dev/azure-functions-python/cookbook/patterns/data-and-pipelines/cqrs-read-projection/
+verification: docs
