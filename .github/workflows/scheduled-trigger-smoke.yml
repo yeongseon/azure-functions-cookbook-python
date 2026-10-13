@@ -1,0 +1,42 @@
+name: Scheduled trigger smoke
+
+on:
+  schedule:
+    - cron: "0 7 * * 2"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: scheduled-trigger-smoke
+  cancel-in-progress: false
+
+jobs:
+  queue-blob-durable:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: pyproject.toml
+
+      - name: Install Functions Core Tools, Azurite, and dependencies
+        run: |
+          npm install --global azure-functions-core-tools@4 --unsafe-perm true
+          npm install --global azurite
+          python -m pip install --upgrade pip
+          python -m pip install -e ".[dev]"
+
+      - name: Run queue, blob, and durable e2e suites
+        run: >-
+          python -m pytest -v -m e2e --no-cov
+          tests/e2e/test_queue_examples.py
+          tests/e2e/test_blob_examples.py
+          tests/e2e/test_durable_examples.py
