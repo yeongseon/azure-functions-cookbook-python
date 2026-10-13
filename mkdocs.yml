@@ -151,6 +151,7 @@ nav:
   - Contributing:
       - Development: development.md
       - Testing: testing.md
+      - Package Runtime Gates: package-runtime-gates.md
       - Guidelines: contributing.md
   - FAQ: faq.md
   - Changelog: changelog.md
