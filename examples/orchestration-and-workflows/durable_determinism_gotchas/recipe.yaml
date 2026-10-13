@@ -4,3 +4,4 @@ category: orchestration-and-workflows
 difficulty: Advanced
 description: Durable Functions orchestrator showing deterministic coding patterns.
 docs_url: https://yeongseon.dev/azure-functions-python/cookbook/patterns/orchestration-and-workflows/durable-determinism-gotchas/
+verification: unit
