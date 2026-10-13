@@ -79,9 +79,7 @@ def _build_next_link(req: func.HttpRequest, *, page: int, page_size: int, total:
 
 
 @app.route(route="items", methods=["GET"])
-@openapi(
-    summary="List items with pagination", responses={200: PaginatedItemsResponse}, tags=["items"]
-)
+@openapi(summary="List items with pagination", tags=["items"])
 @validate_http(query=PaginationQuery, response_model=PaginatedItemsResponse)
 def list_items(req: func.HttpRequest, query: PaginationQuery) -> func.HttpResponse:
     offset = (query.page - 1) * query.page_size
@@ -112,8 +110,8 @@ def list_items(req: func.HttpRequest, query: PaginationQuery) -> func.HttpRespon
 
 
 @app.route(route="items", methods=["POST"])
-@openapi(summary="Create item", requests=ItemCreate, responses={201: ItemResponse}, tags=["items"])
-@validate_http(body=ItemCreate, response_model=ItemResponse)
+@openapi(summary="Create item", tags=["items"])
+@validate_http(body=ItemCreate, response_model=ItemResponse, status_code=201)
 def create_item(req: func.HttpRequest, body: ItemCreate) -> func.HttpResponse:
     record = Item(name=body.name, price=Decimal(str(body.price)))
 

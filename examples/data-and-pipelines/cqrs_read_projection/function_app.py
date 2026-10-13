@@ -83,8 +83,6 @@ def _build_projection(document: dict[str, Any]) -> dict[str, Any]:
 @with_context
 @openapi(
     summary="Create order",
-    requests=OrderWriteRequest,
-    responses={202: OrderAccepted},
     tags=["orders"],
 )
 @app.cosmos_db_output(
@@ -93,7 +91,7 @@ def _build_projection(document: dict[str, Any]) -> dict[str, Any]:
     container_name="orders",
     connection="CosmosDBConnection",
 )
-@validate_http(body=OrderWriteRequest, response_model=OrderAccepted)
+@validate_http(body=OrderWriteRequest, response_model=OrderAccepted, status_code=202)
 def create_order(
     req: func.HttpRequest,
     body: OrderWriteRequest,

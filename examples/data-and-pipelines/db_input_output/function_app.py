@@ -69,13 +69,11 @@ if _db_available:
     @app.route(route="items", methods=["POST"])
     @openapi(
         summary="Create item",
-        requests=ItemCreate,
-        responses={201: ItemResponse},
         tags=["items"],
     )
     @db.output("out", url="%DB_URL%", table="items")
     @with_context(param="invocation_context")
-    @validate_http(body=ItemCreate, response_model=ItemResponse)
+    @validate_http(body=ItemCreate, response_model=ItemResponse, status_code=201)
     def create_item(
         req: func.HttpRequest, body: ItemCreate, out: DbOut, invocation_context: func.Context
     ) -> func.HttpResponse:
