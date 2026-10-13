@@ -46,6 +46,20 @@ The repository is organized into four layers:
 | AI & Agents | 9 | MCP, RAG, agent, chat, and multimodal AI workloads |
 | Guides | 1 | Local development and direct invocation guide |
 
+## Verification Levels
+
+Every `recipe.yaml` declares the highest verification level the repository
+currently runs for that recipe:
+
+- `docs`: metadata, imports, packaging, and repository-wide recipe guards only.
+- `unit`: includes a recipe-local `tests/test_*.py` suite run by the per-recipe test job.
+- `func-host`: starts the Azure Functions host and exercises the recipe through its runtime surface.
+- `azure`: runs against real Azure resources and credentials.
+
+The value records current automated evidence, not the recipe's intended deployment target.
+Raise it only when the corresponding automated check exists; never infer `azure` merely because
+the recipe uses an Azure service.
+
 ## Future Extension Points
 
 - Recipe search and tagging
