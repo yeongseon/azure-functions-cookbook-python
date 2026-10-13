@@ -21,11 +21,14 @@ import json
 from pathlib import Path
 from typing import Any
 
+import azure.functions as func
 from azure_functions_openapi import (
     clear_openapi_registry,
     get_openapi_json,
     scan_endpoint_metadata,
 )
+from azure_functions_validation import validate_http
+from pydantic import BaseModel
 
 from tests._isolation import load_example_module
 
@@ -34,6 +37,19 @@ from tests._isolation import load_example_module
 EXAMPLE = "apis-and-ingress/apim_function_backend"
 
 SNAPSHOT_PATH = Path(__file__).resolve().parent / "data" / "apim_function_backend.openapi.json"
+
+
+class DefaultedBody(BaseModel):
+    message: str = "hello"
+
+
+defaulted_body_app = func.FunctionApp()
+
+
+@defaulted_body_app.route(route="defaulted-body", methods=["POST"])
+@validate_http(body=DefaultedBody)
+def defaulted_body_handler(req: func.HttpRequest, body: DefaultedBody) -> func.HttpResponse:
+    return func.HttpResponse(body.message)
 
 
 def _generate_spec() -> dict[str, object]:
@@ -149,3 +165,22 @@ def test_validation_error_response_is_present() -> None:
     assert "detail" in schema.get("properties", {}), (
         "422 body is missing the validation-error 'detail' field"
     )
+
+
+def test_defaulted_body_is_required_in_spec_and_at_runtime() -> None:
+    # Given: every field in the request model has a default
+    clear_openapi_registry()
+    scan_endpoint_metadata(defaulted_body_app)
+
+    # When: metadata is generated repeatedly and the endpoint receives no body
+    first = json.loads(get_openapi_json())
+    second = json.loads(get_openapi_json())
+    response = defaulted_body_handler(
+        func.HttpRequest(method="POST", url="/api/defaulted-body", body=b"")
+    )
+
+    # Then: the required metadata matches the runtime's unconditional empty-body rejection
+    operation = first["paths"]["/api/defaulted-body"]["post"]
+    assert operation["requestBody"]["required"] is True
+    assert response.status_code == 422
+    assert first == second
