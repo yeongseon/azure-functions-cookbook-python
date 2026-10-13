@@ -115,12 +115,10 @@ def _project_job_status(status: Any, instance_id: str) -> dict[str, Any]:
 @openapi(
     summary="Create a durable async job",
     description="Starts a Durable Functions orchestration and returns built-in HTTP management URLs.",
-    requests=JobCreateRequest,
-    responses={202: JobAcceptedResponse},
     tags=["async-jobs"],
 )
 @app.durable_client_input(client_name="client")
-@validate_http(body=JobCreateRequest, response_model=JobAcceptedResponse)
+@validate_http(body=JobCreateRequest, response_model=JobAcceptedResponse, status_code=202)
 async def create_job(
     req: func.HttpRequest,
     body: JobCreateRequest,
@@ -191,11 +189,11 @@ async def get_job_status(
 @openapi(
     summary="Cancel an async job",
     description="Requests cancellation by terminating the durable orchestration instance.",
-    responses={202: OperationResponse, 404: dict[str, str], 409: dict[str, str]},
+    responses={404: dict[str, str], 409: dict[str, str]},
     tags=["async-jobs"],
 )
 @app.durable_client_input(client_name="client")
-@validate_http(query=CancelJobQuery, response_model=OperationResponse)
+@validate_http(query=CancelJobQuery, response_model=OperationResponse, status_code=202)
 async def cancel_job(
     req: func.HttpRequest,
     query: CancelJobQuery,
