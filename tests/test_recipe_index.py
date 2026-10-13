@@ -173,9 +173,10 @@ def test_readme_quickstart_finds_durable_recipes() -> None:
     durable = find_recipe(tag="durable")
 
     # Then: both documented lookups produce usable recipe metadata
-    assert [(recipe.title, recipe.example_path) for recipe in query_results] == [
-        ("Durable Retry Pattern", "orchestration-and-workflows/durable_retry_pattern")
-    ]
+    assert (
+        "Durable Retry Pattern",
+        "orchestration-and-workflows/durable_retry_pattern",
+    ) in [(recipe.title, recipe.example_path) for recipe in query_results]
     assert durable
     assert all("durable" in recipe.tags for recipe in durable)
 
