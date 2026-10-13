@@ -117,7 +117,7 @@ description = "{title} example for Azure Functions."
 requires-python = ">=3.11"
 dependencies = [
   "azure-functions>=1.21.3",
-  "azure-functions-logging>=0.14.0",
+  "azure-functions-logging>=0.15.0",
   "azure-functions-openapi>=0.30.0",
 ]
 

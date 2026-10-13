@@ -6,13 +6,13 @@ from packaging.version import Version
 
 _ROOT = Path(__file__).parents[1]
 _KNOWN_GOOD = {
-    "azure-functions-db": Version("0.8.0"),
+    "azure-functions-db": Version("0.8.1"),
     "azure-functions-doctor": Version("0.22.0"),
-    "azure-functions-langgraph": Version("0.11.4"),
-    "azure-functions-logging": Version("0.14.0"),
+    "azure-functions-langgraph": Version("0.12.0"),
+    "azure-functions-logging": Version("0.15.0"),
     "azure-functions-openapi": Version("0.30.0"),
     "azure-functions-scaffold": Version("0.9.1"),
-    "azure-functions-validation": Version("0.15.0"),
+    "azure-functions-validation": Version("0.16.0"),
 }
 
 
