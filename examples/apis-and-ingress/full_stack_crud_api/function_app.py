@@ -118,7 +118,6 @@ def _build_next_link(req: func.HttpRequest, *, page: int, page_size: int, total:
         "Returns a paginated item collection using toolkit validation, logging, "
         "and database helpers."
     ),
-    responses={200: ItemListResponse},
     tags=["items"],
 )
 @validate_http(query=PaginationQuery, response_model=ItemListResponse)
@@ -155,7 +154,7 @@ def list_items(req: func.HttpRequest, query: PaginationQuery) -> func.HttpRespon
 @openapi(
     summary="Get item by id",
     description="Loads a single item from the shared SQLAlchemy session.",
-    responses={200: ItemResponse},
+    responses={200: ItemResponse, 404: None},
     tags=["items"],
 )
 def get_item(req: func.HttpRequest) -> func.HttpResponse:
@@ -176,11 +175,9 @@ def get_item(req: func.HttpRequest) -> func.HttpResponse:
 @openapi(
     summary="Create item",
     description="Creates an item after body validation succeeds.",
-    requests=ItemCreate,
-    responses={201: ItemResponse},
     tags=["items"],
 )
-@validate_http(body=ItemCreate, response_model=ItemResponse)
+@validate_http(body=ItemCreate, response_model=ItemResponse, status_code=201)
 def create_item(req: func.HttpRequest, body: ItemCreate) -> func.HttpResponse:
     record = Item(
         name=body.name,
@@ -205,8 +202,7 @@ def create_item(req: func.HttpRequest, body: ItemCreate) -> func.HttpResponse:
 @openapi(
     summary="Update item",
     description="Replaces an existing item with the validated request body.",
-    requests=ItemUpdate,
-    responses={200: ItemResponse},
+    responses={404: None},
     tags=["items"],
 )
 @validate_http(body=ItemUpdate, response_model=ItemResponse)
@@ -234,7 +230,7 @@ def update_item(req: func.HttpRequest, body: ItemUpdate) -> func.HttpResponse:
 @openapi(
     summary="Delete item",
     description="Deletes an existing item and returns no content.",
-    responses={204: None},
+    responses={204: None, 404: None},
     tags=["items"],
 )
 def delete_item(req: func.HttpRequest) -> func.HttpResponse:
