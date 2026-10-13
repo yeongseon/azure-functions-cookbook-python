@@ -4,3 +4,4 @@ category: messaging-and-pubsub
 difficulty: Intermediate
 description: Azure Functions example showing Service Bus topic fan-out with three independent subscription handlers.
 docs_url: https://yeongseon.dev/azure-functions-python/cookbook/patterns/messaging-and-pubsub/servicebus-topic-fanout/
+verification: docs
