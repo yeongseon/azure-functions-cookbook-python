@@ -76,11 +76,11 @@ def test_generated_recipe_targets_python_311_and_current_family_floors(
     assert project["project"]["dependencies"] == [
         "azure-functions>=1.21.3",
         "azure-functions-logging>=0.14.0",
-        "azure-functions-openapi>=0.29.0",
+        "azure-functions-openapi>=0.30.0",
     ]
     assert (target / "requirements.txt").read_text() == (
         "azure-functions-logging>=0.14.0\n"
-        "azure-functions-openapi>=0.29.0\n"
+        "azure-functions-openapi>=0.30.0\n"
         "azure-functions>=1.21.3\n"
     )
 
