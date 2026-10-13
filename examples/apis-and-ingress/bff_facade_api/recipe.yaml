@@ -4,3 +4,4 @@ category: apis-and-ingress
 difficulty: Intermediate
 description: HTTP Backend-for-Frontend facade that aggregates multiple backend service calls into one client-facing response.
 docs_url: https://yeongseon.dev/azure-functions-python/cookbook/patterns/apis-and-ingress/bff-facade-api/
+verification: docs

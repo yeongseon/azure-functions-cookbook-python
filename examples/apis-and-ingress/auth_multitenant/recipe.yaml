@@ -4,3 +4,4 @@ category: apis-and-ingress
 difficulty: Intermediate
 description: Multi-tenant access control with tenant allowlist for Azure Functions.
 docs_url: https://yeongseon.dev/azure-functions-python/cookbook/patterns/apis-and-ingress/auth-multitenant/
+verification: unit

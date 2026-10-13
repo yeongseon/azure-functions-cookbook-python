@@ -4,3 +4,4 @@ category: apis-and-ingress
 difficulty: Intermediate
 description: JWT Bearer token validation with claim-based access control for Azure Functions.
 docs_url: https://yeongseon.dev/azure-functions-python/cookbook/patterns/apis-and-ingress/auth-jwt-validation/
+verification: unit
