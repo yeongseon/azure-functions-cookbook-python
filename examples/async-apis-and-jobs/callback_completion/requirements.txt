@@ -1,4 +1,4 @@
 azure-functions
-azure-functions-logging>=0.14.0
-azure-functions-validation>=0.15.0,<1
-pydantic
+azure-functions-logging>=0.15.0
+azure-functions-validation>=0.16.0,<1
+pydantic>=2.11
