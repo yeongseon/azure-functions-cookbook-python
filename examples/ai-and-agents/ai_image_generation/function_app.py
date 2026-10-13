@@ -66,8 +66,6 @@ def _generate_image(prompt: str, size: str) -> ImageResponse:
 @openapi(
     summary="Generate an image with Azure OpenAI",
     description="Calls Azure OpenAI image generation and returns the resulting image URL.",
-    requests=ImageRequest,
-    responses={200: ImageResponse},
     tags=["ai"],
 )
 @with_context(param="invocation_context")

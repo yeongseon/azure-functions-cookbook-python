@@ -121,8 +121,6 @@ def _vector_search(query: str, top_k: int) -> list[SearchResult]:
 @openapi(
     summary="Run embedding vector search",
     description="Creates an embedding with Azure OpenAI and runs a vector query in Azure AI Search.",
-    requests=VectorSearchRequest,
-    responses={200: VectorSearchResponse},
     tags=["ai"],
 )
 @with_context(param="invocation_context")

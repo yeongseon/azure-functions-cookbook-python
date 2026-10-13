@@ -73,8 +73,6 @@ def _complete_chat(message: str, system_prompt: str) -> str:
 @openapi(
     summary="Chat with Azure OpenAI",
     description="Sends a single user message to Azure OpenAI and returns the answer.",
-    requests=ChatRequest,
-    responses={200: ChatResponse},
     tags=["ai"],
 )
 @with_context(param="invocation_context")
