@@ -4,3 +4,4 @@ category: reliability
 difficulty: Intermediate
 description: 'This recipe shows two related resilience patterns:'
 docs_url: https://yeongseon.dev/azure-functions-python/cookbook/patterns/reliability/retry-and-idempotency/
+verification: unit
