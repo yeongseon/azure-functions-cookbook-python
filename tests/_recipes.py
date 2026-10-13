@@ -15,7 +15,8 @@ import yaml
 
 from tests._isolation import EXAMPLES_DIR
 
-REQUIRED_FIELDS = ("slug", "title", "category", "description")
+REQUIRED_FIELDS = ("slug", "title", "category", "description", "verification")
+VERIFICATION_LEVELS = frozenset({"docs", "unit", "func-host", "azure"})
 
 
 @dataclass(frozen=True)
@@ -28,6 +29,7 @@ class Recipe:
     description: str
     docs_url: str | None
     difficulty: str | None
+    verification: str
     example_path: (
         str  # forward-slash path relative to examples/, e.g. "apis-and-ingress/hello_http_minimal"
     )
@@ -51,6 +53,7 @@ def load_recipes() -> list[Recipe]:
                 description=data.get("description", ""),
                 docs_url=data.get("docs_url"),
                 difficulty=data.get("difficulty"),
+                verification=data.get("verification", ""),
                 example_path=example_path,
             )
         )

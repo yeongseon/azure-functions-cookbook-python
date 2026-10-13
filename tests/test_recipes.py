@@ -13,7 +13,13 @@ from urllib.parse import urlparse
 import pytest
 
 from tests._isolation import EXAMPLES_DIR
-from tests._recipes import RECIPES, REQUIRED_FIELDS, Recipe, load_recipes
+from tests._recipes import (
+    RECIPES,
+    REQUIRED_FIELDS,
+    VERIFICATION_LEVELS,
+    Recipe,
+    load_recipes,
+)
 
 _TITLE_RE = re.compile(r"^#\s+(.*)$", re.MULTILINE)
 
@@ -40,6 +46,13 @@ def test_slugs_are_unique() -> None:
 def test_recipe_fields_present(recipe: Recipe) -> None:
     for field in REQUIRED_FIELDS:
         assert getattr(recipe, field), f"{recipe.example_path}: empty `{field}`"
+
+
+@pytest.mark.parametrize("recipe", RECIPES, ids=lambda r: r.example_path)
+def test_recipe_verification_level_is_known(recipe: Recipe) -> None:
+    assert recipe.verification in VERIFICATION_LEVELS, (
+        f"{recipe.example_path}: unknown verification level `{recipe.verification}`"
+    )
 
 
 @pytest.mark.parametrize("recipe", RECIPES, ids=lambda r: r.example_path)
