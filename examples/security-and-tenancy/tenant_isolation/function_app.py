@@ -86,8 +86,7 @@ def resolve_tenant_db_url(req: func.HttpRequest) -> str:
 @app.route(route="tenant/invoices/query", methods=["POST"])
 @openapi(
     summary="Query invoices from a tenant-isolated database",
-    requests=TenantInvoiceQuery,
-    responses={200: TenantInvoiceListResponse},
+    responses={400: None, 404: None},
     tags=["security", "tenancy", "db"],
 )
 @db.inject_reader("reader", url=resolve_tenant_db_url, table="invoices")
