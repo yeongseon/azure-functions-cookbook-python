@@ -32,6 +32,29 @@ Recommended branch prefixes:
    git push origin feat/your-feature-name
    ```
 
+## Local development quickstart
+
+Local development requires Python 3.11 through 3.14, as declared by
+`requires-python` in `pyproject.toml`, plus GNU Make. No Azure subscription,
+Azure Functions Core Tools, Azurite, Docker, or other cloud credentials are
+required for the standard contributor checks.
+
+From a fresh clone, bootstrap the repository-managed virtual environment and
+Hatch environment with the existing Makefile target:
+
+```bash
+make install
+```
+
+Then run the standard verification commands:
+
+```bash
+make test
+make lint
+make typecheck
+make build
+```
+
 ## Project Commands
 
 ```bash
