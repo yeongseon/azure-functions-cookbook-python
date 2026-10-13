@@ -148,6 +148,9 @@ pythonpath = ["src", "."]
 markers = [
     "e2e: End-to-end tests requiring Azurite and func host",
     "smoke: Module-import smoke tests for non-emulatable triggers",
+    "package_validation: Live HTTP runtime gate for azure-functions-validation",
+    "package_logging: Live HTTP runtime gate for azure-functions-logging",
+    "package_openapi: Live HTTP runtime gate for azure-functions-openapi",
 ]
 
 [tool.coverage.run]
