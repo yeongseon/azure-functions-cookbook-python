@@ -111,6 +111,12 @@ jobs:
         run: |
           python -m pip list 2>/dev/null | grep -Ei '^azure-functions(-|\s)' || true
 
+      - name: Run OpenAPI convergence and byte-consistency guards
+        run: >-
+          python -m pytest -v --no-cov
+          tests/test_openapi_endpoint_convergence.py
+          tests/test_db_input_output_openapi.py
+
       - name: Run smoke tier (toolkit warnings are failures)
         run: >-
           python -m pytest -v -m smoke tests/e2e/ --no-cov
