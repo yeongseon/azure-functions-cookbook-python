@@ -5,6 +5,8 @@ from __future__ import annotations
 import importlib.util
 from pathlib import Path
 
+import pytest
+
 from azure_functions_python_cookbook.recipes import (
     RECIPES,
     Recipe,
@@ -164,6 +166,34 @@ def test_find_recipe_multi_term_no_match_when_one_term_absent() -> None:
         _make_recipe(slug="a", title="Durable Retry Pattern", tags=()),
     ]
     assert find_recipe("durable queue", recipes=corpus) == []
+
+
+@pytest.mark.parametrize(
+    ("query", "tag"),
+    [
+        pytest.param("retry", None, id="query-only"),
+        pytest.param("", "durable", id="tag-only"),
+        pytest.param("retry", "durable", id="combined"),
+    ],
+)
+def test_find_recipe_preserves_supplied_order_after_filtering(
+    query: str,
+    tag: str | None,
+) -> None:
+    # Given: matching recipes surround a nonmatch in non-alphabetical slug order
+    corpus = [
+        _make_recipe(slug="zeta", description="retry", tags=("durable",)),
+        _make_recipe(slug="middle", description="http", tags=("http",)),
+        _make_recipe(slug="alpha", description="retry", tags=("durable",)),
+    ]
+    original = corpus.copy()
+
+    # When: any supported filter combination is applied
+    results = find_recipe(query, tag=tag, recipes=corpus)
+
+    # Then: matches retain input order and filtering leaves the corpus untouched
+    assert [recipe.slug for recipe in results] == ["zeta", "alpha"]
+    assert corpus == original
 
 
 def test_readme_quickstart_finds_durable_recipes() -> None:
