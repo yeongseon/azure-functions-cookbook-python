@@ -153,6 +153,7 @@ nav:
       - Testing: testing.md
       - Package Runtime Gates: package-runtime-gates.md
       - Sibling Cross-validation: sibling-cross-validation.md
+      - Scheduled Trigger Smoke: scheduled-trigger-smoke.md
       - Guidelines: contributing.md
   - FAQ: faq.md
   - Changelog: changelog.md
