@@ -9,7 +9,7 @@ import azure.functions as func
 from azure_functions_db import EngineProvider
 from azure_functions_db.core.config import DbConfig
 from azure_functions_logging import get_logger, setup_logging
-from azure_functions_openapi import openapi
+from azure_functions_openapi import get_openapi_json, openapi, scan_endpoint_metadata
 from azure_functions_validation import validate_http
 from pydantic import BaseModel, Field
 from sqlalchemy import func as sql_func
@@ -33,6 +33,15 @@ ENGINE = ENGINE_PROVIDER.get_engine(
 )
 SessionLocal = sessionmaker(bind=ENGINE, autoflush=False, expire_on_commit=False, class_=Session)
 Base.metadata.create_all(bind=ENGINE)
+
+
+@app.route(route="openapi.json", methods=["GET"], auth_level=func.AuthLevel.ANONYMOUS)
+def openapi_json(req: func.HttpRequest) -> func.HttpResponse:
+    scan_endpoint_metadata(app)
+    return func.HttpResponse(
+        get_openapi_json(title="Full Stack CRUD API", version="1.0.0"),
+        mimetype="application/json",
+    )
 
 
 class PaginationQuery(BaseModel):
@@ -105,7 +114,10 @@ def _build_next_link(req: func.HttpRequest, *, page: int, page_size: int, total:
 @app.route(route="items", methods=["GET"], auth_level=func.AuthLevel.ANONYMOUS)
 @openapi(
     summary="List items with pagination",
-    description="Returns a paginated item collection using toolkit validation, logging, and database helpers.",
+    description=(
+        "Returns a paginated item collection using toolkit validation, logging, "
+        "and database helpers."
+    ),
     responses={200: ItemListResponse},
     tags=["items"],
 )
