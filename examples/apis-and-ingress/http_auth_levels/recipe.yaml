@@ -4,3 +4,4 @@ category: apis-and-ingress
 difficulty: Beginner
 description: HTTP trigger example that demonstrates anonymous, function-key, and admin-key endpoints.
 docs_url: https://yeongseon.dev/azure-functions-python/cookbook/patterns/apis-and-ingress/http-auth-levels/
+verification: unit

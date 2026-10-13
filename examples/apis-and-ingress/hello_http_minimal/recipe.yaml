@@ -4,3 +4,4 @@ category: apis-and-ingress
 difficulty: Beginner
 description: Minimal HTTP-triggered Azure Function that returns a greeting.
 docs_url: https://yeongseon.dev/azure-functions-python/cookbook/patterns/apis-and-ingress/hello-http-minimal/
+verification: func-host
