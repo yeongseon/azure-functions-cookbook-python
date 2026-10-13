@@ -109,8 +109,6 @@ if graph is not None:
 @app.route(route="agent/tool", methods=["POST"])
 @openapi(
     summary="Invoke tool-use LangGraph agent",
-    requests=InvokeRequest,
-    responses={200: InvokeResponse},
     tags=["agent"],
 )
 @with_context(param="invocation_context")

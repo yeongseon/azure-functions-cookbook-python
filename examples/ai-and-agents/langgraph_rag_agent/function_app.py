@@ -230,8 +230,6 @@ if GRAPH is not None:
         "Stateful conversation endpoint that routes each turn through a LangGraph "
         "agent and optionally calls the knowledge search tool."
     ),
-    requests=ChatRequest,
-    responses={200: ChatResponse},
     tags=["ai-and-agents"],
 )
 @with_context(param="invocation_context")

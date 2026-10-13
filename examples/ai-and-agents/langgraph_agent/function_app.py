@@ -60,8 +60,6 @@ if graph:
 @app.route(route="agent/invoke", methods=["POST"])
 @openapi(
     summary="Invoke LangGraph agent",
-    requests=InvokeRequest,
-    responses={200: InvokeResponse},
     tags=["agent"],
 )
 @with_context(param="invocation_context")
