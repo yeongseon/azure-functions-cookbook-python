@@ -144,12 +144,10 @@ def _json_response(model: BaseModel, *, status_code: int = 200) -> func.HttpResp
 @openapi(
     summary="Start durable AI pipeline",
     description="Starts a durable workflow that embeds, searches, and generates an answer.",
-    requests=PipelineRequest,
-    responses={202: PipelineStartResponse},
     tags=["ai"],
 )
 @app.durable_client_input(client_name="client")
-@validate_http(body=PipelineRequest, response_model=PipelineStartResponse)
+@validate_http(body=PipelineRequest, response_model=PipelineStartResponse, status_code=202)
 async def start_pipeline(
     req: func.HttpRequest, body: PipelineRequest, client: Any, context: func.Context
 ) -> func.HttpResponse:

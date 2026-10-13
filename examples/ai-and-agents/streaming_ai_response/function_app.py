@@ -70,7 +70,6 @@ def _stream_frames(message: str, system_prompt: str) -> str:
 @openapi(
     summary="Stream Azure OpenAI response",
     description="Returns SSE frames generated from Azure OpenAI streaming chat completions.",
-    requests=StreamRequest,
     tags=["ai"],
 )
 @with_context(param="invocation_context")
