@@ -1,2 +1,2 @@
 azure-functions
-azure-functions-logging>=0.14.0
+azure-functions-logging>=0.15.0
