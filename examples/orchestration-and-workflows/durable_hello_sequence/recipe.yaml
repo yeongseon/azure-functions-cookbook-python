@@ -4,3 +4,4 @@ category: orchestration-and-workflows
 difficulty: Beginner
 description: Durable Functions orchestrator chaining activities in sequence.
 docs_url: https://yeongseon.dev/azure-functions-python/cookbook/patterns/orchestration-and-workflows/durable-hello-sequence/
+verification: unit

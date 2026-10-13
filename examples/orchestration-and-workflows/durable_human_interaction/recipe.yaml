@@ -4,3 +4,4 @@ category: orchestration-and-workflows
 difficulty: Intermediate
 description: Durable Functions workflow waiting for an external approval event with timeout.
 docs_url: https://yeongseon.dev/azure-functions-python/cookbook/patterns/orchestration-and-workflows/durable-human-interaction/
+verification: unit
