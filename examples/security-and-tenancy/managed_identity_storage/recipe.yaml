@@ -4,3 +4,4 @@ category: security-and-tenancy
 difficulty: Advanced
 description: This recipe shows an Azure Storage Queue trigger using `connection="StorageConnection"`. You can back that setting with either a connection string or managed identity settings.
 docs_url: https://yeongseon.dev/azure-functions-python/cookbook/patterns/security-and-tenancy/managed-identity-storage/
+verification: unit

@@ -4,3 +4,4 @@ category: security-and-tenancy
 difficulty: Intermediate
 description: HTTP-triggered Azure Function that reads secrets from environment variables populated by Azure Key Vault references. The function uses standard environment access and `azure_functions_logging` only.
 docs_url: https://yeongseon.dev/azure-functions-python/cookbook/patterns/security-and-tenancy/secretless-keyvault/
+verification: docs
