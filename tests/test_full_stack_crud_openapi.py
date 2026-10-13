@@ -44,11 +44,11 @@ def test_full_stack_crud_response_contracts_are_documented(
 ) -> None:
     paths = full_stack_spec["paths"]
 
-    assert set(paths["/api/items"]["get"]["responses"]) >= {"200", "422"}
-    assert set(paths["/api/items"]["post"]["responses"]) >= {"201", "422"}
-    assert set(paths["/api/items/{id}"]["get"]["responses"]) >= {"200", "404"}
-    assert set(paths["/api/items/{id}"]["put"]["responses"]) >= {"200", "404", "422"}
-    assert set(paths["/api/items/{id}"]["delete"]["responses"]) >= {"204", "404"}
+    assert set(paths["/api/items"]["get"]["responses"]) == {"200", "422"}
+    assert set(paths["/api/items"]["post"]["responses"]) == {"201", "422"}
+    assert set(paths["/api/items/{id}"]["get"]["responses"]) == {"200", "404"}
+    assert set(paths["/api/items/{id}"]["put"]["responses"]) == {"200", "404", "422"}
+    assert set(paths["/api/items/{id}"]["delete"]["responses"]) == {"204", "404"}
 
 
 def test_full_stack_crud_models_are_documented(full_stack_spec: dict[str, Any]) -> None:
@@ -62,10 +62,19 @@ def test_full_stack_crud_models_are_documented(full_stack_spec: dict[str, Any]) 
     create_response = paths["/api/items"]["post"]["responses"]["201"]["content"][
         "application/json"
     ]["schema"]
+    get_response = paths["/api/items/{id}"]["get"]["responses"]["200"]["content"][
+        "application/json"
+    ]["schema"]
+    update_request = paths["/api/items/{id}"]["put"]["requestBody"]["content"]["application/json"][
+        "schema"
+    ]
+    update_response = paths["/api/items/{id}"]["put"]["responses"]["200"]["content"][
+        "application/json"
+    ]["schema"]
 
     assert set(list_schema["properties"]) >= {"page", "page_size", "total", "items", "next_link"}
     assert set(create_request["properties"]) == {"name", "description", "price"}
-    assert set(create_response["properties"]) >= {
+    response_properties = {
         "id",
         "name",
         "description",
@@ -73,3 +82,7 @@ def test_full_stack_crud_models_are_documented(full_stack_spec: dict[str, Any]) 
         "created_at",
         "updated_at",
     }
+    assert set(create_response["properties"]) >= response_properties
+    assert get_response == {"$ref": "#/components/schemas/ItemResponse"}
+    assert set(update_request["properties"]) == {"name", "description", "price"}
+    assert set(update_response["properties"]) >= response_properties
