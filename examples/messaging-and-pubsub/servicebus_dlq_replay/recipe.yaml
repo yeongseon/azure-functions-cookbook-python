@@ -4,3 +4,4 @@ category: messaging-and-pubsub
 difficulty: Advanced
 description: Replay dead-lettered Service Bus queue messages back to the main queue after inspection and remediation.
 docs_url: https://yeongseon.dev/azure-functions-python/cookbook/patterns/messaging-and-pubsub/servicebus-dlq-replay/
+verification: docs
