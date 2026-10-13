@@ -47,6 +47,7 @@ def test_generated_recipe_yaml_is_consistent(examples_dir: Path) -> None:
     assert data["slug"] == "my-new-recipe"
     assert data["title"] == "My New Recipe"
     assert data["category"] == "apis-and-ingress"
+    assert data["verification"] == "docs"
     assert data["description"]
     # recipe.yaml title must match the README `# heading` (mirrors test_recipes guard)
     first_line = (target / "README.md").read_text().splitlines()[0]

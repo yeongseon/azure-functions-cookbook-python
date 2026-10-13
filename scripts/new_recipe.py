@@ -84,6 +84,7 @@ def _recipe_yaml(slug: str, title: str, category: str, description: str) -> str:
         f"category: {category}\n"
         f"description: {description}\n"
         f"docs_url: {docs_url}\n"
+        "verification: docs\n"
     )
 
 
