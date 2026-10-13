@@ -4,3 +4,4 @@ category: messaging-and-pubsub
 difficulty: Intermediate
 description: Event Grid-triggered Azure Function that routes events to different handlers using event type and subject filters.
 docs_url: https://yeongseon.dev/azure-functions-python/cookbook/patterns/messaging-and-pubsub/eventgrid-event-router/
+verification: docs
