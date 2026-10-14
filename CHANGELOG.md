@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.4.2](https://github.com/yeongseon/azure-functions-cookbook-python/compare/v0.4.1...v0.4.2) (2026-10-14)
+
+
+### Bug Fixes
+
+* **examples:** make validation the model metadata source ([#339](https://github.com/yeongseon/azure-functions-cookbook-python/issues/339)) ([ea6354c](https://github.com/yeongseon/azure-functions-cookbook-python/commit/ea6354c24a9492fb3950a8e755b8e1c055c58910))
+
 ## [0.4.1](https://github.com/yeongseon/azure-functions-cookbook-python/compare/v0.4.0...v0.4.1) (2026-10-11)
 
 
