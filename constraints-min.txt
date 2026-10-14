@@ -16,6 +16,7 @@ azure-functions-validation==0.16.0
 azure-identity==1.26.0
 azure-storage-blob==12.31.0
 azure-storage-queue==12.18.0
+pydantic==2.11.0
 langgraph==1.2.12
 pyyaml==6.0.3
 requests==2.34.2
