@@ -46,7 +46,7 @@ Use this flow:
 
 ## Full Recipe Inventory
 
-81 published recipes across 14 categories. Each row maps a pattern page
+82 published recipes across 14 categories. Each row maps a pattern page
 (`docs/patterns/<category>/<slug>.md`) to its runnable example project. The same inventory is
 available as machine-readable JSON in `recipes.json`, regenerated with
 `python scripts/gen_recipe_index.py`.
@@ -181,7 +181,7 @@ available as machine-readable JSON in `recipes.json`, regenerated with
 | --- | --- | --- | --- |
 | WebSocket Proxy | Advanced | `examples/realtime/websocket_proxy` | Azure Functions front door for Azure Web PubSub that negotiates client tokens and forwards publish requests. |
 
-### AI & Agents (10)
+### AI & Agents (11)
 
 | Recipe | Difficulty | Example path | Description |
 | --- | --- | --- | --- |
@@ -193,6 +193,7 @@ available as machine-readable JSON in `recipes.json`, regenerated with
 | Langgraph Tool Use | Advanced | `examples/ai-and-agents/langgraph_tool_use` | Tool-use LangGraph agent with azure-functions-langgraph, routing between a reasoning node and callable tools. |
 | MCP Server Example | Advanced | `examples/ai-and-agents/mcp_server_example` | This example hosts a manual Model Context Protocol (MCP) server on Azure Functions using a standard HTTP trigger and JSON-RPC 2.0 messages. |
 | Azure OpenAI Direct Chat | Beginner | `examples/ai-and-agents/openai_direct_chat` | Minimal HTTP-triggered Azure Functions sample that sends one message to Azure OpenAI with the `openai` Python SDK. |
+| Personal LangGraph Agent | Advanced | `examples/ai-and-agents/personal_langgraph_agent` | Build a tool-calling personal notes agent with deterministic local mode, Azure OpenAI, and restart-safe Blob memory. |
 | RAG Knowledge API | Advanced | `examples/ai-and-agents/rag_knowledge_api` | Demonstrates a minimal RAG API using Azure AI Search and Azure OpenAI, combined with `azure-functions-validation-python`, `azure-functions-openapi-python`, and `azure-functions-logging-python`. |
 | Streaming AI Response | Intermediate | `examples/ai-and-agents/streaming_ai_response` | HTTP-triggered sample that converts Azure OpenAI streaming chat completions into Server-Sent Events. |
 
@@ -205,7 +206,7 @@ available as machine-readable JSON in `recipes.json`, regenerated with
 ## Repository Layout
 
 ```text
-docs/patterns/<category>/<slug>.md   Pattern pages (81 published recipes)
+docs/patterns/<category>/<slug>.md   Pattern pages (82 published recipes)
 examples/<category>/<name>/          Matching runnable example projects
 recipes.json                         Machine-readable recipe index
 scripts/                             Index and requirements generators

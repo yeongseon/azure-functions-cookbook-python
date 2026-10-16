@@ -19,7 +19,7 @@ The repository is organized into four layers:
    - Source pattern documents
    - Architecture, use cases, pitfalls, and scaffold guidance
 2. `examples/`
-- Runnable sample projects (81 total)
+- Runnable sample projects (82 total)
    - Organized by category: apis-and-ingress, scheduled-and-background, blob-and-file-triggers, async-apis-and-jobs, messaging-and-pubsub, streams-and-telemetry, data-and-pipelines, orchestration-and-workflows, reliability, security-and-tenancy, runtime-and-ops, realtime, ai-and-agents, guides
 3. `docs/`
    - Published documentation and navigation structure
@@ -43,7 +43,7 @@ The repository is organized into four layers:
 | Security & Tenancy | 4 | Identity-based connections, secrets, and tenant isolation |
 | Runtime & Ops | 6 | Blueprints, bindings vs SDKs, tuning, tracing, and cold start |
 | Realtime | 1 | WebSocket proxy |
-| AI & Agents | 9 | MCP, RAG, agent, chat, and multimodal AI workloads |
+| AI & Agents | 11 | MCP, RAG, agent, chat, and multimodal AI workloads |
 | Guides | 1 | Local development and direct invocation guide |
 
 ## Verification Levels

@@ -19,7 +19,7 @@ patterns and architecture decisions; it does not provide a runtime API library.
 ## Recipe Categories
 
 Pattern pages live in `docs/patterns/<category>/<slug>.md`; the runnable app for each one lives in
-`examples/<category>/<name>/`. 81 published recipes across 14 categories:
+`examples/<category>/<name>/`. 82 published recipes across 14 categories:
 
 - APIs & Ingress (14): hello HTTP, routing/query/body, auth levels, EasyAuth claims, JWT validation,
   multi-tenant auth, GitHub webhook, APIM backend, BFF facade, full-stack CRUD, scaffold walkthrough,
@@ -43,9 +43,9 @@ Pattern pages live in `docs/patterns/<category>/<slug>.md`; the runnable app for
 - Runtime & Ops (7): modular blueprints, host.json tuning, concurrency tuning, cold-start mitigation,
   observability tracing, output binding vs SDK, doctor diagnostics endpoint
 - Realtime (1): WebSocket proxy endpoint
-- AI & Agents (10): Azure OpenAI direct chat, streaming responses, image generation, embedding and
-  vector search, RAG knowledge API, durable AI pipeline, MCP server, and three LangGraph agents
-  (chat, RAG, tool use)
+- AI & Agents (11): Azure OpenAI direct chat, streaming responses, image generation, embedding and
+  vector search, RAG knowledge API, durable AI pipeline, MCP server, three focused LangGraph
+  recipes (chat, RAG, tool use), and the integrated personal agent with tools and memory
 - Guides (1): local run and direct invocation workflow
 
 The machine-readable inventory of every recipe (slug, title, category, example_path, tags) is

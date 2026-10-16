@@ -1,0 +1,6 @@
+slug: personal-langgraph-agent
+title: Personal LangGraph Agent
+category: ai-and-agents
+difficulty: Advanced
+description: Build a tool-calling personal notes agent with deterministic local mode, Azure OpenAI, and restart-safe Blob memory.
+verification: unit

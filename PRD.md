@@ -21,7 +21,7 @@ Each recipe should answer three questions:
 ## Scope
 
 - A clear repository README
-- 81 curated recipes covering all major Azure Functions patterns
+- 82 curated recipes covering all major Azure Functions patterns
 - A reusable recipe template
 - Published documentation with hierarchical navigation
 - Standard repository tooling, testing, and release workflows
@@ -77,7 +77,7 @@ Each recipe follows this progression:
 
 ### Recipes Inventory
 
-The published cookbook currently contains **81 published recipes**.
+The published cookbook currently contains **82 published recipes**.
 
 #### HTTP
 
@@ -155,6 +155,7 @@ The published cookbook currently contains **81 published recipes**.
 | Recipe | Example | Pattern |
 |---|---|---|
 | MCP Server | `examples/ai-and-agents/mcp_server_example` | MCP server on Azure Functions |
+| Personal LangGraph Agent | `examples/ai-and-agents/personal_langgraph_agent` | Integrated model, typed tool, per-thread memory, and Blob persistence |
 
 #### Local Development
 

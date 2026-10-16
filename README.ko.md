@@ -196,6 +196,7 @@ durable = find_recipe(tag="durable")
 | [LangGraph Agent](examples/ai-and-agents/langgraph_agent/) | 중급 | `azure-functions-langgraph-python` 어댑터를 `azure-functions-logging-python`, `azure-functions-validation-python`, `azure-functions-openapi-python`과 함께 보여줍니다. |
 | [LangGraph RAG Agent](examples/ai-and-agents/langgraph_rag_agent/) | 고급 | 이 예제는 다음을 결합하는 방법을 보여줍니다: |
 | [Langgraph Tool Use](examples/ai-and-agents/langgraph_tool_use/) | 고급 | 추론 노드와 호출 가능한 도구 사이를 라우팅하는 azure-functions-langgraph 기반 도구 사용 LangGraph 에이전트. |
+| [Personal LangGraph Agent](examples/ai-and-agents/personal_langgraph_agent/) | 고급 | 결정론적 로컬 모드, Azure OpenAI, 재시작 후에도 유지되는 Blob 메모리를 갖춘 도구 호출 개인 노트 에이전트를 구축합니다. |
 | [MCP Server Example](examples/ai-and-agents/mcp_server_example/) | 고급 | 이 예제는 표준 HTTP 트리거와 JSON-RPC 2.0 메시지를 사용하여 Azure Functions에서 수동 Model Context Protocol(MCP) 서버를 호스팅합니다. |
 | [RAG Knowledge API](examples/ai-and-agents/rag_knowledge_api/) | 고급 | Azure AI Search와 Azure OpenAI를 사용하고 `azure-functions-validation-python`, `azure-functions-openapi-python`, `azure-functions-logging-python`을 결합한 최소 RAG API를 보여줍니다. |
 | [Streaming AI Response](examples/ai-and-agents/streaming_ai_response/) | 중급 | Azure OpenAI 스트리밍 채팅 완성을 Server-Sent Events로 변환하는 HTTP 트리거 샘플. |
@@ -206,7 +207,7 @@ durable = find_recipe(tag="durable")
 | --- | --- | --- |
 | [Local Run and Direct Invoke](examples/guides/local_run_and_direct_invoke/) | 초급 | 이 예제는 Azure Functions Python 앱을 위한 두 가지 로컬 테스트 워크플로를 보여줍니다: |
 
-_80개 레시피._
+_82개 레시피._
 
 각 패턴 페이지는 `docs/patterns/` 아래에 있으며 `examples/`에 대응하는 실행 가능한 프로젝트가 함께 있습니다.
 
@@ -242,6 +243,10 @@ _80개 레시피._
 각 예제의 `README.md`는 해당 예제의 구체적인 `local.settings.json` 값을 문서화합니다.
 AI 예제는 자격 증명 없이 실행되도록 로컬 폴백 스텁을 제공합니다 — 실제 서비스를
 켜는 환경 변수는 각 레시피의 README를 참조하세요.
+
+스레드별 메모리와 선택적 Blob 영속성을 포함한 누적 model → tool → model 안내서는
+[Personal LangGraph Agent](docs/patterns/ai-and-agents/personal-langgraph-agent.md)를 참조하세요.
+명시적 가짜 모드는 자격 증명이 필요 없으며, 실제 모드는 폴백하지 않고 명확하게 실패합니다.
 
 ### Test tiers
 
@@ -307,10 +312,10 @@ PR을 열기 전에 변경한 Python 파일에 `ruff format --check <변경한-P
 | [azure-functions-validation-python](https://github.com/yeongseon/azure-functions-validation-python) | 요청/응답 검증 및 직렬화 | Dogfooded ([예제 23개](https://github.com/search?q=repo%3Ayeongseon%2Fazure-functions-cookbook-python+azure_functions_validation+path%3Aexamples&type=code)) |
 | [azure-functions-logging-python](https://github.com/yeongseon/azure-functions-logging-python) | 구조화된 로깅 및 관측성 | Dogfooded ([예제 41개](https://github.com/search?q=repo%3Ayeongseon%2Fazure-functions-cookbook-python+azure_functions_logging+path%3Aexamples&type=code)) |
 | [azure-functions-db-python](https://github.com/yeongseon/azure-functions-db-python) | SQLAlchemy 기반 DB 통합 헬퍼(폴링 기반 의사 트리거, 입력/출력/클라이언트 주입) | Dogfooded ([예제 9개](https://github.com/search?q=repo%3Ayeongseon%2Fazure-functions-cookbook-python+azure_functions_db+path%3Aexamples&type=code)) |
-| [azure-functions-langgraph-python](https://github.com/yeongseon/azure-functions-langgraph-python) | Azure Functions용 LangGraph 배포 어댑터 | Dogfooded ([예제 3개](https://github.com/search?q=repo%3Ayeongseon%2Fazure-functions-cookbook-python+azure_functions_langgraph+path%3Aexamples&type=code)) |
+| [azure-functions-langgraph-python](https://github.com/yeongseon/azure-functions-langgraph-python) | Azure Functions용 LangGraph 배포 어댑터 | Dogfooded ([예제 4개](https://github.com/search?q=repo%3Ayeongseon%2Fazure-functions-cookbook-python+azure_functions_langgraph+path%3Aexamples&type=code)) |
 | [azure-functions-scaffold-python](https://github.com/yeongseon/azure-functions-scaffold-python) | 프로젝트 스캐폴딩 CLI | Dogfooded ([예제 1개, CLI 생성](examples/apis-and-ingress/scaffold_walkthrough_app/)) |
 | [azure-functions-doctor-python](https://github.com/yeongseon/azure-functions-doctor-python) | 배포 전 진단 CLI | Dogfooded ([예제 1개](https://github.com/search?q=repo%3Ayeongseon%2Fazure-functions-cookbook-python+azure_functions_doctor+path%3Aexamples&type=code)) |
-| **azure-functions-cookbook-python** *(이 저장소)* | 전체 툴킷을 위한 도그푸드 예제 | 예제 81개 |
+| **azure-functions-cookbook-python** *(이 저장소)* | 전체 툴킷을 위한 도그푸드 예제 | 예제 82개 |
 
 ## For AI Coding Assistants
 

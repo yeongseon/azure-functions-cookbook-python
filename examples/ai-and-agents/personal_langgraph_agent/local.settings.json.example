@@ -1,0 +1,11 @@
+{
+  "IsEncrypted": false,
+  "Values": {
+    "AzureWebJobsStorage": "UseDevelopmentStorage=true",
+    "FUNCTIONS_WORKER_RUNTIME": "python",
+    "AGENT_MODEL_MODE": "fake",
+    "AGENT_MEMORY_MODE": "memory",
+    "AGENT_MODEL_TIMEOUT_SECONDS": "30",
+    "AGENT_TOOL_TIMEOUT_SECONDS": "5"
+  }
+}

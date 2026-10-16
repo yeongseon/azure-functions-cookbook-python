@@ -119,6 +119,21 @@
     ]
   },
   {
+    "slug": "personal-langgraph-agent",
+    "title": "Personal LangGraph Agent",
+    "category": "ai-and-agents",
+    "description": "Build a tool-calling personal notes agent with deterministic local mode, Azure OpenAI, and restart-safe Blob memory.",
+    "example_path": "ai-and-agents/personal_langgraph_agent",
+    "docs_url": null,
+    "difficulty": "Advanced",
+    "tags": [
+      "agent",
+      "ai-and-agents",
+      "langgraph",
+      "personal"
+    ]
+  },
+  {
     "slug": "rag-knowledge-api",
     "title": "RAG Knowledge API",
     "category": "ai-and-agents",

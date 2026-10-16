@@ -196,6 +196,7 @@ durable = find_recipe(tag="durable")
 | [LangGraph Agent](examples/ai-and-agents/langgraph_agent/) | 中級 | `azure-functions-langgraph-python` アダプターを `azure-functions-logging-python`、`azure-functions-validation-python`、`azure-functions-openapi-python` とともに示します。 |
 | [LangGraph RAG Agent](examples/ai-and-agents/langgraph_rag_agent/) | 上級 | この例は、次を組み合わせる方法を示します: |
 | [Langgraph Tool Use](examples/ai-and-agents/langgraph_tool_use/) | 上級 | 推論ノードと呼び出し可能なツールの間をルーティングする azure-functions-langgraph によるツール使用 LangGraph エージェント。 |
+| [Personal LangGraph Agent](examples/ai-and-agents/personal_langgraph_agent/) | 上級 | 決定論的ローカルモード、Azure OpenAI、再起動後も保持される Blob メモリを備えた、ツール呼び出し型の個人ノートエージェントを構築します。 |
 | [MCP Server Example](examples/ai-and-agents/mcp_server_example/) | 上級 | この例は、標準的な HTTP トリガーと JSON-RPC 2.0 メッセージを使用して、Azure Functions 上で手動の Model Context Protocol (MCP) サーバーをホストします。 |
 | [RAG Knowledge API](examples/ai-and-agents/rag_knowledge_api/) | 上級 | Azure AI Search と Azure OpenAI を使用し、`azure-functions-validation-python`、`azure-functions-openapi-python`、`azure-functions-logging-python` を組み合わせた最小限の RAG API を示します。 |
 | [Streaming AI Response](examples/ai-and-agents/streaming_ai_response/) | 中級 | Azure OpenAI のストリーミングチャット補完を Server-Sent Events に変換する HTTP トリガーサンプル。 |
@@ -206,7 +207,7 @@ durable = find_recipe(tag="durable")
 | --- | --- | --- |
 | [Local Run and Direct Invoke](examples/guides/local_run_and_direct_invoke/) | 初級 | この例は、Azure Functions Python アプリ向けの 2 つのローカルテストワークフローを示します: |
 
-_80 レシピ。_
+_82 レシピ。_
 
 各パターンページは `docs/patterns/` の下にあり、`examples/` に対応する実行可能なプロジェクトがあります。
 
@@ -242,6 +243,10 @@ _80 レシピ。_
 各例の `README.md` は、その例に固有の `local.settings.json` の値を文書化しています。
 AI の例は、資格情報なしで実行できるローカルフォールバックスタブを同梱しています — 実際の
 サービスを有効にする環境変数については、各レシピの README を参照してください。
+
+スレッドごとのメモリとオプションの Blob 永続化を含む累積的な model → tool → model の手順は、
+[Personal LangGraph Agent](docs/patterns/ai-and-agents/personal-langgraph-agent.md) を参照してください。
+明示的なフェイクモードは資格情報不要で、実モードはフォールバックせず明確に失敗します。
 
 ### Test tiers
 
@@ -307,10 +312,10 @@ PR を作成する前に、変更した Python ファイルで `ruff format --ch
 | [azure-functions-validation-python](https://github.com/yeongseon/azure-functions-validation-python) | リクエスト/レスポンスの検証とシリアライズ | Dogfooded ([23 例](https://github.com/search?q=repo%3Ayeongseon%2Fazure-functions-cookbook-python+azure_functions_validation+path%3Aexamples&type=code)) |
 | [azure-functions-logging-python](https://github.com/yeongseon/azure-functions-logging-python) | 構造化ロギングと可観測性 | Dogfooded ([41 例](https://github.com/search?q=repo%3Ayeongseon%2Fazure-functions-cookbook-python+azure_functions_logging+path%3Aexamples&type=code)) |
 | [azure-functions-db-python](https://github.com/yeongseon/azure-functions-db-python) | SQLAlchemy を活用した DB 統合ヘルパー(ポーリングベースの疑似トリガー、入力/出力/クライアント注入) | Dogfooded ([9 例](https://github.com/search?q=repo%3Ayeongseon%2Fazure-functions-cookbook-python+azure_functions_db+path%3Aexamples&type=code)) |
-| [azure-functions-langgraph-python](https://github.com/yeongseon/azure-functions-langgraph-python) | Azure Functions 向け LangGraph デプロイアダプター | Dogfooded ([3 例](https://github.com/search?q=repo%3Ayeongseon%2Fazure-functions-cookbook-python+azure_functions_langgraph+path%3Aexamples&type=code)) |
+| [azure-functions-langgraph-python](https://github.com/yeongseon/azure-functions-langgraph-python) | Azure Functions 向け LangGraph デプロイアダプター | Dogfooded ([4 例](https://github.com/search?q=repo%3Ayeongseon%2Fazure-functions-cookbook-python+azure_functions_langgraph+path%3Aexamples&type=code)) |
 | [azure-functions-scaffold-python](https://github.com/yeongseon/azure-functions-scaffold-python) | プロジェクトスキャフォールディング CLI | Dogfooded ([1 例、CLI 生成](examples/apis-and-ingress/scaffold_walkthrough_app/)) |
 | [azure-functions-doctor-python](https://github.com/yeongseon/azure-functions-doctor-python) | デプロイ前診断 CLI | Dogfooded ([1 例](https://github.com/search?q=repo%3Ayeongseon%2Fazure-functions-cookbook-python+azure_functions_doctor+path%3Aexamples&type=code)) |
-| **azure-functions-cookbook-python** *(このリポジトリ)* | 全ツールキットのドッグフード例 | 81 例 |
+| **azure-functions-cookbook-python** *(このリポジトリ)* | 全ツールキットのドッグフード例 | 82 例 |
 
 ## For AI Coding Assistants
 

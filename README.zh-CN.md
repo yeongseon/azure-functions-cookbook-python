@@ -195,6 +195,7 @@ durable = find_recipe(tag="durable")
 | [LangGraph Agent](examples/ai-and-agents/langgraph_agent/) | 中级 | 演示 `azure-functions-langgraph-python` 适配器与 `azure-functions-logging-python`、`azure-functions-validation-python` 和 `azure-functions-openapi-python` 的结合。 |
 | [LangGraph RAG Agent](examples/ai-and-agents/langgraph_rag_agent/) | 高级 | 本示例展示了如何组合: |
 | [Langgraph Tool Use](examples/ai-and-agents/langgraph_tool_use/) | 高级 | 在推理节点与可调用工具之间路由的、基于 azure-functions-langgraph 的工具使用 LangGraph 智能体。 |
+| [Personal LangGraph Agent](examples/ai-and-agents/personal_langgraph_agent/) | 高级 | 构建具有确定性本地模式、Azure OpenAI 和重启后仍可保留的 Blob 记忆的工具调用个人笔记智能体。 |
 | [MCP Server Example](examples/ai-and-agents/mcp_server_example/) | 高级 | 本示例使用标准 HTTP 触发器和 JSON-RPC 2.0 消息在 Azure Functions 上托管一个手动的 Model Context Protocol (MCP) 服务器。 |
 | [RAG Knowledge API](examples/ai-and-agents/rag_knowledge_api/) | 高级 | 演示使用 Azure AI Search 和 Azure OpenAI，并结合 `azure-functions-validation-python`、`azure-functions-openapi-python` 和 `azure-functions-logging-python` 的最小化 RAG API。 |
 | [Streaming AI Response](examples/ai-and-agents/streaming_ai_response/) | 中级 | 将 Azure OpenAI 流式聊天补全转换为 Server-Sent Events 的 HTTP 触发示例。 |
@@ -205,7 +206,7 @@ durable = find_recipe(tag="durable")
 | --- | --- | --- |
 | [Local Run and Direct Invoke](examples/guides/local_run_and_direct_invoke/) | 初级 | 本示例展示了 Azure Functions Python 应用的两种本地测试工作流: |
 
-_80 个配方。_
+_82 个配方。_
 
 每个模式页面位于 `docs/patterns/` 下，并在 `examples/` 中有对应的可运行项目。
 
@@ -241,6 +242,10 @@ _80 个配方。_
 每个示例的 `README.md` 都记录了其特定的 `local.settings.json` 值。
 AI 示例附带本地回退桩，因此无需凭据即可运行 — 请参阅
 每个配方的 README，了解切换到真实服务的环境变量。
+
+有关包含按线程记忆和可选 Blob 持久化的累积式 model → tool → model 演练，请参阅
+[Personal LangGraph Agent](docs/patterns/ai-and-agents/personal-langgraph-agent.md)。
+其显式假模型模式无需凭据；真实模式会清晰失败，而不会回退。
 
 ### Test tiers
 
@@ -306,10 +311,10 @@ Python 文件的格式问题。
 | [azure-functions-validation-python](https://github.com/yeongseon/azure-functions-validation-python) | 请求/响应校验与序列化 | Dogfooded ([23 个示例](https://github.com/search?q=repo%3Ayeongseon%2Fazure-functions-cookbook-python+azure_functions_validation+path%3Aexamples&type=code)) |
 | [azure-functions-logging-python](https://github.com/yeongseon/azure-functions-logging-python) | 结构化日志与可观测性 | Dogfooded ([41 个示例](https://github.com/search?q=repo%3Ayeongseon%2Fazure-functions-cookbook-python+azure_functions_logging+path%3Aexamples&type=code)) |
 | [azure-functions-db-python](https://github.com/yeongseon/azure-functions-db-python) | 基于 SQLAlchemy 的 DB 集成助手（基于轮询的伪触发器，输入/输出/客户端注入） | Dogfooded ([9 个示例](https://github.com/search?q=repo%3Ayeongseon%2Fazure-functions-cookbook-python+azure_functions_db+path%3Aexamples&type=code)) |
-| [azure-functions-langgraph-python](https://github.com/yeongseon/azure-functions-langgraph-python) | 面向 Azure Functions 的 LangGraph 部署适配器 | Dogfooded ([3 个示例](https://github.com/search?q=repo%3Ayeongseon%2Fazure-functions-cookbook-python+azure_functions_langgraph+path%3Aexamples&type=code)) |
+| [azure-functions-langgraph-python](https://github.com/yeongseon/azure-functions-langgraph-python) | 面向 Azure Functions 的 LangGraph 部署适配器 | Dogfooded ([4 个示例](https://github.com/search?q=repo%3Ayeongseon%2Fazure-functions-cookbook-python+azure_functions_langgraph+path%3Aexamples&type=code)) |
 | [azure-functions-scaffold-python](https://github.com/yeongseon/azure-functions-scaffold-python) | 项目脚手架 CLI | Dogfooded ([1 个示例，CLI 生成](examples/apis-and-ingress/scaffold_walkthrough_app/)) |
 | [azure-functions-doctor-python](https://github.com/yeongseon/azure-functions-doctor-python) | 部署前诊断 CLI | Dogfooded ([1 个示例](https://github.com/search?q=repo%3Ayeongseon%2Fazure-functions-cookbook-python+azure_functions_doctor+path%3Aexamples&type=code)) |
-| **azure-functions-cookbook-python** *(本仓库)* | 面向整个工具包的 dogfood 示例 | 81 个示例 |
+| **azure-functions-cookbook-python** *(本仓库)* | 面向整个工具包的 dogfood 示例 | 82 个示例 |
 
 ## For AI Coding Assistants
 

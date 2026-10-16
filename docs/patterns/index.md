@@ -16,7 +16,7 @@ This catalog groups Azure Functions Python recipes by workload shape so you can 
 | Security & Tenancy | 4 | [Open category](./security-and-tenancy/index.md) |
 | Runtime & Ops | 7 | [Open category](./runtime-and-ops/index.md) |
 | Realtime | 1 | [Open category](./realtime/index.md) |
-| AI & Agents | 10 | [Open category](./ai-and-agents/index.md) |
+| AI & Agents | 11 | [Open category](./ai-and-agents/index.md) |
 | Guides | 1 | [Open category](../guides/local-run-and-direct-invoke.md) |
 
-Total published recipes: **81**.
+Total published recipes: **82**.

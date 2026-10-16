@@ -21,6 +21,7 @@ flowchart LR
 | [RAG Knowledge API](./rag-knowledge-api.md) | HTTP + Azure AI Search + OpenAI | Advanced |
 | [LangGraph RAG Agent](./langgraph-rag-agent.md) | HTTP + azure-functions-langgraph | Advanced |
 | [Langgraph Tool Use](./langgraph-tool-use.md) | HTTP + LangGraph tool routing | Advanced |
+| [Personal LangGraph Agent](./personal-langgraph-agent.md) | HTTP + tools + per-thread persistent memory | Advanced |
 | [Azure OpenAI Direct Chat](./openai-direct-chat.md) | HTTP + Azure OpenAI SDK | Beginner |
 | [Durable AI Pipeline](./durable-ai-pipeline.md) | HTTP + Durable Functions + Azure OpenAI | Advanced |
 | [Streaming AI Response](./streaming-ai-response.md) | HTTP + SSE streaming | Intermediate |
