@@ -12,6 +12,7 @@ def test_tag_verification_covers_release_artifact_contract() -> None:
     steps = workflow["jobs"]["build"]["steps"]
     commands = "\n".join(step.get("run", "") for step in steps)
     assert "python -m build" in commands
-    assert "Requires-Python: >=3.11,<3.15" in commands
+    assert 'line.startswith("Requires-Python: ")' in commands
+    assert '{">=3.11", "<3.15"}' in commands
     assert "pip check" in commands
     assert "Python 3.10 unexpectedly installed" in commands
