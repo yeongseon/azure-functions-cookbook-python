@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.5.0](https://github.com/yeongseon/azure-functions-cookbook-python/compare/v0.4.2...v0.5.0) (2026-10-16)
+
+
+### Features
+
+* **recipes:** add a personal LangGraph agent with persistent memory ([#344](https://github.com/yeongseon/azure-functions-cookbook-python/issues/344)) ([34981f3](https://github.com/yeongseon/azure-functions-cookbook-python/commit/34981f3f69d2354868932c232466d8bb8af2ae66)), closes [#343](https://github.com/yeongseon/azure-functions-cookbook-python/issues/343)
+
 ## [0.4.2](https://github.com/yeongseon/azure-functions-cookbook-python/compare/v0.4.1...v0.4.2) (2026-10-14)
 
 
