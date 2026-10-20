@@ -86,22 +86,65 @@ def build_graph(
             )
         return {"messages": outputs}
 
+    def close_budget_exhausted_calls(state: AgentState) -> dict[str, list[BaseMessage]]:
+        last = state["messages"][-1]
+        if not isinstance(last, AIMessage):
+            raise RuntimeError(f"Budget node expected AIMessage, received {type(last).__name__}")
+        # The round-limit route reaches here with an AIMessage whose
+        # tool_calls were never executed. Every assistant tool-call ID must
+        # be paired with a ToolMessage reply or the checkpointed history
+        # becomes invalid for models that enforce that pairing (see
+        # LangGraph's INVALID_CHAT_HISTORY guidance). Close each pending
+        # call with an explicit budget-exhausted reply, then provide a
+        # non-empty final answer instead of leaving the empty AIMessage as
+        # the last message.
+        closing_replies = [
+            ToolMessage(
+                content=(
+                    "Tool call skipped: the agent's tool-call budget for this "
+                    "request has been reached."
+                ),
+                name=call["name"],
+                tool_call_id=call["id"],
+            )
+            for call in last.tool_calls
+        ]
+        final_answer = AIMessage(
+            content=(
+                "I reached my tool-call budget for this request and could not "
+                "finish looking this up. Please ask again or narrow the request."
+            )
+        )
+        return {"messages": [*closing_replies, final_answer]}
+
     def route(state: AgentState) -> str:
         last = state["messages"][-1]
         if not isinstance(last, AIMessage):
             raise RuntimeError(f"Agent node expected AIMessage, received {type(last).__name__}")
+        if not last.tool_calls:
+            return END
         recent_tool_rounds = 0
         for message in reversed(state["messages"][:-1]):
             if message.type == "human":
                 break
             if isinstance(message, AIMessage) and message.tool_calls:
                 recent_tool_rounds += 1
-        return "tools" if last.tool_calls and recent_tool_rounds < MAX_TOOL_ROUNDS else END
+        return "tools" if recent_tool_rounds < MAX_TOOL_ROUNDS else "close_budget_exhausted_calls"
 
     builder = StateGraph(AgentState)
     builder.add_node("agent", agent)
     builder.add_node("tools", run_tools)
+    builder.add_node("close_budget_exhausted_calls", close_budget_exhausted_calls)
     builder.add_edge(START, "agent")
-    builder.add_conditional_edges("agent", route, {"tools": "tools", END: END})
+    builder.add_conditional_edges(
+        "agent",
+        route,
+        {
+            "tools": "tools",
+            "close_budget_exhausted_calls": "close_budget_exhausted_calls",
+            END: END,
+        },
+    )
     builder.add_edge("tools", "agent")
+    builder.add_edge("close_budget_exhausted_calls", END)
     return BoundedGraph(builder.compile(checkpointer=checkpointer))
