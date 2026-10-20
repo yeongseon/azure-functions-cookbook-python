@@ -27,6 +27,15 @@
 - [ ] I have updated documentation when needed
 - [ ] I have updated root planning documents when scope or design changed
 
+## Review Evidence
+
+<!-- See docs/review-evidence-policy.md (advisory, not server-enforced). -->
+
+- [ ] Risk category: R3 (see policy's "R3 scope") / normal
+- Review source and reviewed commit SHA:
+- Material findings and disposition (fixed / acknowledged-wont-fix / deferred-with-issue):
+- Unresolved blockers (or "none"):
+
 ## Related Issues
 
 <!-- Link to related issues: Closes #123 -->
