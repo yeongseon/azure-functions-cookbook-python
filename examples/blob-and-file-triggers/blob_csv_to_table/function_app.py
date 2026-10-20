@@ -3,7 +3,7 @@ from __future__ import annotations
 import csv
 import io
 import os
-from urllib.parse import quote, urlparse
+from urllib.parse import quote, unquote, urlparse
 
 import azure.functions as func
 from azure_functions_logging import get_logger, setup_logging, with_context
@@ -18,7 +18,12 @@ def _blob_parts(blob_url: str) -> tuple[str, str]:
     parts = parsed.path.lstrip("/").split("/", 1)
     if len(parts) != 2:
         raise ValueError(f"Unexpected blob URL: {blob_url}")
-    return parts[0], parts[1]
+    # The URL path is percent-encoded (Event Grid delivers the blob's
+    # logical name URL-encoded); BlobClient.from_connection_string encodes
+    # its blob_name argument itself, so passing the raw encoded segment
+    # through unchanged would encode it a second time. unquote (not a
+    # form-style plus-to-space decode) recovers the original logical name.
+    return parts[0], unquote(parts[1])
 
 
 @app.function_name(name="blob_csv_to_table")

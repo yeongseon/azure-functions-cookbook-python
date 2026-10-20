@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import io
 import os
-from urllib.parse import urlparse
+from urllib.parse import unquote, urlparse
 
 import azure.functions as func
 from azure_functions_logging import get_logger, setup_logging, with_context
@@ -17,7 +17,11 @@ def _blob_parts(blob_url: str) -> tuple[str, str]:
     path_parts = parsed.path.lstrip("/").split("/", 1)
     if len(path_parts) != 2:
         raise ValueError(f"Unexpected blob URL: {blob_url}")
-    return path_parts[0], path_parts[1]
+    # See blob_csv_to_table's identical helper: the URL path is
+    # percent-encoded, and BlobClient.from_connection_string encodes its
+    # blob_name argument itself, so the raw encoded segment must be
+    # unquoted first to avoid double-encoding the logical blob name.
+    return path_parts[0], unquote(path_parts[1])
 
 
 def _generate_thumbnail(source_bytes: bytes) -> bytes:
