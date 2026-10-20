@@ -95,7 +95,11 @@ def _to_json_value(value: Any) -> Any:
 
 
 def _runtime_status_name(status: Any) -> str:
-    return str(getattr(status, "runtime_status", "Unknown"))
+    runtime_status = getattr(status, "runtime_status", "Unknown")
+    # OrchestrationRuntimeStatus is an enum whose str() yields
+    # "OrchestrationRuntimeStatus.Completed", not the documented "Completed"
+    # value this recipe's lifecycle map and terminal-state checks key on.
+    return str(getattr(runtime_status, "value", runtime_status))
 
 
 def _project_job_status(status: Any, instance_id: str) -> dict[str, Any]:
