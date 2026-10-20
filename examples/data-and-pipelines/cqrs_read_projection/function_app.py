@@ -80,16 +80,16 @@ def _build_projection(document: dict[str, Any]) -> dict[str, Any]:
 
 
 @app.route(route="orders", methods=["POST"])
-@with_context
-@openapi(
-    summary="Create order",
-    tags=["orders"],
-)
 @app.cosmos_db_output(
     arg_name="order_doc",
     database_name="ordersdb",
     container_name="orders",
     connection="CosmosDBConnection",
+)
+@with_context
+@openapi(
+    summary="Create order",
+    tags=["orders"],
 )
 @validate_http(body=OrderWriteRequest, response_model=OrderAccepted, status_code=202)
 def create_order(

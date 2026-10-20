@@ -1,14 +1,19 @@
-"""Deterministic Python worker signature-registration guard (#379).
+"""Deterministic Python worker signature-registration guard (#379, #380).
 
 Twelve handlers across eight recipes previously failed actual Python worker
 registration because their public binding annotations (structural Protocols,
 a union, or ``list[dict[str, Any]]``) are incompatible with the real binding
-converters. Importing a module, registering decorators with the SDK, or
-invoking a handler with a duck-typed fake does not exercise this contract --
-only the official worker's ``Registry.add_indexed_function()`` does, which
-reads the *effective* decorated signature via
-``inspect.signature()``/``typing.get_type_hints()`` and calls the installed
-SDK's real binding converters.
+converters (#379). Separately, CQRS's ``create_order`` placed its
+``@app.cosmos_db_output`` decorator below ordinary wrappers, splitting the
+Cosmos output onto a different SDK builder than the one carrying its HTTP
+trigger, so ``app.get_functions()`` could not even discover the app before
+the worker could attempt registration (#380). Importing a module,
+registering decorators with the SDK, or invoking a handler with a duck-typed
+fake exercises neither failure mode -- only the official worker's
+``Registry.add_indexed_function()`` does, which reads the *effective*
+decorated signature via ``inspect.signature()``/``typing.get_type_hints()``
+and calls the installed SDK's real binding converters, after
+``app.get_functions()`` has already discovered the app's functions.
 
 This module clones the pinned upstream ``azure-functions-python-worker`` SHA
 once per session, copies its checked-in protobuf test fixtures (never
@@ -38,7 +43,7 @@ pytestmark = pytest.mark.worker_registration
 
 WORKER_SHA = "61af68115f048e917f786b707e92796c22eeb4de"
 
-# (recipe path, handler function name) pairs this guard protects (#379).
+# (recipe path, handler function name) pairs this guard protects (#379, #380).
 AFFECTED_HANDLERS: list[tuple[str, str]] = [
     ("messaging-and-pubsub/eventgrid_router", "route_events"),
     ("messaging-and-pubsub/eventgrid_domain_events", "publish_order_event"),
@@ -52,13 +57,10 @@ AFFECTED_HANDLERS: list[tuple[str, str]] = [
     ("security-and-tenancy/secretless_keyvault", "secretless_keyvault"),
     ("reliability/outbox_pattern", "create_order"),
     ("reliability/outbox_pattern", "relay_outbox_events"),
+    ("data-and-pipelines/cqrs_read_projection", "create_order"),
+    ("data-and-pipelines/cqrs_read_projection", "project_order_read_models"),
+    ("data-and-pipelines/cqrs_read_projection", "get_order_projection"),
 ]
-# CQRS's project_order_read_models is verified separately below: its sibling
-# create_order binding decorators are split by wrappers, so app.get_functions()
-# fails SDK discovery for the whole app (a pre-existing, independent defect
-# this guard does not claim to fix) -- only its own FunctionBuilder is indexed.
-CQRS_RECIPE = "data-and-pipelines/cqrs_read_projection"
-CQRS_HANDLER = "project_order_read_models"
 
 
 def _clone_worker(destination: Path) -> bool:
@@ -175,22 +177,6 @@ def test_handler_registers_with_the_real_worker(
 
     assert result["result"] == "accepted", (
         f"{recipe_path}:{handler_name} failed real worker registration: {result}"
-    )
-
-
-def test_cqrs_projection_handler_registers_with_the_real_worker(
-    worker_registry: ModuleType,
-) -> None:
-    """CQRS's whole-app SDK discovery independently fails (a separate,
-    pre-existing decorator-order defect out of this guard's scope), so only
-    the existing projection FunctionBuilder is indexed directly."""
-    module = load_example_module(CQRS_RECIPE)
-    function = getattr(module, CQRS_HANDLER).build()
-
-    result = _index(worker_registry, function)
-
-    assert result["result"] == "accepted", (
-        f"{CQRS_RECIPE}:{CQRS_HANDLER} failed real worker registration: {result}"
     )
 
 
