@@ -27,9 +27,11 @@ def enqueue_via_sdk(req: func.HttpRequest) -> func.HttpResponse:
 
     queue_client_module = __import__("azure.storage.queue", fromlist=["QueueClient"])
     queue_client_class: Any = getattr(queue_client_module, "QueueClient")
+    encode_policy_class: Any = getattr(queue_client_module, "TextBase64EncodePolicy")
     client = queue_client_class.from_connection_string(
         conn_str=connection_string,
         queue_name="work-items",
+        message_encode_policy=encode_policy_class(),
     )
     client.send_message(json.dumps(payload))
 

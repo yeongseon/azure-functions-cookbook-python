@@ -14,6 +14,21 @@ This recipe compares two ways to send the same queue message:
 
 Both endpoints accept `POST` JSON with an optional `task` field and enqueue to `work-items`.
 
+## Wire encoding
+
+Both producers write the same base64-encoded message text, matching the Azure
+Functions Queue binding's default `messageEncoding` (`base64`, see
+[host.json reference](https://learn.microsoft.com/en-us/azure/azure-functions/functions-bindings-storage-queue#host-json)):
+
+- `enqueue_via_binding` uses `@app.queue_output`, which base64-encodes the
+  message text under the host's default `messageEncoding`.
+- `enqueue_via_sdk` constructs `QueueClient` with an explicit
+  `TextBase64EncodePolicy()`, so its raw JSON payload is base64-encoded the
+  same way before being sent.
+
+A queue consumer configured for the host's default `messageEncoding` can
+decode either producer's message to the same original JSON.
+
 ## Why compare these patterns?
 
 - output binding: less code, declarative, easier for straightforward scenarios
