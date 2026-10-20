@@ -63,7 +63,7 @@ Performance impact:
 
 - `prefetchCount`: messages prefetched into memory
 - `maxConcurrentCalls`: concurrent handler invocations per instance
-- `maxAutoRenewDuration`: lock renewal cap for long processing
+- `maxAutoLockRenewalDuration`: lock renewal cap for long processing
 
 When to change:
 

@@ -26,10 +26,8 @@
     },
     "serviceBus": {
       "prefetchCount": 100,
-      "messageHandlerOptions": {
-        "maxConcurrentCalls": 32,
-        "maxAutoRenewDuration": "00:05:00"
-      }
+      "maxConcurrentCalls": 32,
+      "maxAutoLockRenewalDuration": "00:05:00"
     }
   },
   "extensionBundle": {

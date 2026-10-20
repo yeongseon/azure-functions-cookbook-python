@@ -85,7 +85,7 @@ def host_config_demo_timer(timer: func.TimerRequest) -> None:
     },
     "serviceBus": {
       "prefetchCount": 100,
-      "messageHandlerOptions": { "maxConcurrentCalls": 32 }
+      "maxConcurrentCalls": 32
     }
   }
 }
