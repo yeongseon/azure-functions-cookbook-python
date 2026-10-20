@@ -95,12 +95,15 @@ test: ensure-hatch
 .PHONY: new-recipe
 new-recipe: ensure-hatch
 ifndef CAT
-	$(error CAT is not set. Usage: make new-recipe CAT=apis-and-ingress NAME=my_recipe)
+	$(error CAT is not set. Usage: make new-recipe CAT=apis-and-ingress NAME=my_recipe DIFFICULTY=Beginner)
 endif
 ifndef NAME
-	$(error NAME is not set. Usage: make new-recipe CAT=apis-and-ingress NAME=my_recipe)
+	$(error NAME is not set. Usage: make new-recipe CAT=apis-and-ingress NAME=my_recipe DIFFICULTY=Beginner)
 endif
-	@$(HATCH) run python scripts/new_recipe.py --category "$(CAT)" --name "$(NAME)"
+ifndef DIFFICULTY
+	$(error DIFFICULTY is not set. Usage: make new-recipe CAT=apis-and-ingress NAME=my_recipe DIFFICULTY=Beginner (one of Beginner, Intermediate, Advanced))
+endif
+	@$(HATCH) run python scripts/new_recipe.py --category "$(CAT)" --name "$(NAME)" --difficulty "$(DIFFICULTY)"
 
 .PHONY: cov
 cov: ensure-hatch

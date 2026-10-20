@@ -17,9 +17,11 @@ import json
 from pathlib import Path
 import sys
 
+import yaml
+
 REPO_ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_EXAMPLES_DIR = REPO_ROOT / "examples"
-DOCS_BASE = "https://yeongseon.dev/azure-functions-python/cookbook/patterns"
+_VALID_DIFFICULTY = ("Beginner", "Intermediate", "Advanced")
 _REQUIREMENTS_SCRIPT = Path(__file__).with_name("gen_requirements.py")
 _REQUIREMENTS_SPEC = importlib.util.spec_from_file_location(
     "gen_requirements", _REQUIREMENTS_SCRIPT
@@ -54,11 +56,8 @@ def ping(req: func.HttpRequest) -> func.HttpResponse:
 '''
 
 
-def _readme_md(title: str, category: str, slug: str, description: str) -> str:
-    docs_url = f"{DOCS_BASE}/{category}/{slug}/"
+def _readme_md(title: str, description: str) -> str:
     return f"""# {title}
-
-📖 [Full documentation]({docs_url})
 
 {description}
 
@@ -76,16 +75,19 @@ func start
 """
 
 
-def _recipe_yaml(slug: str, title: str, category: str, description: str) -> str:
-    docs_url = f"{DOCS_BASE}/{category}/{slug}/"
-    return (
-        f"slug: {slug}\n"
-        f"title: {title}\n"
-        f"category: {category}\n"
-        f"description: {description}\n"
-        f"docs_url: {docs_url}\n"
-        "verification: docs\n"
-    )
+def _recipe_yaml(slug: str, title: str, category: str, description: str, difficulty: str) -> str:
+    # yaml.safe_dump (not manual string interpolation) so a normal
+    # description containing ": " or other YAML-significant characters is
+    # quoted correctly instead of corrupting the document.
+    data = {
+        "slug": slug,
+        "title": title,
+        "category": category,
+        "description": description,
+        "difficulty": difficulty,
+        "verification": "docs",
+    }
+    return yaml.safe_dump(data, sort_keys=False)
 
 
 _HOST_JSON = {
@@ -144,15 +146,20 @@ def create_recipe(
     name: str,
     *,
     description: str | None = None,
+    difficulty: str,
     examples_dir: Path = DEFAULT_EXAMPLES_DIR,
 ) -> Path:
     """Create a new flat recipe directory and return its path.
 
     Raises ``ValueError`` if the category does not exist, the name is not a
-    valid snake_case identifier, or the target already exists.
+    valid snake_case identifier, the target already exists, or difficulty
+    is not one of the values the README-table generator accepts.
     """
     if not name.replace("_", "").isalnum() or not name.islower() or name[0].isdigit():
         raise ValueError(f"name must be lowercase snake_case: {name!r}")
+
+    if difficulty not in _VALID_DIFFICULTY:
+        raise ValueError(f"difficulty must be one of {_VALID_DIFFICULTY}: {difficulty!r}")
 
     category_dir = examples_dir / category
     if not category_dir.is_dir():
@@ -171,8 +178,8 @@ def create_recipe(
 
     target.mkdir(parents=True)
     (target / "function_app.py").write_text(_function_app_py(title))
-    (target / "README.md").write_text(_readme_md(title, category, slug, desc))
-    (target / "recipe.yaml").write_text(_recipe_yaml(slug, title, category, desc))
+    (target / "README.md").write_text(_readme_md(title, desc))
+    (target / "recipe.yaml").write_text(_recipe_yaml(slug, title, category, desc, difficulty))
     (target / "host.json").write_text(json.dumps(_HOST_JSON, indent=2) + "\n")
     (target / "local.settings.json.example").write_text(
         json.dumps(_LOCAL_SETTINGS, indent=2) + "\n"
@@ -187,10 +194,18 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--category", required=True, help="Existing examples/ category directory")
     parser.add_argument("--name", required=True, help="Recipe directory name (snake_case)")
     parser.add_argument("--description", default=None, help="One-line recipe description")
+    parser.add_argument(
+        "--difficulty",
+        required=True,
+        choices=_VALID_DIFFICULTY,
+        help="Recipe difficulty shown in the README table",
+    )
     args = parser.parse_args(argv)
 
     try:
-        target = create_recipe(args.category, args.name, description=args.description)
+        target = create_recipe(
+            args.category, args.name, description=args.description, difficulty=args.difficulty
+        )
     except ValueError as exc:
         print(f"error: {exc}", file=sys.stderr)
         return 1
@@ -200,8 +215,12 @@ def main(argv: list[str] | None = None) -> int:
     print("Next steps:")
     print(f"  1. Implement the trigger logic in {rel}/function_app.py")
     print(f"  2. Refine the description in {rel}/README.md and {rel}/recipe.yaml")
-    print("  3. Sync requirements: python scripts/gen_requirements.py")
-    print("  4. Run: hatch run pytest tests/test_recipes.py tests/test_example_discovery.py -q")
+    print(
+        f"  3. Write a docs page at docs/patterns/{args.category}/<slug>.md and add "
+        "docs_url to recipe.yaml once it exists"
+    )
+    print("  4. Sync requirements: python scripts/gen_requirements.py")
+    print("  5. Run: hatch run pytest tests/test_recipes.py tests/test_example_discovery.py -q")
     return 0
 
 

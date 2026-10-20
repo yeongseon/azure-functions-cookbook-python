@@ -160,12 +160,18 @@ Use the `new-recipe` target to generate a ready-to-run flat example that
 already passes the auto-discovery and `recipe.yaml` metadata guards:
 
 ```bash
-make new-recipe CAT=apis-and-ingress NAME=my_recipe
+make new-recipe CAT=apis-and-ingress NAME=my_recipe DIFFICULTY=Beginner
 ```
+
+`DIFFICULTY` must be one of `Beginner`, `Intermediate`, or `Advanced` — the
+README recipe table requires every recipe to declare one.
 
 This creates `examples/<CAT>/<NAME>/` with `function_app.py`, `README.md`,
 `recipe.yaml`, `host.json`, `local.settings.json.example`, and `pyproject.toml`.
-Then implement the trigger logic and refine the description before committing.
+The generated `recipe.yaml` has no `docs_url` yet, since no matching
+`docs/patterns/<CAT>/<slug>.md` page exists; add one only after writing that
+page. Then implement the trigger logic and refine the description before
+committing.
 
 
 ## Title Convention
