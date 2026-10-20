@@ -18,10 +18,12 @@ def extract_name(
 
     if "application/json" in content_type:
         try:
-            payload: dict[str, Any] = json.loads(body)
-            return str(payload.get("name", "")).strip() or None
+            payload: Any = json.loads(body)
         except (json.JSONDecodeError, UnicodeDecodeError):
             return None
+        if not isinstance(payload, dict):
+            return None
+        return str(payload.get("name", "")).strip() or None
 
     return None
 

@@ -9,5 +9,8 @@ def build_payload(req: func.HttpRequest) -> dict[str, str]:
     except ValueError:
         body = {}
 
+    if not isinstance(body, dict):
+        body = {}
+
     task = str(body.get("task", "demo-task")).strip() or "demo-task"
     return {"task": task, "source": "recipe"}

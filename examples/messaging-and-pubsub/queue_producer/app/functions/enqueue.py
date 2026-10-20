@@ -28,6 +28,12 @@ def enqueue_task(req: func.HttpRequest, msg: func.Out[str]) -> func.HttpResponse
             status_code=400,
         )
 
+    if not isinstance(payload, dict):
+        return _json_response(
+            {"error": "Request body must be a JSON object."},
+            status_code=400,
+        )
+
     is_valid, error_message = validate_payload(payload)
     if not is_valid:
         return _json_response({"error": error_message}, status_code=400)

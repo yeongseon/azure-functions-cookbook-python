@@ -46,6 +46,9 @@ def _parse_order_payload(req: func.HttpRequest) -> dict[str, Any]:
     except ValueError as exc:
         raise ValueError("Request body must be valid JSON.") from exc
 
+    if not isinstance(payload, dict):
+        raise ValueError("Request body must be a JSON object.")
+
     order_id = str(payload.get("id", "")).strip()
     customer_id = str(payload.get("customer_id", "")).strip()
     amount_raw = payload.get("amount")

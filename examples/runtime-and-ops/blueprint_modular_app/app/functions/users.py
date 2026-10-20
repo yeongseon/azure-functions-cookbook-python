@@ -41,6 +41,13 @@ def create_user_route(req: func.HttpRequest) -> func.HttpResponse:
             status_code=400,
         )
 
+    if not isinstance(payload, dict):
+        return func.HttpResponse(
+            body='{"error": "request body must be a JSON object"}',
+            mimetype="application/json",
+            status_code=400,
+        )
+
     user_id = str(payload.get("id", "")).strip()
     name = str(payload.get("name", "")).strip()
     if not user_id or not name:
