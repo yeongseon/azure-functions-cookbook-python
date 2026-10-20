@@ -67,7 +67,7 @@ def _maybe_probe_upstream(session: Any) -> dict[str, Any]:
     return {"enabled": True, "statusCode": response.status_code, "url": upstream_url}
 
 
-@app.warm_up_trigger("warmup")
+@app.warm_up_trigger("warmup_context")
 def warmup(warmup_context: object) -> None:
     _ = warmup_context
     metrics = _preload_dependencies()

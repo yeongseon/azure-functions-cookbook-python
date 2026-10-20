@@ -82,7 +82,7 @@ The warmup trigger preloads the same dependency chain used by the HTTP trigger s
 receiving user traffic.
 
 ```python
-@app.warm_up_trigger("warmup")
+@app.warm_up_trigger("warmup_context")
 def warmup(warmup_context) -> None:
     _ = warmup_context
     _lazy_import_requests()
