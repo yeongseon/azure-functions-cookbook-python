@@ -16,6 +16,7 @@ import sys
 import tempfile
 import time
 from types import ModuleType
+from typing import Any
 
 import pytest
 
@@ -55,7 +56,8 @@ def _allocate_port() -> int:
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
         s.bind(("", 0))
         s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-        return s.getsockname()[1]
+        _, port = s.getsockname()
+        return int(port)
 
 
 # ---------------------------------------------------------------------------
@@ -110,6 +112,31 @@ def _remove_local_settings(example_dir: Path) -> None:
     settings_path = example_dir / "local.settings.json"
     if settings_path.exists():
         settings_path.unlink()
+
+
+def _backup_local_settings(example_dir: Path) -> bytes | None:
+    """Return the current ``local.settings.json`` bytes, or ``None`` if the
+    file does not exist. Called before the fixture writes its own copy, so
+    a developer's pre-existing recipe configuration can be restored on
+    every exit path instead of being silently overwritten and deleted
+    (#366)."""
+    settings_path = example_dir / "local.settings.json"
+    if settings_path.exists():
+        return settings_path.read_bytes()
+    return None
+
+
+def _restore_local_settings(example_dir: Path, original: bytes | None) -> None:
+    """Restore ``local.settings.json`` to the state captured by
+    :func:`_backup_local_settings`: write the original bytes back if a
+    pre-existing file was backed up, or remove the fixture-generated file
+    if none existed originally."""
+    settings_path = example_dir / "local.settings.json"
+    if original is None:
+        if settings_path.exists():
+            settings_path.unlink()
+    else:
+        settings_path.write_bytes(original)
 
 
 # ---------------------------------------------------------------------------
@@ -188,45 +215,51 @@ def run_func_host(
     if not example_dir.is_dir():
         pytest.fail(f"Example directory does not exist: {example_dir}")
 
-    _write_local_settings(example_dir, extra_values=env_vars)
-
-    env = os.environ.copy()
-    env["AzureWebJobsStorage"] = "UseDevelopmentStorage=true"
-    env["FUNCTIONS_WORKER_RUNTIME"] = "python"
-    if env_vars:
-        env.update(env_vars)
-
-    proc = subprocess.Popen(
-        ["func", "start", "--port", str(port)],
-        cwd=str(example_dir),
-        env=env,
-        stdout=subprocess.PIPE,
-        stderr=subprocess.STDOUT,
-        preexec_fn=os.setsid,
-    )
-
+    # Capture any pre-existing local.settings.json before this fixture
+    # writes its own copy, so it can be restored on every exit path --
+    # including a process-launch exception -- rather than overwritten and
+    # then deleted (#366).
+    original_settings = _backup_local_settings(example_dir)
     try:
-        wait_for_port(port, timeout=timeout)
-    except TimeoutError:
-        # Capture output for debugging
-        stdout_data = b""
-        try:
-            stdout_data, _ = proc.communicate(timeout=3)
-        except subprocess.TimeoutExpired:
-            _kill_process_group(proc)
-        _remove_local_settings(example_dir)
-        output = stdout_data.decode(errors="replace")[-2000:]
-        pytest.fail(
-            f"func host for {example_path} failed to start on port {port} "
-            f"within {timeout}s.\nOutput tail:\n{output}"
+        _write_local_settings(example_dir, extra_values=env_vars)
+
+        env = os.environ.copy()
+        env["AzureWebJobsStorage"] = "UseDevelopmentStorage=true"
+        env["FUNCTIONS_WORKER_RUNTIME"] = "python"
+        if env_vars:
+            env.update(env_vars)
+
+        proc = subprocess.Popen(
+            ["func", "start", "--port", str(port)],
+            cwd=str(example_dir),
+            env=env,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.STDOUT,
+            preexec_fn=os.setsid,
         )
 
-    base_url = f"http://127.0.0.1:{port}"
-    try:
-        yield base_url
+        try:
+            wait_for_port(port, timeout=timeout)
+        except TimeoutError:
+            # Capture output for debugging
+            stdout_data = b""
+            try:
+                stdout_data, _ = proc.communicate(timeout=3)
+            except subprocess.TimeoutExpired:
+                _kill_process_group(proc)
+            output = stdout_data.decode(errors="replace")[-2000:]
+            pytest.fail(
+                f"func host for {example_path} failed to start on port {port} "
+                f"within {timeout}s.\nOutput tail:\n{output}"
+            )
+
+        base_url = f"http://127.0.0.1:{port}"
+        try:
+            yield base_url
+        finally:
+            _kill_process_group(proc)
     finally:
-        _kill_process_group(proc)
-        _remove_local_settings(example_dir)
+        _restore_local_settings(example_dir, original_settings)
 
 
 def ensure_azurite_queue(queue_name: str) -> None:
@@ -260,7 +293,7 @@ def poll_durable_status(
     status_url: str,
     timeout: int = 60,
     poll_interval: float = 2.0,
-) -> dict:
+) -> dict[str, Any]:
     """Poll a Durable Functions status URL until terminal state or timeout.
 
     Returns the final status payload dict.
@@ -271,7 +304,7 @@ def poll_durable_status(
     while time.monotonic() < deadline:
         resp = requests.get(status_url, timeout=10)
         if resp.status_code == 200:
-            data = resp.json()
+            data: dict[str, Any] = resp.json()
             runtime_status = data.get("runtimeStatus", "")
             if runtime_status in ("Completed", "Failed", "Terminated", "Canceled"):
                 return data
