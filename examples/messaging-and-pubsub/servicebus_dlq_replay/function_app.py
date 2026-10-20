@@ -284,7 +284,14 @@ app = app_factory(http_auth_level=auth_level.FUNCTION)
 def _application_properties_dict(properties: Mapping[object, object] | None) -> dict[str, object]:
     normalized: dict[str, object] = {}
     for key, value in (properties or {}).items():
-        normalized[str(key)] = value
+        # Received AMQP application-property keys can arrive as bytes.
+        # str(key) on a bytes object produces its Python repr (e.g.
+        # "b'region'"), silently renaming the property instead of
+        # preserving its identity; decode bytes keys instead.
+        if isinstance(key, bytes):
+            normalized[key.decode("utf-8")] = value
+        else:
+            normalized[str(key)] = value
     return normalized
 
 

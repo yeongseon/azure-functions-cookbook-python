@@ -34,6 +34,7 @@ dev = [
     "azure-functions-openapi>=0.30.0,<1",
     "azure-functions-validation>=0.16.0,<1",
     "azure-identity>=1.25,<2",
+    "azure-servicebus>=7.15,<8",
     "azure-storage-blob>=12.30,<13",
     "azure-storage-queue>=12.17,<13",
     "azurefunctions-extensions-base>=1.0,<2",
