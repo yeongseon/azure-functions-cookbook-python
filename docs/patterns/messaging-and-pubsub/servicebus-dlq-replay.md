@@ -3,12 +3,13 @@
 > **Trigger**: Service Bus (DLQ) | **State**: stateless | **Guarantee**: at-least-once | **Difficulty**: intermediate
 
 ## Overview
-The `examples/messaging-and-pubsub/servicebus_dlq_replay/` recipe monitors dead-letter queue messages,
+The `examples/messaging-and-pubsub/servicebus_dlq_replay/` recipe inspects dead-letter queue messages,
 captures failure context, and replays repaired messages back to the main queue. Use it when operators need
 to inspect why messages failed, fix the underlying issue, and safely return those messages to normal processing.
 
-This recipe combines a DLQ-triggered logging function with an HTTP replay endpoint powered by the Service Bus SDK.
-That split keeps inspection lightweight while giving operators an explicit replay action.
+This recipe combines an HTTP-triggered, non-consuming inspect endpoint with an HTTP replay endpoint, both
+powered by the Service Bus SDK. Inspection uses `peek_messages`, which never settles (completes or abandons)
+a message, so a previewed message remains available to the replay endpoint afterward.
 
 ## When to Use
 - You need operational visibility into messages that exceeded max delivery attempts.
@@ -24,9 +25,9 @@ That split keeps inspection lightweight while giving operators an explicit repla
 ```mermaid
 flowchart LR
     main[Main Queue] -->|processing fails repeatedly| dlq[Dead-Letter Queue]
-    dlq --> handler[DLQ Handler Function]
-    handler --> inspect[Inspect and log failure metadata]
-    inspect --> replay[HTTP replay endpoint]
+    inspect[HTTP Inspect Endpoint] -->|peek, non-consuming| dlq
+    inspect --> log[Log failure metadata]
+    log --> replay[HTTP Replay Endpoint]
     replay --> send[Replay to main queue]
     send --> main
 ```
@@ -37,44 +38,50 @@ sequenceDiagram
     participant Worker as Main Queue Consumer
     participant Queue as Main Queue
     participant DLQ as Dead-Letter Queue
-    participant Function as DLQ Handler Function
-    participant Replay as Timer/HTTP Replay Trigger
+    participant Inspect as HTTP Inspect Endpoint
+    participant Replay as HTTP Replay Endpoint
 
     Queue->>Worker: Deliver message
     Worker-->>Queue: Processing fails repeatedly
     Queue->>DLQ: Move message to dead-letter queue
-    DLQ->>Function: Trigger on dead-lettered message
-    Function->>Function: Read body + dead-letter reason
-    Function->>Replay: Operator reviews logs and invokes replay
+    Inspect->>DLQ: Peek messages (non-consuming)
+    Inspect->>Inspect: Log body + dead-letter reason
+    Inspect->>Replay: Operator reviews logs and invokes replay
     Replay->>DLQ: Receive messages from DLQ
     Replay->>Queue: Send repaired messages back to main queue
+    Replay->>DLQ: Complete DLQ copies only after a successful send
 ```
 
 ## Implementation
 The example has two entry points:
 
-1. `log_dead_lettered_message` uses `@app.service_bus_queue_trigger` bound to `orders/$DeadLetterQueue`.
-   It logs `message_id`, `correlation_id`, `delivery_count`, `dead_letter_reason`, and a safe body preview.
+1. `inspect_dead_letter_queue` is an HTTP-triggered function (`GET /api/servicebus/dlq/inspect`) that uses
+   `receiver.peek_messages()` to preview `message_id`, `correlation_id`, `delivery_count`, `dead_letter_reason`,
+   and a safe body preview -- without removing anything from the Dead-Letter sub-queue. A DLQ-bound *trigger*
+   cannot do this: a trigger handler that returns successfully is auto-completed under the host's default
+   `autoCompleteMessages=true`, permanently discarding the message before an operator could replay it.
 2. `replay_dead_letter_queue` is an HTTP-triggered function that connects through `azure-servicebus`, reads a
-   small DLQ batch, publishes cloned messages back to the main queue, and completes the DLQ copies.
+   small DLQ batch, publishes cloned messages back to the main queue, and completes the DLQ copies -- only
+   after each send succeeds, so a failed publish leaves its message replayable.
 
 `azure_functions_logging` keeps logs structured so failures and replay decisions are easy to query.
 
 ```python
-@app.service_bus_queue_trigger(
-    arg_name="msg",
-    queue_name=f"{QUEUE_NAME}/$DeadLetterQueue",
-    connection="ServiceBusConnection",
-)
-def log_dead_lettered_message(msg: func.ServiceBusMessage) -> None:
-    logger.warning(
-        "Dead-lettered Service Bus message detected",
-        extra={
-            "message_id": getattr(msg, "message_id", None),
-            "dead_letter_reason": getattr(msg, "dead_letter_reason", None),
-            "delivery_count": int(getattr(msg, "delivery_count", 1)),
-        },
-    )
+@app.route(route="servicebus/dlq/inspect", methods=["GET"])
+def inspect_dead_letter_queue(req: func.HttpRequest) -> func.HttpResponse:
+    with client.get_queue_receiver(
+        queue_name=QUEUE_NAME,
+        sub_queue=ServiceBusSubQueue.DEAD_LETTER,
+    ) as receiver:
+        for message in receiver.peek_messages(max_message_count=batch_size):
+            logger.warning(
+                "Dead-lettered Service Bus message detected",
+                extra={
+                    "message_id": getattr(message, "message_id", None),
+                    "dead_letter_reason": getattr(message, "dead_letter_reason", None),
+                    "delivery_count": int(getattr(message, "delivery_count", 1)),
+                },
+            )
 ```
 
 Replay uses the SDK because output bindings are not a good fit for iterating over and completing DLQ messages.
@@ -114,6 +121,12 @@ source .venv/bin/activate
 pip install -e ".[dev]"
 cp local.settings.json.example local.settings.json
 func start
+```
+
+Inspect dead-lettered messages without removing them:
+
+```bash
+curl "http://localhost:7071/api/servicebus/dlq/inspect?code=<function-key>&limit=5"
 ```
 
 Replay a batch:

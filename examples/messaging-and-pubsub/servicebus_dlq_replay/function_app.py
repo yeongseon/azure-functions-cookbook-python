@@ -42,22 +42,14 @@ class AuthLevelProtocol(Protocol):
     FUNCTION: object
 
 
-class ServiceBusTriggerMessageProtocol(Protocol):
-    message_id: str | None
-    correlation_id: str | None
-    delivery_count: int | None
-    dead_letter_reason: str | None
-    dead_letter_error_description: str | None
-
-    def get_body(self) -> bytes: ...
-
-
 class ServiceBusReceivedMessageProtocol(Protocol):
     body: bytes | str | Iterable[object]
     application_properties: Mapping[object, object] | None
     content_type: str | None
     correlation_id: str | None
     dead_letter_reason: str | None
+    dead_letter_error_description: str | None
+    delivery_count: int | None
     message_id: str | None
     partition_key: str | None
     reply_to: str | None
@@ -85,6 +77,10 @@ class ServiceBusReceiverProtocol(Protocol):
         self, *, max_message_count: int, max_wait_time: int
     ) -> list[ServiceBusReceivedMessageProtocol]: ...
 
+    def peek_messages(
+        self, *, max_message_count: int
+    ) -> list[ServiceBusReceivedMessageProtocol]: ...
+
     def complete_message(self, message: ServiceBusReceivedMessageProtocol) -> None: ...
 
 
@@ -108,10 +104,6 @@ class ServiceBusClientProtocol(Protocol):
 
 
 class FunctionAppProtocol(Protocol):
-    def service_bus_queue_trigger(
-        self, *, arg_name: str, queue_name: str, connection: str
-    ) -> Callable[[F], F]: ...
-
     def route(self, *, route: str, methods: list[str]) -> Callable[[F], F]: ...
 
 
@@ -180,6 +172,10 @@ class _FallbackReceiver:
         _ = (max_message_count, max_wait_time)
         return []
 
+    def peek_messages(self, *, max_message_count: int) -> list[ServiceBusReceivedMessageProtocol]:
+        _ = max_message_count
+        return []
+
     def complete_message(self, message: ServiceBusReceivedMessageProtocol) -> None:
         _ = message
 
@@ -214,12 +210,6 @@ class _FallbackServiceBusClient:
 class _FallbackFunctionApp:
     def __init__(self, *, http_auth_level: object) -> None:
         _ = http_auth_level
-
-    def service_bus_queue_trigger(
-        self, *, arg_name: str, queue_name: str, connection: str
-    ) -> Callable[[F], F]:
-        _ = (arg_name, queue_name, connection)
-        return _passthrough
 
     def route(self, *, route: str, methods: list[str]) -> Callable[[F], F]:
         _ = (route, methods)
@@ -321,20 +311,17 @@ def _message_body_bytes(message: ServiceBusReceivedMessageProtocol) -> bytes:
     return b"".join(chunks)
 
 
-def _log_dead_letter_message(msg: ServiceBusTriggerMessageProtocol) -> None:
-    raw_body = msg.get_body().decode("utf-8", errors="replace")
-    logger.warning(
-        "Dead-lettered Service Bus message detected",
-        extra={
-            "queue_name": QUEUE_NAME,
-            "message_id": getattr(msg, "message_id", None),
-            "correlation_id": getattr(msg, "correlation_id", None),
-            "delivery_count": int(getattr(msg, "delivery_count", 1)),
-            "dead_letter_reason": getattr(msg, "dead_letter_reason", None),
-            "dead_letter_error_description": getattr(msg, "dead_letter_error_description", None),
-            "body_preview": raw_body[:512],
-        },
-    )
+def _dead_letter_preview(message: ServiceBusReceivedMessageProtocol) -> dict[str, object]:
+    raw_body = _message_body_bytes(message).decode("utf-8", errors="replace")
+    return {
+        "queue_name": QUEUE_NAME,
+        "message_id": getattr(message, "message_id", None),
+        "correlation_id": getattr(message, "correlation_id", None),
+        "delivery_count": int(getattr(message, "delivery_count", 1) or 1),
+        "dead_letter_reason": getattr(message, "dead_letter_reason", None),
+        "dead_letter_error_description": getattr(message, "dead_letter_error_description", None),
+        "body_preview": raw_body[:512],
+    }
 
 
 def _resolve_batch_size(req: HttpRequestProtocol) -> int:
@@ -390,13 +377,78 @@ def _build_replay_message(message: ServiceBusReceivedMessageProtocol) -> tuple[o
     return replay_message, replay_message_id
 
 
-@app.service_bus_queue_trigger(
-    arg_name="msg",
-    queue_name=f"{QUEUE_NAME}/$DeadLetterQueue",
-    connection=SERVICE_BUS_CONNECTION_SETTING,
-)
-def log_dead_lettered_message(msg: ServiceBusTriggerMessageProtocol) -> None:
-    _log_dead_letter_message(msg)
+@app.route(route="servicebus/dlq/inspect", methods=["GET"])
+def inspect_dead_letter_queue(req: HttpRequestProtocol) -> HttpResponseProtocol:
+    """Preview dead-lettered messages without consuming them.
+
+    Uses the SDK's non-destructive peek operation instead of a DLQ-bound
+    trigger: a trigger handler that returns successfully is auto-completed
+    under the host's default ``autoCompleteMessages=true``, permanently
+    removing the message before an operator can inspect and replay it
+    (#376). Peek never settles (completes/abandons) a message, so it
+    remains available to ``replay_dead_letter_queue`` afterward.
+    """
+    batch_size = _resolve_batch_size(req)
+    previews: list[dict[str, object]] = []
+
+    try:
+        client = ServiceBusClient.from_connection_string(
+            conn_str=os.environ[SERVICE_BUS_CONNECTION_SETTING]
+        )
+    except KeyError:
+        logger.error(
+            "Missing Service Bus connection setting",
+            extra={"setting": SERVICE_BUS_CONNECTION_SETTING},
+        )
+        return http_response(
+            body=json.dumps({"error": f"Missing app setting: {SERVICE_BUS_CONNECTION_SETTING}"}),
+            status_code=HTTPStatus.INTERNAL_SERVER_ERROR,
+            mimetype="application/json",
+        )
+
+    try:
+        with client:
+            receiver = client.get_queue_receiver(
+                queue_name=QUEUE_NAME,
+                sub_queue=ServiceBusSubQueue.DEAD_LETTER,
+                max_wait_time=5,
+            )
+
+            with receiver:
+                messages = receiver.peek_messages(max_message_count=batch_size)
+
+                for message in messages:
+                    preview = _dead_letter_preview(message)
+                    previews.append(preview)
+                    logger.warning("Dead-lettered Service Bus message detected", extra=preview)
+    except ServiceBusError as exc:
+        logger.exception(
+            "Failed to peek Service Bus DLQ messages",
+            extra={"queue_name": QUEUE_NAME, "requested_batch_size": batch_size},
+        )
+        return http_response(
+            body=json.dumps(
+                {
+                    "error": "Failed to inspect DLQ messages",
+                    "details": str(exc),
+                }
+            ),
+            status_code=HTTPStatus.BAD_GATEWAY,
+            mimetype="application/json",
+        )
+
+    return http_response(
+        body=json.dumps(
+            {
+                "queue_name": QUEUE_NAME,
+                "requested_batch_size": batch_size,
+                "previewed_count": len(previews),
+                "messages": previews,
+            }
+        ),
+        status_code=HTTPStatus.OK,
+        mimetype="application/json",
+    )
 
 
 @app.route(route="servicebus/dlq/replay", methods=["POST"])

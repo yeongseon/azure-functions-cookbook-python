@@ -23,7 +23,7 @@ Copy `local.settings.json.example` to `local.settings.json` and update the value
 
 ## What It Demonstrates
 
-- Service Bus dead-letter queue trigger bound to `orders/$DeadLetterQueue`
+- Non-consuming dead-letter inspection via the Service Bus SDK's `peek_messages` (does not remove messages)
 - Structured logging for dead-letter reason, delivery count, and message metadata
 - HTTP-triggered replay flow using the Azure Service Bus SDK
 
@@ -38,6 +38,12 @@ cp local.settings.json.example local.settings.json
 func start
 ```
 
+## Inspect Messages
+
+```bash
+curl "http://localhost:7071/api/servicebus/dlq/inspect?code=<function-key>&limit=5"
+```
+
 ## Replay Messages
 
 ```bash
@@ -46,5 +52,5 @@ curl -X POST "http://localhost:7071/api/servicebus/dlq/replay?code=<function-key
 
 ## Expected Output
 
-- DLQ messages are logged with `dead_letter_reason`, `delivery_count`, and `message_id`.
+- `GET /api/servicebus/dlq/inspect` logs and returns a preview of dead-lettered messages (`dead_letter_reason`, `delivery_count`, `message_id`) without removing them from the queue.
 - `POST /api/servicebus/dlq/replay` returns the number of replayed messages and their new replay message IDs.
