@@ -248,6 +248,9 @@ AI 예제는 자격 증명 없이 실행되도록 로컬 폴백 스텁을 제공
 [Personal LangGraph Agent](docs/patterns/ai-and-agents/personal-langgraph-agent.md)를 참조하세요.
 명시적 가짜 모드는 자격 증명이 필요 없으며, 실제 모드는 폴백하지 않고 명확하게 실패합니다.
 
+[MCP 레시피](examples/ai-and-agents/mcp_server_example/)는 `initialize` 이후의
+`notifications/initialized`를 수락하고 본문이 없는 HTTP 202를 반환합니다.
+
 ### Test tiers
 
 테스트는 pytest 마커로 분리되어 있어 기본적으로 빠른 계층을 실행하고

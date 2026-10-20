@@ -17,6 +17,7 @@ shows how to implement the MCP surface directly in `function_app.py` with no ext
 ## What This Example Implements
 
 - `initialize`: protocol handshake and server capabilities
+- `notifications/initialized`: completes initialization with HTTP 202 and an empty body
 - `tools/list`: returns available tools and JSON schemas
 - `tools/call`: invokes a named tool with provided arguments
 
@@ -63,7 +64,19 @@ curl -s -X POST "http://localhost:7071/api/mcp?code=<FUNCTION_KEY>" \
   }'
 ```
 
-### 2) List tools
+### 2) Confirm initialization
+
+After `initialize` succeeds, send the notification without an `id`. The server
+acknowledges it with HTTP 202 and no JSON-RPC response body.
+
+```bash
+curl -i -X POST "http://localhost:7071/api/mcp?code=<FUNCTION_KEY>" \
+  -H "Content-Type: application/json" \
+  -H "Accept: application/json, text/event-stream" \
+  -d '{"jsonrpc": "2.0", "method": "notifications/initialized"}'
+```
+
+### 3) List tools
 
 ```bash
 curl -s -X POST "http://localhost:7071/api/mcp?code=<FUNCTION_KEY>" \
@@ -76,7 +89,7 @@ curl -s -X POST "http://localhost:7071/api/mcp?code=<FUNCTION_KEY>" \
   }'
 ```
 
-### 3) Call a tool
+### 4) Call a tool
 
 ```bash
 curl -s -X POST "http://localhost:7071/api/mcp?code=<FUNCTION_KEY>" \

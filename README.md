@@ -252,6 +252,9 @@ For a cumulative model → tool → model walkthrough with per-thread memory and
 Blob persistence, see [Personal LangGraph Agent](docs/patterns/ai-and-agents/personal-langgraph-agent.md).
 Its explicit fake mode is credential-free; real mode fails clearly instead of falling back.
 
+The [MCP recipe](examples/ai-and-agents/mcp_server_example/) accepts
+`notifications/initialized` after `initialize` with HTTP 202 and an empty body.
+
 ### Test tiers
 
 Tests are separated by pytest marker so you can run the fast tier by default and

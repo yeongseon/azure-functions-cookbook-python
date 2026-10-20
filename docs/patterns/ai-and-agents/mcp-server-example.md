@@ -8,6 +8,12 @@ Functions HTTP trigger.
 The endpoint speaks JSON-RPC 2.0 and implements MCP-style methods for initialization,
 tool discovery, and tool execution.
 
+After `initialize`, clients send `notifications/initialized` without an `id`.
+The endpoint acknowledges this notification with HTTP 202 and an empty body,
+as required by the [MCP 2025-03-26 HTTP transport](https://modelcontextprotocol.io/specification/2025-03-26/basic/transports#sending-messages-to-the-server).
+Ordinary requests still receive JSON-RPC responses; malformed initialized
+notifications are rejected with HTTP 400.
+
 The example keeps protocol handling explicit in `function_app.py`.
 A tool registry defines metadata and input schemas, and a handler map dispatches
 `tools/call` requests to Python functions (`get_weather`, `calculate`).
@@ -26,7 +32,7 @@ A tool registry defines metadata and input schemas, and a handler map dispatches
 ```mermaid
 flowchart LR
     A[MCP client] -->|POST /api/mcp\nJSON-RPC 2.0| B[mcp_endpoint\nauth_level=FUNCTION]
-    B --> C[Method router\ninitialize\ntools/list\ntools/call]
+    B --> C[Method router\ninitialize\nnotifications/initialized\ntools/list\ntools/call]
     C --> D[Tool registry and handler map]
     D --> E[get_weather]
     D --> F[calculate]
@@ -87,19 +93,19 @@ def _handle_calculate(arguments: dict[str, Any]) -> str:
     ...
 ```
 
-The HTTP trigger routes by JSON-RPC method.
+The HTTP trigger preserves the service's distinction between JSON-RPC responses
+and acknowledgements that have no response body.
 
 ```python
 @app.route(route="mcp", methods=["POST"], auth_level=func.AuthLevel.FUNCTION)
 def mcp_endpoint(req: func.HttpRequest) -> func.HttpResponse:
     body = req.get_json()
-    method = body.get("method", "")
-    if method == "initialize":
-        result = {...}
-    elif method == "tools/list":
-        result = {"tools": tools_list}
-    elif method == "tools/call":
-        ...
+    response_body, status_code = handle_mcp_request(body)
+    if response_body is None:
+        return func.HttpResponse(status_code=status_code)
+    return func.HttpResponse(
+        json.dumps(response_body), mimetype="application/json", status_code=status_code
+    )
 ```
 
 JSON-RPC helper functions standardize response envelopes and errors.
@@ -124,12 +130,14 @@ sequenceDiagram
     Endpoint->>Router: Inspect method
     alt initialize or tools/list
         Router-->>Endpoint: Build protocol response
+    else notifications/initialized
+        Router-->>Endpoint: No JSON-RPC response envelope
     else tools/call
         Router->>Tool: Execute selected handler
         Tool-->>Router: Return tool result
         Router-->>Endpoint: Wrap JSON-RPC result
     end
-    Endpoint-->>Client: 200 JSON-RPC response
+    Endpoint-->>Client: 200 JSON-RPC response or empty 202 for initialized
 ```
 
 ## Run Locally
@@ -152,6 +160,8 @@ POST initialize -> 200
   }
 }
 
+POST notifications/initialized (no id) -> 202, empty body
+POST tools/list -> 200, available tools
 POST tools/call (calculate, expression="(2 + 3) * 4") -> result text "20"
 ```
 

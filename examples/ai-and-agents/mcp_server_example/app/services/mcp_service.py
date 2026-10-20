@@ -93,6 +93,11 @@ def handle_mcp_request(body: dict) -> tuple[dict[str, Any] | None, int]:
         # after initialize. Notifications carry no id and expect no JSON-RPC
         # response body -- returning None (rather than a dict) lets the HTTP
         # layer send a genuinely empty 202, distinct from an ordinary result.
+        # A malformed notification (wrong jsonrpc version, an id present, or
+        # non-object params) is not silently accepted: it still gets the
+        # ordinary JSON-RPC error envelope and a 400.
+        if body.get("jsonrpc") != "2.0" or "id" in body or not isinstance(params, dict):
+            return _json_rpc_error(request_id, -32600, "Invalid initialized notification"), 400
         return None, 202
 
     if method == "tools/list":

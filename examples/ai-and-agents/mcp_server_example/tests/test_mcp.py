@@ -1,3 +1,5 @@
+import pytest
+
 from app.services.mcp_service import handle_mcp_request
 
 
@@ -9,6 +11,56 @@ def test_initialize_returns_capabilities() -> None:
     assert status_code == 200
     assert response["result"]["protocolVersion"] == "2025-03-26"
     assert response["result"]["serverInfo"]["name"] == "azure-functions-mcp-example"
+
+
+@pytest.mark.parametrize("params", [None, {}, {"_meta": {"client": "example"}}])
+def test_initialized_notification_has_no_json_rpc_response(params: dict | None) -> None:
+    notification = {"jsonrpc": "2.0", "method": "notifications/initialized"}
+    if params is not None:
+        notification["params"] = params
+
+    response, status_code = handle_mcp_request(notification)
+
+    assert status_code == 202
+    assert response is None
+
+
+@pytest.mark.parametrize(
+    "invalid_fields",
+    [
+        {"id": 0},
+        {"id": ""},
+        {"id": None},
+        {"jsonrpc": "1.0"},
+        {"jsonrpc": None},
+        {"params": []},
+        {"params": None},
+    ],
+)
+def test_malformed_initialized_notification_is_not_acknowledged(invalid_fields: dict) -> None:
+    message = {"jsonrpc": "2.0", "method": "notifications/initialized", **invalid_fields}
+
+    response, status_code = handle_mcp_request(message)
+
+    assert status_code == 400
+    assert response["error"]["code"] == -32600
+    assert response["id"] == message.get("id")
+
+
+def test_initialized_notification_requires_json_rpc_version() -> None:
+    response, status_code = handle_mcp_request({"method": "notifications/initialized"})
+
+    assert status_code == 400
+    assert response["error"]["code"] == -32600
+
+
+def test_unsupported_notification_is_not_acknowledged() -> None:
+    response, status_code = handle_mcp_request(
+        {"jsonrpc": "2.0", "method": "notifications/unsupported"}
+    )
+
+    assert status_code == 404
+    assert response["error"]["code"] == -32601
 
 
 def test_tools_list_returns_registered_tools() -> None:

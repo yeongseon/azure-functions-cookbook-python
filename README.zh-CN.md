@@ -247,6 +247,9 @@ AI 示例附带本地回退桩，因此无需凭据即可运行 — 请参阅
 [Personal LangGraph Agent](docs/patterns/ai-and-agents/personal-langgraph-agent.md)。
 其显式假模型模式无需凭据；真实模式会清晰失败，而不会回退。
 
+[MCP 配方](examples/ai-and-agents/mcp_server_example/) 接受 `initialize` 之后的
+`notifications/initialized` 通知，并返回正文为空的 HTTP 202 响应。
+
 ### Test tiers
 
 测试按 pytest 标记分离，因此默认可运行快速层级，

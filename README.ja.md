@@ -248,6 +248,9 @@ AI の例は、資格情報なしで実行できるローカルフォールバ�
 [Personal LangGraph Agent](docs/patterns/ai-and-agents/personal-langgraph-agent.md) を参照してください。
 明示的なフェイクモードは資格情報不要で、実モードはフォールバックせず明確に失敗します。
 
+[MCP レシピ](examples/ai-and-agents/mcp_server_example/) は `initialize` の後の
+`notifications/initialized` を受け付け、本文のない HTTP 202 を返します。
+
 ### Test tiers
 
 テストは pytest マーカーで分離されているため、既定で高速なティアを実行し、
