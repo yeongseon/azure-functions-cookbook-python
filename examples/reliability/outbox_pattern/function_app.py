@@ -208,7 +208,13 @@ def create_order(req: func.HttpRequest) -> func.HttpResponse:
     lease_container_name="leases",
     create_lease_container_if_not_exists=True,
 )
-@db.output("dispatch_out", url="%DISPATCH_DB_URL%", table="outbox_dispatches")
+@db.output(
+    "dispatch_out",
+    url="%DISPATCH_DB_URL%",
+    table="outbox_dispatches",
+    action="upsert",
+    conflict_columns=["event_id"],
+)
 def relay_outbox_events(documents: func.DocumentList, dispatch_out: DbOut) -> None:
     if not documents:
         logger.info("No changed documents found in this change feed batch.")

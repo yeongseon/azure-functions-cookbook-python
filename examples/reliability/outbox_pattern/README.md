@@ -51,9 +51,17 @@ curl -X POST http://localhost:7071/api/outbox/orders \
 - the HTTP endpoint returns `202 Accepted` after the transactional batch succeeds
 - the change feed relay ignores `order` documents and relays only `outbox` documents
 - the relay writes an audit row into `outbox_dispatches` for each published event
+- redelivering an already-processed outbox event (the Cosmos DB change feed processor
+  delivers at-least-once) does not raise or duplicate its audit row -- the audit write
+  upserts on `event_id`, so a replayed batch keeps recording any genuinely new events
+  alongside the already-seen one
 
 ## Notes
 
 - Keep both documents in the same logical partition or the transactional batch will not be atomic.
 - The sample publishes to a logging-based broker boundary; replace that step with Service Bus or another broker in production.
+- The audit write is idempotent per `event_id`, but the broker handoff itself is **not** exactly-once:
+  the change feed's at-least-once delivery means `_publish_to_broker` can be called again for an
+  event whose audit row already exists. This recipe does not promise exactly-once publication --
+  only that redelivery cannot corrupt the audit trail with a permanent key conflict.
 - For Azure guidance, see [Transactional outbox](https://learn.microsoft.com/en-us/azure/architecture/best-practices/transactional-outbox-cosmos).
