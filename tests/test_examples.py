@@ -108,6 +108,46 @@ class TestHttpRoutingQueryBody:
         _result, status = svc.delete_user("1")
         assert status == 204
 
+    def test_automatic_id_after_deleting_lower_numbered_user_does_not_collide(self) -> None:
+        _load_example_module("apis-and-ingress/http_routing_query_body")
+        svc = _import_service(
+            "apis-and-ingress/http_routing_query_body", "app.services.user_service"
+        )
+        delete_result, delete_status = svc.delete_user("1")
+        assert delete_status == 204
+        assert delete_result == {}
+
+        created, created_status = svc.create_user({"name": "New User", "email": "new@example.com"})
+
+        # The issue's exact collision: deleting "1" must not make the next
+        # automatic id resolve to the still-occupied "2".
+        assert created_status == 201
+        assert created["id"] != "2"
+
+    def test_repeated_automatic_id_allocation_does_not_collide_across_cycles(self) -> None:
+        _load_example_module("apis-and-ingress/http_routing_query_body")
+        svc = _import_service(
+            "apis-and-ingress/http_routing_query_body", "app.services.user_service"
+        )
+        svc.delete_user("1")
+        first, first_status = svc.create_user({"name": "A", "email": "a@example.com"})
+        svc.delete_user(first["id"])
+        second, second_status = svc.create_user({"name": "B", "email": "b@example.com"})
+
+        assert first_status == 201
+        assert second_status == 201
+        assert first["id"] != second["id"]
+
+    def test_explicit_duplicate_id_still_returns_409(self) -> None:
+        _load_example_module("apis-and-ingress/http_routing_query_body")
+        svc = _import_service(
+            "apis-and-ingress/http_routing_query_body", "app.services.user_service"
+        )
+        _result, status = svc.create_user(
+            {"id": "2", "name": "Duplicate", "email": "dup@example.com"}
+        )
+        assert status == 409
+
 
 class TestHttpAuthLevels:
     """Smoke tests for examples/apis-and-ingress/http_auth_levels."""

@@ -10,6 +10,11 @@ USERS: dict[str, dict[str, str]] = {
     "2": {"id": "2", "name": "Grace Hopper", "email": "grace@example.com"},
 }
 
+# Tracks the next automatic id independently of len(USERS), so deleting a
+# lower-numbered user never causes a later automatic id to collide with one
+# still in use.
+_NEXT_AUTO_ID = len(USERS) + 1
+
 
 def _json_response(body: object, status_code: int = 200) -> func.HttpResponse:
     return func.HttpResponse(
@@ -36,13 +41,18 @@ def get_user_by_id(user_id: str) -> dict[str, str] | None:
 
 
 def create_user(payload: dict[str, Any]) -> tuple[dict[str, str], int]:
+    global _NEXT_AUTO_ID
     name = str(payload.get("name", "")).strip()
     email = str(payload.get("email", "")).strip()
     if not name or not email:
         return {"error": "Fields 'name' and 'email' are required."}, 400
 
     requested_id = str(payload.get("id", "")).strip()
-    user_id = requested_id or str(len(USERS) + 1)
+    if requested_id:
+        user_id = requested_id
+    else:
+        user_id = str(_NEXT_AUTO_ID)
+        _NEXT_AUTO_ID += 1
     if user_id in USERS:
         return {"error": f"User '{user_id}' already exists."}, 409
 
