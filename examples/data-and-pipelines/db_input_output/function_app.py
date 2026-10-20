@@ -72,10 +72,10 @@ if _db_available:
         tags=["items"],
     )
     @db.output("out", url="%DB_URL%", table="items")
-    @with_context(param="invocation_context")
+    @with_context
     @validate_http(body=ItemCreate, response_model=ItemResponse, status_code=201)
     def create_item(
-        req: func.HttpRequest, body: ItemCreate, out: DbOut, invocation_context: func.Context
+        req: func.HttpRequest, body: ItemCreate, out: DbOut, context: func.Context
     ) -> func.HttpResponse:
         item_id = str(uuid.uuid4())
         out.set({"id": item_id, **body.model_dump()})

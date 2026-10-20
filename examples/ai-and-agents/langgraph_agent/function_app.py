@@ -62,10 +62,10 @@ if graph:
     summary="Invoke LangGraph agent",
     tags=["agent"],
 )
-@with_context(param="invocation_context")
+@with_context
 @validate_http(body=InvokeRequest, response_model=InvokeResponse)
 def invoke_agent(
-    req: func.HttpRequest, body: InvokeRequest, invocation_context: func.Context
+    req: func.HttpRequest, body: InvokeRequest, context: func.Context
 ) -> func.HttpResponse:
     thread_id = body.thread_id or str(uuid.uuid4())
     logger.info("Invoking agent", extra={"thread_id": thread_id})

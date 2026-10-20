@@ -123,10 +123,10 @@ def _vector_search(query: str, top_k: int) -> list[SearchResult]:
     description="Creates an embedding with Azure OpenAI and runs a vector query in Azure AI Search.",
     tags=["ai"],
 )
-@with_context(param="invocation_context")
+@with_context
 @validate_http(body=VectorSearchRequest, response_model=VectorSearchResponse)
 def search(
-    req: func.HttpRequest, body: VectorSearchRequest, invocation_context: func.Context
+    req: func.HttpRequest, body: VectorSearchRequest, context: func.Context
 ) -> func.HttpResponse:
     del req
     results = _vector_search(body.query, body.top_k)

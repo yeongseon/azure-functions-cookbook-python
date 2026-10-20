@@ -64,10 +64,10 @@ def negotiate(req: func.HttpRequest, context: func.Context) -> func.HttpResponse
     route="/api/websocket/publish",
     method="post",
 )
-@with_context(param="invocation_context")
+@with_context
 @validate_http(body=PublishRequest)
 def publish(
-    req: func.HttpRequest, body: PublishRequest, invocation_context: func.Context
+    req: func.HttpRequest, body: PublishRequest, context: func.Context
 ) -> func.HttpResponse:
     client = _build_webpubsub_client()
     client.send_to_group(group=body.room, message=body.message, content_type="text/plain")

@@ -111,10 +111,10 @@ if graph is not None:
     summary="Invoke tool-use LangGraph agent",
     tags=["agent"],
 )
-@with_context(param="invocation_context")
+@with_context
 @validate_http(body=InvokeRequest, response_model=InvokeResponse)
 def invoke_tool_agent(
-    req: func.HttpRequest, body: InvokeRequest, invocation_context: func.Context
+    req: func.HttpRequest, body: InvokeRequest, context: func.Context
 ) -> func.HttpResponse:
     thread_id = body.thread_id or str(uuid.uuid4())
     tool_name, output = _select_tool(body.message)

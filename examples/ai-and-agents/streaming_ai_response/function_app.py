@@ -72,10 +72,10 @@ def _stream_frames(message: str, system_prompt: str) -> str:
     description="Returns SSE frames generated from Azure OpenAI streaming chat completions.",
     tags=["ai"],
 )
-@with_context(param="invocation_context")
+@with_context
 @validate_http(body=StreamRequest)
 def stream_chat(
-    req: func.HttpRequest, body: StreamRequest, invocation_context: func.Context
+    req: func.HttpRequest, body: StreamRequest, context: func.Context
 ) -> func.HttpResponse:
     del req
     payload = _stream_frames(body.message, body.system_prompt)

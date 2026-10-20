@@ -75,11 +75,9 @@ def _complete_chat(message: str, system_prompt: str) -> str:
     description="Sends a single user message to Azure OpenAI and returns the answer.",
     tags=["ai"],
 )
-@with_context(param="invocation_context")
+@with_context
 @validate_http(body=ChatRequest, response_model=ChatResponse)
-def chat(
-    req: func.HttpRequest, body: ChatRequest, invocation_context: func.Context
-) -> func.HttpResponse:
+def chat(req: func.HttpRequest, body: ChatRequest, context: func.Context) -> func.HttpResponse:
     del req
     answer = _complete_chat(body.message, body.system_prompt)
     deployment = os.getenv("AZURE_OPENAI_CHAT_DEPLOYMENT", "gpt-4o-mini")

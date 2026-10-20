@@ -47,10 +47,10 @@ class CatalogResponse(BaseModel):
     route="/api/catalog/{item_id}",
     method="get",
 )
-@with_context(param="invocation_context")
+@with_context
 @validate_http(path=CatalogPath, response_model=CatalogResponse)
 def get_catalog_item(
-    req: func.HttpRequest, path: CatalogPath, invocation_context: func.Context
+    req: func.HttpRequest, path: CatalogPath, context: func.Context
 ) -> CatalogResponse:
     response = CatalogResponse(
         item_id=path.item_id,

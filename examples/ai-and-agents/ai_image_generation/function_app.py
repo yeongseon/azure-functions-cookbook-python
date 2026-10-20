@@ -68,10 +68,10 @@ def _generate_image(prompt: str, size: str) -> ImageResponse:
     description="Calls Azure OpenAI image generation and returns the resulting image URL.",
     tags=["ai"],
 )
-@with_context(param="invocation_context")
+@with_context
 @validate_http(body=ImageRequest, response_model=ImageResponse)
 def generate_image(
-    req: func.HttpRequest, body: ImageRequest, invocation_context: func.Context
+    req: func.HttpRequest, body: ImageRequest, context: func.Context
 ) -> func.HttpResponse:
     del req
     response = _generate_image(body.prompt, body.size)

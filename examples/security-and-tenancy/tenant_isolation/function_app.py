@@ -90,13 +90,13 @@ def resolve_tenant_db_url(req: func.HttpRequest) -> str:
     tags=["security", "tenancy", "db"],
 )
 @db.inject_reader("reader", url=resolve_tenant_db_url, table="invoices")
-@with_context(param="invocation_context")
+@with_context
 @validate_http(body=TenantInvoiceQuery, response_model=TenantInvoiceListResponse)
 def query_tenant_invoices(
     req: func.HttpRequest,
     body: TenantInvoiceQuery,
     reader: DbReader,
-    invocation_context: func.Context,
+    context: func.Context,
 ) -> func.HttpResponse:
     try:
         tenant_id = resolve_tenant_id(req)
