@@ -49,12 +49,16 @@ def _get_partition_id(event: func.EventHubEvent) -> str:
 
     metadata = getattr(event, "metadata", None)
     if isinstance(metadata, dict):
-        for key in (
-            "partition_id",
-            "PartitionId",
-            "x-opt-partition-id",
-            "PartitionContext.PartitionId",
-        ):
+        # The documented Event Hubs trigger metadata nests the partition id
+        # under PartitionContext (metadata["PartitionContext"]["PartitionId"]);
+        # it is not a flattened "PartitionContext.PartitionId" key.
+        partition_context = metadata.get("PartitionContext")
+        if isinstance(partition_context, dict):
+            nested_partition_id = partition_context.get("PartitionId")
+            if nested_partition_id is not None:
+                return str(nested_partition_id)
+
+        for key in ("partition_id", "PartitionId", "x-opt-partition-id"):
             if key in metadata and metadata[key] is not None:
                 return str(metadata[key])
 
