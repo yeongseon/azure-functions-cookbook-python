@@ -23,8 +23,13 @@ def test_extract_bearer_token_empty_token() -> None:
 
 
 def test_extract_bearer_token_lowercase_bearer() -> None:
-    """Lowercase 'bearer' prefix should not be accepted (case-sensitive)."""
-    assert extract_bearer_token("bearer abc123") is None
+    """RFC 9110 section 11.1: the authentication scheme name is
+    case-insensitive, so a lowercase 'bearer' prefix is equally valid."""
+    assert extract_bearer_token("bearer abc123") == "abc123"
+
+
+def test_extract_bearer_token_mixed_case_bearer() -> None:
+    assert extract_bearer_token("bEaReR abc123") == "abc123"
 
 
 def test_has_claim_present() -> None:

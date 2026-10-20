@@ -23,9 +23,16 @@ def _json_response(body: object, status_code: int = 200) -> func.HttpResponse:
 
 def extract_bearer_token(auth_header: str | None) -> str | None:
     """Extract the token from an Authorization: Bearer <token> header."""
-    if not auth_header or not auth_header.startswith("Bearer "):
+    if not auth_header:
         return None
-    token = auth_header[7:].strip()
+    scheme, _, rest = auth_header.partition(" ")
+    # RFC 9110 section 11.1: the authentication scheme name is
+    # case-insensitive ("bearer", "Bearer", "BEARER" are equivalent).
+    # Only the scheme is compared case-insensitively; the token itself is
+    # preserved exactly.
+    if scheme.lower() != "bearer":
+        return None
+    token = rest.strip()
     return token if token else None
 
 
