@@ -120,7 +120,13 @@ def create_order(
     lease_container_name="leases",
     create_lease_container_if_not_exists=True,
 )
-@db.output("projection_out", url="%READ_DB_URL%", table="order_read_models")
+@db.output(
+    "projection_out",
+    url="%READ_DB_URL%",
+    table="order_read_models",
+    action="upsert",
+    conflict_columns=["id"],
+)
 def project_order_read_models(
     documents: func.DocumentList,
     projection_out: DbOut,
