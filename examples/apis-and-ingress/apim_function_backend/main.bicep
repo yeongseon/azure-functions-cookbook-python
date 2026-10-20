@@ -2,7 +2,7 @@
 param baseName string = 'apimfunctionbackend'
 param location string = resourceGroup().location
 
-var storageName = 'st${substring(toLower(uniqueString(resourceGroup().id, baseName)), 0, 22)}'
+var storageName = 'st${substring(toLower(uniqueString(resourceGroup().id, baseName)), 0, 13)}'
 
 resource storage 'Microsoft.Storage/storageAccounts@2023-01-01' = {
   name: storageName

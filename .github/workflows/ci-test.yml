@@ -101,6 +101,16 @@ jobs:
       - name: Type check (mypy)
         run: mypy src tests
 
+      - name: Install Bicep CLI
+        run: |
+          curl -Lo bicep https://github.com/Azure/bicep/releases/latest/download/bicep-linux-x64
+          chmod +x ./bicep
+          sudo mv ./bicep /usr/local/bin/bicep
+          bicep --version
+
+      - name: Compile every recipe main.bicep (#377)
+        run: python tools/compile_bicep_templates.py
+
   test:
     name: Test (Py ${{ matrix.python-version }}, ${{ matrix.resolution }} deps)
     needs: changes

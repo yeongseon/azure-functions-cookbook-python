@@ -2,7 +2,7 @@
 param baseName string = 'durableentitycounter'
 param location string = resourceGroup().location
 var uniqueSuffix = toLower(uniqueString(resourceGroup().id, baseName))
-var storageAccountName = 'st${substring(uniqueSuffix, 0, 22)}'
+var storageAccountName = 'st${substring(uniqueSuffix, 0, 13)}'
 var functionAppName = '${baseName}-${substring(uniqueSuffix, 0, 6)}'
 resource storage 'Microsoft.Storage/storageAccounts@2023-01-01' = {
   name: storageAccountName

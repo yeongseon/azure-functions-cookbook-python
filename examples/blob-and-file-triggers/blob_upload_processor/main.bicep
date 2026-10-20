@@ -43,8 +43,8 @@ resource functionApp 'Microsoft.Web/sites@2023-01-01' = {
   name: baseName
   location: location
   kind: 'functionapp,linux'
-  httpsOnly: true
   properties: {
+    httpsOnly: true
     serverFarmId: plan.id
     siteConfig: {
       linuxFxVersion: 'Python|3.11'

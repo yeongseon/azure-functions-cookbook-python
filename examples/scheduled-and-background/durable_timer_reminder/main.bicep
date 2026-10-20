@@ -3,7 +3,7 @@ param baseName string = 'durablereminder'
 param location string = resourceGroup().location
 
 var suffix = substring(toLower(uniqueString(resourceGroup().id, baseName)), 0, 6)
-var storageName = 'st${substring(toLower(uniqueString(baseName, resourceGroup().id)), 0, 22)}'
+var storageName = 'st${substring(toLower(uniqueString(baseName, resourceGroup().id)), 0, 13)}'
 var functionAppName = '${baseName}-${suffix}'
 
 resource storage 'Microsoft.Storage/storageAccounts@2023-01-01' = {

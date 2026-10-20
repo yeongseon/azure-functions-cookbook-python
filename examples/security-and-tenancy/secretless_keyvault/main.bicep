@@ -4,7 +4,7 @@ param baseName string = 'secretlesskeyvault'
 param location string = resourceGroup().location
 
 var uniqueSuffix = toLower(uniqueString(resourceGroup().id, baseName))
-var storageAccountName = 'st${substring(uniqueSuffix, 0, 22)}'
+var storageAccountName = 'st${substring(uniqueSuffix, 0, 13)}'
 var functionAppName = '${baseName}-${substring(uniqueSuffix, 0, 6)}'
 
 resource storage 'Microsoft.Storage/storageAccounts@2023-01-01' = {
@@ -53,7 +53,6 @@ resource functionApp 'Microsoft.Web/sites@2023-01-01' = {
   name: functionAppName
   location: location
   kind: 'functionapp,linux'
-  httpsOnly: true
   identity: {
     type: 'UserAssigned'
     userAssignedIdentities: {
@@ -61,6 +60,7 @@ resource functionApp 'Microsoft.Web/sites@2023-01-01' = {
     }
   }
   properties: {
+    httpsOnly: true
     serverFarmId: plan.id
     reserved: true
     siteConfig: {
