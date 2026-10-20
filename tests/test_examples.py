@@ -210,6 +210,25 @@ class TestWebhookGithub:
         finally:
             os.environ.pop("GITHUB_WEBHOOK_SECRET", None)
 
+    def test_non_ascii_signature_rejected_without_raising(self) -> None:
+        _load_example_module("apis-and-ingress/webhook_github")
+        fn = _import_function_module("apis-and-ingress/webhook_github", "app.functions.webhook")
+        os.environ["GITHUB_WEBHOOK_SECRET"] = "test-secret"
+        try:
+            req = func.HttpRequest(
+                method="POST",
+                url="/api/github/webhook",
+                body=b'{"action": "opened"}',
+                headers={
+                    "X-Hub-Signature-256": "sha256=\u00e9",
+                    "X-GitHub-Event": "push",
+                },
+            )
+            response = fn.github_webhook(req)
+            assert response.status_code == 401
+        finally:
+            os.environ.pop("GITHUB_WEBHOOK_SECRET", None)
+
     def test_valid_push_event(self) -> None:
         _load_example_module("apis-and-ingress/webhook_github")
         fn = _import_function_module("apis-and-ingress/webhook_github", "app.functions.webhook")
@@ -973,6 +992,15 @@ class TestScaffoldWalkthroughApp:
         assert svc.verify_signature(payload, f"sha256={digest}", secret) is True
         assert svc.verify_signature(payload, "sha256=invalid", secret) is False
         assert svc.verify_signature(payload, "no-prefix", secret) is False
+
+    def test_webhook_service_rejects_non_ascii_signature_without_raising(self) -> None:
+        _load_example_module("apis-and-ingress/scaffold_walkthrough_app")
+        svc = _import_service(
+            "apis-and-ingress/scaffold_walkthrough_app", "app.services.webhook_service"
+        )
+        secret = "test-secret"
+        payload = b'{"event": "test"}'
+        assert svc.verify_signature(payload, "sha256=\u00e9", secret) is False
 
 
 class TestOpenaiDirectChat:

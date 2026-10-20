@@ -28,10 +28,16 @@ def verify_signature(payload: bytes, signature: str, secret: str) -> bool:
     """
     if not signature.startswith("sha256="):
         return False
-    expected = hmac.new(
-        secret.encode(), payload, hashlib.sha256
-    ).hexdigest()
-    return hmac.compare_digest(signature.removeprefix("sha256="), expected)
+
+    # hmac.compare_digest's str overload only accepts ASCII; a malformed
+    # header (e.g. non-ASCII text after "sha256=") would otherwise raise
+    # TypeError instead of being treated as an ordinary invalid signature.
+    candidate_digest = signature.removeprefix("sha256=")
+    if len(candidate_digest) != hashlib.sha256().digest_size * 2 or not candidate_digest.isascii():
+        return False
+
+    expected = hmac.new(secret.encode(), payload, hashlib.sha256).hexdigest()
+    return hmac.compare_digest(candidate_digest, expected)
 
 
 class WebhookStore:
