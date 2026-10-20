@@ -3,7 +3,7 @@ from __future__ import annotations
 import csv
 import io
 import os
-from urllib.parse import urlparse
+from urllib.parse import quote, urlparse
 
 import azure.functions as func
 from azure_functions_logging import get_logger, setup_logging, with_context
@@ -44,7 +44,12 @@ def blob_csv_to_table(event: func.EventGridEvent, context: func.Context) -> None
 
     processed = 0
     for index, row in enumerate(reader, start=1):
-        entity = {"PartitionKey": blob_name.replace("/", "-"), "RowKey": str(index), **row}
+        # Table Storage forbids '/', '\\', '#', '?' in PartitionKey. Percent-
+        # encoding (not a naive '/' -> '-' replace) is injective: distinct
+        # blob names -- e.g. 'reports/2026.csv' and 'reports-2026.csv' --
+        # can no longer collide on the same PartitionKey and silently
+        # overwrite each other's rows (#373).
+        entity = {"PartitionKey": quote(blob_name, safe=""), "RowKey": str(index), **row}
         table_client.upsert_entity(entity=entity)
         processed += 1
 
