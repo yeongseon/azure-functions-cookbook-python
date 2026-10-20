@@ -43,6 +43,7 @@ dev = [
     "hatch>=1.17,<2",
     "langgraph>=1.0,<2",
     "mypy>=2.3,<3",
+    "opentelemetry-api>=1.27,<2",
     "pre-commit>=4.6,<5",
     "pydantic>=2.11,<3",
     "pytest>=9.1,<10",
