@@ -3,6 +3,12 @@ description: Report a bug in a recipe or example
 title: "fix: "
 labels: ["bug", "needs-triage"]
 body:
+  - type: markdown
+    attributes:
+      value: |
+        Describe this repository's problem, evidence, and completion criteria.
+        Explain why any external project or source is relevant to the work here.
+        See [Repository scope](https://github.com/yeongseon/azure-functions-cookbook-python/blob/main/AGENTS.md#repository-scope).
   - type: textarea
     id: description
     attributes:
