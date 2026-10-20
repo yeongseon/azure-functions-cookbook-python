@@ -23,7 +23,6 @@ resource plan 'Microsoft.Web/serverfarms@2023-01-01' = {
   location: location
   kind: 'linux'
   sku: { name: 'Y1', tier: 'Dynamic' }
-  properties: {}
   properties: {
     reserved: true
   }

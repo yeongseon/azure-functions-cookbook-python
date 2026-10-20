@@ -31,7 +31,6 @@ resource plan 'Microsoft.Web/serverfarms@2023-01-01' = {
     name: 'Y1'
     tier: 'Dynamic'
   }
-  properties: {}
   properties: {
     reserved: true
   }

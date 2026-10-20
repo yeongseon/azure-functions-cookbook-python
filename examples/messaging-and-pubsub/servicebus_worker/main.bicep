@@ -33,18 +33,21 @@ resource serviceBusAuth 'Microsoft.ServiceBus/namespaces/AuthorizationRules@2022
 resource plan 'Microsoft.Web/serverfarms@2023-01-01' = {
   name: '${baseName}-plan'
   location: location
-  kind: 'functionapp'
+  kind: 'linux'
   sku: { name: 'Y1', tier: 'Dynamic' }
+  properties: {
+    reserved: true
+  }
 }
 
 resource functionApp 'Microsoft.Web/sites@2023-01-01' = {
   name: functionAppName
   location: location
-  kind: 'functionapp'
+  kind: 'functionapp,linux'
   properties: {
     serverFarmId: plan.id
     siteConfig: {
-      pythonVersion: '3.11'
+      linuxFxVersion: 'Python|3.11'
       appSettings: [
         { name: 'FUNCTIONS_EXTENSION_VERSION', value: '~4' }
         { name: 'FUNCTIONS_WORKER_RUNTIME', value: 'python' }
