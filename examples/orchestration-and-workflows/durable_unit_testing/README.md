@@ -31,5 +31,5 @@ func start
 
 ```bash
 cd examples/orchestration-and-workflows/durable_unit_testing
-python -m pytest test_orchestrator.py
+python -m pytest tests/test_orchestrator.py
 ```

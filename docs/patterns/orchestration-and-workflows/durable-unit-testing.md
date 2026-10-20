@@ -63,7 +63,8 @@ sequenceDiagram
 ```text
 examples/orchestration-and-workflows/durable_unit_testing/
 |- function_app.py
-|- test_orchestrator.py
+|- tests/
+|  `- test_orchestrator.py
 |- host.json
 |- local.settings.json.example
 |- pyproject.toml
@@ -134,7 +135,7 @@ For runtime endpoint tests:
 POST /api/start-unit-test -> 202 Accepted
 
 For unit tests:
-python -m pytest test_orchestrator.py
+python -m pytest tests/test_orchestrator.py
 ================== 1 passed in ...s ==================
 ```
 
