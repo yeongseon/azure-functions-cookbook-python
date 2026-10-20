@@ -32,6 +32,15 @@ Recommended branch prefixes:
    git push origin feat/your-feature-name
    ```
 
+## Opening an Issue
+
+Before creating or editing an issue (through the forms, API, or CLI), see
+[AGENTS.md "Issue Conventions"](AGENTS.md#issue-conventions) — in particular the
+"Repository scope" subsection: ground the issue in verified evidence from this
+repository, search for duplicates, review every project name and link in the
+title and body, and fetch the saved issue afterward to verify its title, body,
+and labels.
+
 ## Local development quickstart
 
 Local development requires Python 3.11 through 3.14, as declared by
@@ -213,13 +222,13 @@ A breaking change adds `!` before the colon: `type!: description` or `type(scope
 Examples:
 
 ```text
-fix: decode nonempty NULL-only collection results
-feat(cli): add a JSON output option
+fix(blob-and-file-triggers): decode blob URL paths before constructing storage clients
+feat(recipe): add a Durable Functions fan-out/fan-in example
 docs(readme): clarify the local setup steps
 refactor!: rename the public configuration keys
 ```
 
-Not accepted: `[Bug] crash on save` (bracket prefix, no type), `Fix: crash on save` (uppercase type), `feature: add export` (type not in the table), `fix: crash on save.` (trailing period), `fix: decode results (#503)` (the pull request number belongs in the body).
+Not accepted: `[Bug] crash on save` (bracket prefix, no type), `Fix: crash on save` (uppercase type), `feature: add export` (type not in the table), `fix: crash on save.` (trailing period), `fix: decode blob paths (#503)` (the pull request number belongs in the body).
 
 Pull requests are squash-merged and the pull request title becomes the final commit title. GitHub appends the pull request number by itself, so `fix: decode nonempty NULL-only collection results` lands on `main` as `fix: decode nonempty NULL-only collection results (#503)`. Do not write that number into the title yourself — the check rejects a title ending in `(#123)`, because it would be doubled. Link the issue from the pull request body instead, for example `Closes #503`. The **PR title** check validates the format whenever a pull request is opened, edited, reopened, or updated. Individual commits on a branch are not checked.
 

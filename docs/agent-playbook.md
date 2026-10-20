@@ -18,6 +18,14 @@
 3. Keep tests and docs in lockstep for public behavior changes.
 4. Do not broaden supported Python versions or dependency ranges casually.
 
+## Issue Authoring
+- Before creating or editing an issue (forms, API, or CLI), follow
+  [AGENTS.md "Issue Conventions"](https://github.com/yeongseon/azure-functions-cookbook-python/blob/main/AGENTS.md#issue-conventions) —
+  ground it in verified evidence from this repository, search for duplicates, and review every
+  project name/link in the title and body for unrelated copied context.
+- After saving, fetch the issue again and verify the saved title, body, and labels before
+  reporting completion.
+
 ## Validation
 - `make test`
 - `make lint`
