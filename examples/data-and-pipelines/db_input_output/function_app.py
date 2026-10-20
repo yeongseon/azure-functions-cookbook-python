@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import json
 import uuid
 from typing import Any
 
@@ -59,10 +60,10 @@ if _db_available:
     def list_items(
         req: func.HttpRequest, reader: DbReader, context: func.Context
     ) -> func.HttpResponse:
-        rows = reader.fetch_all()
+        rows = reader.query("SELECT * FROM items", params={})
         logger.info("Listed items", extra={"count": len(rows)})
         return func.HttpResponse(
-            body=str([dict(r) for r in rows]),
+            body=json.dumps([dict(r) for r in rows]),
             mimetype="application/json",
         )
 

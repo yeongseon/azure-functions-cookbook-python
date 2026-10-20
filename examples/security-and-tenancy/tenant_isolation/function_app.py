@@ -7,7 +7,7 @@ import json
 import os
 
 import azure.functions as func
-from azure_functions_db import DbBindings, DbReader
+from azure_functions_db import DbReader
 from azure_functions_logging import get_logger, setup_logging, with_context
 from azure_functions_openapi import openapi
 from azure_functions_validation import validate_http
@@ -17,7 +17,6 @@ setup_logging(format="json")
 logger = get_logger(__name__)
 
 app = func.FunctionApp(http_auth_level=func.AuthLevel.FUNCTION)
-db = DbBindings()
 
 
 class TenantInvoiceQuery(BaseModel):
@@ -89,13 +88,11 @@ def resolve_tenant_db_url(req: func.HttpRequest) -> str:
     responses={400: None, 404: None},
     tags=["security", "tenancy", "db"],
 )
-@db.inject_reader("reader", url=resolve_tenant_db_url, table="invoices")
 @with_context
 @validate_http(body=TenantInvoiceQuery, response_model=TenantInvoiceListResponse)
 def query_tenant_invoices(
     req: func.HttpRequest,
     body: TenantInvoiceQuery,
-    reader: DbReader,
     context: func.Context,
 ) -> func.HttpResponse:
     try:
@@ -109,7 +106,7 @@ def query_tenant_invoices(
         )
 
     try:
-        rows = [dict(row) for row in reader.fetch_all()]
+        tenant_db_url = resolve_tenant_db_url(req)
     except ValueError as exc:
         logger.warning(
             "Rejected request for unmapped tenant",
@@ -120,6 +117,13 @@ def query_tenant_invoices(
             status_code=404,
             mimetype="application/json",
         )
+
+    # inject_reader's url contract is a fixed string resolved at decoration
+    # time (only %VAR% env-var substitution, no callable support), so it
+    # cannot carry a per-request tenant URL. DbReader is constructed here
+    # instead, after the tenant's own URL has already been resolved (#370).
+    with DbReader(url=tenant_db_url, table="invoices") as reader:
+        rows = reader.query("SELECT * FROM invoices", params={})
 
     filtered_rows = [
         row

@@ -158,8 +158,7 @@ def get_order_projection(
     req: func.HttpRequest, reader: DbReader, context: func.Context
 ) -> func.HttpResponse:
     order_id = req.route_params["id"]
-    rows = [dict(row) for row in reader.fetch_all()]
-    match = next((row for row in rows if str(row.get("id")) == order_id), None)
+    match = reader.get(pk={"id": order_id})
 
     if match is None:
         return func.HttpResponse("Not found", status_code=404)
