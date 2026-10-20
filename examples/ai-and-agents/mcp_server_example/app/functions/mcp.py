@@ -22,6 +22,9 @@ def mcp(req: func.HttpRequest) -> func.HttpResponse:
         )
 
     response_body, status_code = handle_mcp_request(body)
+    if response_body is None:
+        return func.HttpResponse(body=b"", status_code=status_code)
+
     return func.HttpResponse(
         json.dumps(response_body),
         mimetype="application/json",

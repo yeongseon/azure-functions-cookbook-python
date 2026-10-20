@@ -70,7 +70,7 @@ def _json_rpc_error(request_id: Any, code: int, message: str) -> dict[str, Any]:
     }
 
 
-def handle_mcp_request(body: dict) -> tuple[dict, int]:
+def handle_mcp_request(body: dict) -> tuple[dict[str, Any] | None, int]:
     request_id = body.get("id")
     method = body.get("method", "")
     params = body.get("params", {})
@@ -87,6 +87,13 @@ def handle_mcp_request(body: dict) -> tuple[dict, int]:
             },
         }
         return _json_rpc_response(request_id, result), 200
+
+    if method == "notifications/initialized":
+        # The MCP 2025-03-26 lifecycle requires accepting this notification
+        # after initialize. Notifications carry no id and expect no JSON-RPC
+        # response body -- returning None (rather than a dict) lets the HTTP
+        # layer send a genuinely empty 202, distinct from an ordinary result.
+        return None, 202
 
     if method == "tools/list":
         tools_list = [
