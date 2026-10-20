@@ -100,3 +100,56 @@ def test_rejects_existing_recipe(examples_dir: Path) -> None:
     new_recipe.create_recipe("apis-and-ingress", "dup_recipe", examples_dir=examples_dir)
     with pytest.raises(ValueError, match="already exists"):
         new_recipe.create_recipe("apis-and-ingress", "dup_recipe", examples_dir=examples_dir)
+
+
+def test_generated_pyproject_declares_wheel_file_selection(examples_dir: Path) -> None:
+    target = new_recipe.create_recipe(
+        "apis-and-ingress", "my_new_recipe", examples_dir=examples_dir
+    )
+
+    project = tomllib.loads((target / "pyproject.toml").read_text(encoding="utf-8"))
+
+    assert project["tool"]["hatch"]["build"]["targets"]["wheel"]["include"] == ["function_app.py"]
+
+
+def test_generated_recipe_builds_a_real_wheel(
+    examples_dir: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    # Regression for #367: without explicit wheel file selection, Hatchling
+    # cannot determine which files to ship for a flat function_app.py
+    # module and raises ValueError at build time -- a TOML-string
+    # inspection test cannot catch this; only an actual build does.
+    from hatchling.build import build_wheel
+
+    target = new_recipe.create_recipe(
+        "apis-and-ingress", "my_new_recipe", examples_dir=examples_dir
+    )
+    output_dir = target / "dist"
+    output_dir.mkdir()
+
+    monkeypatch.chdir(target)
+    wheel_filename = build_wheel(str(output_dir))
+
+    assert (output_dir / wheel_filename).is_file()
+
+    import zipfile
+
+    with zipfile.ZipFile(output_dir / wheel_filename) as wheel:
+        assert "function_app.py" in wheel.namelist()
+
+
+def test_generated_recipe_builds_a_real_editable_wheel(
+    examples_dir: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    from hatchling.build import build_editable
+
+    target = new_recipe.create_recipe(
+        "apis-and-ingress", "my_new_recipe", examples_dir=examples_dir
+    )
+    output_dir = target / "dist"
+    output_dir.mkdir()
+
+    monkeypatch.chdir(target)
+    wheel_filename = build_editable(str(output_dir))
+
+    assert (output_dir / wheel_filename).is_file()

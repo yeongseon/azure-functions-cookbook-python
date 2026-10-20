@@ -110,6 +110,9 @@ def _pyproject_toml(name: str, title: str) -> str:
 requires = ["hatchling>=1.27.0"]
 build-backend = "hatchling.build"
 
+[tool.hatch.build.targets.wheel]
+include = ["function_app.py"]
+
 [project]
 name = "{name}"
 version = "0.1.0"
