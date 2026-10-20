@@ -221,9 +221,9 @@ ALLOWED_EVENT_TYPES: dict[str, str] = {
     topic_key_setting="MyEventGridTopicKeySetting",
 )
 def publish_order_event(
-    req: HttpRequestProtocol,
-    output_event: OutProtocol[EventGridOutputEventProtocol],
-) -> HttpResponseProtocol:
+    req: func.HttpRequest,
+    output_event: func.Out[func.EventGridOutputEvent],
+) -> func.HttpResponse:
     try:
         payload = _payload_dict(req.get_json())
     except ValueError:
@@ -270,7 +270,7 @@ def publish_order_event(
 
 @app.function_name(name="handle_order_domain_event")
 @app.event_grid_trigger(arg_name="event")
-def handle_order_domain_event(event: EventGridEventProtocol) -> None:
+def handle_order_domain_event(event: func.EventGridEvent) -> None:
     payload = _payload_dict(event.get_json())
     logger.info(
         "Handled order domain event",

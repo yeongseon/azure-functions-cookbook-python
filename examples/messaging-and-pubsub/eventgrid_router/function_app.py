@@ -140,7 +140,7 @@ def _resolve_route(event_type: str, subject: str) -> str:
 
 @app.event_grid_trigger(arg_name="event")
 @with_context
-def route_events(event: EventGridEventProtocol, context: func.Context) -> None:
+def route_events(event: func.EventGridEvent, context: func.Context) -> None:
     payload = _payload_dict(event.get_json())
     route_key = _resolve_route(event.event_type, event.subject)
     logger.info(

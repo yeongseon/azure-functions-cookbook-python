@@ -1,12 +1,14 @@
 # Scheduled trigger smoke
 
-The **Scheduled trigger smoke** workflow runs queue, blob, and Durable Functions
-recipe checks every Tuesday and on manual dispatch. It intentionally does not
-run for pull requests, keeping infrastructure-heavy host tests outside the
-fast PR path.
+The **Scheduled trigger smoke** workflow runs queue, blob, Durable Functions,
+and worker-registration checks every Tuesday and on manual dispatch. It
+intentionally does not run for pull requests, keeping infrastructure-heavy and
+network-dependent checks outside the fast PR path.
 
-The workflow installs Azure Functions Core Tools v4 and Azurite, then runs two
-separate suites with their own marker selectors:
+## `queue-blob-durable`
+
+Installs Azure Functions Core Tools v4 and Azurite, then runs two separate
+suites with their own marker selectors:
 
 - `tests/e2e/test_queue_examples.py` and `tests/e2e/test_blob_examples.py`
   (`-m e2e`): live tests against Azurite-backed queue and blob storage. No
@@ -23,3 +25,15 @@ both selectors in collection-only mode and fails the job if either one would
 select zero tests -- a single combined selector previously caused every
 Durable test to be silently deselected (#177), passing the job while
 executing no Durable coverage at all.
+
+## `worker-registration-guard`
+
+Runs `tests/test_worker_registration_guard.py` (`-m worker_registration`): a
+deterministic guard that clones the official `azure-functions-python-worker`
+at a pinned SHA and indexes real SDK `Function` objects from recipe handlers
+through its actual `Registry.add_indexed_function()` -- the same validation
+path the real worker applies when a Function App is deployed. Protocol-typed
+or otherwise non-worker-compatible handler annotations (#379) fail this check
+even though they import cleanly and work under mocked unit tests. Requires
+network access to clone the pinned worker commit, so it runs here rather than
+on every pull request.

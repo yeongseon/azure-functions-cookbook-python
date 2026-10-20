@@ -36,6 +36,7 @@ dev = [
     "azure-identity>=1.25,<2",
     "azure-storage-blob>=12.30,<13",
     "azure-storage-queue>=12.17,<13",
+    "azurefunctions-extensions-base>=1.0,<2",
     "bandit>=1.9,<2",
     "build>=1.5,<2",
     "coverage>=7.15,<8",
@@ -144,7 +145,7 @@ pretty = true
 exclude = ["tests/e2e/"]
 
 [tool.pytest.ini_options]
-addopts = "-ra -q --cov=src/azure_functions_python_cookbook -m 'not (e2e or smoke)'"
+addopts = "-ra -q --cov=src/azure_functions_python_cookbook -m 'not (e2e or smoke or worker_registration)'"
 testpaths = ["tests"]
 pythonpath = ["src", "."]
 markers = [
@@ -153,6 +154,7 @@ markers = [
     "package_validation: Live HTTP runtime gate for azure-functions-validation",
     "package_logging: Live HTTP runtime gate for azure-functions-logging",
     "package_openapi: Live HTTP runtime gate for azure-functions-openapi",
+    "worker_registration: Deterministic Python worker signature-registration gate (clones a pinned azure-functions-python-worker SHA; requires network)",
 ]
 
 [tool.coverage.run]

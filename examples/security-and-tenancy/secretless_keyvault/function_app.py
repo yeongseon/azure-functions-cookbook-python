@@ -102,7 +102,7 @@ app = func.FunctionApp(http_auth_level=func.AuthLevel.FUNCTION)
 
 @app.function_name(name="secretless_keyvault")
 @app.route(route="secretless-keyvault", methods=["GET"])
-def secretless_keyvault(req: HttpRequestProtocol) -> HttpResponseProtocol:
+def secretless_keyvault(req: func.HttpRequest) -> func.HttpResponse:
     upstream_api_key = os.getenv("UPSTREAM_API_KEY", "")
     secret_name = os.getenv("UPSTREAM_SECRET_NAME", "demo-api-key")
     app_name = os.getenv("UPSTREAM_APP_NAME", "sample-upstream")

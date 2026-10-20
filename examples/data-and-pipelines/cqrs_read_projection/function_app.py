@@ -122,7 +122,7 @@ def create_order(
 )
 @db.output("projection_out", url="%READ_DB_URL%", table="order_read_models")
 def project_order_read_models(
-    documents: list[dict[str, Any]],
+    documents: func.DocumentList,
     projection_out: DbOut,
 ) -> None:
     if not documents:

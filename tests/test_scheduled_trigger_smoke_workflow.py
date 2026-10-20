@@ -33,3 +33,16 @@ def test_trigger_smoke_is_scheduled_and_excludes_pull_requests() -> None:
     # A selection-level guard must run so zero Durable items collected can
     # never silently satisfy this workflow again.
     assert any("verify_scheduled_smoke_selection.py" in c for c in commands)
+
+
+def test_worker_registration_guard_job_runs_the_right_marker_and_file() -> None:
+    """The deterministic worker-registration guard (#379) must run in this
+    network-dependent, opt-in workflow rather than on every pull request."""
+    workflow = yaml.load(WORKFLOW.read_text(encoding="utf-8"), Loader=yaml.BaseLoader)
+
+    job = workflow["jobs"]["worker-registration-guard"]
+    commands = [step["run"] for step in job["steps"] if "run" in step]
+    guard_commands = [c for c in commands if "test_worker_registration_guard.py" in c]
+
+    assert len(guard_commands) == 1
+    assert "-m worker_registration" in guard_commands[0]

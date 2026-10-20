@@ -79,7 +79,7 @@ app = func.FunctionApp()
 
 @app.function_name(name="queue_processor")
 @app.queue_trigger(arg_name="msg", queue_name="orders", connection="AzureWebJobsStorage")
-def queue_processor(msg: QueueMessageLike) -> None:
+def queue_processor(msg: func.QueueMessage) -> None:
     raw_body = msg.get_body().decode("utf-8")
     dequeue_count = msg.dequeue_count
 
@@ -117,7 +117,7 @@ def queue_processor(msg: QueueMessageLike) -> None:
 
 @app.function_name(name="poison_handler")
 @app.queue_trigger(arg_name="msg", queue_name="orders-poison", connection="AzureWebJobsStorage")
-def poison_handler(msg: QueueMessageLike) -> None:
+def poison_handler(msg: func.QueueMessage) -> None:
     raw_body = msg.get_body().decode("utf-8")
     logging.error(
         "Poison message detected. queue=orders-poison message_id=%s dequeue_count=%s payload=%s",

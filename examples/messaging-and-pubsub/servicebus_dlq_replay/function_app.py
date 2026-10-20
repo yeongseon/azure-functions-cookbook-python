@@ -378,7 +378,7 @@ def _build_replay_message(message: ServiceBusReceivedMessageProtocol) -> tuple[o
 
 
 @app.route(route="servicebus/dlq/inspect", methods=["GET"])
-def inspect_dead_letter_queue(req: HttpRequestProtocol) -> HttpResponseProtocol:
+def inspect_dead_letter_queue(req: func.HttpRequest) -> func.HttpResponse:
     """Preview dead-lettered messages without consuming them.
 
     Uses the SDK's non-destructive peek operation instead of a DLQ-bound
@@ -453,9 +453,7 @@ def inspect_dead_letter_queue(req: HttpRequestProtocol) -> HttpResponseProtocol:
 
 @app.route(route="servicebus/dlq/replay", methods=["POST"])
 @with_context
-def replay_dead_letter_queue(
-    req: HttpRequestProtocol, context: func.Context
-) -> HttpResponseProtocol:
+def replay_dead_letter_queue(req: func.HttpRequest, context: func.Context) -> func.HttpResponse:
     batch_size = _resolve_batch_size(req)
     replayed: list[dict[str, object]] = []
 

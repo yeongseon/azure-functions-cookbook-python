@@ -241,7 +241,7 @@ def _send_callback(callback_url: str, payload: dict[str, Any]) -> int:
 def submit_task(
     req: HttpRequestProtocol,
     body: TaskCreateRequest,
-    task_queue: OutProtocol,
+    task_queue: func.Out[str],
 ) -> HttpResponseProtocol:
     _ = req
     task_id = str(uuid4())
@@ -268,7 +268,7 @@ def submit_task(
     queue_name=TASK_QUEUE_NAME,
     connection="AzureWebJobsStorage",
 )
-def process_task(msg: QueueMessageProtocol | str | bytes) -> None:
+def process_task(msg: func.QueueMessage) -> None:
     payload = _queue_message_to_dict(msg)
     task_id = str(payload.get("task_id", "unknown-task"))
     callback_url = str(payload.get("callback_url", ""))
