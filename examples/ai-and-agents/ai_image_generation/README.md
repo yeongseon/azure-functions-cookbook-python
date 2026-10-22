@@ -34,3 +34,30 @@ installed), the endpoint still answers `200` with a placeholder image URL, so th
 runnable offline. Set both to exercise the real Azure OpenAI call.
 
 Prefer Key Vault references or a managed identity over a raw `AZURE_OPENAI_KEY` in production.
+
+## Secure deployment
+
+Default auth is `FUNCTION`. On Azure send `x-functions-key: <key>` (preferred) or
+`?code=<key>`; missing/invalid keys return host HTTP 401:
+
+```bash
+curl "https://<app>.azurewebsites.net/api/images/generate" \
+  -H "x-functions-key: ${FUNCTION_KEY}" -H "Content-Type: application/json" \
+  -d '{"prompt":"A diagram of a function app"}'
+```
+
+Ordinary local `func start` does not enforce keys; localhost examples still work.
+Only for an intentional public demo, set `COOKBOOK_PUBLIC_DEMO=true` before
+startup; this switches to `ANONYMOUS` and logs a warning.
+
+Request bodies are capped at 32,768 bytes (413), prompts at 4,000 characters
+(validation 400), and work at one standard-quality image per request. Provider
+failures return a generic 502; absent credentials preserve the placeholder image.
+Application logs exclude prompts, keys, authorization headers and model responses.
+
+Keys are not per-user authorization, rate/concurrency limits or quotas. Use
+APIM/Entra, restricted ingress, distributed limits and model quotas; this example
+does not implement an in-process limiter. Keep local credentials low-quota and
+untracked. Managed Identity requires changing SDK construction to a token provider;
+enabling identity alone does not change this key-based code. See
+[paid-AI deployment guidance](../../../docs/paid-ai-security.md).
