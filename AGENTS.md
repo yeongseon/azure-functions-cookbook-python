@@ -20,6 +20,9 @@
 
 ## Working Rules
 
+See [SECURITY.md](SECURITY.md) for runnable-recipe classifications, expiring
+exceptions, redacted evidence and the reporting-versus-tag dependency policy.
+
 ### Test Coverage
 - Maintain test coverage at **95% or above** for committed changes and PRs.
 - Run `hatch run pytest --cov --cov-report=term-missing -q` to verify before submitting changes.
