@@ -1,5 +1,9 @@
 # AI Image Generation
 
+> Deployment now defaults to function-key authentication. Local `func start`
+> does not enforce keys. See [paid AI security](../../paid-ai-security.md) for
+> `COOKBOOK_PUBLIC_DEMO=true`, Azure key usage, request/image budgets and identity guidance.
+
 > **Trigger**: HTTP | **State**: stateless | **Guarantee**: request-response | **Difficulty**: intermediate | **Showcase**: Azure OpenAI image generation
 
 ## Overview

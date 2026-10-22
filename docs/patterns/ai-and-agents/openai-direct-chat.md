@@ -1,5 +1,9 @@
 # Azure OpenAI Direct Chat
 
+> Deployment now defaults to function-key authentication. Local `func start`
+> does not enforce keys. See [paid AI security](../../paid-ai-security.md) for
+> `COOKBOOK_PUBLIC_DEMO=true`, Azure key usage, request/token budgets and identity guidance.
+
 > **Trigger**: HTTP | **State**: stateless | **Guarantee**: request-response | **Difficulty**: beginner | **Showcase**: Azure OpenAI chat completion
 
 ## Overview
