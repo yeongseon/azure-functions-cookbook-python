@@ -9,7 +9,11 @@ permissions:
   contents: read
 
 jobs:
+  recipe-dependency-policy:
+    uses: ./.github/workflows/recipe-release-security.yml
+
   build:
+    needs: recipe-dependency-policy
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code

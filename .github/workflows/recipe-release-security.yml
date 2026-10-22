@@ -1,0 +1,27 @@
+name: Recipe release security
+
+on:
+  workflow_call:
+
+permissions:
+  contents: read
+
+jobs:
+  dependency-policy:
+    name: Resolved runtime dependency policy
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: "3.11"
+      - name: Block unexcepted advisories and incomplete audits
+        run: python -m tools.dependency_audit_policy
+      - name: Upload redacted dependency evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: release-recipe-dependency-evidence
+          path: security-results/**
+          if-no-files-found: error

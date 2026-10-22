@@ -9,6 +9,25 @@ permissions:
   contents: read
 
 jobs:
+  recipe-runtime-policy:
+    name: Resolved runtime policy reporting
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: "3.11"
+      - name: Evaluate resolved runtime and generated requirement policy
+        run: python -m tools.dependency_audit_policy --reporting
+      - name: Upload redacted policy evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: scheduled-recipe-runtime-policy
+          path: security-results/**
+          if-no-files-found: error
+
   pip-audit:
     name: Audit root and recipe dependencies
     runs-on: ubuntu-latest
