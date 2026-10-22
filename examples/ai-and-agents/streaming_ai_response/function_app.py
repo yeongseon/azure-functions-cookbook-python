@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import json
 import os
+from typing import Final
 
 import azure.functions as func
 from azure_functions_logging import get_logger, setup_logging, with_context
@@ -12,18 +13,36 @@ from azure_functions_validation import validate_http
 from pydantic import BaseModel, Field
 
 try:
-    from openai import AzureOpenAI
+    from openai import AzureOpenAI, OpenAIError
 except ImportError:
     AzureOpenAI = None
 
+    class OpenAIError(Exception):
+        pass
+
+
 setup_logging(format="json")
 logger = get_logger(__name__)
-app = func.FunctionApp(http_auth_level=func.AuthLevel.ANONYMOUS)
+MAX_REQUEST_BYTES: Final = 32_768
+MAX_PROMPT_CHARS: Final = 4_000
+MAX_OUTPUT_TOKENS: Final = 256
+PUBLIC_DEMO: Final = os.getenv("COOKBOOK_PUBLIC_DEMO", "").lower() == "true"
+app = func.FunctionApp(
+    http_auth_level=func.AuthLevel.ANONYMOUS if PUBLIC_DEMO else func.AuthLevel.FUNCTION
+)
+if PUBLIC_DEMO:
+    logger.warning(
+        "Public paid-AI demo enabled; authentication and cost protection required at edge"
+    )
 
 
 class StreamRequest(BaseModel):
-    message: str = Field(..., min_length=1)
-    system_prompt: str = Field(default="You are a concise Azure Functions assistant.", min_length=1)
+    message: str = Field(..., min_length=1, max_length=MAX_PROMPT_CHARS)
+    system_prompt: str = Field(
+        default="You are a concise Azure Functions assistant.",
+        min_length=1,
+        max_length=MAX_PROMPT_CHARS,
+    )
 
 
 def _stream_frames(message: str, system_prompt: str) -> str:
@@ -43,9 +62,12 @@ def _stream_frames(message: str, system_prompt: str) -> str:
             api_key=api_key,
             api_version=os.getenv("AZURE_OPENAI_API_VERSION", "2024-02-01"),
             azure_endpoint=endpoint,
+            timeout=30.0,
+            max_retries=0,
         )
         stream = client.chat.completions.create(
             model=deployment,
+            max_tokens=MAX_OUTPUT_TOKENS,
             messages=[
                 {"role": "system", "content": system_prompt},
                 {"role": "user", "content": message},
@@ -73,12 +95,16 @@ def _stream_frames(message: str, system_prompt: str) -> str:
     tags=["ai"],
 )
 @with_context
-@validate_http(body=StreamRequest)
+@validate_http(body=StreamRequest, max_body_bytes=MAX_REQUEST_BYTES)
 def stream_chat(
     req: func.HttpRequest, body: StreamRequest, context: func.Context
 ) -> func.HttpResponse:
     del req
-    payload = _stream_frames(body.message, body.system_prompt)
+    try:
+        payload = _stream_frames(body.message, body.system_prompt)
+    except OpenAIError:
+        logger.error("Azure OpenAI request failed")
+        return func.HttpResponse("Model service unavailable", status_code=502)
     logger.info(
         "Completed streaming response",
         extra={"deployment": os.getenv("AZURE_OPENAI_CHAT_DEPLOYMENT", "gpt-4o-mini")},

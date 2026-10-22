@@ -14,3 +14,31 @@ func start
 
 ## Endpoint
 - `POST /api/stream` - return `text/event-stream` output for one prompt
+
+## Secure deployment
+
+Default auth is `FUNCTION`. On Azure send `x-functions-key: <key>` (preferred) or
+`?code=<key>`; missing/invalid keys return host HTTP 401:
+
+```bash
+curl "https://<app>.azurewebsites.net/api/stream" \
+  -H "x-functions-key: ${FUNCTION_KEY}" -H "Content-Type: application/json" \
+  -d '{"message":"Explain Azure Functions"}'
+```
+
+Ordinary local `func start` does not enforce keys. For an intentional public demo
+only, set `COOKBOOK_PUBLIC_DEMO=true` before startup; this switches to `ANONYMOUS`
+and logs a warning. Remove it and restart to restore the protected default.
+
+Bodies are capped at 32,768 bytes (413), message/system prompts at 4,000 characters
+each (validation 400), and output at 256 tokens. SSE frames are buffered before
+returning; provider failures return a generic 502 without partial output. Missing
+credentials retain the existing offline SSE fallback. Application logs exclude
+prompts, keys, authorization headers and model responses.
+
+Keys are not per-user authorization, rate/concurrency limits or quotas. Use
+APIM/Entra, restricted ingress, distributed limits and model quotas; an in-process
+limiter is intentionally out of scope. Keep separate low-quota demo credentials
+untracked. Production Managed Identity needs SDK token-provider construction,
+not just enabling an identity. See
+[paid-AI deployment guidance](../../../docs/paid-ai-security.md).
