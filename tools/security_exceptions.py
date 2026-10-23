@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass, replace
-from datetime import date
+from datetime import UTC, date, datetime
 from pathlib import Path
 
 from tools.security_report import (
@@ -65,7 +65,7 @@ def read_rules(path: Path, today: date) -> tuple[ExceptionRule, ...]:
 
 def apply_policy(check: Check, path: Path) -> Check:
     try:
-        rules = read_rules(path, date.today())
+        rules = read_rules(path, datetime.now(UTC).date())
     except (OSError, ValueError, KeyError, TypeError):
         return replace(check, status=Status.TOOL_ERROR, message="Invalid exception policy")
     if check.status not in {Status.PASS, Status.FAIL}:

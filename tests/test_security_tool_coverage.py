@@ -1,5 +1,5 @@
 from collections.abc import Callable
-from datetime import date, timedelta
+from datetime import UTC, datetime, timedelta
 import json
 from pathlib import Path
 import subprocess
@@ -49,8 +49,8 @@ def test_exception_schema_is_exact(tmp_path: Path, mutation: str) -> None:
         "line": 1,
         "owner": "owner",
         "reason": "reason",
-        "added": date.today().isoformat(),
-        "expires": (date.today() + timedelta(days=10)).isoformat(),
+        "added": datetime.now(UTC).date().isoformat(),
+        "expires": (datetime.now(UTC).date() + timedelta(days=10)).isoformat(),
     }
     rules = [rule]
     policy = {"schema_version": 1, "exceptions": rules}
@@ -65,7 +65,7 @@ def test_exception_schema_is_exact(tmp_path: Path, mutation: str) -> None:
     path = tmp_path / "policy.json"
     path.write_text(json.dumps(policy))
     with pytest.raises(ValueError):
-        read_rules(path, date.today())
+        read_rules(path, datetime.now(UTC).date())
 
 
 def test_incomplete_scan_cannot_be_made_passing_by_exception(tmp_path: Path) -> None:

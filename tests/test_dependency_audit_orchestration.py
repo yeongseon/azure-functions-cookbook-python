@@ -1,4 +1,4 @@
-from datetime import date, timedelta
+from datetime import UTC, datetime, timedelta
 import json
 from pathlib import Path
 import subprocess
@@ -56,7 +56,7 @@ def test_audit_failure_is_cached_without_passing_other_scopes(
 def test_audit_applies_exact_exceptions_and_reuses_resolved_results(
     repository: Path, exception_applies: bool
 ) -> None:
-    today = date.today()
+    today = datetime.now(UTC).date()
     if exception_applies:
         (repository / "security/dependency-exceptions.json").write_text(
             json.dumps(
