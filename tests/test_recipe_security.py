@@ -73,7 +73,9 @@ def test_empty_inventory_never_passes(tmp_path: Path) -> None:
 
 def test_blueprint_override_retains_route_level_auth(tmp_path: Path) -> None:
     (tmp_path / "function_app.py").write_text(
+        "from app.health import bp\n"
         "app = func.FunctionApp(http_auth_level=func.AuthLevel.FUNCTION)\n"
+        "app.register_functions(bp)\n"
     )
     (tmp_path / "app").mkdir()
     (tmp_path / "app/health.py").write_text(
