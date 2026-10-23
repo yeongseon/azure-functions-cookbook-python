@@ -45,7 +45,7 @@ make security-static SECURITY_PYTHON="hatch run python"
 make security-dependencies-report SECURITY_PYTHON="hatch run python"
 ```
 
-Omit `--reporting` for blocking dependency evaluation. Dependency resolution uses
+Use `make security-dependencies` for blocking dependency evaluation. Dependency resolution uses
 isolated temporary environments and pinned `pip-audit==2.10.1`, not the contributor
 environment's development packages. Root `project.dependencies` is currently
 empty: its verified runtime closure is explicitly recorded as empty, not inferred
@@ -82,18 +82,30 @@ library-generated route (notably intentionally public lightweight health).
 Unknown future dynamic registration must be reviewed; this is not a whole-program
 proof of Azure ingress. See [paid AI guidance](docs/paid-ai-security.md).
 
+The supported constructor subset follows the inspected SDK signature:
+`FunctionApp(http_auth_level=FUNCTION)` accepts its auth level positionally or by
+keyword. Resolved enum/constructor import aliases and enum variables retain their
+meaning; unresolved values, `*args`, `**kwargs`, unknown factories, star-import
+rebinding and unresolved blueprint registration fail closed as `UNKNOWN`.
+Conditional/loop registration is unresolved unless its controlling boolean is
+statically known. Empty HTTP inventory alone is not evidence of an event-only
+recipe: known apps need positive event-trigger/schedule declarations; a source
+without any application or registration declarations is also non-HTTP. Existing
+event-only examples retain their classifications.
+
 ## Evidence, exceptions, and scanner failure
 
 `PASS` means the stated policy completed; `FAIL` means findings violate policy.
 `TOOL_ERROR` means execution/output/policy is unusable; `INCOMPLETE` means scope
-or inventory is missing. Neither error nor incomplete is a clean pass. The tag
+or inventory is missing. An unresolvable requirement produces `TOOL_ERROR`, not
+`INCOMPLETE`. Neither error nor incomplete is a clean pass. The tag
 job blocks on every non-PASS result. All advisories block there, including unknown
 severity; severity is informational, not an excuse to omit a known advisory.
 
 `security/bandit-exceptions.json` entries match exact finding id/file/line;
 `security/dependency-exceptions.json` entries match exact advisory id/package.
 Every exception requires reason, owner, added date and expiry, no more than 90
-days after addition. Expired/future-dated/malformed entries block evaluation.
+days after addition, evaluated against the UTC date. Expired/future-dated/malformed entries block evaluation.
 Review before renewal; never use blanket package ignores. The MCP calculator
 `B307` exception explicitly tracks #426; this change does not remediate that issue.
 Other reviewed educational randomness, subprocess invocations and existing URL

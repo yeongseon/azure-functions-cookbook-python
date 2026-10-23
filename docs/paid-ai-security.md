@@ -24,12 +24,18 @@ an explicit `--enableAuth` option). Existing localhost curl examples therefore
 continue to work without keys. Do not expose the local host to the internet.
 Handler tests assert binding declarations; they cannot prove host authorization.
 The dedicated host check inspects the real indexed binding metadata and checks
-that ordinary local requests still work without keys.
+that ordinary local requests still work without keys. It installs each recipe's
+own requirements in an isolated virtual environment and covers default FUNCTION,
+exact `true` ANONYMOUS, and a case-variant value that remains FUNCTION.
 
 For a deliberately public demonstration only, set the app setting
 `COOKBOOK_PUBLIC_DEMO=true` **before worker startup**, then restart. This switches
-the three apps to `ANONYMOUS` and logs a warning. Other values, including `1`, do
-not enable it. Remove the setting to restore protection. This is not recommended
+the three apps to `ANONYMOUS`. Only the exact lowercase string `true` opts in;
+`True`, `TRUE`, `1`, `yes`, `false`, empty values, surrounding whitespace, and
+trailing newlines stay protected. The app logger emits a warning, but it may not
+appear in every host configuration; ordinary Core Tools captures did not show it.
+The real-host test asserts declared auth metadata, not warning visibility.
+Remove the setting to restore protection. This is not recommended
 with live paid credentials; place APIM/Entra and distributed limits in front of
 the endpoint if public access is necessary.
 
@@ -37,7 +43,8 @@ the endpoint if public access is necessary.
 
 All three recipes reject bodies larger than **32,768 bytes** before JSON parsing
 and model invocation (413). Prompts and optional system instructions are capped
-at **4,000 characters each** by Pydantic (400 validation response). Chat and
+at **4,000 characters each** by Pydantic (422 validation response). Malformed JSON
+returns 400. These status codes are verified through the real validation decorator. Chat and
 streaming calls set `max_tokens=256`; image generation explicitly requests one
 standard-quality image in one of the three documented sizes. Calls use a
 30-second SDK timeout with automatic retries disabled. These are per-call work

@@ -28,10 +28,14 @@ curl "https://<app>.azurewebsites.net/api/chat" \
 
 Ordinary local `func start` does not enforce keys, so localhost requests need no
 key. Only an intentional public demo should set `COOKBOOK_PUBLIC_DEMO=true`
-before startup; this switches auth to `ANONYMOUS` and logs a warning.
+before startup; only the exact lowercase string `true` switches auth to `ANONYMOUS`.
+Case variants, `1`, `yes`, empty values and whitespace/newlines stay protected.
+The app logger emits a warning that may not appear in every host configuration;
+ordinary Core Tools captures did not show it. Host tests assert auth metadata only.
 
 Bodies are capped at 32,768 bytes (413), message/system prompts at 4,000 characters
-each (validation 400), and output at 256 tokens. Provider failures return a generic
+each (validation 422); malformed JSON returns 400. Output is capped at 256 tokens.
+These input statuses are verified through the real validation decorator. Provider failures return a generic
 502. Missing credentials retain the offline fallback. Application logs do not
 include prompts, keys, authorization headers or model responses.
 

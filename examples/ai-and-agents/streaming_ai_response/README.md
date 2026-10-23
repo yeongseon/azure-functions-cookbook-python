@@ -28,10 +28,14 @@ curl "https://<app>.azurewebsites.net/api/stream" \
 
 Ordinary local `func start` does not enforce keys. For an intentional public demo
 only, set `COOKBOOK_PUBLIC_DEMO=true` before startup; this switches to `ANONYMOUS`
-and logs a warning. Remove it and restart to restore the protected default.
+(only the exact lowercase string `true`). Case variants, `1`, `yes`, empty values
+and whitespace/newlines stay protected. The app logger emits a warning that may
+not appear in every host configuration; ordinary Core Tools captures did not show
+it. Host tests assert auth metadata only. Remove it and restart to restore protection.
 
 Bodies are capped at 32,768 bytes (413), message/system prompts at 4,000 characters
-each (validation 400), and output at 256 tokens. SSE frames are buffered before
+each (validation 422); malformed JSON returns 400. These statuses are verified
+through the real validation decorator. Output is capped at 256 tokens. SSE frames are buffered before
 returning; provider failures return a generic 502 without partial output. Missing
 credentials retain the existing offline SSE fallback. Application logs exclude
 prompts, keys, authorization headers and model responses.

@@ -48,10 +48,14 @@ curl "https://<app>.azurewebsites.net/api/images/generate" \
 
 Ordinary local `func start` does not enforce keys; localhost examples still work.
 Only for an intentional public demo, set `COOKBOOK_PUBLIC_DEMO=true` before
-startup; this switches to `ANONYMOUS` and logs a warning.
+startup; only the exact lowercase string `true` switches to `ANONYMOUS`.
+Case variants, `1`, `yes`, empty values and whitespace/newlines stay protected.
+The app logger emits a warning that may not appear in every host configuration;
+ordinary Core Tools captures did not show it. Host tests assert auth metadata only.
 
 Request bodies are capped at 32,768 bytes (413), prompts at 4,000 characters
-(validation 400), and work at one standard-quality image per request. Provider
+(validation 422); malformed JSON returns 400. These statuses are verified through
+the real validation decorator. Work is capped at one standard-quality image per request. Provider
 failures return a generic 502; absent credentials preserve the placeholder image.
 Application logs exclude prompts, keys, authorization headers and model responses.
 
