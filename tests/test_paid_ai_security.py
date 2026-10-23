@@ -53,7 +53,10 @@ def test_binding_requires_key_by_default(recipe: ModuleType) -> None:
 
 @pytest.mark.parametrize(
     "setting,expected",
-    [("true", "anonymous"), ("false", "function"), ("1", "function"), ("", "function")],
+    [
+        (value, "anonymous" if value == "true" else "function")
+        for value in ("true", "True", "TRUE", "1", "yes", "false", "", " true ", "true\n")
+    ],
 )
 @pytest.mark.parametrize("name", RECIPES)
 def test_public_demo_requires_explicit_opt_in(
@@ -91,8 +94,12 @@ def test_oversized_input_never_calls_provider(
     else:
         payload = request_body(recipe, "x" * 4001)
     response = invoke(recipe, payload)
-    assert response.status_code in (400, 413, 422)
+    assert response.status_code == (413 if kind == "body" else 422)
     client.assert_not_called()
+
+
+def test_malformed_json_returns_400(recipe: ModuleType) -> None:
+    assert invoke(recipe, b"{invalid").status_code == 400
 
 
 @pytest.mark.parametrize("failure", [False, True])

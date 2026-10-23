@@ -26,7 +26,7 @@ logger = get_logger(__name__)
 MAX_REQUEST_BYTES: Final = 32_768
 MAX_PROMPT_CHARS: Final = 4_000
 MAX_OUTPUT_TOKENS: Final = 256
-PUBLIC_DEMO: Final = os.getenv("COOKBOOK_PUBLIC_DEMO", "").lower() == "true"
+PUBLIC_DEMO: Final = os.getenv("COOKBOOK_PUBLIC_DEMO", "") == "true"
 app = func.FunctionApp(
     http_auth_level=func.AuthLevel.ANONYMOUS if PUBLIC_DEMO else func.AuthLevel.FUNCTION
 )
