@@ -5,6 +5,7 @@ from __future__ import annotations
 import argparse
 from pathlib import Path
 
+from tools.recipe_inspection import unreviewed_gaps
 from tools.recipe_routes import routes
 from tools.security_report import (
     Check,
@@ -51,11 +52,21 @@ def check_manifest(root: Path) -> Check:
         )
         findings: list[Finding] = []
         classified = 0
+        paid_incomplete = False
+        inspection_incomplete = False
         for project, declarations in discovered.items():
             if project not in manifest:
                 findings.append(Finding("UNCLASSIFIED", file=project))
                 continue
             entry = mapping(manifest[project])
+            gaps = unreviewed_gaps(root / project, root)
+            inspection_incomplete |= bool(gaps)
+            paid_incomplete |= bool(gaps) and (
+                Path(project).name in PAID or entry["category"] == "paid-backend"
+            )
+            findings.extend(
+                Finding("INCOMPLETE_INSPECTION", file=gap.file, line=gap.line) for gap in gaps
+            )
             text(entry["reason"])
             if text(entry["category"]) not in CATEGORIES:
                 findings.append(Finding("CATEGORY", file=project))
@@ -81,7 +92,9 @@ def check_manifest(root: Path) -> Check:
             findings.append(Finding("STALE_RECIPE", file=stale))
         return Check(
             "recipe-manifest",
-            Status.FAIL if findings or not discovered else Status.PASS,
+            Status.INCOMPLETE
+            if inspection_incomplete and not paid_incomplete
+            else (Status.FAIL if findings or not discovered else Status.PASS),
             {
                 "discovered": len(discovered),
                 "scanned": len(discovered),

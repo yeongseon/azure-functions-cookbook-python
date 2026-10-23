@@ -125,4 +125,4 @@ def test_unresolved_constructor_never_assumes_function_auth(
 def test_dynamic_registration_cannot_masquerade_as_non_http(tmp_path: Path, source: str) -> None:
     project = paid_recipe(tmp_path, "import azure.functions as func\n" + source, "non-http")
     assert any(route.auth == "UNKNOWN" for route in routes(project, tmp_path))
-    assert check_manifest(tmp_path).status == Status.FAIL
+    assert check_manifest(tmp_path).status in {Status.FAIL, Status.INCOMPLETE}

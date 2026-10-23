@@ -7,6 +7,7 @@ from dataclasses import dataclass
 from pathlib import Path
 
 from tools.recipe_auth import auth_value, constructor_auth, module_bindings, module_nodes
+from tools.recipe_inspection import unreviewed_gaps
 
 
 @dataclass(frozen=True, slots=True)
@@ -130,4 +131,8 @@ def routes(project: Path, root: Path) -> tuple[Route, ...]:
             result.append(
                 Route(files[0].relative_to(root).as_posix(), "unresolved-surface", "UNKNOWN")
             )
+    result.extend(
+        Route(gap.file, f"incomplete-inspection:{gap.line}:{gap.rule}", "UNKNOWN")
+        for gap in unreviewed_gaps(project, root)
+    )
     return tuple(sorted(set(result), key=lambda route: (route.file, route.handler)))
