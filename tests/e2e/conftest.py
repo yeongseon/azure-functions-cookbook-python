@@ -21,6 +21,7 @@ from typing import Any
 import pytest
 
 from tests._isolation import clean_app_modules
+from tools.verification_host import host as owned_host
 
 # ---------------------------------------------------------------------------
 # Constants
@@ -38,6 +39,7 @@ AZURITE_CONN_STR = (
     "QueueEndpoint=http://127.0.0.1:10001/devstoreaccount1;"
     "TableEndpoint=http://127.0.0.1:10002/devstoreaccount1;"
 )
+AZURITE_CONN_STR = os.environ.get("AZURITE_CONNECTION_STRING", AZURITE_CONN_STR)
 
 LOCAL_SETTINGS = {
     "IsEncrypted": False,
@@ -145,8 +147,11 @@ def _restore_local_settings(example_dir: Path, original: bytes | None) -> None:
 
 
 @pytest.fixture(scope="session")
-def azurite() -> Generator[subprocess.Popen[bytes], None, None]:
+def azurite() -> Generator[subprocess.Popen[bytes] | None, None, None]:
     """Start Azurite once for the entire test session."""
+    if os.environ.get("VERIFICATION_OWNED_HOST"):
+        yield None
+        return
     tmpdir = tempfile.mkdtemp(prefix="azurite_")
     proc = subprocess.Popen(
         [
@@ -208,6 +213,10 @@ def run_func_host(
     str
         Base URL like ``"http://127.0.0.1:7071"``.
     """
+    if os.environ.get("VERIFICATION_OWNED_HOST"):
+        with owned_host(example_path, env_vars) as base_url:
+            yield base_url
+        return
     if port is None:
         port = _allocate_port()
 
@@ -266,7 +275,9 @@ def ensure_azurite_queue(queue_name: str) -> None:
     """Create a queue in Azurite if it doesn't already exist."""
     from azure.storage.queue import QueueServiceClient
 
-    svc = QueueServiceClient.from_connection_string(AZURITE_CONN_STR)
+    svc = QueueServiceClient.from_connection_string(
+        os.environ.get("AZURITE_CONNECTION_STRING", AZURITE_CONN_STR)
+    )
     try:
         svc.create_queue(queue_name)
     except Exception:  # noqa: BLE001
@@ -277,7 +288,9 @@ def ensure_azurite_container(container_name: str) -> None:
     """Create a blob container in Azurite if it doesn't already exist."""
     from azure.storage.blob import BlobServiceClient
 
-    svc = BlobServiceClient.from_connection_string(AZURITE_CONN_STR)
+    svc = BlobServiceClient.from_connection_string(
+        os.environ.get("AZURITE_CONNECTION_STRING", AZURITE_CONN_STR)
+    )
     try:
         svc.create_container(container_name)
     except Exception:  # noqa: BLE001

@@ -22,7 +22,7 @@
 
 ### Test Coverage
 - Maintain test coverage at **95% or above** for committed changes and PRs.
-- Run `hatch run pytest --cov --cov-report=term-missing -q` to verify before submitting changes.
+- Run `make test` to verify the offline suite and coverage before submitting changes.
 - Any PR that drops coverage below 95% must include additional tests to compensate.
 - This is an examples/recipes repository — not a runtime library.
 - All recipes must be runnable and tested against the supported Python versions.
@@ -137,10 +137,18 @@ This repository is **issue-based, not milestone-based**. Track and group work us
 - Before adding any organizational structure, check whether the repository already has an established convention. A category being empty or unused (zero milestones, no `epic:*` labels) is evidence to follow the existing pattern, not to introduce a new one.
 
 ## Validation
-- `make test`
-- `make lint`
-- `make typecheck`
-- `make build`
+- `make doctor`: read-only prerequisites; no installation or test execution.
+- `make check`: non-mutating quality, generated metadata checks, types once.
+- `make test`: offline repository/recipe contracts, coverage >=95%.
+- `make integration`: run-owned Azurite and Functions hosts, separate live/import families.
+- `make verify`: complete local plan; `make check-all` is its exact alias.
+- `make e2e-azure`: separate explicit Azure applicability/preflight, never emulator fallback.
+- `make report`: saved evidence only; `make clean`: generated artifacts only.
+
+Required zero-selected, all-skipped, unexpected-skipped or missing lanes cannot PASS.
+Worker registration and Bicep compilation are required in verify, not offline test.
+Preserve required CI job names, the interpreter matrix and minimum-dependency axis.
+See CONTRIBUTING.md for prerequisites, scope and redacted test-results evidence.
 
 ## Release Process
 
@@ -174,13 +182,20 @@ Use Makefile entry points only. Do not bypass the Makefile in CI or contributor 
 | Purpose | Command |
 | --- | --- |
 | Environment setup | `make install` |
+| Selected CI interpreter setup | `make install-ci` |
+| Read-only prerequisites | `make doctor` |
 | Format code | `make format` |
 | Check formatting (`src`, `tests`) | `make format-check` |
 | Lint | `make lint` |
 | Type check | `make typecheck` |
 | Tests | `make test` |
 | Coverage | `make cov` |
-| Full validation | `make check-all` |
+| Non-mutating quality | `make check` |
+| Local host/service verification | `make integration` |
+| Full local validation | `make verify` (`make check-all` exact alias) |
+| Explicit real-Azure applicability | `make e2e-azure` |
+| Saved evidence only | `make report` |
+| Generated-only cleanup | `make clean` |
 | Docs build | `make docs` |
 | Package build | `make build` |
 

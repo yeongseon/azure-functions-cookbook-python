@@ -27,7 +27,13 @@
   reporting completion.
 
 ## Validation
-- `make test`
+- `make doctor` (read-only prerequisites)
+- `make check` (non-mutating quality; types once)
+- `make test` (offline, coverage >=95%)
+- `make integration` (owned local hosts/Azurite; import and live evidence separate)
+- `make verify` (`make check-all` exact alias; includes Bicep and worker registration)
+- `make report` (saved redacted test-results evidence only)
+- `make clean` (generated artifacts only; clean-all retains deep cleanup)
 - `make lint`
 - `make typecheck`
 - `make security`

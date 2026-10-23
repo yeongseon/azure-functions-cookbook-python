@@ -9,6 +9,7 @@ on:
       - "tests/e2e/**"
       - "tests/_isolation.py"
       - "tests/__init__.py"
+      - "tools/verification*.py"
       - "Makefile"
       - "README.md"
       - "pyproject.toml"
@@ -21,6 +22,7 @@ on:
       - "tests/e2e/**"
       - "tests/_isolation.py"
       - "tests/__init__.py"
+      - "tools/verification*.py"
       - "Makefile"
       - "README.md"
       - "pyproject.toml"
@@ -44,13 +46,18 @@ jobs:
         with:
           python-version: "3.11"
 
-      - name: Install Hatch and dependencies via Makefile
-        run: |
-          pip install hatch
-          make install
+      - name: Install selected-interpreter dependencies
+        run: make install-ci
 
       - name: Run smoke tests (import all examples)
-        run: hatch run smoke
+        run: make smoke
+
+      - name: Upload import evidence
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: smoke-import-evidence
+          path: test-results/**
 
   e2e-http:
     name: E2E HTTP examples (func host)
@@ -82,11 +89,16 @@ jobs:
       - name: Install Azurite
         run: npm install -g azurite
 
-      - name: Install Hatch and dependencies via Makefile
-        run: |
-          pip install hatch
-          make install
+      - name: Install selected-interpreter dependencies
+        run: make install-ci
 
-      - name: Run E2E HTTP tests
-        run: hatch run e2e tests/e2e/test_http_examples.py
-        timeout-minutes: 10
+      - name: Run local HTTP, queue, blob, toolkit and import suites
+        run: make integration
+        timeout-minutes: 20
+
+      - name: Upload local integration evidence
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: smoke-integration-evidence
+          path: test-results/**

@@ -34,19 +34,18 @@ jobs:
           python -m pip install --upgrade pip
           python -m pip install -e ".[dev]"
 
-      - name: Run queue and blob e2e suites
-        run: >-
-          python -m pytest -v -m e2e --no-cov
-          tests/e2e/test_queue_examples.py
-          tests/e2e/test_blob_examples.py
-
-      - name: Run durable import-only smoke suite
-        run: >-
-          python -m pytest -v -m smoke --no-cov
-          tests/e2e/test_durable_examples.py
+      - name: Run owned local host, queue, blob and durable import suites
+        run: make integration
 
       - name: Verify all three suites actually selected tests
         run: python tools/verify_scheduled_smoke_selection.py
+
+      - name: Upload scheduled local evidence
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: scheduled-trigger-evidence
+          path: test-results/**
 
   worker-registration-guard:
     runs-on: ubuntu-latest
@@ -68,4 +67,11 @@ jobs:
           python -m pip install -e ".[dev]"
 
       - name: Run deterministic Python worker registration guard (#379)
-        run: python -m pytest -v -m worker_registration --no-cov tests/test_worker_registration_guard.py
+        run: make worker-registration
+
+      - name: Upload worker registration evidence
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: worker-registration-evidence
+          path: test-results/**

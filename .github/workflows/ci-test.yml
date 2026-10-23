@@ -72,24 +72,10 @@ jobs:
           python-version: "3.11"
 
       - name: Install package with dev extras
-        run: |
-          python -m pip install --upgrade pip
-          pip install -e ".[dev]"
+        run: make install-ci
 
-      - name: Workflow hygiene lint (hatch-matrix)
-        run: python tools/lint_hatch_matrix.py
-
-      - name: Workflow hygiene lint (action pins)
-        run: python tools/lint_workflow_pins.py
-
-      - name: Check generated recipe requirements
-        run: python scripts/gen_requirements.py --check
-
-      - name: Ruff style check
-        run: |
-          ruff check src tests
-          ruff check --target-version py311 --select I,F,UP,FA examples scripts
-          ruff format --check src tests scripts
+      - name: Run non-mutating quality, metadata and workflow checks
+        run: make check
 
       - name: Ruff format check (changed Python files)
         if: github.event_name == 'pull_request'
@@ -97,9 +83,6 @@ jobs:
           PR_BASE_SHA: ${{ github.event.pull_request.base.sha }}
           PR_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
         run: python tools/check_pr_format.py "$PR_BASE_SHA" "$PR_HEAD_SHA"
-
-      - name: Type check (mypy)
-        run: mypy src tests
 
       - name: Install Bicep CLI
         run: |
@@ -109,7 +92,14 @@ jobs:
           bicep --version
 
       - name: Compile every recipe main.bicep (#377)
-        run: python tools/compile_bicep_templates.py
+        run: make bicep
+
+      - name: Upload quality evidence
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: quality-evidence
+          path: test-results/**
 
   test:
     name: Test (Py ${{ matrix.python-version }}, ${{ matrix.resolution }} deps)
@@ -159,15 +149,11 @@ jobs:
 
       - name: Install latest dependencies
         if: matrix.resolution == 'latest'
-        run: |
-          python -m pip install --upgrade pip
-          pip install -e ".[dev]"
+        run: make install-ci
 
       - name: Install minimum dependencies from constraints
         if: matrix.resolution == 'minimum'
-        run: |
-          python -m pip install --upgrade pip
-          pip install -c constraints-min.txt -e ".[dev]"
+        run: make install-ci INSTALL_FLAGS="-c constraints-min.txt"
 
       - name: Assert resolved minimum dependency floors
         if: matrix.resolution == 'minimum'
@@ -187,25 +173,29 @@ jobs:
           PY
           python -m pip check
 
-      - name: Run tests on the matrix interpreter
-        # Raw pytest on the interpreter provisioned above (NOT through the
-        # default pinned Hatch env). The repo pytest config enables --cov
-        # with fail_under=95.
-        run: pytest --cov-report=xml --cov-report=term-missing --cov=src/azure_functions_python_cookbook tests/
+      - name: Run offline pytest through the selected matrix interpreter
+        run: python -m tools.verification test
 
       - name: Verify coverage output
-        run: ls -lh coverage.xml
+        run: ls -lh test-results/test/coverage.xml
 
       - name: Upload coverage to Codecov
         if: matrix.python-version == '3.11' && matrix.resolution == 'latest' && github.actor != 'dependabot[bot]'
         uses: codecov/codecov-action@303a32d7a59b442fa8d48b6a1cc6825c09c847a5 # v7.1.1
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-          files: ./coverage.xml
+          files: ./test-results/test/coverage.xml
           verbose: true
           fail_ci_if_error: false
         env:
           CODECOV_RETRIES: 3
+
+      - name: Upload offline verification evidence
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: offline-py${{ matrix.python-version }}-${{ matrix.resolution }}
+          path: test-results/**
 
   recipe-tests:
     name: Per-recipe tests (Py 3.11)
@@ -226,8 +216,18 @@ jobs:
       - name: Install uv
         run: python -m pip install uv
 
+      - name: Install selected-interpreter verification tooling
+        run: make install-ci
+
       - name: Run every discovered recipe test suite
-        run: python scripts/run_recipe_tests.py
+        run: python -m scripts.run_recipe_tests
+
+      - name: Upload per-recipe evidence
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: recipe-evidence
+          path: test-results/**
 
   artifact-python310-negative:
     name: Wheel install rejection (Py 3.10)
@@ -311,31 +311,20 @@ jobs:
           npm install --global azure-functions-core-tools@4 --unsafe-perm true
           npm install --global azurite
 
-      - name: Install recipe dependencies
-        working-directory: ${{ matrix.recipe.path }}
-        run: |
-          python -m venv .venv
-          .venv/bin/python -m pip install -r requirements.txt
+      - name: Install selected-interpreter dependencies
+        run: make install-ci
 
-      - name: Start recipe host and call its public route
-        working-directory: ${{ matrix.recipe.path }}
+      - name: Invoke recipe public routes with owned host and Azurite
         env:
-          RECIPE_URL: ${{ matrix.recipe.url }}
-        run: |
-          azurite --silent > "${RUNNER_TEMP}/azurite.log" 2>&1 &
-          PATH="$PWD/.venv/bin:$PATH" func start --python --port 7071 > "${RUNNER_TEMP}/func-host.log" 2>&1 &
-          host_pid=$!
-          trap 'cat "${RUNNER_TEMP}/func-host.log"; kill "${host_pid}" 2>/dev/null || true' EXIT
-          for attempt in $(seq 1 60); do
-            if grep -Eq "Generating 0 job function|Worker failed|Host startup operation has been canceled" "${RUNNER_TEMP}/func-host.log"; then
-              exit 1
-            fi
-            if curl --fail --silent "${RECIPE_URL}" > "${RUNNER_TEMP}/response.out"; then
-              exit 0
-            fi
-            sleep 2
-          done
-          exit 1
+          VERIFICATION_HOST_RECIPE: ${{ matrix.recipe.name }}
+        run: python -m tools.verification host-smoke
+
+      - name: Upload recipe host evidence
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: host-${{ matrix.recipe.name }}
+          path: test-results/**
 
   docs-check:
     needs: changes

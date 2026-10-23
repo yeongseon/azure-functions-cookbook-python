@@ -1,99 +1,76 @@
 VENV_DIR := .venv
-PYTHON := $(VENV_DIR)/bin/python
-PIP := $(VENV_DIR)/bin/pip
-HATCH := $(VENV_DIR)/bin/hatch
+PYTHON ?= python
+HATCH ?= hatch
+ifeq ($(CI),)
+RUN := $(HATCH) run python
+else
+RUN := $(PYTHON)
+endif
+MAINTENANCE_PYTHON = $(shell environment=$$($(HATCH) env find 2>/dev/null); if test -n "$$environment" && test -x "$$environment/bin/python"; then echo "$$environment/bin/python"; elif test -x "$$VIRTUAL_ENV/bin/python"; then echo "$$VIRTUAL_ENV/bin/python"; elif test -x .venv/bin/python; then echo .venv/bin/python; else command -v python3.11 || command -v python3; fi)
 
-.PHONY: bootstrap
-bootstrap:
-	@if [ ! -d "$(VENV_DIR)" ]; then \
-		echo "Creating virtual environment..."; \
-		python3 -m venv $(VENV_DIR); \
-	fi
-	@echo "Ensuring Hatch is installed in virtual environment..."
-	@$(PIP) install --upgrade pip > /dev/null
-	@$(PIP) install hatch > /dev/null
-	@echo "Hatch installed at $(HATCH)"
-
-.PHONY: ensure-hatch
-ensure-hatch: bootstrap
-
-.PHONY: install
+.PHONY: bootstrap ensure-hatch install install-ci shell reset hatch-clean
+bootstrap ensure-hatch:
+	@command -v $(HATCH) >/dev/null || { echo "Install Hatch once in an isolated tool environment"; exit 1; }
 install: ensure-hatch
 	@$(HATCH) env create
-	@if [ -n "$$CI" ]; then \
-		echo "CI detected: skipping pre-commit hook installation"; \
-	else \
-		$(MAKE) precommit-install; \
-	fi
-
-.PHONY: shell
+	@if [ -z "$$CI" ]; then $(MAKE) precommit-install; fi
+install-ci:
+	@$(PYTHON) -m pip install $(INSTALL_FLAGS) -e ".[dev,docs]"
 shell: ensure-hatch
 	@$(HATCH) shell
-
-.PHONY: reset
 reset: clean-all install
-	@echo "Project reset complete."
-
-.PHONY: hatch-clean
 hatch-clean: ensure-hatch
-	@$(HATCH) env remove || echo "No hatch environment to remove"
+	@$(HATCH) env remove
 
-.PHONY: format
-format: ensure-hatch
-	@$(HATCH) run format
+.PHONY: format format-check style lint typecheck security lint-workflows generated-check check check-all
+format:
+	@$(RUN) -m ruff format src tests scripts tools/verification*.py
+format-check:
+	@$(RUN) -m ruff format --check src tests scripts tools/verification*.py
+style: lint format-check
+lint:
+	@$(RUN) -m ruff check src tests tools/verification*.py
+	@$(RUN) -m ruff check --target-version py311 --select I,F,UP,FA examples scripts
+typecheck:
+	@$(RUN) -m mypy src tests tools/verification*.py scripts/run_recipe_tests.py
+security:
+	@$(RUN) -m bandit -r src
+lint-workflows:
+	@$(RUN) tools/lint_hatch_matrix.py
+	@$(RUN) tools/lint_workflow_pins.py
+generated-check:
+	@$(RUN) scripts/gen_recipe_index.py --check
+	@$(RUN) scripts/gen_recipe_table.py --check
+	@$(RUN) scripts/gen_requirements.py --check
+check:
+	@$(RUN) -m tools.verification focused check -m tools.verification_quality
+check-all: verify
 
-.PHONY: format-check
-format-check: ensure-hatch
-	@$(HATCH) run format-check
+.PHONY: test integration verify report clean bicep worker-registration smoke
+test integration verify bicep worker-registration smoke:
+	@$(RUN) -m tools.verification $@
+report clean:
+	@$(MAINTENANCE_PYTHON) -m tools.verification $@
+.PHONY: doctor
+doctor:
+	@$(MAINTENANCE_PYTHON) -m tools.verification doctor
 
-.PHONY: style
-style: ensure-hatch
-	@$(HATCH) run style
-
-.PHONY: typecheck
-typecheck: ensure-hatch
-	@$(HATCH) run typecheck
-
-.PHONY: lint
-lint: ensure-hatch
-	@$(HATCH) run lint
-
-.PHONY: lint-workflows
-lint-workflows: ensure-hatch
-	@$(HATCH) run python tools/lint_hatch_matrix.py
-.PHONY: security
-security: ensure-hatch
-	@$(HATCH) run security
-
-.PHONY: check
-check: ensure-hatch
-	@$(MAKE) lint
-	@$(MAKE) lint-workflows
-	@$(MAKE) typecheck
-	@echo "Lint and type check passed."
-
-.PHONY: check-all
-check-all: ensure-hatch
-	@$(MAKE) check
-	@$(MAKE) test
-	@$(MAKE) security
-	@echo "All checks passed including tests and security scan."
-
-.PHONY: precommit
-precommit: ensure-hatch
-	@$(HATCH) run precommit
-
-.PHONY: precommit-install
-precommit-install: ensure-hatch
-	@$(HATCH) run precommit-install
-
-.PHONY: test
-test: ensure-hatch
-	@echo "Running tests..."
-	@$(HATCH) run test
+.PHONY: recipe-tests
+recipe-tests:
+	@$(RUN) -m scripts.run_recipe_tests
+.PHONY: cov e2e-azure build docs docs-serve
+cov: test
+e2e-azure:
+	@$(RUN) -m tools.verification azure-e2e
+build:
+	@$(RUN) -m tools.verification focused build -m build
+docs:
+	@$(RUN) -m tools.verification focused docs -m mkdocs build --strict
+docs-serve:
+	@$(RUN) -m mkdocs serve
 
 .PHONY: new-recipe
-new-recipe: ensure-hatch
+new-recipe:
 ifndef CAT
 	$(error CAT is not set. Usage: make new-recipe CAT=apis-and-ingress NAME=my_recipe DIFFICULTY=Beginner)
 endif
@@ -101,61 +78,21 @@ ifndef NAME
 	$(error NAME is not set. Usage: make new-recipe CAT=apis-and-ingress NAME=my_recipe DIFFICULTY=Beginner)
 endif
 ifndef DIFFICULTY
-	$(error DIFFICULTY is not set. Usage: make new-recipe CAT=apis-and-ingress NAME=my_recipe DIFFICULTY=Beginner (one of Beginner, Intermediate, Advanced))
+	$(error DIFFICULTY is not set. Usage: make new-recipe CAT=apis-and-ingress NAME=my_recipe DIFFICULTY=Beginner)
 endif
-	@$(HATCH) run python scripts/new_recipe.py --category "$(CAT)" --name "$(NAME)" --difficulty "$(DIFFICULTY)"
+	@$(RUN) scripts/new_recipe.py --category "$(CAT)" --name "$(NAME)" --difficulty "$(DIFFICULTY)"
 
-.PHONY: cov
-cov: ensure-hatch
-	@$(HATCH) run cov
-	@echo "Open htmlcov/index.html in your browser to view the coverage report."
-	@echo "coverage.xml generated for Codecov upload."
-
-.PHONY: build
-build: ensure-hatch
-	@$(HATCH) build
-
-.PHONY: publish-test
+.PHONY: precommit precommit-install publish-test version clean-all help
+precommit precommit-install: ensure-hatch
+	@$(HATCH) run $@
 publish-test: ensure-hatch
 	@$(HATCH) publish --repo test
-
-.PHONY: version
 version: ensure-hatch
-	@echo "Current version:"
 	@$(HATCH) version
-
-.PHONY: docs
-docs:
-	@if [ -n "$$CI" ]; then \
-		echo "CI detected: running MkDocs directly"; \
-		python -m pip install --upgrade pip > /dev/null 2>&1 || true; \
-		pip install "mkdocs<2.0" "mkdocs-material<10.0" "mkdocstrings[python]<1.0" > /dev/null 2>&1; \
-		mkdocs build; \
-	else \
-		$(MAKE) ensure-hatch > /dev/null; \
-		$(HATCH) run mkdocs build; \
-	fi
-
-.PHONY: docs-serve
-docs-serve: ensure-hatch
-	@$(HATCH) run docs
-
-.PHONY: clean
-clean:
-	@rm -rf *.egg-info dist build __pycache__ .pytest_cache
-
-.PHONY: clean-all
 clean-all: clean
-	@find . -type d -name "__pycache__" -exec rm -rf {} +
-	@find . -type f \( -name "*.pyc" -o -name "*.pyo" \) -delete
-	@rm -rf .mypy_cache .ruff_cache .pytest_cache .coverage coverage.xml htmlcov .DS_Store $(VENV_DIR) site
-
-.PHONY: help
+	@find . -type d -name "__pycache__" -not -path "./.git/*" -exec rm -rf {} +
+	@find . -type f \( -name "*.pyc" -o -name "*.pyo" \) -not -path "./.git/*" -delete
+	@rm -rf .DS_Store $(VENV_DIR)
 help:
-	@echo "Available commands:" && \
-	grep -E '^\.PHONY: ' Makefile | cut -d ':' -f2 | xargs -n1 echo "  - make"
-
-.PHONY: doctor
-doctor: ensure-hatch
-	@echo "Checking project health..."
-	@$(MAKE) check-all && echo "All checks passed." || { echo "Some checks failed."; exit 1; }
+	@echo "Canonical: install install-ci doctor lint format-check format typecheck security check test integration verify e2e-azure report clean"
+	@echo "check-all: exact alias of verify; focused commands produce PARTIAL evidence"

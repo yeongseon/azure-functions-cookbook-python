@@ -262,7 +262,13 @@ opt into the heavier tiers explicitly:
 
 - **unit** (default) — `make test`; no external services, no emulator.
 - **smoke** — `hatch run smoke`; module-import checks for non-emulatable triggers.
-- **e2e** — `hatch run e2e`; requires Azurite and a running `func` host.
+- **e2e** — `make integration` (`hatch run e2e` alias); starts owned Azurite and `func` hosts.
+
+Canonical local verification is `make verify` (`make check-all` is its exact
+alias). Start with read-only `make doctor`, `make check`, and offline `make test`.
+`make integration` owns its local hosts/emulator; `make report` displays saved
+redacted `test-results/` evidence. Azure applicability is separate and never
+inferred from local E2E. See [the command contract](CONTRIBUTING.md#project-commands).
 
 ## Repository Layout
 

@@ -36,9 +36,16 @@ We use a Makefile to provide a consistent interface for common tasks. Use the fo
 |---------|-------------|
 | make install | Install dependencies and set up environment |
 | make format | Format code with ruff |
-| make lint | Run linter and type checker |
-| make test | Run test suite |
-| make check-all | Run all checks (lint, test, security) |
+| make lint | Ruff only; make typecheck runs strict mypy |
+| make doctor | Read-only prerequisites, fail closed |
+| make install-ci | Selected CI interpreter setup |
+| make check | Non-mutating quality and generated CHECK modes |
+| make test | Offline tests and >=95% coverage |
+| make integration | Owned local Functions hosts and Azurite |
+| make verify / make check-all | Full local gate / exact alias |
+| make e2e-azure | Explicit remote preflight, never local fallback |
+| make report | Saved redacted evidence only |
+| make clean | Generated artifacts only; tracked files preserved |
 | make docs | Build documentation site |
 | make docs-serve | Serve documentation locally |
 | make security | Run security scan with bandit |

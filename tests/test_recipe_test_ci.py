@@ -16,7 +16,7 @@ def test_ci_runs_discovered_recipe_test_suites() -> None:
 
     # Then: CI delegates automatic per-recipe execution to the repository runner.
     assert suites
-    assert "python scripts/run_recipe_tests.py" in workflow
+    assert "python -m scripts.run_recipe_tests" in workflow
     assert set(jobs["ci-required"]["needs"]) == {
         "changes",
         "quality",

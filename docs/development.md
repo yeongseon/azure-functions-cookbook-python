@@ -36,10 +36,19 @@ pip install -e ".[dev,docs]"
 | Command | Purpose |
 | --- | --- |
 | `make format` | Format code |
-| `make lint` | Ruff + mypy checks |
-| `make test` | Run test suite |
+| `make lint` | Ruff checks only |
+| `make typecheck` | Strict mypy |
+| `make doctor` | Read-only prerequisites; missing required tools fail |
+| `make install-ci` | Install into selected CI interpreter |
+| `make check` | Non-mutating quality and generated CHECK modes; types once |
+| `make test` | Offline tests, coverage >=95%, counts by suite |
+| `make integration` | Owned local hosts/Azurite, live and import families separate |
+| `make verify` | Complete local plan including Bicep and worker registration |
+| `make report` | Saved test-results evidence only |
+| `make clean` | Generated artifacts only, preserves tracked files and venv |
+| `make e2e-azure` | Explicit deployed-Azure preflight, no provisioning |
 | `make security` | Run Bandit security checks |
-| `make check-all` | Lint + type + test + security |
+| `make check-all` | Exact alias of make verify |
 | `make docs` | Build MkDocs site |
 | `make docs-serve` | Serve docs locally |
 

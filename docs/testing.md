@@ -1,5 +1,25 @@
 # Testing
 
+## Canonical verification
+
+`make doctor` diagnoses the environment without tests or installation.
+`make check` runs non-mutating quality and generator `--check` modes, types once.
+`make test` is offline with coverage >=95%. `make integration` starts run-owned
+Azurite/Functions hosts on unique ports and removes only its own processes/storage.
+`make verify` adds isolated recipe suites, required Bicep compilation, pinned-worker
+registration, build and strict docs; `make check-all` is an exact alias.
+
+Required missing/zero/all-skipped/unexpected-skipped lanes are INCOMPLETE/nonzero,
+never PASS. Individual selections are PARTIAL. `make report` displays saved
+`test-results/` JUnit/coverage/logs and schema-versioned per-family summaries with
+redacted environment metadata. `make clean` preserves tracked files and venvs;
+`make clean-all` retains deep-clean semantics.
+
+No current recipe has deployed-Azure certification: toolkit E2E runs locally.
+`make e2e-azure` fails before tests when E2E_BASE_URL is absent and remains
+INCOMPLETE until real remote support exists; unsupported recipe applicability is
+NOT_APPLICABLE. It never provisions Azure or substitutes emulator success.
+
 Testing in this cookbook has two goals:
 
 1. Validate repository quality checks.
@@ -30,7 +50,7 @@ make docs
 | Command | What it validates |
 | --- | --- |
 | `make format` | Formatting conventions |
-| `make lint` | Ruff + mypy correctness |
+| `make lint` | Ruff correctness; types are a separate task |
 | `make test` | Automated tests |
 | `make cov` | Coverage report generation |
 | `make security` | Bandit static security checks |

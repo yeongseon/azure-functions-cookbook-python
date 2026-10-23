@@ -48,8 +48,8 @@ Local development requires Python 3.11 through 3.14, as declared by
 Azure Functions Core Tools, Azurite, Docker, or other cloud credentials are
 required for the standard contributor checks.
 
-From a fresh clone, bootstrap the repository-managed virtual environment and
-Hatch environment with the existing Makefile target:
+Install Hatch once in an isolated tool environment. From a fresh clone, create
+the Hatch environment with the Makefile target:
 
 ```bash
 make install
@@ -66,14 +66,68 @@ make build
 
 ## Project Commands
 
-```bash
-make format      # Format code with ruff
-make lint        # Lint with ruff
-make typecheck   # Type check with mypy
-make test        # Run tests
-make cov         # Run tests with coverage
-make check-all   # Run the full local gate
-```
+| Command | Contract |
+| --- | --- |
+| `make install` | Idempotent Hatch environment setup and local hooks; install Hatch once first |
+| `make install-ci` | Install dev/docs extras into the selected interpreter; accepts INSTALL_FLAGS for constraints |
+| `make doctor` | Read-only Python >=3.11, Hatch/venv, Ruff, mypy, pytest, Bandit diagnostics; missing required tools return nonzero |
+| `make lint` | Ruff only, including existing example/script import-modernization policy |
+| `make format-check` / `make format` | Read-only formatting check / explicit formatting mutation |
+| `make typecheck` / `make security` | Strict mypy / Bandit on the existing runtime surface |
+| `make check` | Formatting, lint, types once, security, workflow policy, generated metadata/requirements CHECK modes |
+| `make test` | Offline repository unit/mocked and recipe-contract suites, coverage >=95%, per-suite counts |
+| `make integration` | Owned local Azurite/Functions hosts: HTTP, queue, blob, toolkit runtime, agent storage and separate import smoke |
+| `make verify` | Check, offline tests, isolated per-recipe suites, Bicep, worker registration, integration, build, strict docs |
+| `make e2e-azure` | Explicit deployed-Azure preflight/applicability; no provisioning and no local fallback |
+| `make report` | Read saved evidence without running tests |
+| `make clean` | Remove generated evidence/build/cache/docs artifacts; preserve tracked files, environments and shared resources |
+
+`make check-all` is an exact alias of `make verify`. `make clean-all` retains its
+historical deep cleanup, including `.venv` and bytecode. Individual tasks and
+focused test selections are **PARTIAL**, never full verification. Local execution
+uses Hatch Python 3.11; CI uses its selected interpreter directly, including every
+3.11–3.14 matrix cell and the `constraints-min.txt` lane.
+
+### Prerequisites and lane boundaries
+
+Check/test require no Functions host, emulator, Azure subscription or Bicep CLI.
+All three generators support `--check`; verification never regenerates tracked
+`recipes.json`, README tables or recipe requirements. Bicep compilation is a
+separate required verify lane: install `bicep` (or `az bicep install`, or set
+`BICEP_CLI`). Missing Bicep produces INCOMPLETE/nonzero, not a skipped PASS.
+Worker registration uses the existing pinned official-worker guard and requires
+Git/network; inability to clone/load it is INCOMPLETE. Per-recipe environments use
+uv and temporary copies, allowing their declared dependency sets without writing
+lockfiles or environments into examples. New recipes automatically join metadata
+inventory and repository contracts; standalone tests are discovered when present.
+
+Integration requires `func` and `azurite` on PATH. It uses unique loopback ports,
+temporary emulator storage and copied recipe apps. Readiness checks host state,
+not merely a listening socket. Only run-owned process groups are stopped, including
+on timeout/interruption. HTTP/queue/blob/toolkit execution, agent persistence,
+Durable import-only smoke and non-emulatable imports remain separate proofs.
+Import success is not live trigger execution; the existing blob suite is host-load
+evidence, not proof of Event Grid delivery. Toolkit warnings remain errors.
+
+### Evidence and Azure applicability
+
+Gitignored `test-results/` holds test JUnit/coverage/summary, integration per-family
+JUnit/logs, recipe results, verify summary/environment/lanes, and azure-e2e evidence.
+Schema-versioned JSON records command, lane, required flag, scope, selected/passed/
+failed/skipped counts by suite/family, artifact paths and source/package/Python
+metadata. Console and Actions Job Summary show the same saved outcomes. Credentials,
+tokens and connection strings are redacted; CI uploads available artifacts with
+`if: always()`, including failures.
+
+Statuses: **PASS**, **FAIL**, **INCOMPLETE**, **NOT_APPLICABLE**. Required zero tests,
+all-skipped, unexpected skips, missing prerequisites/results never PASS. Process
+failure retains its exit status. Unsupported recipes alone are NOT_APPLICABLE.
+There is currently **no deployed-Azure test suite** in this repository: toolkit E2E
+uses local hosts/Azurite. Every recipe's Azure applicability is explicitly false
+in the inventory. `make e2e-azure` requires `E2E_BASE_URL` before tests; even with it
+set, no remote proof exists, so certification remains INCOMPLETE/nonzero rather
+than relabeling emulator results. Adding supported recipes requires actual remote
+tests and deployment/candidate identity evidence. No command provisions Azure.
 
 Before opening a PR, run `ruff format --check <changed-python-files>` (or
 `ruff format <changed-python-files>` to fix them). `make format-check` checks

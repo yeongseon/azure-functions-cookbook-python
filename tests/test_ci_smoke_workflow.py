@@ -9,6 +9,7 @@ EXPECTED_PATHS = [
     "tests/e2e/**",
     "tests/_isolation.py",
     "tests/__init__.py",
+    "tools/verification*.py",
     "Makefile",
     "README.md",
     "pyproject.toml",
