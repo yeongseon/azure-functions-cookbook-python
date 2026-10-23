@@ -11,6 +11,22 @@ import sys
 from tools.recipe_auth import module_bindings, symbol
 
 
+def construct_digest(node: ast.AST) -> str:
+    def normalized(value: ast.AST | list[ast.AST] | str | int | float | bool | None) -> str:
+        if isinstance(value, ast.AST):
+            fields = ", ".join(
+                f"{name}={normalized(child)}"
+                for name, child in ast.iter_fields(value)
+                if child is not None
+            )
+            return f"{type(value).__name__}({fields})"
+        if isinstance(value, list):
+            return "[" + ", ".join(normalized(child) for child in value) + "]"
+        return repr(value)
+
+    return hashlib.sha256(normalized(node).encode()).hexdigest()
+
+
 @dataclass(frozen=True, slots=True)
 class InspectionGap:
     file: str
@@ -61,7 +77,7 @@ def inspection_gaps(project: Path, root: Path) -> tuple[InspectionGap, ...]:
         }
 
         def record(node: ast.AST, rule: str) -> None:
-            digest = hashlib.sha256(ast.dump(node, include_attributes=False).encode()).hexdigest()
+            digest = construct_digest(node)
             gaps.add(
                 InspectionGap(
                     path.relative_to(root).as_posix(),

@@ -1,3 +1,4 @@
+import ast
 import importlib.util
 import json
 from pathlib import Path
@@ -172,3 +173,18 @@ def test_conservative_boundary_reports_source_location(tmp_path: Path, source: s
         finding.id == "INCOMPLETE_INSPECTION" and finding.line > 0 for finding in result.findings
     )
     assert any(route.auth == "UNKNOWN" for route in routes(project, tmp_path))
+
+
+def test_review_digest_is_independent_of_python_ast_dump_format() -> None:
+    from unittest.mock import patch
+
+    from tools.recipe_inspection import construct_digest
+
+    statement = ast.parse("eval(expression)").body[0]
+    assert isinstance(statement, ast.Expr)
+    node = statement.value
+    with patch.object(ast, "dump", return_value="different interpreter formatting"):
+        assert (
+            construct_digest(node)
+            == "5a3bc37cdb8fc138b088893167d0d2a3e25adae64886ba9d4a8b2f476af56ad1"
+        )
