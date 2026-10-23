@@ -67,11 +67,32 @@ def mentions_app(node: ast.AST, names: set[str]) -> bool:
     return any(isinstance(child, ast.Name) and child.id in names for child in ast.walk(node))
 
 
+def registration_method(name: str) -> bool:
+    return (
+        name in {"route", "schedule", "function_name", "register_functions", "register_blueprint"}
+        or name.endswith("_trigger")
+        or name.startswith(("service_bus_", "event_hub_", "cosmos_db_", "durable_"))
+    )
+
+
+def expanded_arguments(call: ast.Call) -> bool:
+    return any(isinstance(argument, ast.Starred) for argument in call.args) or any(
+        keyword.arg is None for keyword in call.keywords
+    )
+
+
 def inspection_gaps(project: Path, root: Path) -> tuple[InspectionGap, ...]:
     gaps: set[InspectionGap] = set()
     for path, tree in source_modules(project).items():
         names = app_names(tree)
         bindings, _ = module_bindings(tree)
+        for node in ast.walk(tree):
+            if (
+                isinstance(node, ast.Assign)
+                and isinstance(node.value, ast.Name)
+                and node.value.id in names
+            ):
+                names.update(target.id for target in node.targets if isinstance(target, ast.Name))
         parents = {
             child: parent for parent in ast.walk(tree) for child in ast.iter_child_nodes(parent)
         }
@@ -88,6 +109,17 @@ def inspection_gaps(project: Path, root: Path) -> tuple[InspectionGap, ...]:
             )
 
         for node in ast.walk(tree):
+            if (
+                isinstance(node, ast.Attribute)
+                and isinstance(node.ctx, ast.Load)
+                and registration_method(node.attr)
+                and mentions_app(node.value, names)
+            ):
+                parent = parents.get(node)
+                if not isinstance(parent, ast.Call) or parent.func is not node:
+                    record(node, "registration-method-escape")
+                elif expanded_arguments(parent):
+                    record(parent, "registration-argument-expansion")
             if isinstance(node, ast.ImportFrom) and any(alias.name == "*" for alias in node.names):
                 if (node.module or "").split(".")[0] not in sys.stdlib_module_names:
                     record(node, "star-import")
@@ -102,6 +134,10 @@ def inspection_gaps(project: Path, root: Path) -> tuple[InspectionGap, ...]:
                 continue
             callable_name = symbol(node.func, bindings)
             leaf = callable_name.rsplit(".", 1)[-1]
+            if leaf in {"FunctionApp", "DFApp", "Blueprint", "LangGraphApp"} and expanded_arguments(
+                node
+            ):
+                record(node, "constructor-argument-expansion")
             if callable_name in {
                 "exec",
                 "eval",
@@ -130,11 +166,7 @@ def inspection_gaps(project: Path, root: Path) -> tuple[InspectionGap, ...]:
                 )
                 if not supported:
                     record(node, "app-escape")
-            if isinstance(node.func, ast.Attribute) and node.func.attr in {
-                "route",
-                "http_trigger",
-                "register_functions",
-            }:
+            if isinstance(node.func, ast.Attribute) and registration_method(node.func.attr):
                 ancestor = parents.get(node)
                 while ancestor is not None:
                     if isinstance(ancestor, ast.ClassDef):

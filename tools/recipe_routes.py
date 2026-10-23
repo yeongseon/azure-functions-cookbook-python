@@ -95,6 +95,10 @@ def routes(project: Path, root: Path) -> tuple[Route, ...]:
                 for keyword in decorator.keywords:
                     if keyword.arg == "auth_level":
                         auth = auth_value(keyword.value, names)
+                if any(isinstance(argument, ast.Starred) for argument in decorator.args) or any(
+                    keyword.arg is None for keyword in decorator.keywords
+                ):
+                    auth = "UNKNOWN"
                 result.append(Route(path.relative_to(root).as_posix(), handler.name, auth))
         if any(defaults.get(name) == "UNKNOWN" for name in ("app", "api", "bp", "*import*")):
             result.append(
