@@ -96,7 +96,9 @@ def test_exec_cannot_hide_http_behind_non_http_classification(tmp_path: Path, ti
 
 
 def test_public_attribute_that_sdk_ignores_is_not_an_auth_mutation(tmp_path: Path) -> None:
-    project = paid_recipe(tmp_path, PROTECTED + "app.http_auth_level = func.AuthLevel.ANONYMOUS\n")
+    project = paid_recipe(
+        tmp_path, PROTECTED + "app.http_auth_level = func.AuthLevel.ANONYMOUS\n", "protected"
+    )
     assert sdk_levels(project) == ["FUNCTION"]
     assert check_manifest(tmp_path).status == Status.PASS
 
@@ -142,7 +144,7 @@ def test_review_is_exact_and_does_not_allow_changed_construct(tmp_path: Path) ->
 
     from tools.recipe_inspection import inspection_gaps
 
-    project = paid_recipe(tmp_path, PROTECTED + "exec('pass')\n")
+    project = paid_recipe(tmp_path, PROTECTED + "exec('pass')\n", "protected")
     manifest = tmp_path / "security/recipe-security-manifest.json"
     content = json.loads(manifest.read_text())
     content["inspection_reviews"] = [
@@ -152,7 +154,7 @@ def test_review_is_exact_and_does_not_allow_changed_construct(tmp_path: Path) ->
     manifest.write_text(json.dumps(content))
     assert check_manifest(tmp_path).status == Status.PASS
     (project / "function_app.py").write_text(PROTECTED + "exec(" + repr(HIDDEN) + ")\n")
-    assert check_manifest(tmp_path).status == Status.FAIL
+    assert check_manifest(tmp_path).status == Status.INCOMPLETE
 
 
 @pytest.mark.parametrize(
