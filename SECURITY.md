@@ -114,13 +114,28 @@ tests explicitly set/unset the opt-in and establish ANONYMOUS only for `true`.
 The runtime modules are unchanged. The full 82/104/74 extracted table and all
 nineteen existing exact reviews remain unchanged on Python 3.11 and 3.14.
 
-The Functions worker's application entrypoint is `function_app.py`; it does not
-discover recipe `conftest.py` or `sitecustomize.py` as application modules. The
-real direct-chat host smoke includes inert tripwire files with those names and
-still indexes/serves the recipe in its own venv. This is not a claim that Python
-startup never loads `sitecustomize` from interpreter/site paths: installed startup
-customization, `.pth` hooks and external dependency internals are outside this
-recipe-source inspection boundary. Pytest loads conftest only in test execution.
+The Functions worker's application discovery imports `function_app.py` and its
+import closure. Interpreter startup customization is a separate mechanism:
+`sitecustomize`, `usercustomize` and `.pth` hooks can execute before application
+indexing. In particular, putting the recipe directory on `PYTHONPATH` through its
+own settings can cause local `sitecustomize.py` to execute (including with worker
+indexing enabled). The earlier ordinary-host tripwire run without that setting
+does **not** prove startup hooks cannot execute. Startup customization and
+external dependency internals remain outside the source guard. The guard now
+flags any recipe `sitecustomize.py`, `usercustomize.py`, `*.pth`, or PYTHONPATH /
+PYTHONHOME-like local.settings/.env setting as incomplete inspection (FAIL for
+paid recipes); no real recipe currently contains one. `conftest.py` is pytest
+discovery, not worker application discovery.
+
+Recipe-local import candidates must be plain `.py` source. Adjacent sourceless
+`.pyc`/`.pyo`, extension `.so`/`.pyd` variants, `.zip`/`.egg` candidates and opaque
+package initializers are UNKNOWN, including local candidates shadowing declared
+stdlib/third-party names. Python 3 does not import sourceless files from
+`__pycache__` alone; cache-only bytecode is not an opaque import candidate.
+Top-level worker entrypoint relative imports are UNKNOWN because that module has
+no package context; package-module relative imports remain supported. Discovery
+prunes `.venv`, venv/env, `__pycache__`, site-packages and other generated paths
+before traversal; source/security/dependency/requirements checks share this rule.
 
 `security/recipe-security-manifest.json` classifies all runnable `function_app.py`
 projects and their declared HTTP handlers, inherited blueprint auth and adapter

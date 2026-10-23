@@ -105,10 +105,18 @@ Recursive inspection includes executed package initializers, not just the final
 dotted module: importing `a.b.c` includes every existing ancestor `__init__.py`.
 Absolute/from-submodule and package-relative imports, re-exports and unambiguous
 namespace packages are resolved without execution. Missing/ambiguous local
-targets or imports escaping the recipe are UNKNOWN. The worker imports
-`function_app.py`, not pytest conftest discovery; a real-host tripwire check
-confirms local conftest/sitecustomize are not application-discovered. Interpreter
-startup customization from site paths remains outside the source guard.
+targets or imports escaping the recipe are UNKNOWN. Adjacent bytecode, native
+extensions, zip/egg candidates and sourceless package initializers are UNKNOWN;
+`__pycache__`-only bytecode is not Python 3 sourceless import discovery. Relative
+imports in the non-package entrypoint are UNKNOWN.
+
+The worker application imports `function_app.py` and its closure, not pytest
+conftest discovery. Interpreter startup hooks are separate: local settings that
+put the recipe directory on `PYTHONPATH` can cause sitecustomize/usercustomize to
+execute before indexing. The earlier no-PYTHONPATH tripwire run is not evidence
+against this. Startup hooks/`.pth` files and PYTHONPATH-like recipe settings are
+flagged incomplete (paid recipes FAIL); interpreter startup execution remains
+outside the source guard. No real recipe currently has such hooks/settings.
 
 The manifest guard prevents accidental public exposure; it is not a sandbox for
 adversarial code. Unsupported registration/auth mutation makes inspection UNKNOWN
