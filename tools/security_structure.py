@@ -37,6 +37,8 @@ def check_structure(root: Path) -> Check:
             if ".settings" in path.name or path.name.startswith(".env"):
                 files.add(path)
     findings: list[Finding] = []
+    if not files:
+        return Check("structure", Status.INCOMPLETE, {"files": 0})
     public: list[Finding] = []
     shell_errors = 0
     try:
@@ -54,7 +56,9 @@ def check_structure(root: Path) -> Check:
                         findings.append(Finding("HARDCODED_SECRET", name, number, "HIGH"))
                 if path.suffix == ".bicep":
                     if re.search(
-                        r"httpsOnly:\s*false|allowBlobPublicAccess:\s*true|minimumTlsVersion:\s*'TLS1_[01]'",
+                        r"httpsOnly:\s*false|allowBlobPublicAccess:\s*true|"
+                        r"(?:minTlsVersion|scmMinTlsVersion|minimumTlsVersion):\s*['\"]"
+                        r"(?:TLS1_[01]|1\.[01])['\"]",
                         line,
                     ):
                         findings.append(Finding("INSECURE_TRANSPORT", name, number, "HIGH"))
