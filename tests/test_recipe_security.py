@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from dataclasses import replace
-from datetime import date, timedelta
+from datetime import UTC, datetime, timedelta
 import json
 from pathlib import Path
 
@@ -79,6 +79,7 @@ def test_blueprint_override_retains_route_level_auth(tmp_path: Path) -> None:
     )
     (tmp_path / "app").mkdir()
     (tmp_path / "app/health.py").write_text(
+        "bp = func.Blueprint()\n"
         "@bp.route(route='health', auth_level=func.AuthLevel.ANONYMOUS)\n"
         "def health(req): return req\n"
         "@bp.route(route='private')\ndef private(req): return req\n"
@@ -107,7 +108,7 @@ def test_scanning_never_executes_example(sample: Path) -> None:
 
 @pytest.mark.parametrize("expiry", [-1, 91])
 def test_invalid_exception_cannot_suppress_finding(tmp_path: Path, expiry: int) -> None:
-    today = date.today()
+    today = datetime.now(UTC).date()
     policy = tmp_path / "policy.json"
     policy.write_text(
         json.dumps(
@@ -132,7 +133,7 @@ def test_invalid_exception_cannot_suppress_finding(tmp_path: Path, expiry: int) 
 
 
 def test_exception_only_matches_exact_location(tmp_path: Path) -> None:
-    today = date.today()
+    today = datetime.now(UTC).date()
     policy = tmp_path / "policy.json"
     policy.write_text(
         json.dumps(

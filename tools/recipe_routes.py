@@ -6,27 +6,14 @@ import ast
 from dataclasses import dataclass
 from pathlib import Path
 
+from tools.recipe_auth import auth_value, constructor_auth, module_bindings, module_nodes
+
 
 @dataclass(frozen=True, slots=True)
 class Route:
     file: str
     handler: str
     auth: str
-
-
-def auth_value(node: ast.expr, names: dict[str, str]) -> str:
-    if isinstance(node, ast.Attribute) and node.attr in {"ANONYMOUS", "FUNCTION", "ADMIN"}:
-        return node.attr
-    if isinstance(node, ast.Constant) and isinstance(node.value, str):
-        value = node.value.upper()
-        return value if value in {"ANONYMOUS", "FUNCTION", "ADMIN"} else "UNKNOWN"
-    if isinstance(node, ast.Name):
-        return names.get(node.id, "UNKNOWN")
-    if isinstance(node, ast.IfExp):
-        # Resolve the false branch only after checking the actual environment expression.
-        if isinstance(node.test, ast.Name) and names.get(node.test.id) == "PUBLIC_DEMO_OPT_IN":
-            return auth_value(node.orelse, names)
-    return "UNKNOWN"
 
 
 def routes(project: Path, root: Path) -> tuple[Route, ...]:
@@ -60,7 +47,16 @@ def routes(project: Path, root: Path) -> tuple[Route, ...]:
                     )
                 ):
                     key = (imports.get(blueprint, path), imported_names.get(blueprint, blueprint))
-                    inherited.setdefault(key, set()).add(defaults.get(receiver, "UNKNOWN"))
+                    if key[0] not in bindings or bindings[key[0]][1].get(key[1]) != "BLUEPRINT":
+                        result.append(
+                            Route(
+                                path.relative_to(root).as_posix(),
+                                "unresolved-registration",
+                                "UNKNOWN",
+                            )
+                        )
+                    else:
+                        inherited.setdefault(key, set()).add(defaults.get(receiver, "UNKNOWN"))
     for path in files:
         tree = modules[path]
         names, defaults = bindings[path]
@@ -75,10 +71,7 @@ def routes(project: Path, root: Path) -> tuple[Route, ...]:
                 and isinstance(node.value.func, ast.Name)
                 and node.value.func.id == "LangGraphApp"
             ):
-                adapter_auth = "FUNCTION"
-                for keyword in node.value.keywords:
-                    if keyword.arg == "auth_level":
-                        adapter_auth = auth_value(keyword.value, names)
+                adapter_auth = constructor_auth(node.value, names)
                 result.append(
                     Route(path.relative_to(root).as_posix(), "adapter-routes", adapter_auth)
                 )
@@ -102,57 +95,39 @@ def routes(project: Path, root: Path) -> tuple[Route, ...]:
                     if keyword.arg == "auth_level":
                         auth = auth_value(keyword.value, names)
                 result.append(Route(path.relative_to(root).as_posix(), handler.name, auth))
-    return tuple(sorted(set(result), key=lambda route: (route.file, route.handler)))
-
-
-def module_bindings(tree: ast.Module) -> tuple[dict[str, str], dict[str, str]]:
-    names: dict[str, str] = {}
-    defaults: dict[str, str] = {}
-    for node in tree.body:
-        if isinstance(node, (ast.Assign, ast.AnnAssign)):
-            value = node.value
-            targets = node.targets if isinstance(node, ast.Assign) else [node.target]
-            for target in targets:
-                if not isinstance(target, ast.Name) or value is None:
-                    continue
-                names[target.id] = auth_value(value, names)
-                defaults[target.id] = "UNKNOWN"
+        if any(defaults.get(name) == "UNKNOWN" for name in ("app", "api", "bp", "*import*")):
+            result.append(
+                Route(path.relative_to(root).as_posix(), "unresolved-application", "UNKNOWN")
+            )
+        for node in tree.body:
+            if isinstance(node, (ast.If, ast.For, ast.While, ast.Try)):
                 if (
-                    isinstance(value, ast.Attribute)
-                    and value.attr == "function_app"
-                    and isinstance(value.value, ast.Name)
+                    isinstance(node, ast.If)
+                    and isinstance(node.test, ast.Name)
+                    and names.get(node.test.id) in {"True", "False"}
                 ):
-                    defaults[target.id] = defaults.get(value.value.id, "UNKNOWN")
-                if ast.unparse(value) == "os.getenv('COOKBOOK_PUBLIC_DEMO', '').lower() == 'true'":
-                    names[target.id] = "PUBLIC_DEMO_OPT_IN"
-                if target.id == "AUTH_LEVEL_ANONYMOUS":
-                    names[target.id] = "ANONYMOUS"
-                if isinstance(value, ast.Call):
-                    constructor = value.func
-                    if isinstance(constructor, ast.Attribute) and constructor.attr in {
-                        "FunctionApp",
-                        "DFApp",
-                    }:
-                        defaults[target.id] = "FUNCTION"
-                    for keyword in value.keywords:
-                        if keyword.arg in {"http_auth_level", "auth_level"}:
-                            defaults[target.id] = auth_value(keyword.value, names)
-        elif not isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef, ast.ClassDef)):
-            pending = list(ast.iter_child_nodes(node))
-            while pending:
-                child = pending.pop()
-                if isinstance(child, (ast.FunctionDef, ast.AsyncFunctionDef, ast.ClassDef)):
                     continue
-                if isinstance(child, ast.Name) and isinstance(child.ctx, ast.Store):
-                    names[child.id] = defaults[child.id] = "UNKNOWN"
-                pending.extend(ast.iter_child_nodes(child))
-    return names, defaults
-
-
-def module_nodes(tree: ast.AST) -> list[ast.AST]:
-    nodes: list[ast.AST] = []
-    for node in ast.iter_child_nodes(tree):
-        nodes.append(node)
-        if not isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef, ast.ClassDef)):
-            nodes.extend(module_nodes(node))
-    return nodes
+                if any(
+                    isinstance(child, ast.Attribute)
+                    and child.attr in {"route", "register_functions"}
+                    for child in ast.walk(node)
+                ):
+                    result.append(
+                        Route(path.relative_to(root).as_posix(), "dynamic-registration", "UNKNOWN")
+                    )
+    if not result:
+        constructors = any(defaults for _, defaults in bindings.values())
+        event_triggers = any(
+            isinstance(node, ast.Attribute)
+            and node.attr.endswith("_trigger")
+            and node.attr != "http_trigger"
+            or isinstance(node, ast.Attribute)
+            and node.attr == "schedule"
+            for tree in modules.values()
+            for node in ast.walk(tree)
+        )
+        if constructors and not event_triggers:
+            result.append(
+                Route(files[0].relative_to(root).as_posix(), "unresolved-surface", "UNKNOWN")
+            )
+    return tuple(sorted(set(result), key=lambda route: (route.file, route.handler)))
