@@ -7,6 +7,8 @@ from dataclasses import dataclass
 from pathlib import Path
 
 from tools.recipe_auth import auth_value, constructor_auth, module_bindings, module_nodes
+from tools.recipe_binding_order import unstable_names
+from tools.recipe_binding_reviews import reviewed_bindings
 from tools.recipe_inspection import unreviewed_gaps
 
 
@@ -21,7 +23,10 @@ def routes(project: Path, root: Path) -> tuple[Route, ...]:
     result: list[Route] = []
     files = [project / "function_app.py", *sorted((project / "app").rglob("*.py"))]
     modules = {path: ast.parse(path.read_text()) for path in files}
-    bindings = {path: module_bindings(tree) for path, tree in modules.items()}
+    reviews = {path: reviewed_bindings(path, root, tree) for path, tree in modules.items()}
+    bindings = {
+        path: module_bindings(tree, reviewed=reviews[path]) for path, tree in modules.items()
+    }
     inherited: dict[tuple[Path, str], set[str]] = {}
     for path, tree in modules.items():
         names, defaults = bindings[path]
@@ -72,7 +77,8 @@ def routes(project: Path, root: Path) -> tuple[Route, ...]:
                 and isinstance(node.value.func, ast.Name)
                 and node.value.func.id == "LangGraphApp"
             ):
-                adapter_auth = constructor_auth(node.value, names)
+                declaration_names, _ = module_bindings(tree, node.lineno, reviews[path])
+                adapter_auth = constructor_auth(node.value, declaration_names)
                 result.append(
                     Route(path.relative_to(root).as_posix(), "adapter-routes", adapter_auth)
                 )
@@ -87,14 +93,29 @@ def routes(project: Path, root: Path) -> tuple[Route, ...]:
                 ):
                     continue
                 route_receiver = decorator.func.value
+                visible_names, visible_defaults = module_bindings(
+                    tree, decorator.lineno, reviews[path]
+                )
+                visible_defaults.update(
+                    {
+                        receiver: next(iter(levels)) if len(levels) == 1 else "UNKNOWN"
+                        for (module, receiver), levels in inherited.items()
+                        if module == path
+                    }
+                )
                 auth = (
-                    defaults.get(route_receiver.id, "UNKNOWN")
+                    visible_defaults.get(route_receiver.id, "UNKNOWN")
                     if isinstance(route_receiver, ast.Name)
                     else "UNKNOWN"
                 )
                 for keyword in decorator.keywords:
                     if keyword.arg == "auth_level":
-                        auth = auth_value(keyword.value, names)
+                        auth = auth_value(keyword.value, visible_names)
+                if (
+                    isinstance(route_receiver, ast.Name)
+                    and route_receiver.id in unstable_names(tree) - reviews[path]
+                ):
+                    auth = "UNKNOWN"
                 if any(isinstance(argument, ast.Starred) for argument in decorator.args) or any(
                     keyword.arg is None for keyword in decorator.keywords
                 ):

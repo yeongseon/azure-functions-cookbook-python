@@ -4,6 +4,8 @@ from __future__ import annotations
 
 import ast
 
+from tools.recipe_binding_order import expression_is_stable, unstable_names
+
 
 def symbol(node: ast.expr, names: dict[str, str]) -> str:
     match node:
@@ -73,10 +75,15 @@ def constructor_auth(call: ast.Call, names: dict[str, str]) -> str:
     return auth_value(arguments[0], names) if arguments else "FUNCTION"
 
 
-def module_bindings(tree: ast.Module) -> tuple[dict[str, str], dict[str, str]]:
+def module_bindings(
+    tree: ast.Module, before: int | None = None, reviewed: frozenset[str] = frozenset()
+) -> tuple[dict[str, str], dict[str, str]]:
     names: dict[str, str] = {}
     defaults: dict[str, str] = {}
+    invalid = unstable_names(tree) - reviewed
     for node in tree.body:
+        if before is not None and node.lineno >= before:
+            break
         match node:
             case ast.Import(names=imports):
                 for alias in imports:
@@ -125,6 +132,22 @@ def module_bindings(tree: ast.Module) -> tuple[dict[str, str], dict[str, str]]:
                         and isinstance(value.value, ast.Name)
                     ):
                         defaults[target.id] = defaults.get(value.value.id, "UNKNOWN")
+                    relevant = value
+                    if isinstance(value, ast.Call):
+                        auth_arguments = [
+                            keyword.value
+                            for keyword in value.keywords
+                            if keyword.arg in {"auth_level", "http_auth_level"}
+                        ]
+                        relevant = (
+                            auth_arguments[0]
+                            if auth_arguments
+                            else (value.args[0] if value.args else value.func)
+                        )
+                    if target.id in invalid or not expression_is_stable(relevant, invalid):
+                        names[target.id] = "UNKNOWN"
+                        if target.id in defaults:
+                            defaults[target.id] = "UNKNOWN"
             case ast.FunctionDef() | ast.AsyncFunctionDef() | ast.ClassDef():
                 continue
             case _:
@@ -156,6 +179,10 @@ def module_bindings(tree: ast.Module) -> tuple[dict[str, str], dict[str, str]]:
                             and child.args[0].value == "azure.functions"
                         ):
                             names["_func_module"] = "azure.functions"
+    for name in invalid.intersection(names):
+        names[name] = "UNKNOWN"
+        if name in defaults:
+            defaults[name] = "UNKNOWN"
     return names, defaults
 
 

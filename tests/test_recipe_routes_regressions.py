@@ -21,8 +21,8 @@ def test_nested_binding_cannot_replace_module_auth(tmp_path: Path, nested: str) 
     )
     # When declarations are extracted without executing the module.
     result = routes(tmp_path, tmp_path)
-    # Then the exported app remains anonymous.
-    assert result[0].auth == "ANONYMOUS"
+    # Then nested rebinding is unresolved, never falsely protected.
+    assert result[0].auth == "UNKNOWN"
 
 
 @pytest.mark.parametrize(

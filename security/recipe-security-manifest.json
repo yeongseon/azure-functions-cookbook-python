@@ -1,5 +1,14 @@
 {
   "schema_version": 1,
+  "binding_reviews": [
+    {"file":"examples/ai-and-agents/durable_ai_pipeline/function_app.py","line":39,"name":"df","digest":"8fd23a5a58dfbe45b8942bd0021d346f50cef056e56daa4620448cca92c6f3e4","owner":"yeongseon","reason":"Reviewed fixed Durable SDK import/fallback block before app construction; no auth-level variable is rebound."},
+    {"file":"examples/async-apis-and-jobs/callback_completion/function_app.py","line":84,"name":"func","digest":"05c95dba18ff312677c16afcbad7784cd825ed7f0f19163fb87cf0c41c90476b","owner":"yeongseon","reason":"Reviewed fixed Functions SDK import/fallback before route construction; preserves existing anonymous declaration."},
+    {"file":"examples/messaging-and-pubsub/eventgrid_domain_events/function_app.py","line":201,"name":"func","digest":"25aa7b68ca19af036e6e3faed35c0169955fdee617bf206bea971cca684d8f6b","owner":"yeongseon","reason":"Reviewed fixed Functions SDK import/fallback before app construction; no subsequent namespace mutation."},
+    {"file":"examples/messaging-and-pubsub/eventgrid_router/function_app.py","line":48,"name":"func","digest":"0c03ea0b5e0e44b1e882126b435eb79064fc9bcc5c5af4a9fa5080c4ca0db6a0","owner":"yeongseon","reason":"Reviewed fixed SDK fallback before event-only app construction."},
+    {"file":"examples/messaging-and-pubsub/servicebus_dlq_replay/function_app.py","line":242,"name":"func","digest":"82af4f3d72530dec3884acee62e090a04a72c556728734adb3cbb6568bf1b49d","owner":"yeongseon","reason":"Reviewed fixed Functions SDK import/fallback before protected app construction."},
+    {"file":"examples/reliability/poison_message_handling/function_app.py","line":70,"name":"_func_module","digest":"2687b97952187649aaf4995dda10c32938ac2afa70c79e1be1da6143b0ded80f","owner":"yeongseon","reason":"Reviewed fixed SDK module/fallback before event-only app construction."},
+    {"file":"examples/security-and-tenancy/secretless_keyvault/function_app.py","line":92,"name":"func","digest":"25aa7b68ca19af036e6e3faed35c0169955fdee617bf206bea971cca684d8f6b","owner":"yeongseon","reason":"Reviewed fixed Functions SDK import/fallback before protected app construction."}
+  ],
   "inspection_reviews": [
     {"file":"examples/ai-and-agents/mcp_server_example/app/services/mcp_service.py","line":49,"rule":"dynamic-execution","digest":"5a3bc37cdb8fc138b088893167d0d2a3e25adae64886ba9d4a8b2f476af56ad1","owner":"yeongseon","reason":"Existing calculator eval consumes expression text, not the exported app. Unsafe calculator behavior remains tracked by #426; this only reviews route-inspection scope."},
     {"file":"examples/apis-and-ingress/full_stack_crud_api/function_app.py","line":40,"rule":"app-escape","digest":"9932b4b634968deef86ce51933bcb615ee7d46125dccc42cbe75738ee1d60d24","owner":"yeongseon","reason":"Existing toolkit scan_endpoint_metadata reads application metadata; the reviewed call is not a route-registration extension."},
