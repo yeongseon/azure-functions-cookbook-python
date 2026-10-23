@@ -88,6 +88,19 @@ not evidence that handler or edge authorization is absent.
 
 ## Static inspection limits
 
+Paid-backend recipes now require a **canonical allow-list**, not merely absence
+of known dangerous constructs. The entrypoint and recursively imported local
+modules must match supported imports/constants, exactly one keyword-form
+`app = func.FunctionApp(http_auth_level=...)`, direct static registration, and
+the narrow logging/Pydantic/OpenAI-fallback/decorator shapes used by these three
+examples. Only the exact public-demo conditional is modelled. Positional auth,
+constructor/import/app aliases, imported apps, arbitrary top-level control flow,
+expanded arguments and indirect registration are UNKNOWN. First-party imports
+outside the inspected recipe are UNKNOWN. Existing manifest review entries do
+not waive paid canonical rejection; extensions require deliberate code review
+and SDK tests. Runtime recipe code is unchanged. See SECURITY.md for the exact
+statement grammar and the justified exceptions for these three modules.
+
 The manifest guard prevents accidental public exposure; it is not a sandbox for
 adversarial code. Unsupported registration/auth mutation makes inspection UNKNOWN
 even alongside protected routes or event triggers. Paid recipes fail; non-paid

@@ -56,6 +56,52 @@ sets share one audit result, with each recipe still represented in the report.
 
 ## Route-risk model
 
+### Paid-backend canonical allow-list
+
+Paid-backend PASS now requires a positive canonical-form check; the non-paid
+inspection rules below remain diagnostic defense in depth, not the paid trust
+decision. Unknown paid shapes fail closed and cannot be waived by the nineteen
+existing inspection/binding review entries. Extending this grammar requires a
+deliberate reviewed code change with real-SDK regression coverage.
+
+The entrypoint and recursively resolved recipe-local imports are parsed without
+execution, including sibling modules and package-relative imports. An import
+resolving to first-party source outside that recipe is UNKNOWN. The accepted
+module-top-level statements are:
+
+- String docstrings and `from __future__ import annotations`.
+- Imports that do not rebind/shadow app, func, constants or auth dependencies.
+  `func` must come only from `import azure.functions as func`. Trusted logging,
+  validation, OpenAPI and Pydantic helper names must retain their exact imports.
+- Single-name literal/enum constant assignments, assigned once before use.
+- Exactly one `app = func.FunctionApp(http_auth_level=...)` in keyword form.
+  Auth is a literal or resolved single-assignment enum, or the exact opt-in
+  expression below. Alias constructors, default/positional construction,
+  attribute assignments, app aliases and rebinding are UNKNOWN.
+- Function definitions with direct app registration decorators and literal/enum
+  keyword arguments, no expansion. The inspected SDK route signature permits one
+  leading literal route string, never positional auth. Explicit anonymous route
+  overrides are outside the protected paid form. Function bodies/defaults may
+  not reference app, constructors, dynamic execution/imports, or namespace/app
+  reflection. Imported registration functions and nested registration are not
+  canonical.
+
+The three real paid modules require these narrow additional shapes, supported
+explicitly rather than changing the examples: their exact optional OpenAI
+`try: from openai import AzureOpenAI, OpenAIError` fallback (sets AzureOpenAI to
+None and defines the empty OpenAIError exception); exact logging setup/get_logger;
+Pydantic BaseModel classes containing only annotated fields and literal/Field
+defaults; exact imported `openapi`, `with_context`, `validate_http` decorator
+stacks with static model/limit arguments. Their startup opt-in is exactly
+`PUBLIC_DEMO: Final = os.getenv("COOKBOOK_PUBLIC_DEMO", "") == "true"`, followed by
+`ANONYMOUS if PUBLIC_DEMO else FUNCTION`, and their exact logger warning block.
+No other top-level try/if/loop/with/class execution is accepted. The scanner
+models default protection independent of the developer environment; real-SDK
+tests explicitly set/unset the opt-in and establish ANONYMOUS only for `true`.
+
+The runtime modules are unchanged. The full 82/104/74 extracted table and all
+nineteen existing exact reviews remain unchanged on Python 3.11 and 3.14.
+
 `security/recipe-security-manifest.json` classifies all runnable `function_app.py`
 projects and their declared HTTP handlers, inherited blueprint auth and adapter
 auth. Discovery mirrors generated requirements, recursively under `examples/`.
