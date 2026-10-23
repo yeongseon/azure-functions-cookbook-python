@@ -148,7 +148,7 @@ pretty = true
 exclude = ["tests/e2e/"]
 
 [tool.pytest.ini_options]
-addopts = "-ra -q --cov=src/azure_functions_python_cookbook -m 'not (e2e or smoke or worker_registration)'"
+addopts = "-ra -q --cov -m 'not (e2e or smoke or worker_registration)'"
 testpaths = ["tests"]
 pythonpath = ["src", "."]
 markers = [
@@ -162,7 +162,7 @@ markers = [
 
 [tool.coverage.run]
 branch = true
-source = ["src/azure_functions_python_cookbook"]
+source = ["src/azure_functions_python_cookbook", "tools"]
 
 [tool.coverage.report]
 show_missing = true
