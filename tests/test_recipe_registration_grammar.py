@@ -1,5 +1,6 @@
 import itertools
 from pathlib import Path
+import py_compile
 import random
 import sys
 
@@ -196,10 +197,13 @@ def test_seeded_registration_grammar_against_real_sdk(
         "package",
         "nested-package",
         "namespace-package",
+        "bytecode",
+        "relative-entry",
+        "cache-only",
     )
     combinations = list(itertools.product(forms, auths, applications, rebinding, import_forms))
     random.Random(4313).shuffle(combinations)
-    cases = combinations[:950]
+    cases = combinations[:1050]
     for index, (form, auth, application, binding, import_form) in enumerate(cases):
         source = grammar_source(form, auth, application)
         source = source.replace("func.AuthLevel.ANONYMOUS", "auth_binding")
@@ -237,11 +241,23 @@ def test_seeded_registration_grammar_against_real_sdk(
             source = "from endpoints import app\n"
         elif import_form in {"package", "nested-package", "namespace-package"}:
             source = "from endpoints.routes import app\n"
+        elif import_form == "bytecode":
+            source = "from endpoints import app\n"
+        elif import_form == "relative-entry":
+            source = "from .endpoints import app\n"
         project = paid_recipe(tmp_path / str(index), source)
         (project / "endpoints.py").write_text(
             "import azure.functions as func\napp = func.FunctionApp(func.AuthLevel.ANONYMOUS)\n"
             "@app.route(route='hidden')\ndef hidden(req): return req\n"
         )
+        if import_form == "bytecode":
+            py_compile.compile(
+                str(project / "endpoints.py"), cfile=str(project / "endpoints.pyc"), doraise=True
+            )
+            (project / "endpoints.py").unlink()
+        elif import_form == "cache-only":
+            py_compile.compile(str(project / "endpoints.py"), doraise=True)
+            (project / "endpoints.py").unlink()
         if import_form in {"package", "nested-package", "namespace-package"}:
             (project / "endpoints.py").unlink()
             package = project / "endpoints"
@@ -275,6 +291,11 @@ def test_seeded_registration_grammar_against_real_sdk(
         for module_name in tuple(sys.modules):
             if module_name.startswith("endpoints."):
                 monkeypatch.delitem(sys.modules, module_name, raising=False)
+        if import_form == "relative-entry":
+            with pytest.raises(ImportError, match="no known parent package"):
+                sdk_levels(project)
+            assert check_manifest(tmp_path / str(index)).status != Status.PASS
+            continue
         levels = sdk_levels(project)
         assert "ANONYMOUS" in levels, (index, form, auth, application)
         extracted = routes(project, tmp_path)
