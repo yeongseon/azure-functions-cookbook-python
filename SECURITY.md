@@ -93,6 +93,22 @@ recipe: known apps need positive event-trigger/schedule declarations; a source
 without any application or registration declarations is also non-HTTP. Existing
 event-only examples retain their classifications.
 
+Auth expressions use declaration-order snapshots, not final module bindings.
+A referenced name is modelled only when its single top-level assignment precedes
+the constructor/decorator use. Multiple assignments anywhere in the module,
+including function/class-local stores, conditional/loop/try/with writes,
+augmented assignments, walrus expressions and `global`/`nonlocal`, make that
+name UNKNOWN. App/blueprint rebinding is subject to the same rule. Later values
+never retroactively protect earlier SDK bindings.
+
+Seven exact `binding_reviews` entries preserve existing literal SDK import and
+fallback blocks: Durable AI's `df`; callback completion, Event Grid domain/router,
+Service Bus DLQ and secretless Key Vault's `func`; poison handling's
+`_func_module`. Each pins file/line/name/block digest and review reason. All stores
+of the reviewed name must remain inside that block; a later rebind invalidates
+the review. No real example rebinds an auth-level value. The twelve registration
+inspection reviews are unchanged.
+
 ### Conservative inspection boundary
 
 This check guards against **accidental public exposure**, especially in paid

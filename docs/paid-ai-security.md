@@ -99,5 +99,9 @@ argument expansion (`*args` / `**kwargs` even beside explicit auth)
 and bound/escaped registration methods or partial decorator factories on apps
 and blueprints. Route, schedule, trigger, function-name and blueprint-registration
 methods must remain direct modelled uses. The exact construct list
+rejects rebinding of names used for auth or app construction: only a single
+preceding top-level assignment is modelled, using the value visible at declaration
+time. Later assignments never rewrite earlier bindings; conditional, nested,
+augmented, walrus and global writes are UNKNOWN. The exact construct list
 and file/line/AST-digest review-entry contract are in
 [the security inspection boundary](https://github.com/yeongseon/azure-functions-cookbook-python/blob/main/SECURITY.md#conservative-inspection-boundary).
