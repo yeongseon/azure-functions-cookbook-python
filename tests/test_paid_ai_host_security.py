@@ -72,6 +72,9 @@ def test_real_host_indexes_function_auth_and_local_requests_without_keys(
     project = ROOT / "examples/ai-and-agents" / name
     for filename in ("function_app.py", "host.json"):
         shutil.copy(project / filename, tmp_path / filename)
+    if name == "openai_direct_chat" and setting is None:
+        for filename in ("conftest.py", "sitecustomize.py"):
+            (tmp_path / filename).write_text("raise RuntimeError('UNREQUESTED_AUTO_IMPORT')\n")
     ports = [free_port() for _ in range(4)]
     storage = (
         "DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;"

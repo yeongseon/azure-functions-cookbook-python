@@ -193,10 +193,13 @@ def test_seeded_registration_grammar_against_real_sdk(
         "constructor-alias",
         "import-rebinding",
         "conditional-import",
+        "package",
+        "nested-package",
+        "namespace-package",
     )
     combinations = list(itertools.product(forms, auths, applications, rebinding, import_forms))
     random.Random(4313).shuffle(combinations)
-    cases = combinations[:850]
+    cases = combinations[:950]
     for index, (form, auth, application, binding, import_form) in enumerate(cases):
         source = grammar_source(form, auth, application)
         source = source.replace("func.AuthLevel.ANONYMOUS", "auth_binding")
@@ -232,17 +235,46 @@ def test_seeded_registration_grammar_against_real_sdk(
             source += "if True:\n    from grammar_constants import LEVEL as auth_binding\n"
         elif import_form == "sibling":
             source = "from endpoints import app\n"
+        elif import_form in {"package", "nested-package", "namespace-package"}:
+            source = "from endpoints.routes import app\n"
         project = paid_recipe(tmp_path / str(index), source)
         (project / "endpoints.py").write_text(
             "import azure.functions as func\napp = func.FunctionApp(func.AuthLevel.ANONYMOUS)\n"
             "@app.route(route='hidden')\ndef hidden(req): return req\n"
         )
+        if import_form in {"package", "nested-package", "namespace-package"}:
+            (project / "endpoints.py").unlink()
+            package = project / "endpoints"
+            package.mkdir()
+            route_source = (
+                "import azure.functions as func\napp = func.FunctionApp(func.AuthLevel.ANONYMOUS)\n"
+                "@app.route(route='hidden')\ndef hidden(req): return req\n"
+            )
+            (package / "routes.py").write_text(route_source)
+            if import_form != "namespace-package":
+                (package / "__init__.py").write_text("from .routes import app\n")
+            if import_form == "nested-package":
+                nested = package / "nested"
+                nested.mkdir()
+                (nested / "__init__.py").write_text('"Nested package."\n')
+                (nested / "routes.py").write_text("from ..routes import app\n")
+                (project / "function_app.py").write_text(
+                    "from endpoints.nested.routes import app\n"
+                )
         (project / "grammar_constants.py").write_text(
             "from azure.functions import AuthLevel\nLEVEL = AuthLevel.ANONYMOUS\n"
         )
         monkeypatch.syspath_prepend(str(project))
+        monkeypatch.setattr(
+            sys,
+            "path",
+            [str(project), *(entry for entry in sys.path if not entry.startswith(str(tmp_path)))],
+        )
         monkeypatch.delitem(sys.modules, "grammar_constants", raising=False)
         monkeypatch.delitem(sys.modules, "endpoints", raising=False)
+        for module_name in tuple(sys.modules):
+            if module_name.startswith("endpoints."):
+                monkeypatch.delitem(sys.modules, module_name, raising=False)
         levels = sdk_levels(project)
         assert "ANONYMOUS" in levels, (index, form, auth, application)
         extracted = routes(project, tmp_path)
