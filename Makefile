@@ -88,6 +88,13 @@ security-dependencies-report:
 security-host: ensure-hatch
 	@COOKBOOK_RUN_PAID_AI_HOST=true $(HATCH) run pytest tests/test_paid_ai_host_security.py --no-cov -q
 
+.PHONY: recipe-tests docs-strict
+recipe-tests: ensure-hatch
+	@UV_PYTHON=3.11 $(HATCH) run python scripts/run_recipe_tests.py
+
+docs-strict: ensure-hatch
+	@$(HATCH) run mkdocs build --strict
+
 .PHONY: check
 check: ensure-hatch
 	@$(MAKE) lint
