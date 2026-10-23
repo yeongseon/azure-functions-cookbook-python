@@ -7,6 +7,24 @@ from dataclasses import dataclass
 from pathlib import Path
 
 
+def opaque_candidate(target: Path) -> bool:
+    names = (target, target / "__init__")
+    for stem in names:
+        if not stem.parent.is_dir():
+            continue
+        for path in stem.parent.glob(stem.name + ".*"):
+            if path.is_file() and path.suffix.lower() in {
+                ".pyc",
+                ".pyo",
+                ".so",
+                ".pyd",
+                ".zip",
+                ".egg",
+            }:
+                return True
+    return False
+
+
 @dataclass(frozen=True, slots=True)
 class Resolution:
     files: tuple[Path, ...]
@@ -17,6 +35,8 @@ def module_path(target: Path, project: Path) -> Resolution:
     files: list[Path] = []
     module = target.with_suffix(".py")
     package = target / "__init__.py"
+    if opaque_candidate(target):
+        return Resolution((), True)
     if module.is_file() and package.is_file():
         return Resolution((), True)
     selected = package if package.is_file() else module
@@ -29,7 +49,7 @@ def module_path(target: Path, project: Path) -> Resolution:
     ancestors = list(target.relative_to(project).parts)
     for length in range(1, len(ancestors)):
         parent = project.joinpath(*ancestors[:length])
-        if not parent.is_dir() or parent.with_suffix(".py").is_file():
+        if not parent.is_dir() or parent.with_suffix(".py").is_file() or opaque_candidate(parent):
             return Resolution((), True)
         initializer = parent / "__init__.py"
         if initializer.is_file():
@@ -62,6 +82,8 @@ def resolve_import(path: Path, node: ast.Import | ast.ImportFrom, project: Path)
     base = project
     relative = isinstance(node, ast.ImportFrom) and bool(node.level)
     if relative and isinstance(node, ast.ImportFrom):
+        if path.resolve() == project / "function_app.py":
+            return Resolution((), True)
         base = path.resolve().parent
         for _ in range(node.level - 1):
             base = base.parent
@@ -82,6 +104,7 @@ def resolve_import(path: Path, node: ast.Import | ast.ImportFrom, project: Path)
             or not parts
             or (base / parts[0]).exists()
             or (base / (parts[0] + ".py")).exists()
+            or opaque_candidate(base / parts[0])
         )
         if not local:
             continue
@@ -99,7 +122,7 @@ def resolve_import(path: Path, node: ast.Import | ast.ImportFrom, project: Path)
                     unresolved = True
                     continue
                 child = target / alias.name
-                if child.with_suffix(".py").is_file() or child.is_dir():
+                if child.with_suffix(".py").is_file() or child.is_dir() or opaque_candidate(child):
                     child_resolution = module_path(child, project)
                     files.extend(child_resolution.files)
                     unresolved |= child_resolution.unresolved

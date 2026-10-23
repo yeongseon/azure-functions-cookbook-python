@@ -24,6 +24,8 @@ class Route:
 def routes(project: Path, root: Path) -> tuple[Route, ...]:
     import json
 
+    from tools.recipe_startup import startup_gaps
+
     manifest_path = root / "security/recipe-security-manifest.json"
     manifest = json.loads(manifest_path.read_text()) if manifest_path.exists() else {}
     classification = manifest.get("recipes", {}).get(project.relative_to(root).as_posix(), {})
@@ -33,7 +35,9 @@ def routes(project: Path, root: Path) -> tuple[Route, ...]:
         "streaming_ai_response",
     }
     result: list[Route] = []
-    files = [project / "function_app.py", *sorted((project / "app").rglob("*.py"))]
+    from tools.recipe_discovery import recipe_files
+
+    files = [project / "function_app.py", *recipe_files(project / "app", "*.py")]
     if paid:
         files = list(reachable_modules(project))
     modules = {path: ast.parse(path.read_text()) for path in files}
@@ -201,4 +205,8 @@ def routes(project: Path, root: Path) -> tuple[Route, ...]:
             Route(gap.file, f"paid-canonical:{gap.line}", "UNKNOWN")
             for gap in canonical_gaps(project, root)
         )
+    result.extend(
+        Route(gap.file, f"startup-inspection:{gap.line}", "UNKNOWN")
+        for gap in startup_gaps(project, root)
+    )
     return tuple(sorted(set(result), key=lambda route: (route.file, route.handler)))

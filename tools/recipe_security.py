@@ -5,8 +5,10 @@ from __future__ import annotations
 import argparse
 from pathlib import Path
 
+from tools.recipe_discovery import recipe_files
 from tools.recipe_inspection import unreviewed_gaps
 from tools.recipe_routes import routes
+from tools.recipe_startup import startup_gaps
 from tools.security_report import (
     Check,
     Finding,
@@ -39,7 +41,7 @@ def inventory(root: Path) -> dict[str, list[str]]:
         path.parent.relative_to(root).as_posix(): [
             f"{route.handler}={route.auth}" for route in routes(path.parent, root)
         ]
-        for path in sorted((root / "examples").glob("**/function_app.py"))
+        for path in recipe_files(root / "examples", "function_app.py")
         if not any(part.startswith(".") for part in path.relative_to(root).parts)
     }
 
@@ -59,7 +61,7 @@ def check_manifest(root: Path) -> Check:
                 findings.append(Finding("UNCLASSIFIED", file=project))
                 continue
             entry = mapping(manifest[project])
-            gaps = unreviewed_gaps(root / project, root)
+            gaps = (*unreviewed_gaps(root / project, root), *startup_gaps(root / project, root))
             inspection_incomplete |= bool(gaps)
             paid_incomplete |= bool(gaps) and (
                 Path(project).name in PAID or entry["category"] == "paid-backend"
