@@ -1,41 +1,148 @@
-"""Resolve recipe-local imports without importing or executing Python modules."""
+"""Resolve Python's recipe-local import execution closure without executing source."""
 
 from __future__ import annotations
 
 import ast
+from dataclasses import dataclass
 from pathlib import Path
 
 
-def import_candidates(
-    path: Path, node: ast.Import | ast.ImportFrom, project: Path
-) -> tuple[Path, ...]:
+@dataclass(frozen=True, slots=True)
+class Resolution:
+    files: tuple[Path, ...]
+    unresolved: bool = False
+
+
+def module_path(target: Path, project: Path) -> Resolution:
+    files: list[Path] = []
+    module = target.with_suffix(".py")
+    package = target / "__init__.py"
+    if module.is_file() and package.is_file():
+        return Resolution((), True)
+    selected = package if package.is_file() else module
+    if not selected.is_file() and not target.is_dir():
+        return Resolution((), True)
+    if selected.is_file() and not selected.resolve().is_relative_to(project.resolve()):
+        return Resolution((), True)
+    if not target.resolve().is_relative_to(project.resolve()):
+        return Resolution((), True)
+    ancestors = list(target.relative_to(project).parts)
+    for length in range(1, len(ancestors)):
+        parent = project.joinpath(*ancestors[:length])
+        if not parent.is_dir() or parent.with_suffix(".py").is_file():
+            return Resolution((), True)
+        initializer = parent / "__init__.py"
+        if initializer.is_file():
+            if not initializer.resolve().is_relative_to(project.resolve()):
+                return Resolution((), True)
+            files.append(initializer.resolve())
+    if selected.is_file():
+        files.append(selected.resolve())
+    return Resolution(tuple(files))
+
+
+def declared_name(files: tuple[Path, ...], name: str) -> bool:
+    if not files:
+        return False
+    tree = ast.parse(files[-1].read_text())
+    return any(
+        isinstance(node, ast.Name)
+        and isinstance(node.ctx, ast.Store)
+        and node.id == name
+        or isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef, ast.ClassDef))
+        and node.name == name
+        or isinstance(node, (ast.Import, ast.ImportFrom))
+        and any((alias.asname or alias.name.split(".")[0]) == name for alias in node.names)
+        for node in ast.walk(tree)
+    )
+
+
+def resolve_import(path: Path, node: ast.Import | ast.ImportFrom, project: Path) -> Resolution:
+    project = project.resolve()
     base = project
-    if isinstance(node, ast.ImportFrom) and node.level:
-        base = path.parent
+    relative = isinstance(node, ast.ImportFrom) and bool(node.level)
+    if relative and isinstance(node, ast.ImportFrom):
+        base = path.resolve().parent
         for _ in range(node.level - 1):
             base = base.parent
+        if not base.is_relative_to(project):
+            return Resolution((), True)
     names = (
         [alias.name for alias in node.names]
         if isinstance(node, ast.Import)
         else [node.module or ""]
     )
-    candidates: list[Path] = []
+    files: list[Path] = []
+    unresolved = False
     for name in names:
-        target = base.joinpath(*name.split(".")) if name else base
-        candidates.extend([target.with_suffix(".py"), target / "__init__.py"])
+        parts = name.split(".") if name else []
+        target = base.joinpath(*parts)
+        local = (
+            relative
+            or not parts
+            or (base / parts[0]).exists()
+            or (base / (parts[0] + ".py")).exists()
+        )
+        if not local:
+            continue
+        resolution = module_path(target, project) if parts or base != project else Resolution(())
+        files.extend(resolution.files)
+        unresolved |= resolution.unresolved
         if isinstance(node, ast.ImportFrom):
-            candidates.extend(target / (alias.name + ".py") for alias in node.names)
-    return tuple(candidate.resolve() for candidate in candidates if candidate.is_file())
+            # Importing from a package first executes that package, even for ``from . import x``.
+            if not parts and base != project:
+                initializer = base / "__init__.py"
+                if initializer.is_file():
+                    files.extend(module_path(base, project).files)
+            for alias in node.names:
+                if alias.name == "*":
+                    unresolved = True
+                    continue
+                child = target / alias.name
+                if child.with_suffix(".py").is_file() or child.is_dir():
+                    child_resolution = module_path(child, project)
+                    files.extend(child_resolution.files)
+                    unresolved |= child_resolution.unresolved
+                elif not declared_name(resolution.files or tuple(files), alias.name):
+                    unresolved = True
+    return Resolution(tuple(dict.fromkeys(files)), unresolved)
+
+
+def import_candidates(
+    path: Path, node: ast.Import | ast.ImportFrom, project: Path
+) -> tuple[Path, ...]:
+    return resolve_import(path, node, project).files
+
+
+def exported_binding(
+    path: Path, name: str, project: Path, seen: frozenset[tuple[Path, str]] = frozenset()
+) -> tuple[Path, str] | None:
+    key = (path, name)
+    if key in seen:
+        return None
+    tree = ast.parse(path.read_text())
+    for statement in tree.body:
+        if isinstance(statement, (ast.Assign, ast.AnnAssign)):
+            targets = statement.targets if isinstance(statement, ast.Assign) else [statement.target]
+            if any(isinstance(target, ast.Name) and target.id == name for target in targets):
+                return key
+        if isinstance(statement, ast.ImportFrom):
+            for alias in statement.names:
+                if (alias.asname or alias.name) == name:
+                    for candidate in reversed(import_candidates(path, statement, project)):
+                        resolved = exported_binding(candidate, alias.name, project, seen | {key})
+                        if resolved is not None:
+                            return resolved
+    return None
 
 
 def outside_import(
     node: ast.Import | ast.ImportFrom, path: Path, project: Path, root: Path
 ) -> bool:
-    if any(
-        not candidate.is_relative_to(project.resolve())
-        for candidate in import_candidates(path, node, project)
-    ):
+    if resolve_import(path, node, project).unresolved:
         return True
+    if isinstance(node, ast.ImportFrom) and node.level:
+        return False
     names = (
         [alias.name for alias in node.names]
         if isinstance(node, ast.Import)
@@ -44,11 +151,11 @@ def outside_import(
     for name in names:
         for base in (root, root / "src"):
             target = base.joinpath(*name.split("."))
-            for candidate in (target.with_suffix(".py"), target / "__init__.py"):
-                if candidate.is_file() and not candidate.resolve().is_relative_to(
-                    project.resolve()
-                ):
-                    return True
+            if any(
+                candidate.exists() and not candidate.resolve().is_relative_to(project.resolve())
+                for candidate in (target.with_suffix(".py"), target)
+            ):
+                return True
     return False
 
 

@@ -11,7 +11,7 @@ from tools.recipe_auth import auth_value, constructor_auth, module_bindings, mod
 from tools.recipe_binding_order import unstable_names
 from tools.recipe_binding_reviews import reviewed_bindings
 from tools.recipe_inspection import unreviewed_gaps
-from tools.recipe_local_imports import reachable_modules
+from tools.recipe_local_imports import exported_binding, import_candidates, reachable_modules
 
 
 @dataclass(frozen=True, slots=True)
@@ -67,6 +67,20 @@ def routes(project: Path, root: Path) -> tuple[Route, ...]:
                     )
                 ):
                     key = (imports.get(blueprint, path), imported_names.get(blueprint, blueprint))
+                    if paid:
+                        for statement in tree.body:
+                            if isinstance(statement, ast.ImportFrom):
+                                for alias in statement.names:
+                                    if (alias.asname or alias.name) == blueprint:
+                                        for candidate in reversed(
+                                            import_candidates(path, statement, project)
+                                        ):
+                                            resolved = exported_binding(
+                                                candidate, alias.name, project
+                                            )
+                                            if resolved is not None:
+                                                key = resolved
+                                                break
                     if key[0] not in bindings or bindings[key[0]][1].get(key[1]) != "BLUEPRINT":
                         result.append(
                             Route(
