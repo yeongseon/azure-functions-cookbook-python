@@ -68,7 +68,9 @@ def classify_audit(raw: str, code: int, *, empty_allowed: bool = False) -> Check
 def requirement_scopes(root: Path) -> dict[str, tuple[str, ...]]:
     metadata = tomllib.loads((root / "pyproject.toml").read_text())
     scopes = {"root-runtime": tuple(metadata["project"]["dependencies"])}
-    entries = sorted((root / "examples").glob("**/function_app.py"))
+    from tools.recipe_discovery import recipe_files
+
+    entries = recipe_files(root / "examples", "function_app.py")
     if not entries:
         raise EvidenceError("no runnable requirements discovered")
     for entry in entries:

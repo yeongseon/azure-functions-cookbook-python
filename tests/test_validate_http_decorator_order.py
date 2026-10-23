@@ -18,6 +18,7 @@ from __future__ import annotations
 import ast
 
 from tests._isolation import EXAMPLES_DIR
+from tools.recipe_discovery import recipe_files
 
 
 def _decorator_leaf_name(dec: ast.expr) -> str | None:
@@ -69,7 +70,7 @@ def _find_dead_handlers(tree: ast.AST) -> list[str]:
 
 def test_no_example_places_validate_http_above_a_binding_decorator() -> None:
     offenders: list[str] = []
-    for py_file in sorted(EXAMPLES_DIR.rglob("*.py")):
+    for py_file in recipe_files(EXAMPLES_DIR, "*.py"):
         try:
             tree = ast.parse(py_file.read_text(encoding="utf-8"))
         except SyntaxError:

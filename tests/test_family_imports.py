@@ -1,6 +1,8 @@
 import ast
 from pathlib import Path
 
+from tools.recipe_discovery import recipe_files
+
 _EXAMPLES = Path(__file__).parents[1] / "examples"
 
 
@@ -9,7 +11,7 @@ def test_family_packages_are_not_soft_imported() -> None:
     violations: list[str] = []
 
     # When: imports guarded by ImportError are inspected.
-    for source in sorted(_EXAMPLES.glob("**/*.py")):
+    for source in recipe_files(_EXAMPLES, "*.py"):
         tree = ast.parse(source.read_text())
         for node in ast.walk(tree):
             if not isinstance(node, ast.Try):

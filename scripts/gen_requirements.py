@@ -7,6 +7,10 @@ import tomllib
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 EXAMPLES = REPO_ROOT / "examples"
+if str(REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(REPO_ROOT))
+
+from tools.recipe_discovery import recipe_files  # noqa: E402
 
 
 def render(pyproject: Path) -> str:
@@ -16,7 +20,7 @@ def render(pyproject: Path) -> str:
 
 
 def recipe_projects() -> tuple[Path, ...]:
-    return tuple(sorted(path.parent for path in EXAMPLES.glob("**/function_app.py")))
+    return tuple(path.parent for path in recipe_files(EXAMPLES, "function_app.py"))
 
 
 def main(argv: list[str] | None = None) -> int:

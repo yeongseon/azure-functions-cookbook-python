@@ -9,6 +9,7 @@ from pathlib import Path
 import sys
 
 from tools.recipe_auth import module_bindings, symbol
+from tools.recipe_discovery import recipe_files
 
 
 def construct_digest(node: ast.AST) -> str:
@@ -38,7 +39,7 @@ class InspectionGap:
 def source_modules(project: Path) -> dict[Path, ast.Module]:
     return {
         path: ast.parse(path.read_text())
-        for path in sorted(project.rglob("*.py"))
+        for path in recipe_files(project, "*.py")
         if not any(
             part.startswith(".") or part in {"tests", "__pycache__"}
             for part in path.relative_to(project).parts

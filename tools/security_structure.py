@@ -17,10 +17,12 @@ SECRET = re.compile(
 
 
 def source_files(root: Path, suffix: str) -> tuple[Path, ...]:
+    from tools.recipe_discovery import recipe_files
+
     return tuple(
         sorted(
             path
-            for path in root.rglob(f"*{suffix}")
+            for path in recipe_files(root, f"*{suffix}")
             if not IGNORED.intersection(path.relative_to(root).parts)
         )
     )
@@ -32,7 +34,9 @@ def check_structure(root: Path) -> Check:
         files.update(source_files(root / "infra", ".bicep"))
     files.update(source_files(root / "tools", ".sh"))
     files.update(source_files(root / "scripts", ".sh"))
-    for path in (root / "examples").rglob("*"):
+    from tools.recipe_discovery import recipe_files
+
+    for path in recipe_files(root / "examples", "*"):
         if path.is_file() and not IGNORED.intersection(path.relative_to(root).parts):
             if ".settings" in path.name or path.name.startswith(".env"):
                 files.add(path)

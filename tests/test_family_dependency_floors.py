@@ -21,7 +21,9 @@ def test_recipe_family_dependency_floors_are_known_good() -> None:
     stale: list[str] = []
 
     # When: every recipe's explicit family lower bounds are inspected.
-    for pyproject in sorted((_ROOT / "examples").glob("**/pyproject.toml")):
+    from tools.recipe_discovery import recipe_files
+
+    for pyproject in recipe_files(_ROOT / "examples", "pyproject.toml"):
         dependencies = tomllib.loads(pyproject.read_text())["project"]["dependencies"]
         for dependency in dependencies:
             requirement = Requirement(dependency)
