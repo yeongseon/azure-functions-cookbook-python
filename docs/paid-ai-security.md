@@ -94,6 +94,10 @@ even alongside protected routes or event triggers. Paid recipes fail; non-paid
 recipes report incomplete inspection with file:line. Dynamic execution/imports,
 namespace/app reflection, private/auth attribute mutation, call-style route
 registration, class/nested-function registration, app escapes to unresolved
-callables, and non-stdlib star imports require review. The exact construct list
+callables, and non-stdlib star imports require review. Inspection also rejects
+argument expansion (`*args` / `**kwargs` even beside explicit auth)
+and bound/escaped registration methods or partial decorator factories on apps
+and blueprints. Route, schedule, trigger, function-name and blueprint-registration
+methods must remain direct modelled uses. The exact construct list
 and file/line/AST-digest review-entry contract are in
 [the security inspection boundary](https://github.com/yeongseon/azure-functions-cookbook-python/blob/main/SECURITY.md#conservative-inspection-boundary).

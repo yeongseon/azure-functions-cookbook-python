@@ -115,6 +115,15 @@ The unmodelled-construct list is:
 - Assignment/deletion of private/underscore or auth-level-like attributes on
   apps/blueprints. `http_auth_level` assignment is not an SDK auth mutation.
 - Call-style registration such as `app.route(...)(lambda/partial/call-result)`.
+- Any `*args` or `**kwargs` in an app/blueprint constructor or registration
+  decorator, even beside an explicit auth keyword. Expanded dictionaries are not
+  treated as an implicit FUNCTION default.
+- Bound/escaped registration methods or decorator factories: assigning
+  `alias = app.route` (or `bp.route`), attribute aliases, passing a registration
+  method as an argument, and `functools.partial` wrappers. Direct modelled calls
+  are required. Registration methods include `route`, `schedule`, every
+  `*_trigger`, Service Bus/Event Hub/Cosmos DB/Durable decorators,
+  `function_name`, `register_functions`, and `register_blueprint`.
 - Route registration in class bodies or nested functions. Class-local bindings
   never overwrite module bindings; their registration remains unmodelled.
 - Passing app/blueprint objects to unresolved callables; the modelled
