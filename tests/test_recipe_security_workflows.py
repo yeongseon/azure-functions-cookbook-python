@@ -45,3 +45,13 @@ def test_collectors_always_run_and_semgrep_only_tolerates_incomplete() -> None:
     makefile = (ROOT / "Makefile").read_text()
     assert 'test "$${status:-0}" -eq 3 -o "$${status:-0}" -eq 0' in makefile
     assert "--no-cov" in makefile
+
+
+def test_ci_coverage_does_not_override_tool_inventory() -> None:
+    workflow = yaml.safe_load((ROOT / ".github/workflows/ci-test.yml").read_text())
+    command = next(
+        step["run"]
+        for step in workflow["jobs"]["test"]["steps"]
+        if step.get("name") == "Run tests on the matrix interpreter"
+    )
+    assert "--cov=src/" not in command
