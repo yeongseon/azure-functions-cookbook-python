@@ -186,10 +186,18 @@ def test_seeded_registration_grammar_against_real_sdk(
     auths = ("keyword", "import-alias", "variable", "dict", "conditional", "external")
     applications = ("positional", "keyword", "factory", "alias", "blueprint")
     rebinding = ("once-before", "twice-before", "after-use", "conditional", "local")
-    combinations = list(itertools.product(forms, auths, applications, rebinding))
+    import_forms = (
+        "ordinary",
+        "positional-auth",
+        "sibling",
+        "constructor-alias",
+        "import-rebinding",
+        "conditional-import",
+    )
+    combinations = list(itertools.product(forms, auths, applications, rebinding, import_forms))
     random.Random(4313).shuffle(combinations)
-    cases = combinations[:550]
-    for index, (form, auth, application, binding) in enumerate(cases):
+    cases = combinations[:850]
+    for index, (form, auth, application, binding, import_form) in enumerate(cases):
         source = grammar_source(form, auth, application)
         source = source.replace("func.AuthLevel.ANONYMOUS", "auth_binding")
         source = source.replace(
@@ -208,12 +216,33 @@ def test_seeded_registration_grammar_against_real_sdk(
             source += "if True:\n    auth_binding = func.AuthLevel.FUNCTION\n"
         elif binding == "local":
             source += "def unused():\n    auth_binding = func.AuthLevel.FUNCTION\n"
+        if import_form == "positional-auth":
+            source = source.replace(
+                "@app.route(route='chat')",
+                "@app.route('chat','req','$return',['POST'],func.AuthLevel.ANONYMOUS)",
+            )
+        elif import_form == "constructor-alias":
+            source = source.replace(
+                "import azure.functions as func\n",
+                "import azure.functions as func\nfrom azure.functions import FunctionApp as App\n",
+            ).replace("func.FunctionApp(", "App(")
+        elif import_form == "import-rebinding":
+            source += "import types as auth_binding\n"
+        elif import_form == "conditional-import":
+            source += "if True:\n    from grammar_constants import LEVEL as auth_binding\n"
+        elif import_form == "sibling":
+            source = "from endpoints import app\n"
         project = paid_recipe(tmp_path / str(index), source)
+        (project / "endpoints.py").write_text(
+            "import azure.functions as func\napp = func.FunctionApp(func.AuthLevel.ANONYMOUS)\n"
+            "@app.route(route='hidden')\ndef hidden(req): return req\n"
+        )
         (project / "grammar_constants.py").write_text(
             "from azure.functions import AuthLevel\nLEVEL = AuthLevel.ANONYMOUS\n"
         )
         monkeypatch.syspath_prepend(str(project))
         monkeypatch.delitem(sys.modules, "grammar_constants", raising=False)
+        monkeypatch.delitem(sys.modules, "endpoints", raising=False)
         levels = sdk_levels(project)
         assert "ANONYMOUS" in levels, (index, form, auth, application)
         extracted = routes(project, tmp_path)
