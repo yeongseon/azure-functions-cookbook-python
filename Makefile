@@ -64,6 +64,29 @@ lint-workflows: ensure-hatch
 .PHONY: security
 security: ensure-hatch
 	@$(HATCH) run security
+	@$(MAKE) security-static SECURITY_PYTHON="$(HATCH) run python"
+
+# Additive security policy interface; plain Python supports minimal CI scanner jobs.
+SECURITY_PYTHON ?= python3
+.PHONY: security-manifest security-static security-semgrep security-dependencies security-dependencies-report security-host
+security-manifest:
+	@$(SECURITY_PYTHON) -m tools.recipe_security
+
+security-static:
+	@$(SECURITY_PYTHON) -m tools.security_evidence all
+
+security-semgrep:
+	@$(SECURITY_PYTHON) -m tools.security_evidence semgrep --outcome "$$SCANNER_OUTCOME" --output security-results/semgrep || status=$$?; \
+	test "$${status:-0}" -eq 3 -o "$${status:-0}" -eq 0
+
+security-dependencies:
+	@$(SECURITY_PYTHON) -m tools.dependency_audit_policy
+
+security-dependencies-report:
+	@$(SECURITY_PYTHON) -m tools.dependency_audit_policy --reporting
+
+security-host: ensure-hatch
+	@COOKBOOK_RUN_PAID_AI_HOST=true $(HATCH) run pytest tests/test_paid_ai_host_security.py --no-cov -q
 
 .PHONY: check
 check: ensure-hatch

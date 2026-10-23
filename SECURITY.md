@@ -40,9 +40,9 @@ resolved packages and does not claim an SPDX document for every recipe.
 Run additive tooling using the repository Python 3.11 environment:
 
 ```bash
-hatch run python -m tools.recipe_security
-hatch run python -m tools.security_evidence all
-hatch run python -m tools.dependency_audit_policy --scratch /tmp/opencode --reporting
+make security-manifest SECURITY_PYTHON="hatch run python"
+make security-static SECURITY_PYTHON="hatch run python"
+make security-dependencies-report SECURITY_PYTHON="hatch run python"
 ```
 
 Omit `--reporting` for blocking dependency evaluation. Dependency resolution uses

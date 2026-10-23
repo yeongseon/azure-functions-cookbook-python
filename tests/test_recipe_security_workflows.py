@@ -10,7 +10,7 @@ def test_tag_build_depends_on_blocking_dependency_policy() -> None:
     assert tag["jobs"]["build"]["needs"] == "recipe-dependency-policy"
     reusable = yaml.safe_load((ROOT / ".github/workflows/recipe-release-security.yml").read_text())
     steps = reusable["jobs"]["dependency-policy"]["steps"]
-    assert any(step.get("run") == "python -m tools.dependency_audit_policy" for step in steps)
+    assert any(step.get("run") == "make security-dependencies" for step in steps)
     assert not any(step.get("continue-on-error") for step in steps)
     assert any(
         step.get("if") == "always()" and "upload-artifact@" in step.get("uses", "")
@@ -27,6 +27,21 @@ def test_security_workflow_retains_pinned_semgrep_and_existing_bandit() -> None:
         for step in jobs["semgrep"]["steps"]
     )
     assert any(
-        step.get("run") == "python -m tools.dependency_audit_policy --reporting"
+        step.get("run") == "make security-dependencies-report"
         for step in jobs["recipe-dependency-report"]["steps"]
     )
+
+
+def test_collectors_always_run_and_semgrep_only_tolerates_incomplete() -> None:
+    workflow = yaml.safe_load((ROOT / ".github/workflows/security.yml").read_text())
+    for job, command in [
+        ("semgrep", "make security-semgrep"),
+        ("recipe-security", "make security-static"),
+    ]:
+        collector = next(
+            step for step in workflow["jobs"][job]["steps"] if step.get("run") == command
+        )
+        assert collector["if"] == "always()"
+    makefile = (ROOT / "Makefile").read_text()
+    assert 'test "$${status:-0}" -eq 3 -o "$${status:-0}" -eq 0' in makefile
+    assert "--no-cov" in makefile

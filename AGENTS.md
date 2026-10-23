@@ -22,6 +22,9 @@
 
 See [SECURITY.md](SECURITY.md) for runnable-recipe classifications, expiring
 exceptions, redacted evidence and the reporting-versus-tag dependency policy.
+Use `make security-manifest`, `make security-static`, `make security-semgrep`,
+`make security-dependencies-report`, `make security-dependencies` (blocking), and
+`make security-host` (opt-in real host). `make security` includes the expanded scan.
 
 ### Test Coverage
 - Maintain test coverage at **95% or above** for committed changes and PRs.

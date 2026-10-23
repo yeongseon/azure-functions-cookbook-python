@@ -47,9 +47,7 @@ jobs:
         if: always()
         env:
           SCANNER_OUTCOME: ${{ steps.semgrep.outcome }}
-        run: |
-          python3 -m tools.security_evidence semgrep --outcome "$SCANNER_OUTCOME" --output security-results/semgrep || status=$?
-          test "${status:-0}" -eq 3 -o "${status:-0}" -eq 0
+        run: make security-semgrep
 
       - name: Upload Semgrep action evidence
         if: always()
@@ -70,7 +68,8 @@ jobs:
       - name: Install pinned static scanner
         run: python -m pip install bandit==1.9.4
       - name: Check route manifest, Python inventory and deployment structure
-        run: python -m tools.security_evidence all
+        if: always()
+        run: make security-static
       - name: Upload redacted runnable recipe evidence
         if: always()
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
@@ -89,7 +88,7 @@ jobs:
         with:
           python-version: "3.11"
       - name: Report root and generated recipe closure policy without blocking unrelated PRs
-        run: python -m tools.dependency_audit_policy --reporting
+        run: make security-dependencies-report
       - name: Upload dependency policy report
         if: always()
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
@@ -115,4 +114,4 @@ jobs:
       - name: Inspect real worker metadata and keyless local fallback
         env:
           COOKBOOK_RUN_PAID_AI_HOST: "true"
-        run: hatch run pytest tests/test_paid_ai_host_security.py --no-cov -q
+        run: make security-host
