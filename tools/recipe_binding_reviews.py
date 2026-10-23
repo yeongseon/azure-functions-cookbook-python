@@ -44,6 +44,15 @@ def reviewed_bindings(path: Path, root: Path, tree: ast.Module) -> frozenset[str
                 and child.id == entry["name"]
                 and isinstance(child.ctx, (ast.Store, ast.Del))
             )
+            and all(
+                node.lineno <= child.lineno <= (node.end_lineno or node.lineno)
+                for child in ast.walk(tree)
+                if isinstance(child, (ast.Import, ast.ImportFrom))
+                and any(
+                    (alias.asname or alias.name.split(".")[0]) == entry["name"]
+                    for alias in child.names
+                )
+            )
             for node in tree.body
         )
     )

@@ -11,6 +11,17 @@ def unstable_names(tree: ast.Module) -> set[str]:
     parents = {child: parent for parent in ast.walk(tree) for child in ast.iter_child_nodes(parent)}
     invalid: set[str] = set()
     for node in ast.walk(tree):
+        if isinstance(node, (ast.Import, ast.ImportFrom)):
+            for alias in node.names:
+                name = alias.asname or (
+                    alias.name if isinstance(node, ast.ImportFrom) else alias.name.split(".")[0]
+                )
+                writes.setdefault(name, []).append(node)
+                if node not in direct:
+                    invalid.add(name)
+        if isinstance(node, ast.ExceptHandler) and node.name:
+            writes.setdefault(node.name, []).append(node)
+            invalid.add(node.name)
         if isinstance(node, ast.Name) and isinstance(node.ctx, (ast.Store, ast.Del)):
             writes.setdefault(node.id, []).append(node)
             if parents.get(node) not in direct or not isinstance(

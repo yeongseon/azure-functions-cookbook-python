@@ -48,11 +48,12 @@ def source_modules(project: Path) -> dict[Path, ast.Module]:
 
 def app_names(tree: ast.Module) -> set[str]:
     names = {"app", "api", "bp"}
+    bindings, _ = module_bindings(tree)
     for node in ast.walk(tree):
         if isinstance(node, ast.Name) and "blueprint" in node.id.lower():
             names.add(node.id)
         if isinstance(node, (ast.Assign, ast.AnnAssign)) and isinstance(node.value, ast.Call):
-            if ast.unparse(node.value.func).rsplit(".", 1)[-1] in {
+            if symbol(node.value.func, bindings).rsplit(".", 1)[-1] in {
                 "FunctionApp",
                 "Blueprint",
                 "DFApp",
