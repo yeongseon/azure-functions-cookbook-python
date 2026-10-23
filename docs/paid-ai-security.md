@@ -85,3 +85,15 @@ Identity/RBAC, edge limits and deployed 401 behavior need Azure verification.
 The JWT, EasyAuth, multitenant, webhook and public health recipes retain their
 existing route-level behavior. An anonymous binding can be intentional; it is
 not evidence that handler or edge authorization is absent.
+
+## Static inspection limits
+
+The manifest guard prevents accidental public exposure; it is not a sandbox for
+adversarial code. Unsupported registration/auth mutation makes inspection UNKNOWN
+even alongside protected routes or event triggers. Paid recipes fail; non-paid
+recipes report incomplete inspection with file:line. Dynamic execution/imports,
+namespace/app reflection, private/auth attribute mutation, call-style route
+registration, class/nested-function registration, app escapes to unresolved
+callables, and non-stdlib star imports require review. The exact construct list
+and file/line/AST-digest review-entry contract are in
+[the security inspection boundary](https://github.com/yeongseon/azure-functions-cookbook-python/blob/main/SECURITY.md#conservative-inspection-boundary).

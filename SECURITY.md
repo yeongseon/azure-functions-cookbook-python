@@ -93,6 +93,44 @@ recipe: known apps need positive event-trigger/schedule declarations; a source
 without any application or registration declarations is also non-HTTP. Existing
 event-only examples retain their classifications.
 
+### Conservative inspection boundary
+
+This check guards against **accidental public exposure**, especially in paid
+recipes. It is **not a sandbox against adversarial Python** and is not a proof of
+whole-program behavior. A construct that can register or mutate the exported
+application but is outside the model makes inspection `UNKNOWN`, regardless of
+otherwise protected routes or positive timer/event-trigger evidence. Paid-backend
+recipes fail; other categories report `INCOMPLETE` with `INCOMPLETE_INSPECTION`
+findings carrying the exact file and line. No empty inventory or event trigger
+can override such a gap.
+
+The guard scans every deployed Python module within each recipe directory
+(including locally imported modules; hidden environments and tests are excluded).
+The unmodelled-construct list is:
+
+- Calls to built-in `exec`, `eval`, `compile`, `__import__`, or `importlib.*` /
+  `runpy.*`, including resolved import aliases.
+- Namespace reflection through `globals()`, `locals()`, `vars()`, and
+  `getattr` / `setattr` / `delattr` on application-like objects.
+- Assignment/deletion of private/underscore or auth-level-like attributes on
+  apps/blueprints. `http_auth_level` assignment is not an SDK auth mutation.
+- Call-style registration such as `app.route(...)(lambda/partial/call-result)`.
+- Route registration in class bodies or nested functions. Class-local bindings
+  never overwrite module bindings; their registration remains unmodelled.
+- Passing app/blueprint objects to unresolved callables; the modelled
+  `register_functions` relationship remains supported.
+- Non-stdlib star imports, which can overwrite bindings or expose registration.
+
+Known existing constructs require an explicit `inspection_reviews` manifest
+entry matching **file, line, rule and SHA-256 of the exact AST construct**, plus
+owner and review reason. Editing the construct or moving it invalidates the
+entry. These are route-inspection reviews, not general security waivers or human
+approval claims. The current twelve entries cover six literal Functions SDK
+fallback imports, two Service Bus client/error imports, Requests warmup, a Queue
+client import, the read-only toolkit metadata scan, and the existing MCP eval
+tracked separately by #426. Runtime behavior and the 82-recipe route table are
+unchanged. Blanket module or rule exclusions are not supported.
+
 ## Evidence, exceptions, and scanner failure
 
 `PASS` means the stated policy completed; `FAIL` means findings violate policy.
