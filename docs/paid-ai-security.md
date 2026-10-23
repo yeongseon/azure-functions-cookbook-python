@@ -101,6 +101,15 @@ not waive paid canonical rejection; extensions require deliberate code review
 and SDK tests. Runtime recipe code is unchanged. See SECURITY.md for the exact
 statement grammar and the justified exceptions for these three modules.
 
+Recursive inspection includes executed package initializers, not just the final
+dotted module: importing `a.b.c` includes every existing ancestor `__init__.py`.
+Absolute/from-submodule and package-relative imports, re-exports and unambiguous
+namespace packages are resolved without execution. Missing/ambiguous local
+targets or imports escaping the recipe are UNKNOWN. The worker imports
+`function_app.py`, not pytest conftest discovery; a real-host tripwire check
+confirms local conftest/sitecustomize are not application-discovered. Interpreter
+startup customization from site paths remains outside the source guard.
+
 The manifest guard prevents accidental public exposure; it is not a sandbox for
 adversarial code. Unsupported registration/auth mutation makes inspection UNKNOWN
 even alongside protected routes or event triggers. Paid recipes fail; non-paid

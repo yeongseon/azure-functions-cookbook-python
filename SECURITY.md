@@ -64,9 +64,21 @@ decision. Unknown paid shapes fail closed and cannot be waived by the nineteen
 existing inspection/binding review entries. Extending this grammar requires a
 deliberate reviewed code change with real-SDK regression coverage.
 
-The entrypoint and recursively resolved recipe-local imports are parsed without
-execution, including sibling modules and package-relative imports. An import
-resolving to first-party source outside that recipe is UNKNOWN. The accepted
+The entrypoint and recursively resolved recipe-local import **execution closure**
+are parsed without executing code. `import a.b.c` includes `a/__init__.py`,
+`a/b/__init__.py`, then the resolved module or package initializer.
+`from a import b` resolves either `a/b.py` or `a/b/__init__.py` when present;
+otherwise `b` must be a statically declared/re-exported name. Relative imports
+are based on the importing file's package (`__init__.py` is that package), with
+all ancestor initializers up to the top-level package included. Every included
+initializer must pass the same canonical grammar; an event trigger does not
+excuse hidden initializer HTTP registration. Re-exported blueprint identities are
+resolved recursively, with cycles bounded. Docstring-only initializers pass.
+Namespace directories without initializers are supported only along unambiguous
+local paths. Missing local targets, module/package collisions, relative escapes,
+or symlinks to first-party code outside the recipe are UNKNOWN. Third-party and
+stdlib imports remain declared dependencies, not recursively audited source.
+An import resolving to first-party source outside that recipe is UNKNOWN. The accepted
 module-top-level statements are:
 
 - String docstrings and `from __future__ import annotations`.
@@ -101,6 +113,14 @@ tests explicitly set/unset the opt-in and establish ANONYMOUS only for `true`.
 
 The runtime modules are unchanged. The full 82/104/74 extracted table and all
 nineteen existing exact reviews remain unchanged on Python 3.11 and 3.14.
+
+The Functions worker's application entrypoint is `function_app.py`; it does not
+discover recipe `conftest.py` or `sitecustomize.py` as application modules. The
+real direct-chat host smoke includes inert tripwire files with those names and
+still indexes/serves the recipe in its own venv. This is not a claim that Python
+startup never loads `sitecustomize` from interpreter/site paths: installed startup
+customization, `.pth` hooks and external dependency internals are outside this
+recipe-source inspection boundary. Pytest loads conftest only in test execution.
 
 `security/recipe-security-manifest.json` classifies all runnable `function_app.py`
 projects and their declared HTTP handlers, inherited blueprint auth and adapter
