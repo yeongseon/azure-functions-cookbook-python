@@ -185,13 +185,29 @@ def test_seeded_registration_grammar_against_real_sdk(
     )
     auths = ("keyword", "import-alias", "variable", "dict", "conditional", "external")
     applications = ("positional", "keyword", "factory", "alias", "blueprint")
-    combinations = list(itertools.product(forms, auths, applications))
+    rebinding = ("once-before", "twice-before", "after-use", "conditional", "local")
+    combinations = list(itertools.product(forms, auths, applications, rebinding))
     random.Random(4313).shuffle(combinations)
-    cases = (combinations * 2)[:440]
-    for index, (form, auth, application) in enumerate(cases):
+    cases = combinations[:550]
+    for index, (form, auth, application, binding) in enumerate(cases):
         source = grammar_source(form, auth, application)
-        if index >= len(combinations):
-            source = source.replace("req): return req", "req): return func.HttpResponse('ok')")
+        source = source.replace("func.AuthLevel.ANONYMOUS", "auth_binding")
+        source = source.replace(
+            "import azure.functions as func\n",
+            "import azure.functions as func\nauth_binding = func.AuthLevel.ANONYMOUS\n",
+            1,
+        )
+        if binding == "twice-before":
+            source = source.replace(
+                "from functools import partial",
+                "auth_binding = func.AuthLevel.ANONYMOUS\nfrom functools import partial",
+            )
+        elif binding == "after-use":
+            source += "auth_binding = func.AuthLevel.FUNCTION\n"
+        elif binding == "conditional":
+            source += "if True:\n    auth_binding = func.AuthLevel.FUNCTION\n"
+        elif binding == "local":
+            source += "def unused():\n    auth_binding = func.AuthLevel.FUNCTION\n"
         project = paid_recipe(tmp_path / str(index), source)
         (project / "grammar_constants.py").write_text(
             "from azure.functions import AuthLevel\nLEVEL = AuthLevel.ANONYMOUS\n"
