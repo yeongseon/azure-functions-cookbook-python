@@ -56,6 +56,9 @@ jobs:
     name: E2E HTTP examples (func host)
     runs-on: ubuntu-latest
     if: github.event_name == 'push' && github.ref == 'refs/heads/main' || github.event_name == 'workflow_dispatch'
+    env:
+      # A skipped or xfailed e2e test is not evidence (#439).
+      PYTEST_ADDOPTS: -p tools.pytest_fail_on_skip
 
     steps:
       - name: Checkout code
