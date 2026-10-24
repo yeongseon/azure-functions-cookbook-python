@@ -59,6 +59,9 @@ jobs:
     name: E2E (${{ matrix.toolkit-source }} toolkit)
     needs: resolve-axes
     runs-on: ubuntu-latest
+    env:
+      # A skipped or xfailed e2e test is not evidence (#439).
+      PYTEST_ADDOPTS: -p tools.pytest_fail_on_skip
     strategy:
       fail-fast: false
       matrix:

@@ -17,3 +17,10 @@ def test_toolkit_matrix_listens_for_releases_and_runs_convergence() -> None:
     )
     assert "tests/test_openapi_endpoint_convergence.py" in convergence["run"]
     assert "tests/test_db_input_output_openapi.py" in convergence["run"]
+
+
+def test_e2e_job_fails_instead_of_skipping() -> None:
+    """Offline: every pytest step of the toolkit matrix fails on a skipped test (#439)."""
+    workflow = yaml.load(WORKFLOW.read_text(encoding="utf-8"), Loader=yaml.BaseLoader)
+
+    assert workflow["jobs"]["e2e"]["env"]["PYTEST_ADDOPTS"] == "-p tools.pytest_fail_on_skip"
