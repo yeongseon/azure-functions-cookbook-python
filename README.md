@@ -31,6 +31,22 @@ blog posts, and sample code. This cookbook provides curated, runnable recipes th
 
 This repository is content-first. It is not a CLI tool.
 
+## Azure-Native & Functions-First
+
+This cookbook follows a **Functions-first, Azure-native execution model**: choose the trigger and binding that fits the workload rather than treating Functions merely as an HTTP web framework.
+
+| Workload | Recommended Model | Connected Service | Starting Recipe |
+| --- | --- | --- | --- |
+| **Interactive API** | HTTP trigger | API Management | [Hello HTTP Minimal](examples/apis-and-ingress/hello_http_minimal/) |
+| **Background Job** | Service Bus / Queue trigger | Service Bus / Storage Queue | [Service Bus Worker](examples/messaging-and-pubsub/servicebus_worker/) |
+| **FIFO Processing** | Service Bus Sessions trigger | Service Bus Sessions | [Service Bus Sessions](examples/messaging-and-pubsub/servicebus_sessions/) |
+| **File Arrival** | Event Grid Blob trigger | Blob Storage + Event Grid | [Blob Event Grid Trigger](examples/blob-and-file-triggers/blob_eventgrid_trigger/) |
+| **Data Streams** | Cosmos DB trigger | Cosmos DB Change Feed | [Change Feed Processor](examples/data-and-pipelines/change_feed_processor/) |
+| **Workflows / Approval** | Durable Functions orchestration | Durable Task Hub | [Durable Hello Sequence](examples/orchestration-and-workflows/durable_hello_sequence/) |
+| **AI Assistants & RAG** | HTTP + LangGraph adapter | Azure OpenAI + AI Search | [Personal LangGraph Agent](examples/ai-and-agents/personal_langgraph_agent/) |
+
+For the complete decision matrix, binding vs. SDK analysis, and 5 guided learning paths (AI & Agents, Event-Driven, Data & File Processing, Async Jobs, and Production Hardening), see the [Azure-Native Execution Guide](docs/foundations/azure-native-execution.md) and [Pattern Chooser](docs/foundations/pattern-chooser.md).
+
 ## Quick Index
 
 Jump to a category: [APIs and Ingress](#apis-and-ingress) · [Scheduled and Background](#scheduled-and-background) · [Blob and File Triggers](#blob-and-file-triggers) · [Async APIs and Jobs](#async-apis-and-jobs) · [Messaging and Pub/Sub](#messaging-and-pubsub) · [Streams and Telemetry](#streams-and-telemetry) · [Data and Pipelines](#data-and-pipelines) · [Orchestration and Workflows](#orchestration-and-workflows) · [Reliability](#reliability) · [Security and Tenancy](#security-and-tenancy) · [Runtime and Ops](#runtime-and-ops) · [Realtime](#realtime) · [AI and Agents](#ai-and-agents) · [Guides](#guides)
