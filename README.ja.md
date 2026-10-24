@@ -5,6 +5,8 @@
 > 唯一の情報源（Single Source of Truth）は英語の [README.md](README.md) です。
 >
 > 翻訳保留中: スケジュールされたトリガースモークの運用メモ（[docs/scheduled-trigger-smoke.md](docs/scheduled-trigger-smoke.md)）が英語の原文で変更されており、翻訳は保留中です。追跡: https://github.com/yeongseon/azure-functions-cookbook-python/issues/443
+>
+> 翻訳保留中: パーソナルエージェントの Azurite テストの実行方法（[docs/patterns/ai-and-agents/personal-langgraph-agent.md](docs/patterns/ai-and-agents/personal-langgraph-agent.md) と[サンプルの README](examples/ai-and-agents/personal_langgraph_agent/README.md)）が英語の原文で変更されており、翻訳は保留中です。追跡: https://github.com/yeongseon/azure-functions-cookbook-python/issues/444
 
 [![Python Version](https://img.shields.io/badge/python-3.11%20%7C%203.12%20%7C%203.13%20%7C%203.14-blue)](https://github.com/yeongseon/azure-functions-cookbook-python)
 [![CI](https://github.com/yeongseon/azure-functions-cookbook-python/actions/workflows/ci-smoke.yml/badge.svg)](https://github.com/yeongseon/azure-functions-cookbook-python/actions/workflows/ci-smoke.yml)

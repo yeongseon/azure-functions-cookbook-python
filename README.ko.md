@@ -5,6 +5,8 @@
 > 단일 정보 원본(Single Source of Truth)은 영어 [README.md](README.md)입니다.
 >
 > 번역 대기 중: 예약 트리거 스모크 운영 문서([docs/scheduled-trigger-smoke.md](docs/scheduled-trigger-smoke.md))가 영어 원문에서 변경되었으며 번역은 대기 중입니다. 추적: https://github.com/yeongseon/azure-functions-cookbook-python/issues/443
+>
+> 번역 대기 중: 개인 에이전트 Azurite 테스트 실행 방법([docs/patterns/ai-and-agents/personal-langgraph-agent.md](docs/patterns/ai-and-agents/personal-langgraph-agent.md) 및 [예제 README](examples/ai-and-agents/personal_langgraph_agent/README.md))이 영어 원문에서 변경되었으며 번역은 대기 중입니다. 추적: https://github.com/yeongseon/azure-functions-cookbook-python/issues/444
 
 [![Python Version](https://img.shields.io/badge/python-3.11%20%7C%203.12%20%7C%203.13%20%7C%203.14-blue)](https://github.com/yeongseon/azure-functions-cookbook-python)
 [![CI](https://github.com/yeongseon/azure-functions-cookbook-python/actions/workflows/ci-smoke.yml/badge.svg)](https://github.com/yeongseon/azure-functions-cookbook-python/actions/workflows/ci-smoke.yml)
