@@ -11,7 +11,9 @@ import re
 from urllib.parse import urlparse
 
 import pytest
+import yaml
 
+from scripts.run_recipe_tests import recipe_projects
 from tests._isolation import EXAMPLES_DIR
 from tests._recipes import (
     RECIPES,
@@ -103,4 +105,33 @@ def test_recipe_difficulty_is_valid_or_absent(recipe: Recipe) -> None:
     assert recipe.difficulty is None or recipe.difficulty in _VALID_DIFFICULTY, (
         f"{recipe.example_path}: difficulty `{recipe.difficulty}` "
         f"must be one of {sorted(_VALID_DIFFICULTY)} or omitted"
+    )
+
+
+@pytest.fixture(scope="module")
+def automated_levels() -> dict[str, str]:
+    """Per recipe path: `func-host` if it is in ci-test.yml's host-smoke matrix, else `unit` if
+    scripts/run_recipe_tests.py runs a suite for it, else `docs`."""
+    root = EXAMPLES_DIR.parent
+    workflow = yaml.safe_load((root / ".github/workflows/ci-test.yml").read_text())
+    matrix = workflow["jobs"]["host-smoke"]["strategy"]["matrix"]["recipe"]
+    levels = dict.fromkeys((recipe.example_path for recipe in RECIPES), "docs")
+    # Later entries win: a host-smoke recipe outranks one that only has a local suite.
+    for level, directories in (
+        ("unit", recipe_projects()),
+        ("func-host", [root / entry["path"] for entry in matrix]),
+    ):
+        levels |= {path.relative_to(EXAMPLES_DIR).as_posix(): level for path in directories}
+    return levels
+
+
+@pytest.mark.parametrize("recipe", RECIPES, ids=lambda r: r.example_path)
+def test_recipe_verification_level_is_the_highest_automated_check(
+    recipe: Recipe, automated_levels: dict[str, str]
+) -> None:
+    """Offline: `verification` is the highest check automation runs; none reaches `azure`."""
+    backed = automated_levels[recipe.example_path]
+    assert recipe.verification == backed, (
+        f"{recipe.example_path}: `verification: {recipe.verification}` but automation reaches "
+        f"`{backed}` (host-smoke matrix > per-recipe suite > docs)"
     )
