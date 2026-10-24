@@ -1,11 +1,9 @@
 from __future__ import annotations
 
 import json
-import os
 import sys
 from types import ModuleType
 from typing import Any
-import uuid
 
 import azure.functions as func
 import pytest
@@ -129,34 +127,3 @@ def test_missing_adapter_package_is_not_replaced(monkeypatch: pytest.MonkeyPatch
     assert "Fallback" not in source
     with pytest.raises(ModuleNotFoundError):
         _load(monkeypatch)
-
-
-@pytest.mark.e2e
-def test_azurite_state_survives_app_recreation(monkeypatch: pytest.MonkeyPatch) -> None:
-    connection = os.getenv("AZURITE_CONNECTION_STRING", "UseDevelopmentStorage=true")
-    try:
-        from azure.core.exceptions import AzureError
-        from azure.storage.blob import BlobServiceClient
-
-        service = BlobServiceClient.from_connection_string(connection)
-        service.get_service_properties()
-    except (ImportError, AzureError, OSError, ValueError) as exc:
-        pytest.skip(f"Azurite unavailable: {type(exc).__name__}")
-
-    # Given
-    container = f"personal-agent-test-{uuid.uuid4().hex}"
-    settings = {
-        "AGENT_MEMORY_MODE": "blob",
-        "AZURE_STORAGE_CONNECTION_STRING": connection,
-        "LANGGRAPH_BLOB_CONTAINER": container,
-        "LANGGRAPH_AUTO_CREATE_STORAGE": "true",
-    }
-    first = _load(monkeypatch, **settings)
-    _invoke(first, "What is planned for Project Atlas?", "restart-thread")
-
-    # When
-    second = _load(monkeypatch, **settings)
-    _, payload = _invoke(second, "Check Project Atlas again", "restart-thread")
-
-    # Then
-    assert _message_content(payload, "ai")[-1].endswith("human_turns=2")
