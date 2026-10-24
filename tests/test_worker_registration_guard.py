@@ -66,7 +66,8 @@ AFFECTED_HANDLERS: list[tuple[str, str]] = [
 def _clone_worker(destination: Path) -> bool:
     """Clone the pinned worker SHA into *destination*. Returns False (and
     leaves *destination* unusable) if git/network is unavailable, so the
-    caller can skip rather than fail the whole guard on an infra outage."""
+    caller can fail the guard with a clear reason instead of letting it pass
+    without having run (#437)."""
     try:
         subprocess.run(["git", "init", "-q", str(destination)], check=True, timeout=30)
         subprocess.run(
@@ -107,16 +108,18 @@ def _clone_worker(destination: Path) -> bool:
 @pytest.fixture(scope="module")
 def worker_registry() -> Iterator[ModuleType]:
     """Yield the ``azure_functions_worker.functions`` module from the pinned
-    upstream SHA, with its binding registry already loaded. Skips the whole
-    module if the worker cannot be cloned (no network) or its real SDK
+    upstream SHA, with its binding registry already loaded. Fails (never
+    skips) if the worker cannot be cloned (no network), its real SDK
     converters cannot be imported (missing ``azure-functions``/
-    ``azurefunctions-extensions-base``)."""
+    ``azurefunctions-extensions-base`` or the worker's ``grpcio``/
+    ``protobuf``/``python-dateutil``) or its binding registry cannot load:
+    a skipped guard proves nothing about handler registration (#437)."""
     repo_root = Path(__file__).resolve().parents[1]
 
     with tempfile.TemporaryDirectory(prefix="cookbook-worker-") as worker_dir_str:
         worker_dir = Path(worker_dir_str)
         if not _clone_worker(worker_dir):
-            pytest.skip("Could not clone azure-functions-python-worker (no network?)")
+            pytest.fail("Could not clone azure-functions-python-worker (no network?)")
 
         with tempfile.TemporaryDirectory(prefix="cookbook-registry-") as runtime_dir_str:
             runtime_dir = Path(runtime_dir_str)
@@ -138,11 +141,11 @@ def worker_registry() -> Iterator[ModuleType]:
                 from azure_functions_worker import functions as worker_functions
                 from azure_functions_worker.bindings import load_binding_registry
             except ImportError as error:
-                pytest.skip(f"Worker's real SDK converters unavailable: {error}")
+                pytest.fail(f"Worker's real SDK converters unavailable: {error}")
             try:
                 load_binding_registry()
             except Exception as error:  # noqa: BLE001
-                pytest.skip(f"Could not load the worker's binding registry: {error}")
+                pytest.fail(f"Could not load the worker's binding registry: {error}")
 
             try:
                 yield worker_functions

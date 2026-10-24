@@ -37,3 +37,10 @@ or otherwise non-worker-compatible handler annotations (#379) fail this check
 even though they import cleanly and work under mocked unit tests. Requires
 network access to clone the pinned worker commit, so it runs here rather than
 on every pull request.
+
+The job installs the pinned worker's runtime requirements (`grpcio`, `protobuf`
+and `python-dateutil`, mirroring its `workers/pyproject.toml` for Python 3.12) and
+loads `tools.pytest_fail_on_skip`. A failed clone, a missing requirement, a
+registry that cannot load or any skipped test fails the job (#437): the guard
+never reports success without having indexed every handler. Re-check the pins in
+the workflow whenever `WORKER_SHA` moves.

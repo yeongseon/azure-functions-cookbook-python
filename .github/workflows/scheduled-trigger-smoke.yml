@@ -51,6 +51,9 @@ jobs:
   worker-registration-guard:
     runs-on: ubuntu-latest
     timeout-minutes: 15
+    env:
+      # A skipped or xfailed test is not evidence that handlers register (#437).
+      PYTEST_ADDOPTS: -p tools.pytest_fail_on_skip
     steps:
       - name: Checkout code
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -62,10 +65,15 @@ jobs:
           cache: pip
           cache-dependency-path: pyproject.toml
 
+      # The extra pins are the pinned worker's runtime dependencies for Python
+      # <= 3.13 (workers/pyproject.toml at WORKER_SHA in
+      # tests/test_worker_registration_guard.py). Re-check them whenever WORKER_SHA
+      # moves; the guard fails, never skips, when one is missing.
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          python -m pip install -e ".[dev]"
+          python -m pip install -e ".[dev]" \
+            "grpcio~=1.70.0" "protobuf~=5.29.0" "python-dateutil~=2.9.0"
 
       - name: Run deterministic Python worker registration guard (#379)
         run: python -m pytest -v -m worker_registration --no-cov tests/test_worker_registration_guard.py
