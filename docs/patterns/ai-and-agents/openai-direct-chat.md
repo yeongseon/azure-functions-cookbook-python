@@ -10,6 +10,9 @@
 This recipe shows the smallest useful Azure Functions AI endpoint: an HTTP trigger
 that sends a prompt to Azure OpenAI and returns the model response.
 
+> [!NOTE]
+> This recipe serves as Stage 1 of the [Azure-Native AI & Agent Learning Path](learning-path.md), establishing the baseline for synchronous single-turn model calls before adding state, tools, or event orchestration.
+
 The sample uses the `openai` Python SDK with an Azure endpoint and keeps the
 function surface area simple enough for first-time AI integrations. It also uses
 `azure-functions-validation-python`, `azure-functions-openapi-python`, and

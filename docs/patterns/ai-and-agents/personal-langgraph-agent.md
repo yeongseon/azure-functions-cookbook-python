@@ -13,6 +13,9 @@ then replace process-local checkpoints with Blob-backed checkpoints.
 The default is a **single-user learning recipe**. A `thread_id` separates checkpoint
 streams; it does not prove who the caller is or authorize that caller to read a thread.
 
+> [!TIP]
+> This recipe serves as the foundation for Stage 3 in the [Azure-Native AI & Agent Learning Path](learning-path.md), illustrating how to evolve from stateless single-turn chat into persistent multi-turn conversational memory.
+
 ## Architecture and trust boundaries
 
 ```mermaid
