@@ -126,12 +126,16 @@ def automated_levels() -> dict[str, str]:
 
 
 @pytest.mark.parametrize("recipe", RECIPES, ids=lambda r: r.example_path)
-def test_recipe_verification_level_is_the_highest_automated_check(
+def test_verification_level_matches_required_automation(
     recipe: Recipe, automated_levels: dict[str, str]
 ) -> None:
-    """Offline: `verification` is the highest check automation runs; none reaches `azure`."""
+    """Offline: `verification` is the level the required CI automation backs for the recipe.
+
+    Precedence: `func-host` if it is in the required host-smoke matrix, else `unit` if the required
+    per-recipe job runs a recipe-local suite, else `docs`. No required job reaches `azure`.
+    """
     backed = automated_levels[recipe.example_path]
     assert recipe.verification == backed, (
-        f"{recipe.example_path}: `verification: {recipe.verification}` but automation reaches "
-        f"`{backed}` (host-smoke matrix > per-recipe suite > docs)"
+        f"{recipe.example_path}: `verification: {recipe.verification}` but the required "
+        f"automation backs `{backed}` (host-smoke matrix > per-recipe suite > docs)"
     )
