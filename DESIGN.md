@@ -48,17 +48,18 @@ The repository is organized into four layers:
 
 ## Verification Levels
 
-Every `recipe.yaml` declares the highest verification level the repository
-currently runs for that recipe:
+Every `recipe.yaml` declares the highest level that the required jobs in
+`.github/workflows/ci-test.yml` back for that recipe. `tests/test_recipes.py` enforces the declared
+level against these required automations.
 
-- `docs`: metadata, imports, packaging, and repository-wide recipe guards only.
-- `unit`: includes a recipe-local `tests/test_*.py` suite run by the per-recipe test job.
-- `func-host`: starts the Azure Functions host and exercises the recipe through its runtime surface.
-- `azure`: runs against real Azure resources and credentials.
+- `docs`: no recipe-local test suite, and not in the `host-smoke` matrix.
+- `unit`: the required per-recipe job (`recipe-tests`, `scripts/run_recipe_tests.py`) runs a
+  recipe-local `tests/test_*.py` suite.
+- `func-host`: the recipe is in the required `host-smoke` matrix, which starts the Functions host.
+- `azure`: a required job exercises a deployed Azure resource (none does today).
 
-The value records current automated evidence, not the recipe's intended deployment target.
-Raise it only when the corresponding automated check exists; never infer `azure` merely because
-the recipe uses an Azure service.
+Optional e2e, toolkit and scheduled checks, and repository-level tests under `tests/` that target one
+recipe, do not change the level. Never infer a level from the services a recipe uses.
 
 ## Future Extension Points
 
