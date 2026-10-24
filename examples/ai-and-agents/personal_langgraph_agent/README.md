@@ -58,9 +58,10 @@ Blob mode uses the adapter's `AzureBlobCheckpointSaver` and
 does not promise exactly-once tool effects. This recipe's tool is read-only. Protect the
 storage account, apply retention, and remove test containers after use.
 
-The opt-in lane `AZURITE_CONNECTION_STRING=... hatch run pytest -m e2e
-tests/test_personal_langgraph_agent.py --no-cov` recreates the app/checkpointer and proves
-state survives. It skips only when Azurite is unavailable.
+The opt-in lane `hatch run pytest -m e2e tests/e2e/test_personal_agent_azurite.py --no-cov`
+starts Azurite itself (the `azurite` executable must be on `PATH`), recreates the
+app/checkpointer and proves state survives. It fails, rather than skips, when Azurite cannot
+start.
 
 ## Safety and operations
 

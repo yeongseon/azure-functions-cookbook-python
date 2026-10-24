@@ -202,15 +202,16 @@ AZFUNC_LANGGRAPH_LOCK_BACKEND=distributed
 follow-up with the same thread ID. The normalized fake response should end in
 `human_turns=2`.
 
-For an automated recreation proof with a running Azurite instance:
+For an automated recreation proof, run the e2e test. It starts Azurite itself, so the
+`azurite` executable must be on `PATH`:
 
 ```bash
-AZURITE_CONNECTION_STRING=UseDevelopmentStorage=true \
-  hatch run pytest -m e2e tests/test_personal_langgraph_agent.py --no-cov
+hatch run pytest -m e2e tests/e2e/test_personal_agent_azurite.py --no-cov
 ```
 
 The test creates a unique container, invokes one app/checkpointer, recreates both, and
-asserts the second invocation sees the earlier turn. The repository unit suite exercises
+asserts the second invocation sees the earlier turn. It fails, rather than skips, when
+Azurite cannot start. The repository unit suite exercises
 the registered handler directly; a real Functions-host smoke was **not executed for this
 walkthrough**, and Azure Blob host-restart verification remains an optional cloud procedure.
 
