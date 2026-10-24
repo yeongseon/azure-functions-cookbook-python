@@ -2,6 +2,8 @@
 > [!NOTE]
 > 本文档是[英文原版](README.md)的翻译，由社区维护。英文原版更新后，译文内容可能会有所滞后。
 > 唯一的信息源（Single Source of Truth）是英文 [README.md](README.md)。
+>
+> 翻译待更新：计划触发器冒烟测试运维说明（[docs/scheduled-trigger-smoke.md](docs/scheduled-trigger-smoke.md)）的英文原文已更改，译文待更新。跟踪：https://github.com/yeongseon/azure-functions-cookbook-python/issues/443
 
 [![Python Version](https://img.shields.io/badge/python-3.11%20%7C%203.12%20%7C%203.13%20%7C%203.14-blue)](https://github.com/yeongseon/azure-functions-cookbook-python)
 [![CI](https://github.com/yeongseon/azure-functions-cookbook-python/actions/workflows/ci-smoke.yml/badge.svg)](https://github.com/yeongseon/azure-functions-cookbook-python/actions/workflows/ci-smoke.yml)

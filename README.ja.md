@@ -3,6 +3,8 @@
 > このドキュメントは[英語の原文](README.md)の翻訳であり、コミュニティが管理しています。
 > 英語の原文が更新された後は、内容が少し遅れることがあります。
 > 唯一の情報源（Single Source of Truth）は英語の [README.md](README.md) です。
+>
+> 翻訳保留中: スケジュールされたトリガースモークの運用メモ（[docs/scheduled-trigger-smoke.md](docs/scheduled-trigger-smoke.md)）が英語の原文で変更されており、翻訳は保留中です。追跡: https://github.com/yeongseon/azure-functions-cookbook-python/issues/443
 
 [![Python Version](https://img.shields.io/badge/python-3.11%20%7C%203.12%20%7C%203.13%20%7C%203.14-blue)](https://github.com/yeongseon/azure-functions-cookbook-python)
 [![CI](https://github.com/yeongseon/azure-functions-cookbook-python/actions/workflows/ci-smoke.yml/badge.svg)](https://github.com/yeongseon/azure-functions-cookbook-python/actions/workflows/ci-smoke.yml)
