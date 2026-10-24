@@ -13,7 +13,7 @@
   {"id":"B607","file":"tools/check_pr_format.py","line":41,"reason":"Trusted CI PATH resolves ruff, file arguments come from git inventory.","owner":"yeongseon","added":"2026-10-22","expires":"2026-12-22"},
   {"id":"B603","file":"tools/check_pr_format.py","line":41,"reason":"Ruff uses fixed options and explicit file argv, shell disabled.","owner":"yeongseon","added":"2026-10-22","expires":"2026-12-22"},
   {"id":"B404","file":"tools/compile_bicep_templates.py","line":15,"reason":"Offline Bicep compilation requires subprocess.","owner":"yeongseon","added":"2026-10-22","expires":"2026-12-22"},
-  {"id":"B603","file":"tools/compile_bicep_templates.py","line":36,"reason":"Compiler invocation uses repository template inventory and shell disabled.","owner":"yeongseon","added":"2026-10-22","expires":"2026-12-22"},
+  {"id":"B603","file":"tools/compile_bicep_templates.py","line":41,"reason":"Compiler invocation uses repository template inventory and shell disabled.","owner":"yeongseon","added":"2026-10-22","expires":"2026-12-22"},
   {"id":"B404","file":"tools/dependency_audit_policy.py","line":8,"reason":"Isolated venv and pip-audit execution require subprocess.","owner":"yeongseon","added":"2026-10-22","expires":"2026-12-22"},
   {"id":"B603","file":"tools/dependency_audit_policy.py","line":106,"reason":"Current interpreter creates unique temporary venv via explicit argv; no shell.","owner":"yeongseon","added":"2026-10-22","expires":"2026-12-22"},
   {"id":"B603","file":"tools/dependency_audit_policy.py","line":113,"reason":"Unique venv interpreter installs exactly pinned auditor, shell disabled.","owner":"yeongseon","added":"2026-10-22","expires":"2026-12-22"},

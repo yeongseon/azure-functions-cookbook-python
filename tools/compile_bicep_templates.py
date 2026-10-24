@@ -27,11 +27,16 @@ def _bicep_cli() -> str | None:
 def compile_all_templates(bicep: str) -> list[tuple[str, str]]:
     """Return a list of (relative_path, diagnostics) for every main.bicep
     that fails to compile. Empty list means every template compiled
-    cleanly (warnings are tolerated; only hard errors fail)."""
+    cleanly (warnings are tolerated; only a non-zero compiler exit or an
+    ``Error `` diagnostic fails). Finding no template at all is a failure,
+    never a pass (#438)."""
+    templates = sorted(EXAMPLES.glob("**/main.bicep"))
+    if not templates:
+        return [("examples/**/main.bicep", "no templates found; refusing to report success")]
     failures: list[tuple[str, str]] = []
     with tempfile.TemporaryDirectory(prefix="cookbook-bicep-") as tmp:
         output_dir = Path(tmp)
-        for template in sorted(EXAMPLES.glob("**/main.bicep")):
+        for template in templates:
             label = template.relative_to(EXAMPLES).as_posix()
             result = subprocess.run(
                 [
@@ -48,7 +53,7 @@ def compile_all_templates(bicep: str) -> list[tuple[str, str]]:
                 check=False,
             )
             diagnostics = result.stdout + result.stderr
-            if "Error " in diagnostics:
+            if result.returncode != 0 or "Error " in diagnostics:
                 failures.append((label, diagnostics))
     return failures
 
