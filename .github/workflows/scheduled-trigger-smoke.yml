@@ -16,6 +16,9 @@ jobs:
   queue-blob-durable:
     runs-on: ubuntu-latest
     timeout-minutes: 30
+    env:
+      # A skipped or xfailed e2e test is not evidence (#439).
+      PYTEST_ADDOPTS: -p tools.pytest_fail_on_skip
     steps:
       - name: Checkout code
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
