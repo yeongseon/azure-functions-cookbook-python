@@ -100,7 +100,7 @@ def test_tools_call_unknown_tool_returns_error() -> None:
 
     assert status_code == 404
     assert response["error"]["code"] == -32601
-    assert response["error"]["message"] == "Unknown tool: unknown"
+    assert response["error"]["message"] == "Unknown tool"
 
 
 def test_unknown_method_returns_error() -> None:
@@ -110,4 +110,4 @@ def test_unknown_method_returns_error() -> None:
 
     assert status_code == 404
     assert response["error"]["code"] == -32601
-    assert response["error"]["message"] == "Method not found: unsupported/method"
+    assert response["error"]["message"] == "Method not found"

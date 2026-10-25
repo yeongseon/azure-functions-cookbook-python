@@ -1,11 +1,28 @@
 from __future__ import annotations
 
 import logging
-from typing import Any
+import math
+from typing import TypeAlias, TypedDict
+
+from app.services.calculator import InvalidExpression, calculate
+
+Json: TypeAlias = None | bool | int | float | str | list["Json"] | dict[str, "Json"]
 
 logger = logging.getLogger(__name__)
 
-TOOLS: dict[str, dict[str, Any]] = {
+
+class InputSchema(TypedDict):
+    type: str
+    properties: dict[str, dict[str, str]]
+    required: list[str]
+
+
+class Tool(TypedDict):
+    description: str
+    inputSchema: InputSchema
+
+
+TOOLS: dict[str, Tool] = {
     "get_weather": {
         "description": "Get current weather for a location",
         "inputSchema": {
@@ -35,34 +52,21 @@ TOOLS: dict[str, dict[str, Any]] = {
 }
 
 
-def _handle_get_weather(arguments: dict[str, Any]) -> str:
-    location = arguments.get("location", "Unknown")
+def _handle_get_weather(location: str) -> str:
     return f"The weather in {location} is sunny, 22C."
 
 
-def _handle_calculate(arguments: dict[str, Any]) -> str:
-    expression = arguments.get("expression", "0")
-    allowed = set("0123456789+-*/() .")
-    if not all(c in allowed for c in expression):
-        return "Error: expression contains invalid characters"
-    try:
-        result = eval(expression)  # noqa: S307 - restricted character set above
-        return str(result)
-    except Exception:
-        return "Error: could not evaluate expression"
-
-
-TOOL_HANDLERS: dict[str, Any] = {
+TOOL_HANDLERS = {
     "get_weather": _handle_get_weather,
-    "calculate": _handle_calculate,
+    "calculate": calculate,
 }
 
 
-def _json_rpc_response(request_id: Any, result: Any) -> dict[str, Any]:
+def _json_rpc_response(request_id: Json, result: Json) -> dict[str, Json]:
     return {"jsonrpc": "2.0", "id": request_id, "result": result}
 
 
-def _json_rpc_error(request_id: Any, code: int, message: str) -> dict[str, Any]:
+def _json_rpc_error(request_id: Json, code: int, message: str) -> dict[str, Json]:
     return {
         "jsonrpc": "2.0",
         "id": request_id,
@@ -70,12 +74,26 @@ def _json_rpc_error(request_id: Any, code: int, message: str) -> dict[str, Any]:
     }
 
 
-def handle_mcp_request(body: dict) -> tuple[dict[str, Any] | None, int]:
+def handle_mcp_request(body: Json) -> tuple[dict[str, Json] | None, int]:
+    if not isinstance(body, dict):
+        return _json_rpc_error(None, -32600, "Invalid request"), 400
     request_id = body.get("id")
     method = body.get("method", "")
     params = body.get("params", {})
+    if type(request_id) not in (str, int, float, type(None)) or (
+        isinstance(request_id, float) and not math.isfinite(request_id)
+    ):
+        return _json_rpc_error(None, -32600, "Invalid request"), 400
+    if body.get("jsonrpc") != "2.0" or not isinstance(method, str) or not method:
+        return _json_rpc_error(request_id, -32600, "Invalid request"), 400
+    if method == "notifications/initialized":
+        if "id" in body or not isinstance(params, dict):
+            return _json_rpc_error(request_id, -32600, "Invalid initialized notification"), 400
+        return None, 202
+    if not isinstance(params, dict):
+        return _json_rpc_error(request_id, -32602, "Invalid params"), 400
 
-    logger.info("MCP request: method=%s id=%s", method, request_id)
+    logger.info("MCP request received")
 
     if method == "initialize":
         result = {
@@ -87,18 +105,6 @@ def handle_mcp_request(body: dict) -> tuple[dict[str, Any] | None, int]:
             },
         }
         return _json_rpc_response(request_id, result), 200
-
-    if method == "notifications/initialized":
-        # The MCP 2025-03-26 lifecycle requires accepting this notification
-        # after initialize. Notifications carry no id and expect no JSON-RPC
-        # response body -- returning None (rather than a dict) lets the HTTP
-        # layer send a genuinely empty 202, distinct from an ordinary result.
-        # A malformed notification (wrong jsonrpc version, an id present, or
-        # non-object params) is not silently accepted: it still gets the
-        # ordinary JSON-RPC error envelope and a 400.
-        if body.get("jsonrpc") != "2.0" or "id" in body or not isinstance(params, dict):
-            return _json_rpc_error(request_id, -32600, "Invalid initialized notification"), 400
-        return None, 202
 
     if method == "tools/list":
         tools_list = [
@@ -112,13 +118,23 @@ def handle_mcp_request(body: dict) -> tuple[dict[str, Any] | None, int]:
         return _json_rpc_response(request_id, {"tools": tools_list}), 200
 
     if method == "tools/call":
-        tool_name = params.get("name", "") if isinstance(params, dict) else ""
-        arguments = params.get("arguments", {}) if isinstance(params, dict) else {}
+        tool_name = params.get("name")
+        arguments = params.get("arguments")
+        if not isinstance(tool_name, str) or not tool_name or not isinstance(arguments, dict):
+            return _json_rpc_error(request_id, -32602, "Invalid tool arguments"), 400
         handler = TOOL_HANDLERS.get(tool_name)
         if handler is None:
-            return _json_rpc_error(request_id, -32601, f"Unknown tool: {tool_name}"), 404
-        output = handler(arguments)
+            return _json_rpc_error(request_id, -32601, "Unknown tool"), 404
+        schema = TOOLS[tool_name]["inputSchema"]
+        field = schema["required"][0]
+        value = arguments.get(field)
+        if not isinstance(value, str):
+            return _json_rpc_error(request_id, -32602, "Invalid tool arguments"), 400
+        try:
+            output = handler(value)
+        except InvalidExpression:
+            return _json_rpc_error(request_id, -32602, "Invalid calculator expression"), 400
         result = {"content": [{"type": "text", "text": output}]}
         return _json_rpc_response(request_id, result), 200
 
-    return _json_rpc_error(request_id, -32601, f"Method not found: {method}"), 404
+    return _json_rpc_error(request_id, -32601, "Method not found"), 404

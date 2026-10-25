@@ -15,6 +15,7 @@ import os
 from types import SimpleNamespace
 
 import azure.functions as func
+import pytest
 
 from tests._isolation import (
     EXAMPLES_DIR,
@@ -485,20 +486,20 @@ class TestMcpServerExample:
     def test_handle_get_weather(self) -> None:
         _load_example_module("ai-and-agents/mcp_server_example")
         svc = _import_service("ai-and-agents/mcp_server_example", "app.services.mcp_service")
-        result = svc._handle_get_weather({"location": "San Francisco, CA"})
+        result = svc._handle_get_weather("San Francisco, CA")
         assert "San Francisco" in result
 
     def test_handle_calculate(self) -> None:
         _load_example_module("ai-and-agents/mcp_server_example")
         svc = _import_service("ai-and-agents/mcp_server_example", "app.services.mcp_service")
-        result = svc._handle_calculate({"expression": "2 + 3"})
+        result = svc.calculate("2 + 3")
         assert result == "5"
 
     def test_handle_calculate_invalid(self) -> None:
         _load_example_module("ai-and-agents/mcp_server_example")
         svc = _import_service("ai-and-agents/mcp_server_example", "app.services.mcp_service")
-        result = svc._handle_calculate({"expression": "import os"})
-        assert "Error" in result
+        with pytest.raises(svc.InvalidExpression):
+            svc.calculate("import os")
 
     def test_mcp_initialize(self) -> None:
         _load_example_module("ai-and-agents/mcp_server_example")
