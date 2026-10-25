@@ -253,6 +253,8 @@ AI 示例附带本地回退桩，因此无需凭据即可运行 — 请参阅
 
 [MCP 配方](examples/ai-and-agents/mcp_server_example/) 接受 `initialize` 之后的
 `notifications/initialized` 通知，并返回正文为空的 HTTP 202 响应。
+工具输入按模式验证；计算器使用有界 AST 算术，不使用 `eval`
+（支持的运算符和限制请参阅该示例）。
 
 ### Test tiers
 

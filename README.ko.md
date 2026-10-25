@@ -254,6 +254,8 @@ AI 예제는 자격 증명 없이 실행되도록 로컬 폴백 스텁을 제공
 
 [MCP 레시피](examples/ai-and-agents/mcp_server_example/)는 `initialize` 이후의
 `notifications/initialized`를 수락하고 본문이 없는 HTTP 202를 반환합니다.
+도구 입력은 스키마에 따라 검사하며, 계산기는 `eval` 없이 제한된 AST 산술을
+사용합니다(지원 연산자와 한도는 레시피 참조).
 
 ### Test tiers
 

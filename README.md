@@ -254,6 +254,8 @@ Its explicit fake mode is credential-free; real mode fails clearly instead of fa
 
 The [MCP recipe](examples/ai-and-agents/mcp_server_example/) accepts
 `notifications/initialized` after `initialize` with HTTP 202 and an empty body.
+Its tool inputs are schema-checked; the calculator uses bounded AST arithmetic
+without `eval` (see the recipe for supported operators and limits).
 
 ### Test tiers
 

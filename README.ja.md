@@ -254,6 +254,8 @@ AI の例は、資格情報なしで実行できるローカルフォールバ�
 
 [MCP レシピ](examples/ai-and-agents/mcp_server_example/) は `initialize` の後の
 `notifications/initialized` を受け付け、本文のない HTTP 202 を返します。
+ツール入力はスキーマで検証され、電卓は `eval` を使わず、制限付きの AST 算術を
+使用します（対応する演算子と上限はレシピを参照）。
 
 ### Test tiers
 
