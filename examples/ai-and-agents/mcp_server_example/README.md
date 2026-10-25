@@ -24,7 +24,32 @@ shows how to implement the MCP surface directly in `function_app.py` with no ext
 Included tools:
 
 - `get_weather` (mock weather response)
-- `calculate` (safe-ish expression evaluator with character allowlist)
+- `calculate` (bounded AST arithmetic interpreter; no Python code execution)
+
+### Input validation and calculator limits
+
+Requests must be JSON objects with `jsonrpc: "2.0"`, a nonempty string `method`,
+an optional string/finite-number/null `id` (not a boolean), and object `params`
+when supplied. `tools/call` requires a nonempty string `name` and object
+`arguments`. Both advertised input schemas are enforced before dispatch:
+`get_weather` requires a string `location`; `calculate` requires a string
+`expression`. Additional argument properties remain allowed, as in the schemas.
+
+The calculator accepts decimal integers/floats, parentheses, spaces, unary
+`+`/`-`, and binary `+`, `-`, `*`, `/` with normal precedence. It rejects every
+other AST node/operator, including **all exponentiation** (`**`) and floor
+division (`//`); scientific notation, underscores, names and calls are unsupported.
+Limits are 256 characters **before trimming**, 64 AST nodes (including operator
+nodes and the root), expression depth 16 (root operand depth 1), and absolute
+value at most `10^12` for every literal, intermediate value and final result.
+Non-finite results and division by zero are rejected. Length is bounded before
+parsing, and depth is bounded before recursive evaluation.
+
+Failures use JSON-RPC envelopes: parse errors `-32700`, invalid requests
+`-32600`, and invalid params/arguments/calculator expressions `-32602` return
+HTTP 400. Unknown methods/tools return `-32601` and HTTP 404. Errors contain
+fixed messages rather than input or exception details. Protocol version
+`2025-03-26` and the initialized notification's empty HTTP 202 are unchanged.
 
 ## Files
 

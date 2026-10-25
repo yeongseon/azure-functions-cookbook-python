@@ -78,20 +78,34 @@ TOOLS = {
 }
 ```
 
-Tool handlers implement business logic.
+Tool arguments are checked against the required string fields in the registry
+before dispatch. Handlers receive the validated field, not the raw arguments object.
 
 ```python
-def _handle_get_weather(arguments: dict[str, Any]) -> str:
-    location = arguments.get("location", "Unknown")
+def _handle_get_weather(location: str) -> str:
     return f"The weather in {location} is sunny, 22C."
 
-def _handle_calculate(arguments: dict[str, Any]) -> str:
-    expression = arguments.get("expression", "0")
-    allowed = set("0123456789+-*/() .")
-    if not all(c in allowed for c in expression):
-        return "Error: expression contains invalid characters"
-    ...
+from app.services.calculator import calculate
+
+TOOL_HANDLERS = {"get_weather": _handle_get_weather, "calculate": calculate}
 ```
+
+`calculate` interprets a bounded AST, never Python `eval`. Only decimal literals,
+parentheses, spaces, unary signs and `+`, `-`, `*`, `/` are supported. All powers
+(`**`), floor division, calls and other syntax are rejected. Limits are 256
+characters before trimming, 64 AST nodes including operators/root, expression
+depth 16 (root operand depth 1), and absolute magnitude `10^12` for every literal,
+intermediate and result; division by zero and non-finite values are errors.
+
+The envelope must be an object with `jsonrpc: "2.0"`, nonempty string method,
+optional string/finite-number/null id (not boolean), and object params if supplied.
+`tools/call` requires string name and object arguments; the required `location`
+or `expression` must be a string. Extra argument properties remain allowed.
+Invalid envelopes return `-32600`; invalid params, arguments and calculations
+return `-32602` (HTTP 400). Parse errors remain `-32700`/400, and unknown
+methods/tools remain `-32601`/404. Error messages do not reflect user input or
+exception details. See the [runnable recipe](https://github.com/yeongseon/azure-functions-cookbook-python/tree/main/examples/ai-and-agents/mcp_server_example)
+for the complete interpreter and validation boundary.
 
 The HTTP trigger preserves the service's distinction between JSON-RPC responses
 and acknowledgements that have no response body.
