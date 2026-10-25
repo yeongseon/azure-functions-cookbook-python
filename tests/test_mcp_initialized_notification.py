@@ -89,6 +89,21 @@ def test_full_initialization_sequence_succeeds() -> None:
     assert tools_body["id"] == 2
     assert len(tools_body["result"]["tools"]) == 2
 
+    call_response = handler(
+        _mcp_request(
+            {
+                "jsonrpc": "2.0",
+                "id": 3,
+                "method": "tools/call",
+                "params": {"name": "get_weather", "arguments": {"location": "Seoul"}},
+            }
+        )
+    )
+    assert call_response.status_code == 200
+    assert json.loads(call_response.get_body())["result"]["content"] == [
+        {"type": "text", "text": "The weather in Seoul is sunny, 22C."}
+    ]
+
 
 def test_ordinary_requests_still_return_json_bodies_with_preserved_ids() -> None:
     handler = _mcp_handler()
