@@ -4,7 +4,7 @@
 > 英語の原文が更新された後は、内容が少し遅れることがあります。
 > 唯一の情報源（Single Source of Truth）は英語の [README.md](README.md) です。
 >
-> 翻訳保留中: スケジュールされたトリガースモークの運用メモ（[docs/scheduled-trigger-smoke.md](docs/scheduled-trigger-smoke.md)）が英語の原文で変更されており、翻訳は保留中です。追跡: https://github.com/yeongseon/azure-functions-cookbook-python/issues/443
+> スケジュールされたトリガースモーク: worker-registration 検査は固定された Python worker の実行時依存関係（`grpcio`、`protobuf`、`python-dateutil`）をインストールし、実際の `Registry.add_indexed_function()` でハンドラーを登録します。クローン失敗、依存関係の不足、レジストリの読み込み失敗、スキップされたテストは成功扱いにせず、ジョブを失敗させます。このネットワーク依存の検査は定期実行と手動実行で行われ、Durable スモークは実際のオーケストレーション実行ではなくインポート検査です。詳細は[運用メモ](docs/scheduled-trigger-smoke.md)を参照してください。
 >
 > 翻訳保留中: パーソナルエージェントの Azurite テストの実行方法（[docs/patterns/ai-and-agents/personal-langgraph-agent.md](docs/patterns/ai-and-agents/personal-langgraph-agent.md) と[サンプルの README](examples/ai-and-agents/personal_langgraph_agent/README.md)）が英語の原文で変更されており、翻訳は保留中です。追跡: https://github.com/yeongseon/azure-functions-cookbook-python/issues/444
 
