@@ -6,7 +6,7 @@
 >
 > 예약 트리거 스모크: worker-registration 검사는 고정된 Python worker의 런타임 의존성(`grpcio`, `protobuf`, `python-dateutil`)을 설치하고 실제 `Registry.add_indexed_function()`으로 핸들러를 등록합니다. 복제 실패, 누락된 의존성, 레지스트리 로딩 실패 또는 건너뛴 테스트는 성공으로 처리하지 않고 작업을 실패시킵니다. 이 네트워크 의존 검사는 예약 실행과 수동 실행에서 수행되며, Durable 스모크는 실제 오케스트레이션 실행이 아닌 임포트 검사입니다. 자세한 내용: [운영 문서](docs/scheduled-trigger-smoke.md).
 >
-> 번역 대기 중: 개인 에이전트 Azurite 테스트 실행 방법([docs/patterns/ai-and-agents/personal-langgraph-agent.md](docs/patterns/ai-and-agents/personal-langgraph-agent.md) 및 [예제 README](examples/ai-and-agents/personal_langgraph_agent/README.md))이 영어 원문에서 변경되었으며 번역은 대기 중입니다. 추적: https://github.com/yeongseon/azure-functions-cookbook-python/issues/444
+> 개인 에이전트 Azurite 영속성 검사: `hatch run pytest -m e2e tests/e2e/test_personal_agent_azurite.py --no-cov`를 실행하세요. 테스트가 Azurite를 직접 시작하므로 `azurite`가 `PATH`에 있어야 하며, 시작할 수 없으면 건너뛰지 않고 실패합니다. 고유한 컨테이너에서 앱과 체크포인터를 재생성한 뒤 이전 대화가 유지되는지 확인합니다. 이는 실제 Functions 호스트 재시작이나 Azure 클라우드 검증을 뜻하지 않습니다. `recipe.yaml`의 `verification`은 필수 레시피별 작업과 호스트 스모크 매트릭스가 입증하는 수준만 나타냅니다. 자세한 내용: [패턴 문서](docs/patterns/ai-and-agents/personal-langgraph-agent.md), [예제 README](examples/ai-and-agents/personal_langgraph_agent/README.md), [검증 수준](DESIGN.md#verification-levels).
 
 [![Python Version](https://img.shields.io/badge/python-3.11%20%7C%203.12%20%7C%203.13%20%7C%203.14-blue)](https://github.com/yeongseon/azure-functions-cookbook-python)
 [![CI](https://github.com/yeongseon/azure-functions-cookbook-python/actions/workflows/ci-smoke.yml/badge.svg)](https://github.com/yeongseon/azure-functions-cookbook-python/actions/workflows/ci-smoke.yml)

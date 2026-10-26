@@ -5,7 +5,7 @@
 >
 > 计划触发器冒烟测试：worker-registration 检查会安装固定版本 Python worker 的运行时依赖（`grpcio`、`protobuf`、`python-dateutil`），并通过真实的 `Registry.add_indexed_function()` 注册处理函数。克隆失败、缺少依赖、无法加载注册表或任何测试被跳过都会使作业失败，而不会被视为成功。这项需要网络的检查在定时和手动运行中执行；Durable 冒烟测试只检查导入，不执行真实编排。详见[运维说明](docs/scheduled-trigger-smoke.md)。
 >
-> 翻译待更新：个人智能体 Azurite 测试运行方法（[docs/patterns/ai-and-agents/personal-langgraph-agent.md](docs/patterns/ai-and-agents/personal-langgraph-agent.md) 和[示例 README](examples/ai-and-agents/personal_langgraph_agent/README.md)）的英文原文已更改，译文待更新。跟踪：https://github.com/yeongseon/azure-functions-cookbook-python/issues/444
+> 个人智能体 Azurite 持久化检查：运行 `hatch run pytest -m e2e tests/e2e/test_personal_agent_azurite.py --no-cov`。测试会自行启动 Azurite，因此 `azurite` 必须在 `PATH` 中；无法启动时测试会失败，而不是跳过。测试使用唯一容器，重建应用和检查点保存器后确认先前对话仍然存在。这不等于真实 Functions 主机重启或 Azure 云端验证。`recipe.yaml` 的 `verification` 只表示必需的逐配方作业和主机冒烟矩阵实际证明的级别。详见[模式文档](docs/patterns/ai-and-agents/personal-langgraph-agent.md)、[示例 README](examples/ai-and-agents/personal_langgraph_agent/README.md)和[验证级别](DESIGN.md#verification-levels)。
 
 [![Python Version](https://img.shields.io/badge/python-3.11%20%7C%203.12%20%7C%203.13%20%7C%203.14-blue)](https://github.com/yeongseon/azure-functions-cookbook-python)
 [![CI](https://github.com/yeongseon/azure-functions-cookbook-python/actions/workflows/ci-smoke.yml/badge.svg)](https://github.com/yeongseon/azure-functions-cookbook-python/actions/workflows/ci-smoke.yml)
