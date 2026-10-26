@@ -322,6 +322,7 @@ PR の説明は [AGENTS.md](AGENTS.md#pull-request-writing) に従い、`Summary
 - 製品要件: `PRD.md`
 - 設計原則: `DESIGN.md`
 - コントリビューションガイド: `CONTRIBUTING.md`
+- AI & エージェント学習パス: [`docs/patterns/ai-and-agents/learning-path.md`](docs/patterns/ai-and-agents/learning-path.md)
 
 ## Ecosystem
 

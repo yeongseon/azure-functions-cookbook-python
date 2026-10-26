@@ -322,6 +322,7 @@ PR 설명은 [AGENTS.md](AGENTS.md#pull-request-writing)에 따라 `Summary`, `C
 - 제품 요구사항: `PRD.md`
 - 설계 원칙: `DESIGN.md`
 - 기여 가이드: `CONTRIBUTING.md`
+- AI 및 에이전트 학습 경로: [`docs/patterns/ai-and-agents/learning-path.md`](docs/patterns/ai-and-agents/learning-path.md)
 
 ## Ecosystem
 

@@ -320,6 +320,7 @@ PR 标题检查只验证语法，正文中的标题本身不能保证最终提�
 - 产品需求: `PRD.md`
 - 设计原则: `DESIGN.md`
 - 贡献指南: `CONTRIBUTING.md`
+- AI 与智能体学习路径: [`docs/patterns/ai-and-agents/learning-path.md`](docs/patterns/ai-and-agents/learning-path.md)
 
 ## Ecosystem
 
