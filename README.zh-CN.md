@@ -304,6 +304,13 @@ Python 文件的格式问题。
 
 ## Documentation
 
+请按照 [AGENTS.md](AGENTS.md#pull-request-writing)，用 `Summary`、`Changes`、
+`Validation` 和 `Related Issues` 简洁地说明 PR。只记录实际执行的检查及其结果，
+不要把待完成的 CI 写成已通过。保留重要的兼容性、安全影响和未解决的问题，
+省略智能体执行日志和空白审查字段。高风险变更应按照
+[审查证据政策](docs/review-evidence-policy.md)，记录被审查的提交、问题处理情况和
+明确的维护者批准。这些写作规则不会放宽必需的 CI 或发布保护措施。
+
 - 产品需求: `PRD.md`
 - 设计原则: `DESIGN.md`
 - 贡献指南: `CONTRIBUTING.md`
