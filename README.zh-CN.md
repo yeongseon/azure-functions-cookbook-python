@@ -304,6 +304,12 @@ Python 文件的格式问题。
 
 ## Documentation
 
+兼容性变更分类遵循 [CONTRIBUTING.md 的统一规则](CONTRIBUTING.md#breaking-change-classification)。
+只有在不兼容地改变受支持的调用、配置或输出契约时，才使用标题中的 `!` 或最终 squash 提交中的
+`BREAKING CHANGE:`。安全加固或内部重构本身并不意味着破坏兼容性。生成应用的变化应评估重新生成
+项目的用户所受影响；契约不确定时先验证行为。相关 PR 应说明旧行为、新行为、影响范围和迁移方式。
+PR 标题检查只验证语法，正文中的标题本身不能保证最终提交带有破坏性变更标记。
+
 - 产品需求: `PRD.md`
 - 设计原则: `DESIGN.md`
 - 贡献指南: `CONTRIBUTING.md`
