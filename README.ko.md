@@ -305,6 +305,13 @@ PR을 열기 전에 변경한 Python 파일에 `ruff format --check <변경한-P
 
 ## Documentation
 
+PR 설명은 [AGENTS.md](AGENTS.md#pull-request-writing)에 따라 `Summary`, `Changes`,
+`Validation`, `Related Issues`로 간결하게 작성하세요. 실제로 실행한 검사와 결과를 적고,
+대기 중인 CI를 통과했다고 쓰지 마세요. 중요한 호환성·보안 영향과 미해결 사항은 유지하되
+에이전트 실행 기록이나 빈 검토 항목은 넣지 마세요. 고위험 변경에는
+[검토 증거 정책](docs/review-evidence-policy.md)에 따라 검토한 커밋, 발견 사항의 처리,
+명시적인 메인테이너 승인을 기록하세요. 이 지침은 필수 CI나 릴리스 보호 장치를 완화하지 않습니다.
+
 - 제품 요구사항: `PRD.md`
 - 설계 원칙: `DESIGN.md`
 - 기여 가이드: `CONTRIBUTING.md`
