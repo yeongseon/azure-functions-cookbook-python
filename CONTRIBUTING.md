@@ -250,6 +250,24 @@ Pull requests are squash-merged and the pull request title becomes the final com
 
 Issue titles are not enforced. Anyone can open an issue without knowing this convention; maintainers adjust the title during triage.
 
+### Breaking-change classification
+
+Use `!` in a Conventional Commit/PR title, or a `BREAKING CHANGE:` footer in the **final squash commit**, only when a change makes an existing supported consumer usage incompatible or changes a supported observable contract incompatibly. Base the decision on verified behavior before and after the change, not on size, risk, security motivation, or which tool authored it. Public APIs, required configuration, authentication defaults, supported runtimes, published output formats, and generated application behavior may all be contracts. A security fix can be breaking if it changes a supported calling pattern; a refactor, dependency bump, CI scan, test change, or performance fix is not automatically breaking. When unsure, verify the affected contract before applying the marker. The existing PR-title check validates **syntax**, not compatibility. A squash commit marker influences Release Please; a Markdown `## BREAKING CHANGE` heading in a PR body alone does **not** guarantee that the final commit is marked breaking.
+
+#### Cookbook examples
+
+- **Breaking:** PR #431 changed existing paid-AI recipe HTTP routes from anonymous access to
+  Function-key authentication for Azure invocations. Existing callers need a key or the
+  explicit public-demo opt-in; the compatible local Core Tools behavior does not remove that
+  deployed calling-contract change.
+- **Not automatically breaking:** adding an exact-inventory security scan without changing
+  a documented recipe invocation or output. Compatible internal refactoring is also not breaking.
+- **Generated applications:** assess consumers of regeneration. A hypothetical generator change
+  that requires a previously optional setting in regenerated apps is incompatible for those
+  consumers, even when already deployed apps remain unchanged.
+- **Uncertain contract:** inspect the documented invocation and its behavior before and after
+  the change; do not classify it from the diff size or PR-title syntax alone.
+
 ## Releases
 
 Merging to `main` does not publish anything. This repository is a collection of
