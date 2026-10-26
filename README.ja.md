@@ -305,6 +305,13 @@ PR を作成する前に、変更した Python ファイルで `ruff format --ch
 
 ## Documentation
 
+PR の説明は [AGENTS.md](AGENTS.md#pull-request-writing) に従い、`Summary`、`Changes`、
+`Validation`、`Related Issues` で簡潔にまとめてください。実行した検査と結果を記録し、
+保留中の CI を成功済みと記載しないでください。重要な互換性・セキュリティへの影響や
+未解決事項は残し、エージェントの実行記録や空のレビュー項目は省きます。高リスクの変更は
+[レビュー証拠ポリシー](docs/review-evidence-policy.md) に従い、評価したコミット、
+指摘への対応、明示的なメンテナー承認を記録してください。必須 CI やリリースの保護は変わりません。
+
 - 製品要件: `PRD.md`
 - 設計原則: `DESIGN.md`
 - コントリビューションガイド: `CONTRIBUTING.md`
