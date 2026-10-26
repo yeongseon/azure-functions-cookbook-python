@@ -6,7 +6,7 @@
 >
 > 翻訳保留中: スケジュールされたトリガースモークの運用メモ（[docs/scheduled-trigger-smoke.md](docs/scheduled-trigger-smoke.md)）が英語の原文で変更されており、翻訳は保留中です。追跡: https://github.com/yeongseon/azure-functions-cookbook-python/issues/443
 >
-> 翻訳保留中: パーソナルエージェントの Azurite テストの実行方法（[docs/patterns/ai-and-agents/personal-langgraph-agent.md](docs/patterns/ai-and-agents/personal-langgraph-agent.md) と[サンプルの README](examples/ai-and-agents/personal_langgraph_agent/README.md)）が英語の原文で変更されており、翻訳は保留中です。追跡: https://github.com/yeongseon/azure-functions-cookbook-python/issues/444
+> パーソナルエージェントの Azurite 永続化検査: `hatch run pytest -m e2e tests/e2e/test_personal_agent_azurite.py --no-cov` を実行してください。テストが Azurite を起動するため、`azurite` が `PATH` に必要です。起動できなければスキップせず失敗します。一意のコンテナーでアプリとチェックポインターを再作成し、以前の会話が残ることを確認します。実際の Functions ホスト再起動や Azure クラウドの検証ではありません。`recipe.yaml` の `verification` は必須のレシピ別ジョブとホストスモーク行列が実証するレベルだけを示します。詳細: [パターン文書](docs/patterns/ai-and-agents/personal-langgraph-agent.md)、[サンプル README](examples/ai-and-agents/personal_langgraph_agent/README.md)、[検証レベル](DESIGN.md#verification-levels)。
 
 [![Python Version](https://img.shields.io/badge/python-3.11%20%7C%203.12%20%7C%203.13%20%7C%203.14-blue)](https://github.com/yeongseon/azure-functions-cookbook-python)
 [![CI](https://github.com/yeongseon/azure-functions-cookbook-python/actions/workflows/ci-smoke.yml/badge.svg)](https://github.com/yeongseon/azure-functions-cookbook-python/actions/workflows/ci-smoke.yml)
