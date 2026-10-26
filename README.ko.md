@@ -305,6 +305,13 @@ PR을 열기 전에 변경한 Python 파일에 `ruff format --check <변경한-P
 
 ## Documentation
 
+호환성 변경의 분류는 [CONTRIBUTING.md의 공통 규칙](CONTRIBUTING.md#breaking-change-classification)을
+따릅니다. 지원되는 호출·설정·출력 계약을 호환되지 않게 바꿀 때만 제목의 `!` 또는 최종 스쿼시
+커밋의 `BREAKING CHANGE:`를 사용하세요. 보안 강화나 내부 리팩터링 자체는 호환성 파괴를
+뜻하지 않습니다. 생성된 앱의 변경은 재생성하는 사용자에게 미치는 영향을 확인하고,
+계약이 불확실하면 먼저 동작을 검증하세요. 해당 PR에는 이전 동작, 새 동작, 영향 범위와
+마이그레이션을 적으세요. PR 제목 검사는 문법만 확인하며 본문의 제목만으로 릴리스 표시가 보장되지 않습니다.
+
 PR 설명은 [AGENTS.md](AGENTS.md#pull-request-writing)에 따라 `Summary`, `Changes`,
 `Validation`, `Related Issues`로 간결하게 작성하세요. 실제로 실행한 검사와 결과를 적고,
 대기 중인 CI를 통과했다고 쓰지 마세요. 중요한 호환성·보안 영향과 미해결 사항은 유지하되

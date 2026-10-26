@@ -305,6 +305,13 @@ PR を作成する前に、変更した Python ファイルで `ruff format --ch
 
 ## Documentation
 
+互換性変更の分類は [CONTRIBUTING.md の共通ルール](CONTRIBUTING.md#breaking-change-classification)に
+従います。サポート対象の呼び出し・設定・出力の契約を非互換に変更するときだけ、タイトルの `!`
+または最終 squash コミットの `BREAKING CHANGE:` を使ってください。セキュリティ強化や内部
+リファクタリングだけで破壊的変更とはなりません。生成アプリの変更は再生成する利用者への影響を
+確認し、契約が不明なら先に動作を検証します。該当 PR には旧動作、新動作、影響範囲と移行方法を
+記録してください。PR タイトル検査は構文だけを確認し、本文の見出しだけではリリースの印は保証されません。
+
 PR の説明は [AGENTS.md](AGENTS.md#pull-request-writing) に従い、`Summary`、`Changes`、
 `Validation`、`Related Issues` で簡潔にまとめてください。実行した検査と結果を記録し、
 保留中の CI を成功済みと記載しないでください。重要な互換性・セキュリティへの影響や
