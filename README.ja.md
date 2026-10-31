@@ -305,6 +305,12 @@ PR を作成する前に、変更した Python ファイルで `ruff format --ch
 
 ## Documentation
 
+タスクにコメントして担当の割り当てを依頼してください。メンテナーが担当者を確定し、
+事前の調整なしに重複する PR を開いてはいけません。`good first issue` または `help wanted`
+ラベルが付いたイシューや外部コントリビューターに割り当てられたイシューは、メンテナーが
+その特定のイシューを明示的に許可しない限り、人間のコントリビューター向けに予約されています。
+[コントリビューター向け予約イシューの案内](CONTRIBUTING.md#contributor-reserved-issues)を参照してください。
+
 互換性変更の分類は [CONTRIBUTING.md の共通ルール](CONTRIBUTING.md#breaking-change-classification)に
 従います。サポート対象の呼び出し・設定・出力の契約を非互換に変更するときだけ、タイトルの `!`
 または最終 squash コミットの `BREAKING CHANGE:` を使ってください。セキュリティ強化や内部

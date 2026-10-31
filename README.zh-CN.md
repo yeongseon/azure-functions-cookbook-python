@@ -304,6 +304,11 @@ Python 文件的格式问题。
 
 ## Documentation
 
+请在任务下评论以申请分配。维护者确认负责人，未经协调不得创建重复 PR。
+带有 `good first issue` 或 `help wanted` 标签，或已分配给外部贡献者的议题，
+均为人类贡献者保留，除非维护者明确授权处理该特定议题。
+请参阅[贡献者保留议题指南](CONTRIBUTING.md#contributor-reserved-issues)。
+
 兼容性变更分类遵循 [CONTRIBUTING.md 的统一规则](CONTRIBUTING.md#breaking-change-classification)。
 只有在不兼容地改变受支持的调用、配置或输出契约时，才使用标题中的 `!` 或最终 squash 提交中的
 `BREAKING CHANGE:`。安全加固或内部重构本身并不意味着破坏兼容性。生成应用的变化应评估重新生成
