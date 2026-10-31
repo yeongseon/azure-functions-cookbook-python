@@ -57,6 +57,30 @@ repository, search for duplicates, review every project name and link in the
 title and body, and fetch the saved issue afterward to verify its title, body,
 and labels.
 
+### Contributor-reserved issues
+
+Request assignment by commenting on the task and wait for the maintainer to
+confirm ownership. Do not open duplicate PRs without coordination. Issues labeled
+`good first issue` or `help wanted`, or assigned to or claimed by an external
+contributor, are reserved for human contributors; other unassigned issues are not
+automatically reserved.
+
+Before automated implementation, check the task and related issues and PRs for
+overlap with reserved work. Stop implementation in the overlapping scope and
+report the concrete overlap without commenting on, implementing, opening duplicate
+PRs for, closing, relabeling, or silently re-scoping reserved work. Only explicit
+maintainer authorization naming that particular issue in the current task overrides
+the reservation; a generic instruction to clear the backlog does not. For example,
+an unrelated refactor that touches a contributor's assigned recipe must stop in
+that scope and report the conflict rather than include the contributor's changes.
+
+To reclaim inactive work, the maintainer contacts the contributor first and
+explicitly confirms the ownership change; do not automatically unassign or close
+stale issues. CI bots and routine issue triage retain their existing checks and
+metadata duties, but do not authorize autonomous implementation or ownership
+changes. Existing issue-first, PR-title, and tool-independent review rules remain
+authoritative.
+
 ## Local development quickstart
 
 Local development requires Python 3.11 through 3.14, as declared by
