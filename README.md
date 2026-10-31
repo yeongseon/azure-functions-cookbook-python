@@ -300,6 +300,12 @@ make docs
 
 ## Documentation
 
+Request assignment by commenting on the task; the maintainer confirms ownership,
+and duplicate PRs must not be opened without coordination. Issues labeled
+`good first issue` or `help wanted`, or assigned to an external contributor, are
+reserved for human contributors unless the maintainer explicitly authorizes that
+particular issue; see [contributor-reserved issues](CONTRIBUTING.md#contributor-reserved-issues).
+
 - Product requirements: `PRD.md`
 - Design principles: `DESIGN.md`
 - Contributing guide: `CONTRIBUTING.md`

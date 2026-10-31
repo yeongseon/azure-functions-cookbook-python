@@ -26,6 +26,25 @@ Use `make security-manifest`, `make security-static`, `make security-semgrep`,
 `make security-dependencies-report`, `make security-dependencies` (blocking), and
 `make security-host` (opt-in real host). `make security` includes the expanded scan.
 
+### Contributor-reserved issues
+
+- Issues labeled `good first issue` or `help wanted`, or assigned to or claimed by
+  an external contributor, are reserved for human contributors. Unassigned issues
+  without these signals are not automatically reserved.
+- Before automated implementation, check the task and related issues and PRs for
+  reserved work. On concrete overlap, stop implementation in that scope and report
+  the overlap; do not comment on, implement, open duplicate PRs for, close, relabel,
+  or silently re-scope reserved work.
+- Only explicit maintainer authorization naming that particular issue in the
+  current task overrides the reservation. A generic instruction to clear the
+  backlog does not. See [contributor guidance](CONTRIBUTING.md#contributor-reserved-issues).
+- Contributors request assignment by commenting on the task; the maintainer
+  confirms ownership. Reclaiming inactive work requires contacting the contributor
+  and explicit maintainer confirmation, not automatic unassignment or stale closure.
+- CI bots and routine issue triage may continue their existing checks and metadata
+  duties; they do not authorize autonomous implementation or ownership changes.
+  Existing issue-first and tool-independent review rules remain unchanged.
+
 ### Test Coverage
 - Maintain test coverage at **95% or above** for committed changes and PRs.
 - For optional local verification, run `hatch run pytest --cov --cov-report=term-missing -q`; required GitHub CI remains authoritative.
