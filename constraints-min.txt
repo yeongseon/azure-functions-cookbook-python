@@ -17,6 +17,6 @@ azure-identity==1.26.0
 azure-storage-blob==12.31.0
 azure-storage-queue==12.18.0
 pydantic==2.14.1
-langgraph==1.2.16
+langgraph==1.2.18
 pyyaml==6.0.3
 requests==2.34.2
