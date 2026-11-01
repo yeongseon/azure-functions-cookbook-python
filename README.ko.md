@@ -305,6 +305,11 @@ PR을 열기 전에 변경한 Python 파일에 `ruff format --check <변경한-P
 
 ## Documentation
 
+작업에 댓글을 남겨 할당을 요청하세요. 관리자가 담당자를 확정하며, 사전 조율 없이 중복 PR을
+열어서는 안 됩니다. `good first issue` 또는 `help wanted` 레이블이 있거나 외부 기여자에게
+할당된 이슈는 관리자가 해당 이슈를 명시적으로 승인하지 않는 한 사람인 기여자를 위해
+예약됩니다. [기여자 예약 이슈 안내](CONTRIBUTING.md#contributor-reserved-issues)를 확인하세요.
+
 호환성 변경의 분류는 [CONTRIBUTING.md의 공통 규칙](CONTRIBUTING.md#breaking-change-classification)을
 따릅니다. 지원되는 호출·설정·출력 계약을 호환되지 않게 바꿀 때만 제목의 `!` 또는 최종 스쿼시
 커밋의 `BREAKING CHANGE:`를 사용하세요. 보안 강화나 내부 리팩터링 자체는 호환성 파괴를
