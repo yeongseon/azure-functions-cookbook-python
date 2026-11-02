@@ -4,9 +4,9 @@
 > 영어 원문이 업데이트된 뒤에는 내용이 다소 늦어질 수 있으며,
 > 단일 정보 원본(Single Source of Truth)은 영어 [README.md](README.md)입니다.
 >
-> 번역 대기 중: 예약 트리거 스모크 운영 문서([docs/scheduled-trigger-smoke.md](docs/scheduled-trigger-smoke.md))가 영어 원문에서 변경되었으며 번역은 대기 중입니다. 추적: https://github.com/yeongseon/azure-functions-cookbook-python/issues/443
+> 예약 트리거 스모크: worker-registration 검사는 고정된 Python worker의 런타임 의존성(`grpcio`, `protobuf`, `python-dateutil`)을 설치하고 실제 `Registry.add_indexed_function()`으로 핸들러를 등록합니다. 복제 실패, 누락된 의존성, 레지스트리 로딩 실패 또는 건너뛴 테스트는 성공으로 처리하지 않고 작업을 실패시킵니다. 이 네트워크 의존 검사는 예약 실행과 수동 실행에서 수행되며, Durable 스모크는 실제 오케스트레이션 실행이 아닌 임포트 검사입니다. 자세한 내용: [운영 문서](docs/scheduled-trigger-smoke.md).
 >
-> 번역 대기 중: 개인 에이전트 Azurite 테스트 실행 방법([docs/patterns/ai-and-agents/personal-langgraph-agent.md](docs/patterns/ai-and-agents/personal-langgraph-agent.md) 및 [예제 README](examples/ai-and-agents/personal_langgraph_agent/README.md))이 영어 원문에서 변경되었으며 번역은 대기 중입니다. 추적: https://github.com/yeongseon/azure-functions-cookbook-python/issues/444
+> 개인 에이전트 Azurite 영속성 검사: `hatch run pytest -m e2e tests/e2e/test_personal_agent_azurite.py --no-cov`를 실행하세요. 테스트가 Azurite를 직접 시작하므로 `azurite`가 `PATH`에 있어야 하며, 시작할 수 없으면 건너뛰지 않고 실패합니다. 고유한 컨테이너에서 앱과 체크포인터를 재생성한 뒤 이전 대화가 유지되는지 확인합니다. 이는 실제 Functions 호스트 재시작이나 Azure 클라우드 검증을 뜻하지 않습니다. `recipe.yaml`의 `verification`은 필수 레시피별 작업과 호스트 스모크 매트릭스가 입증하는 수준만 나타냅니다. 자세한 내용: [패턴 문서](docs/patterns/ai-and-agents/personal-langgraph-agent.md), [예제 README](examples/ai-and-agents/personal_langgraph_agent/README.md), [검증 수준](DESIGN.md#verification-levels).
 
 [![Python Version](https://img.shields.io/badge/python-3.11%20%7C%203.12%20%7C%203.13%20%7C%203.14-blue)](https://github.com/yeongseon/azure-functions-cookbook-python)
 [![CI](https://github.com/yeongseon/azure-functions-cookbook-python/actions/workflows/ci-smoke.yml/badge.svg)](https://github.com/yeongseon/azure-functions-cookbook-python/actions/workflows/ci-smoke.yml)
@@ -304,6 +304,25 @@ PR을 열기 전에 변경한 Python 파일에 `ruff format --check <변경한-P
 별도 단계에서 PR의 변경된 Python 파일의 포맷 오류를 보고합니다.
 
 ## Documentation
+
+작업에 댓글을 남겨 할당을 요청하세요. 관리자가 담당자를 확정하며, 사전 조율 없이 중복 PR을
+열어서는 안 됩니다. `good first issue` 또는 `help wanted` 레이블이 있거나 외부 기여자에게
+할당된 이슈는 관리자가 해당 이슈를 명시적으로 승인하지 않는 한 사람인 기여자를 위해
+예약됩니다. [기여자 예약 이슈 안내](CONTRIBUTING.md#contributor-reserved-issues)를 확인하세요.
+
+호환성 변경의 분류는 [CONTRIBUTING.md의 공통 규칙](CONTRIBUTING.md#breaking-change-classification)을
+따릅니다. 지원되는 호출·설정·출력 계약을 호환되지 않게 바꿀 때만 제목의 `!` 또는 최종 스쿼시
+커밋의 `BREAKING CHANGE:`를 사용하세요. 보안 강화나 내부 리팩터링 자체는 호환성 파괴를
+뜻하지 않습니다. 생성된 앱의 변경은 재생성하는 사용자에게 미치는 영향을 확인하고,
+계약이 불확실하면 먼저 동작을 검증하세요. 해당 PR에는 이전 동작, 새 동작, 영향 범위와
+마이그레이션을 적으세요. PR 제목 검사는 문법만 확인하며 본문의 제목만으로 릴리스 표시가 보장되지 않습니다.
+
+PR 설명은 [AGENTS.md](AGENTS.md#pull-request-writing)에 따라 `Summary`, `Changes`,
+`Validation`, `Related Issues`로 간결하게 작성하세요. 실제로 실행한 검사와 결과를 적고,
+대기 중인 CI를 통과했다고 쓰지 마세요. 중요한 호환성·보안 영향과 미해결 사항은 유지하되
+에이전트 실행 기록이나 빈 검토 항목은 넣지 마세요. 고위험 변경에는
+[검토 증거 정책](docs/review-evidence-policy.md)에 따라 검토한 커밋, 발견 사항의 처리,
+명시적인 메인테이너 승인을 기록하세요. 이 지침은 필수 CI나 릴리스 보호 장치를 완화하지 않습니다.
 
 - 제품 요구사항: `PRD.md`
 - 설계 원칙: `DESIGN.md`

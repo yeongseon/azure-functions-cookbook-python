@@ -3,9 +3,9 @@
 > 本文档是[英文原版](README.md)的翻译，由社区维护。英文原版更新后，译文内容可能会有所滞后。
 > 唯一的信息源（Single Source of Truth）是英文 [README.md](README.md)。
 >
-> 翻译待更新：计划触发器冒烟测试运维说明（[docs/scheduled-trigger-smoke.md](docs/scheduled-trigger-smoke.md)）的英文原文已更改，译文待更新。跟踪：https://github.com/yeongseon/azure-functions-cookbook-python/issues/443
+> 计划触发器冒烟测试：worker-registration 检查会安装固定版本 Python worker 的运行时依赖（`grpcio`、`protobuf`、`python-dateutil`），并通过真实的 `Registry.add_indexed_function()` 注册处理函数。克隆失败、缺少依赖、无法加载注册表或任何测试被跳过都会使作业失败，而不会被视为成功。这项需要网络的检查在定时和手动运行中执行；Durable 冒烟测试只检查导入，不执行真实编排。详见[运维说明](docs/scheduled-trigger-smoke.md)。
 >
-> 翻译待更新：个人智能体 Azurite 测试运行方法（[docs/patterns/ai-and-agents/personal-langgraph-agent.md](docs/patterns/ai-and-agents/personal-langgraph-agent.md) 和[示例 README](examples/ai-and-agents/personal_langgraph_agent/README.md)）的英文原文已更改，译文待更新。跟踪：https://github.com/yeongseon/azure-functions-cookbook-python/issues/444
+> 个人智能体 Azurite 持久化检查：运行 `hatch run pytest -m e2e tests/e2e/test_personal_agent_azurite.py --no-cov`。测试会自行启动 Azurite，因此 `azurite` 必须在 `PATH` 中；无法启动时测试会失败，而不是跳过。测试使用唯一容器，重建应用和检查点保存器后确认先前对话仍然存在。这不等于真实 Functions 主机重启或 Azure 云端验证。`recipe.yaml` 的 `verification` 只表示必需的逐配方作业和主机冒烟矩阵实际证明的级别。详见[模式文档](docs/patterns/ai-and-agents/personal-langgraph-agent.md)、[示例 README](examples/ai-and-agents/personal_langgraph_agent/README.md)和[验证级别](DESIGN.md#verification-levels)。
 
 [![Python Version](https://img.shields.io/badge/python-3.11%20%7C%203.12%20%7C%203.13%20%7C%203.14-blue)](https://github.com/yeongseon/azure-functions-cookbook-python)
 [![CI](https://github.com/yeongseon/azure-functions-cookbook-python/actions/workflows/ci-smoke.yml/badge.svg)](https://github.com/yeongseon/azure-functions-cookbook-python/actions/workflows/ci-smoke.yml)
@@ -303,6 +303,24 @@ make docs
 Python 文件的格式问题。
 
 ## Documentation
+
+请在任务下评论以申请分配。维护者确认负责人，未经协调不得创建重复 PR。
+带有 `good first issue` 或 `help wanted` 标签，或已分配给外部贡献者的议题，
+均为人类贡献者保留，除非维护者明确授权处理该特定议题。
+请参阅[贡献者保留议题指南](CONTRIBUTING.md#contributor-reserved-issues)。
+
+兼容性变更分类遵循 [CONTRIBUTING.md 的统一规则](CONTRIBUTING.md#breaking-change-classification)。
+只有在不兼容地改变受支持的调用、配置或输出契约时，才使用标题中的 `!` 或最终 squash 提交中的
+`BREAKING CHANGE:`。安全加固或内部重构本身并不意味着破坏兼容性。生成应用的变化应评估重新生成
+项目的用户所受影响；契约不确定时先验证行为。相关 PR 应说明旧行为、新行为、影响范围和迁移方式。
+PR 标题检查只验证语法，正文中的标题本身不能保证最终提交带有破坏性变更标记。
+
+请按照 [AGENTS.md](AGENTS.md#pull-request-writing)，用 `Summary`、`Changes`、
+`Validation` 和 `Related Issues` 简洁地说明 PR。只记录实际执行的检查及其结果，
+不要把待完成的 CI 写成已通过。保留重要的兼容性、安全影响和未解决的问题，
+省略智能体执行日志和空白审查字段。高风险变更应按照
+[审查证据政策](docs/review-evidence-policy.md)，记录被审查的提交、问题处理情况和
+明确的维护者批准。这些写作规则不会放宽必需的 CI 或发布保护措施。
 
 - 产品需求: `PRD.md`
 - 设计原则: `DESIGN.md`

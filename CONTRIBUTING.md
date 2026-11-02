@@ -57,6 +57,30 @@ repository, search for duplicates, review every project name and link in the
 title and body, and fetch the saved issue afterward to verify its title, body,
 and labels.
 
+### Contributor-reserved issues
+
+Request assignment by commenting on the task and wait for the maintainer to
+confirm ownership. Do not open duplicate PRs without coordination. Issues labeled
+`good first issue` or `help wanted`, or assigned to or claimed by an external
+contributor, are reserved for human contributors; other unassigned issues are not
+automatically reserved.
+
+Before automated implementation, check the task and related issues and PRs for
+overlap with reserved work. Stop implementation in the overlapping scope and
+report the concrete overlap without commenting on, implementing, opening duplicate
+PRs for, closing, relabeling, or silently re-scoping reserved work. Only explicit
+maintainer authorization naming that particular issue in the current task overrides
+the reservation; a generic instruction to clear the backlog does not. For example,
+an unrelated refactor that touches a contributor's assigned recipe must stop in
+that scope and report the conflict rather than include the contributor's changes.
+
+To reclaim inactive work, the maintainer contacts the contributor first and
+explicitly confirms the ownership change; do not automatically unassign or close
+stale issues. CI bots and routine issue triage retain their existing checks and
+metadata duties, but do not authorize autonomous implementation or ownership
+changes. Existing issue-first, PR-title, and tool-independent review rules remain
+authoritative.
+
 ## Local development quickstart
 
 Local development requires Python 3.11 through 3.14, as declared by
@@ -249,6 +273,24 @@ Not accepted: `[Bug] crash on save` (bracket prefix, no type), `Fix: crash on sa
 Pull requests are squash-merged and the pull request title becomes the final commit title. GitHub appends the pull request number by itself, so `fix: decode nonempty NULL-only collection results` lands on `main` as `fix: decode nonempty NULL-only collection results (#503)`. Do not write that number into the title yourself — the check rejects a title ending in `(#123)`, because it would be doubled. Link the issue from the pull request body instead, for example `Closes #503`. The **PR title** check validates the format whenever a pull request is opened, edited, reopened, or updated. Individual commits on a branch are not checked.
 
 Issue titles are not enforced. Anyone can open an issue without knowing this convention; maintainers adjust the title during triage.
+
+### Breaking-change classification
+
+Use `!` in a Conventional Commit/PR title, or a `BREAKING CHANGE:` footer in the **final squash commit**, only when a change makes an existing supported consumer usage incompatible or changes a supported observable contract incompatibly. Base the decision on verified behavior before and after the change, not on size, risk, security motivation, or which tool authored it. Public APIs, required configuration, authentication defaults, supported runtimes, published output formats, and generated application behavior may all be contracts. A security fix can be breaking if it changes a supported calling pattern; a refactor, dependency bump, CI scan, test change, or performance fix is not automatically breaking. When unsure, verify the affected contract before applying the marker. The existing PR-title check validates **syntax**, not compatibility. A squash commit marker influences Release Please; a Markdown `## BREAKING CHANGE` heading in a PR body alone does **not** guarantee that the final commit is marked breaking.
+
+#### Cookbook examples
+
+- **Breaking:** PR #431 changed existing paid-AI recipe HTTP routes from anonymous access to
+  Function-key authentication for Azure invocations. Existing callers need a key or the
+  explicit public-demo opt-in; the compatible local Core Tools behavior does not remove that
+  deployed calling-contract change.
+- **Not automatically breaking:** adding an exact-inventory security scan without changing
+  a documented recipe invocation or output. Compatible internal refactoring is also not breaking.
+- **Generated applications:** assess consumers of regeneration. A hypothetical generator change
+  that requires a previously optional setting in regenerated apps is incompatible for those
+  consumers, even when already deployed apps remain unchanged.
+- **Uncertain contract:** inspect the documented invocation and its behavior before and after
+  the change; do not classify it from the diff size or PR-title syntax alone.
 
 ## Releases
 

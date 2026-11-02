@@ -4,9 +4,9 @@
 > 英語の原文が更新された後は、内容が少し遅れることがあります。
 > 唯一の情報源（Single Source of Truth）は英語の [README.md](README.md) です。
 >
-> 翻訳保留中: スケジュールされたトリガースモークの運用メモ（[docs/scheduled-trigger-smoke.md](docs/scheduled-trigger-smoke.md)）が英語の原文で変更されており、翻訳は保留中です。追跡: https://github.com/yeongseon/azure-functions-cookbook-python/issues/443
+> スケジュールされたトリガースモーク: worker-registration 検査は固定された Python worker の実行時依存関係（`grpcio`、`protobuf`、`python-dateutil`）をインストールし、実際の `Registry.add_indexed_function()` でハンドラーを登録します。クローン失敗、依存関係の不足、レジストリの読み込み失敗、スキップされたテストは成功扱いにせず、ジョブを失敗させます。このネットワーク依存の検査は定期実行と手動実行で行われ、Durable スモークは実際のオーケストレーション実行ではなくインポート検査です。詳細は[運用メモ](docs/scheduled-trigger-smoke.md)を参照してください。
 >
-> 翻訳保留中: パーソナルエージェントの Azurite テストの実行方法（[docs/patterns/ai-and-agents/personal-langgraph-agent.md](docs/patterns/ai-and-agents/personal-langgraph-agent.md) と[サンプルの README](examples/ai-and-agents/personal_langgraph_agent/README.md)）が英語の原文で変更されており、翻訳は保留中です。追跡: https://github.com/yeongseon/azure-functions-cookbook-python/issues/444
+> パーソナルエージェントの Azurite 永続化検査: `hatch run pytest -m e2e tests/e2e/test_personal_agent_azurite.py --no-cov` を実行してください。テストが Azurite を起動するため、`azurite` が `PATH` に必要です。起動できなければスキップせず失敗します。一意のコンテナーでアプリとチェックポインターを再作成し、以前の会話が残ることを確認します。実際の Functions ホスト再起動や Azure クラウドの検証ではありません。`recipe.yaml` の `verification` は必須のレシピ別ジョブとホストスモーク行列が実証するレベルだけを示します。詳細: [パターン文書](docs/patterns/ai-and-agents/personal-langgraph-agent.md)、[サンプル README](examples/ai-and-agents/personal_langgraph_agent/README.md)、[検証レベル](DESIGN.md#verification-levels)。
 
 [![Python Version](https://img.shields.io/badge/python-3.11%20%7C%203.12%20%7C%203.13%20%7C%203.14-blue)](https://github.com/yeongseon/azure-functions-cookbook-python)
 [![CI](https://github.com/yeongseon/azure-functions-cookbook-python/actions/workflows/ci-smoke.yml/badge.svg)](https://github.com/yeongseon/azure-functions-cookbook-python/actions/workflows/ci-smoke.yml)
@@ -304,6 +304,26 @@ PR を作成する前に、変更した Python ファイルで `ruff format --ch
 別のステップで PR で変更した Python ファイルのフォーマット違反を報告します。
 
 ## Documentation
+
+タスクにコメントして担当の割り当てを依頼してください。メンテナーが担当者を確定し、
+事前の調整なしに重複する PR を開いてはいけません。`good first issue` または `help wanted`
+ラベルが付いたイシューや外部コントリビューターに割り当てられたイシューは、メンテナーが
+その特定のイシューを明示的に許可しない限り、人間のコントリビューター向けに予約されています。
+[コントリビューター向け予約イシューの案内](CONTRIBUTING.md#contributor-reserved-issues)を参照してください。
+
+互換性変更の分類は [CONTRIBUTING.md の共通ルール](CONTRIBUTING.md#breaking-change-classification)に
+従います。サポート対象の呼び出し・設定・出力の契約を非互換に変更するときだけ、タイトルの `!`
+または最終 squash コミットの `BREAKING CHANGE:` を使ってください。セキュリティ強化や内部
+リファクタリングだけで破壊的変更とはなりません。生成アプリの変更は再生成する利用者への影響を
+確認し、契約が不明なら先に動作を検証します。該当 PR には旧動作、新動作、影響範囲と移行方法を
+記録してください。PR タイトル検査は構文だけを確認し、本文の見出しだけではリリースの印は保証されません。
+
+PR の説明は [AGENTS.md](AGENTS.md#pull-request-writing) に従い、`Summary`、`Changes`、
+`Validation`、`Related Issues` で簡潔にまとめてください。実行した検査と結果を記録し、
+保留中の CI を成功済みと記載しないでください。重要な互換性・セキュリティへの影響や
+未解決事項は残し、エージェントの実行記録や空のレビュー項目は省きます。高リスクの変更は
+[レビュー証拠ポリシー](docs/review-evidence-policy.md) に従い、評価したコミット、
+指摘への対応、明示的なメンテナー承認を記録してください。必須 CI やリリースの保護は変わりません。
 
 - 製品要件: `PRD.md`
 - 設計原則: `DESIGN.md`

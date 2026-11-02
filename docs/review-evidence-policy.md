@@ -41,32 +41,22 @@ A review is evidence for the commit it evaluated — never for the PR as a whole
   aggregate or a resolved thread from a stale commit does not stand in for re-review of the
   current one.
 
-## Review budget
+## Review effort
 
-- Default: **two published AI review rounds per scoped PR/task.**
-- New commits do not reset the budget. Deduplicate by head SHA and purpose — re-requesting review
-  on an unrelated rebase is not a new round.
-- After budget exhaustion with findings still open, do not manufacture a third automated round.
-  Record the no-change outcome and leave the PR pending for an explicit maintainer decision, or
-  route to human review.
+Request extra reviews when the changes or unresolved findings warrant them. Do not mandate a fixed number of AI review rounds; they are advisory. High-risk changes retain explicit maintainer review.
 
 ## What to record per PR
 
-In the PR body (see the extended `PULL_REQUEST_TEMPLATE.md` fields):
+Routine PRs should have concise `Summary`, `Changes`, `Validation`, and `Related Issues` sections. Record tests actually run and significant findings; omit empty review-evidence fields and internal agent transcripts.
 
-- Linked issue(s).
-- Risk category (see "R3 scope" below).
-- Review source and the exact commit SHA it evaluated.
-- Material findings and their disposition (fixed / acknowledged-wont-fix / deferred-with-issue).
-- Unresolved blockers, if any, with the reason merging anyway is acceptable (or "none").
+For changes in the high-risk R3 scope below, record the review source and commit evaluated, findings and their disposition, and explicit maintainer approval. This information belongs in a short dedicated section when needed, not in every routine PR.
+
 - For recipe/example changes that affect a documented pattern: which recipe(s), the validation
   command run (`make test`, `make lint`, `make typecheck`, or the recipe's own test suite), and
   the observed result. A green aggregate alone is not proof that a specific recipe's documented
   behavior still matches its README/docs page.
 
-External contributors must not need an internal AI subscription, credentials, or local tooling to
-satisfy this — Copilot review runs automatically on PRs against this repository; a contributor
-without Copilot access simply records "no automated review available, human review requested."
+No external contributor needs a paid AI tool or subscription to satisfy this policy.
 
 ## R3 scope
 
