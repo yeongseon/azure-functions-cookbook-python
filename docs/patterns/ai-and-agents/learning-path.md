@@ -37,15 +37,39 @@ flowchart TD
 * **Underlying Service**: Azure OpenAI Service (`chat/completions`)
 * **When appropriate**: Low-latency single-turn prompts, text summarization, or classification where the client waits interactively for a bounded request-response completion.
 * **Execution shape**:
+  Prefer the shipped, production-hardened handler in [Azure OpenAI Direct Chat](openai-direct-chat.md) (`examples/ai-and-agents/openai_direct_chat/function_app.py`) over an unbounded raw prototype. A production endpoint applies validation, explicit resource bounds, and safe error boundaries:
   ```python
   @app.route(route="chat", methods=["POST"])
-  def chat(req: func.HttpRequest) -> func.HttpResponse:
-      prompt = req.get_json().get("prompt")
-      response = client.chat.completions.create(model="gpt-4o-mini", messages=[{"role": "user", "content": prompt}])
-      return func.HttpResponse(response.choices[0].message.content)
+  @openapi(summary="Chat with Azure OpenAI", tags=["ai"])
+  @with_context
+  @validate_http(body=ChatRequest, response_model=ChatResponse, max_body_bytes=MAX_REQUEST_BYTES)
+  def chat(req: func.HttpRequest, body: ChatRequest, context: func.Context) -> func.HttpResponse:
+      del req
+      try:
+          client = AzureOpenAI(
+              api_key=os.getenv("AZURE_OPENAI_KEY"),
+              azure_endpoint=os.getenv("AZURE_OPENAI_ENDPOINT"),
+              timeout=30.0,
+              max_retries=0,
+          )
+          completion = client.chat.completions.create(
+              model=os.getenv("AZURE_OPENAI_CHAT_DEPLOYMENT", "gpt-4o-mini"),
+              max_tokens=MAX_OUTPUT_TOKENS,
+              messages=[
+                  {"role": "system", "content": body.system_prompt},
+                  {"role": "user", "content": body.message},
+              ],
+          )
+          answer = completion.choices[0].message.content or ""
+          return _json_response(ChatResponse(answer=answer, deployment=deployment))
+      except OpenAIError:
+          logger.error("Azure OpenAI request failed")
+          return func.HttpResponse("Model service unavailable", status_code=502)
   ```
 * **Required for capability**: Azure OpenAI Python client, HTTP trigger.
 * **Production upgrades**:
+  - Enforce caller authentication (`auth_level=func.AuthLevel.FUNCTION` or EasyAuth bearer tokens) and validate request payloads (`@validate_http(max_body_bytes=...)`).
+  - Configure explicit model timeouts (`timeout=30.0`), zero retries for interactive timeouts, and maximum output token limits (`max_tokens=256`).
   - Use `DefaultAzureCredential` with Managed Identity instead of static API keys.
   - Token streaming over Server-Sent Events (SSE) to reduce perceived time-to-first-token (TTFT). Note that the cookbook recipe (`streaming_ai_response`) implements **buffered SSE**; true token-by-token streaming depends on hosting plan HTTP streaming support and gateway/proxy buffering constraints.
 * **Reference recipes**:
@@ -79,16 +103,22 @@ flowchart TD
   - *Blob Checkpointer*: Durable state stored as blobs keyed by `thread_id`; survives cold starts and instance recycles.
 * **Concurrency & locking limitations (Critical)**:
   > [!WARNING]
-  > **Concurrent-Writer Hazard**: Azure Blob Storage checkpointers do not enforce distributed multi-instance write locking or optimistic concurrency out of the box. If multiple worker instances concurrently execute turns for the *same* `thread_id`, writes can race and overwrite checkpoint state (last-write-wins).
-  > To serialize execution per thread in distributed environments, route concurrent requests through a single-writer queue (such as Service Bus Sessions keyed by `session_id`), or implement blob lease locking.
+  > **Concurrent-Writer Hazard**: Azure Blob Storage checkpointers do not enforce distributed multi-instance write locking or optimistic concurrency out of the box. An uncoordinated saver allows multiple worker instances concurrently executing turns for the *same* `thread_id` to race and overwrite checkpoint state (last-write-wins).
+  >
+  > In contrast, the cookbook's [Personal LangGraph Agent](personal-langgraph-agent.md) recipe (`examples/ai-and-agents/personal_langgraph_agent/function_app.py:27–44`) explicitly wires `AzureBlobLeaseThreadLock` into `LangGraphApp(thread_lock=thread_lock)` when `AGENT_MEMORY_MODE=blob` to serialize same-thread writes across instances.
+  >
+  > **Distributed Lock & Execution Limits**: Lease expiry, lock renewal timeouts, and worker cancellations can still occur. Neither the lease lock nor the checkpointer guarantees exactly-once execution for tool side effects. Interrupted turns may be retried or abandoned mid-turn; recipes should therefore keep tools read-only or strictly idempotent.
 * **Identity boundary (Critical)**:
   > [!IMPORTANT]
   > A `thread_id` is an execution state partition key at `config.configurable.thread_id`. **It is not an authenticated user identity or security boundary.**
   > Never allow clients to supply an arbitrary `thread_id` without verifying that the authenticated caller owns that conversation thread. Always authenticate the caller (via EasyAuth or bearer token) before invoking the graph.
 * **Required for capability**: Azure Blob Storage container, checkpointer package.
-* **Production upgrades**: Use identity-based storage connections (`AzureWebJobsStorage__blobServiceUri`) and configure blob lifecycle policies to expire stale threads.
+* **Production upgrades**:
+  - The checked-in recipe consumes `AZURE_STORAGE_CONNECTION_STRING`, **not** the Functions host setting `AzureWebJobsStorage__blobServiceUri`. Setting a host connection alone does not change this Python SDK client.
+  - For Managed Identity in production, adapt the SDK client construction to `ContainerClient(account_url=..., credential=DefaultAzureCredential())` as documented in [personal-langgraph-agent.md:195–229](personal-langgraph-agent.md#stage-5-persist-memory-with-azurite-or-blob-storage).
+  - Configure blob lifecycle management policies to automatically expire stale conversation checkpoints.
 * **Reference recipe**:
-  - [Personal LangGraph Agent](personal-langgraph-agent.md) — complete single-user personal notes assistant with memory.
+  - [Personal LangGraph Agent](personal-langgraph-agent.md) — complete single-user personal notes assistant with memory and lease locking.
 
 ---
 
@@ -146,7 +176,7 @@ flowchart TD
   > [!IMPORTANT]
   > **Durable Orchestrator Determinism**: Orchestrator functions must be deterministic because they replay history to reconstruct state.
   > **Never call LLMs, make network requests, or invoke tools directly inside orchestrator code.** Always wrap agent executions and external calls in **Durable Activity functions** (`@bp.activity_trigger`).
-* **Execution flow**:
+* **Execution flow (Conceptual Pseudocode)**:
   ```
   HTTP Client ──► Starter (202 Accepted)
                      │
@@ -157,14 +187,32 @@ flowchart TD
                      │
                      ├─► Activity: Run LangGraph Agent Round 1
                      │
-                     ├─► waitForExternalEvent("ManagerApproval", timeout=24h)
+                     ├─► [Pseudocode] waitForExternalEvent("ManagerApproval", timeout=24h)
                      │         │
-                     │         ▼ (Approval received or timeout)
-                     │
-                     └─► Activity: Execute Final Tool Action & Publish
+                     │         ├─► Approval received ──► Activity: Execute Final Action
+                     │         │
+                     │         └─► Timeout reached  ──► Abort / Escalate (Never authorize action)
+  ```
+* **Executable Python Event/Timer Pattern**:
+  `azure-functions-durable` does not expose a single combined wait-with-timeout method. Executable Python orchestrators implement human approval via an explicit event-and-timer race using `wait_for_external_event`, `create_timer`, and `task_any`.
+  
+  See the complete working implementation in [Durable Human Interaction](../orchestration-and-workflows/durable-human-interaction.md):
+  ```python
+  timeout_task = context.create_timer(context.current_utc_datetime + timedelta(hours=24))
+  approval_task = context.wait_for_external_event("ManagerApproval")
+  winner = yield context.task_any([approval_task, timeout_task])
+
+  if winner == approval_task:
+      if not timeout_task.is_completed:
+          timeout_task.cancel()
+      # Explicit human approval received: proceed with tool action
+      yield context.call_activity("execute_final_action", ...)
+  else:
+      # Deterministic timeout fallback: MUST NOT authorize the final action
+      yield context.call_activity("handle_approval_timeout", ...)
   ```
 * **Implementation boundary (Standalone vs. Proposed Composition)**:
-  - *Shipped Standalone Recipes*: The cookbook provides working standalone Durable patterns demonstrating multi-activity orchestration ([Durable AI Pipeline](durable-ai-pipeline.md)), human approval events ([Durable Human Interaction](../orchestration-and-workflows/durable-human-interaction.md)), and async status queries ([Async Job Lifecycle](../orchestration-and-workflows/async-job-lifecycle.md)).
+  - *Shipped Standalone Recipes*: The cookbook provides working standalone Durable patterns demonstrating multi-activity orchestration ([Durable AI Pipeline](durable-ai-pipeline.md)), human approval events with timer races ([Durable Human Interaction](../orchestration-and-workflows/durable-human-interaction.md)), and async status queries ([Async Job Lifecycle](../orchestration-and-workflows/async-job-lifecycle.md)).
   - *Proposed Agent Composition*: Composing compiled LangGraph agent activities with external human-approval events and compensation logic is an architectural composition tracked under upcoming issue [#350](https://github.com/yeongseon/azure-functions-cookbook-python/issues/350).
 * **Required for capability**: `azure-functions-durable`, Durable Task Hub.
 

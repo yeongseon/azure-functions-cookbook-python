@@ -41,7 +41,7 @@ flowchart LR
 | [RAG Knowledge API](./rag-knowledge-api.md) | HTTP + Azure AI Search + OpenAI | Advanced | Serverless knowledge ingestion and grounded question-answering |
 | [LangGraph RAG Agent](./langgraph-rag-agent.md) | HTTP + LangGraph + Search | Advanced | LangGraph agent equipped with an AI Search retrieval tool |
 | [Durable AI Pipeline](./durable-ai-pipeline.md) | HTTP + Durable Functions | Advanced | Multi-step LLM batch processing and pipeline orchestration |
-| [Streaming AI Response](./streaming-ai-response.md) | HTTP + SSE streaming | Intermediate | Realtime token streaming over Server-Sent Events |
+| [Streaming AI Response](./streaming-ai-response.md) | HTTP + SSE streaming | Intermediate | Buffered SSE response over Server-Sent Events |
 | [Embedding Vector Search](./embedding-vector-search.md) | HTTP + Azure OpenAI + AI Search | Advanced | Vector embedding generation and cosine similarity search |
 | [AI Image Generation](./ai-image-generation.md) | HTTP + DALL-E 3 | Intermediate | Image generation via Azure OpenAI DALL-E 3 returning image URLs |
 | [MCP Server Example](./mcp-server-example.md) | HTTP + Model Context Protocol | Intermediate | Exposing Function tools via standard MCP interfaces |
