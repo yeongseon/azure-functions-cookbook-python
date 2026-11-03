@@ -27,7 +27,9 @@ def suite_timeout() -> float:
     return value
 
 
-def run_bounded(command: list[str], *, cwd: Path, env: dict[str, str], timeout: float) -> int | None:
+def run_bounded(
+    command: list[str], *, cwd: Path, env: dict[str, str], timeout: float
+) -> int | None:
     """Run ``command`` in its own process group; return its exit code, or ``None`` on timeout.
 
     On timeout the whole group (uv plus its pytest and any grandchildren) is killed so nothing
