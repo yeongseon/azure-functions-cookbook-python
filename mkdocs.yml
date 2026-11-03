@@ -119,6 +119,7 @@ nav:
           - WebSocket Proxy: patterns/realtime/websocket-proxy.md
       - AI & Agents:
           - Overview: patterns/ai-and-agents/index.md
+          - Agent Learning Path: patterns/ai-and-agents/learning-path.md
           - MCP Server Example: patterns/ai-and-agents/mcp-server-example.md
           - LangGraph Agent: patterns/ai-and-agents/langgraph-agent.md
           - RAG Knowledge API: patterns/ai-and-agents/rag-knowledge-api.md

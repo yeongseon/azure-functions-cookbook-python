@@ -309,6 +309,7 @@ particular issue; see [contributor-reserved issues](CONTRIBUTING.md#contributor-
 - Product requirements: `PRD.md`
 - Design principles: `DESIGN.md`
 - Contributing guide: `CONTRIBUTING.md`
+- AI & Agent Learning Path: [`docs/patterns/ai-and-agents/learning-path.md`](docs/patterns/ai-and-agents/learning-path.md)
 
 ## Ecosystem
 
