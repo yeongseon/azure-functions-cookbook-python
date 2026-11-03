@@ -10,10 +10,9 @@ _SPEC.loader.exec_module(gen_requirements)
 
 
 def test_requirements_match_project_dependencies() -> None:
-    # Given: every recipe with an Azure Functions entry point.
+    """Offline: every recipe's requirements.txt equals the file generated from its pyproject.toml."""
     projects = gen_requirements.recipe_projects()
 
-    # When: the deployment requirements are compared with project metadata.
     stale = []
     for project in projects:
         expected = gen_requirements.render(project / "pyproject.toml")
@@ -21,7 +20,6 @@ def test_requirements_match_project_dependencies() -> None:
         if not requirements.exists() or requirements.read_text() != expected:
             stale.append(project.relative_to(gen_requirements.EXAMPLES).as_posix())
 
-    # Then: every requirements file is present and deterministic.
     assert stale == [], (
         "Recipe requirements are stale; run: python scripts/gen_requirements.py\n"
         + "\n".join(stale)
