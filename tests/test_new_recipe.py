@@ -194,7 +194,7 @@ def test_generated_recipe_passes_the_readme_table_guard(examples_dir: Path) -> N
     import sys
 
     sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-    from tests._recipes import Recipe
+    from azure_functions_python_cookbook.recipes import Recipe
 
     target = new_recipe.create_recipe(
         "apis-and-ingress", "my_new_recipe", difficulty="Beginner", examples_dir=examples_dir
@@ -208,6 +208,7 @@ def test_generated_recipe_passes_the_readme_table_guard(examples_dir: Path) -> N
         docs_url=data.get("docs_url"),
         difficulty=data.get("difficulty"),
         verification=data["verification"],
+        tags=(),
         example_path=f"apis-and-ingress/{target.name}",
     )
 
@@ -228,8 +229,8 @@ def test_generated_recipe_passes_the_docs_url_guard(examples_dir: Path) -> None:
     from unittest.mock import patch
 
     sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+    from azure_functions_python_cookbook.recipes import Recipe
     from tests import test_recipes as guards
-    from tests._recipes import Recipe
 
     target = new_recipe.create_recipe(
         "apis-and-ingress", "my_new_recipe", difficulty="Beginner", examples_dir=examples_dir
@@ -243,6 +244,7 @@ def test_generated_recipe_passes_the_docs_url_guard(examples_dir: Path) -> None:
         docs_url=data.get("docs_url"),
         difficulty=data.get("difficulty"),
         verification=data["verification"],
+        tags=(),
         example_path=f"apis-and-ingress/{target.name}",
     )
 
