@@ -14,6 +14,7 @@ theme:
 
 nav:
   - Home: index.md
+  - Toolkit usage by recipe: toolkit-usage.md
   - Paid AI security: paid-ai-security.md
   - Anonymous endpoint classification: anonymous-endpoints.md
   - Foundations:
