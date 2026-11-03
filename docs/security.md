@@ -67,6 +67,8 @@ Example code is provided for educational purposes, but it is designed to follow 
 4. Secure Defaults: We configure our samples with secure defaults (e.g., least-privileged access, encrypted communication).
 5. Identity Management: We emphasize the use of Managed Identities over connection strings where possible.
 
+Several recipes intentionally use anonymous HTTP routes. See [Anonymous endpoint classification](anonymous-endpoints.md) for which recipes are demo-only, which carry their own authentication and which need extra controls before deployment.
+
 Users are ultimately responsible for the security of their own applications. Always perform a security audit of code before deploying it to production.
 
 ## Dependency Management
