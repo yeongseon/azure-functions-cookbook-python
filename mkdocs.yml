@@ -15,6 +15,7 @@ theme:
 nav:
   - Home: index.md
   - Paid AI security: paid-ai-security.md
+  - Anonymous endpoint classification: anonymous-endpoints.md
   - Foundations:
       - Overview: foundations/index.md
       - Execution Model: foundations/execution-model.md

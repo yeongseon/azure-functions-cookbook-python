@@ -84,7 +84,9 @@ Identity/RBAC, edge limits and deployed 401 behavior need Azure verification.
 
 The JWT, EasyAuth, multitenant, webhook and public health recipes retain their
 existing route-level behavior. An anonymous binding can be intentional; it is
-not evidence that handler or edge authorization is absent.
+not evidence that handler or edge authorization is absent. For the
+classification of every recipe, see
+[Anonymous endpoint classification](anonymous-endpoints.md).
 
 ## Static inspection limits
 
