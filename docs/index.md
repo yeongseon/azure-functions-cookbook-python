@@ -24,6 +24,19 @@ the toolkit libraries the way a real application would.
 - Production considerations in every pattern
 - Mermaid architecture and behavior diagrams
 
+## Azure-native & Functions-first
+
+The cookbook follows a **Functions-first, Azure-native execution model**: choose the trigger that best matches your workload rather than treating Functions as a generic web server:
+
+- **Interactive APIs**: [APIs & Ingress](patterns/apis-and-ingress/index.md) (HTTP trigger, APIM backend)
+- **Background Tasks**: [Messaging & Pub/Sub](patterns/messaging-and-pubsub/index.md) (Service Bus, Storage Queue)
+- **File Ingestion**: [Blob & File Triggers](patterns/blob-and-file-triggers/index.md) (Event Grid-backed blob processing)
+- **Database Streams**: [Data & Pipelines](patterns/data-and-pipelines/index.md) (Cosmos DB change feed, CQRS)
+- **Complex Workflows**: [Orchestration & Workflows](patterns/orchestration-and-workflows/index.md) (Durable Functions)
+- **AI & Agents**: [AI & Agents](patterns/ai-and-agents/index.md) (LangGraph adapter, RAG, persistent checkpoints)
+
+For detailed decision rules, binding vs. SDK analysis, and guided learning paths, see the [Azure-Native Execution Guide](foundations/azure-native-execution.md) and [Pattern Chooser](foundations/pattern-chooser.md).
+
 ## Pattern catalog
 
 ### APIs & Ingress

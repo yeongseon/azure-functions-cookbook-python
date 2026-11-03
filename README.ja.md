@@ -39,6 +39,22 @@ Python で実運用レベルの Azure Functions を構築するための実践�
 
 このリポジトリはコンテンツ中心です。CLI ツールではありません。
 
+## Azure-Native & Functions-First
+
+このクックブックは **Functions-First、Azure-Native な実行モデル** に従っています。Functions を単なる HTTP Web フレームワークとして扱うのではなく、ワークロードの特性に最も適したトリガーとバインディングを選択してください。
+
+| ワークロード | 推奨モデル | 連携 Azure サービス | 開始レシピ |
+| --- | --- | --- | --- |
+| **インタラクティブ API** | HTTP トリガー | API Management | [Hello HTTP Minimal](examples/apis-and-ingress/hello_http_minimal/) |
+| **バックグラウンド処理** | Service Bus / Queue トリガー | Service Bus / Storage Queue | [Service Bus Worker](examples/messaging-and-pubsub/servicebus_worker/) |
+| **FIFO 順序保証** | Service Bus Sessions トリガー | Service Bus Sessions | [Service Bus Sessions](examples/messaging-and-pubsub/servicebus_sessions/) |
+| **ファイル到着イベント** | Event Grid Blob トリガー | Blob Storage + Event Grid | [Blob Event Grid Trigger](examples/blob-and-file-triggers/blob_eventgrid_trigger/) |
+| **データ変更ストリーム** | Cosmos DB トリガー | Cosmos DB Change Feed | [Change Feed Processor](examples/data-and-pipelines/change_feed_processor/) |
+| **ワークフロー / 承認** | Durable Functions オーケストレーション | Durable Task Hub | [Durable Hello Sequence](examples/orchestration-and-workflows/durable_hello_sequence/) |
+| **AI アシスタント & RAG** | HTTP + LangGraph アダプター | Azure OpenAI + AI Search | [Personal LangGraph Agent](examples/ai-and-agents/personal_langgraph_agent/) |
+
+完全な決定マトリクス、バインディング vs SDK の比較、5つのガイド付き学習パス (AI/エージェント、イベント駆動、データ/ファイル処理、非同期ジョブ、本番運用) については、[Azure-Native Execution Guide](docs/foundations/azure-native-execution.md) および [Pattern Chooser](docs/foundations/pattern-chooser.md) を参照してください。
+
 ## Quick Index
 
 カテゴリへ移動: [APIs and Ingress](#apis-and-ingress) · [Scheduled and Background](#scheduled-and-background) · [Blob and File Triggers](#blob-and-file-triggers) · [Async APIs and Jobs](#async-apis-and-jobs) · [Messaging and Pub/Sub](#messaging-and-pubsub) · [Streams and Telemetry](#streams-and-telemetry) · [Data and Pipelines](#data-and-pipelines) · [Orchestration and Workflows](#orchestration-and-workflows) · [Reliability](#reliability) · [Security and Tenancy](#security-and-tenancy) · [Runtime and Ops](#runtime-and-ops) · [Realtime](#realtime) · [AI and Agents](#ai-and-agents) · [Guides](#guides)

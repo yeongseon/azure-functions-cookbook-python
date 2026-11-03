@@ -38,6 +38,22 @@
 
 本仓库以内容为先。它不是一个 CLI 工具。
 
+## Azure-Native & Functions-First
+
+本指南遵循 **Functions-First、Azure 原生执行模型**：根据实际工作负载特征选择最合适的触发器与绑定，而非将 Functions 简单视为 HTTP Web 框架。
+
+| 工作负载 | 推荐执行模型 | 连接 Azure 服务 | 起始配方 |
+| --- | --- | --- | --- |
+| **交互式 API** | HTTP 触发器 | API Management | [Hello HTTP Minimal](examples/apis-and-ingress/hello_http_minimal/) |
+| **后台异步作业** | Service Bus / Queue 触发器 | Service Bus / Storage Queue | [Service Bus Worker](examples/messaging-and-pubsub/servicebus_worker/) |
+| **FIFO 严格保序** | Service Bus Sessions 触发器 | Service Bus Sessions | [Service Bus Sessions](examples/messaging-and-pubsub/servicebus_sessions/) |
+| **文件到达事件** | Event Grid Blob 触发器 | Blob Storage + Event Grid | [Blob Event Grid Trigger](examples/blob-and-file-triggers/blob_eventgrid_trigger/) |
+| **数据变更流** | Cosmos DB 触发器 | Cosmos DB Change Feed | [Change Feed Processor](examples/data-and-pipelines/change_feed_processor/) |
+| **多步工作流 / 审批** | Durable Functions 编排 | Durable Task Hub | [Durable Hello Sequence](examples/orchestration-and-workflows/durable_hello_sequence/) |
+| **AI 助手与 RAG** | HTTP + LangGraph 适配器 | Azure OpenAI + AI Search | [Personal LangGraph Agent](examples/ai-and-agents/personal_langgraph_agent/) |
+
+有关完整决策矩阵、绑定与 SDK 对比、以及 5 条引导式学习路径（AI/智能体、事件驱动、数据/文件处理、异步作业、生产加固），请参阅 [Azure-Native Execution Guide](docs/foundations/azure-native-execution.md) 与 [Pattern Chooser](docs/foundations/pattern-chooser.md)。
+
 ## Quick Index
 
 跳转到分类: [APIs and Ingress](#apis-and-ingress) · [Scheduled and Background](#scheduled-and-background) · [Blob and File Triggers](#blob-and-file-triggers) · [Async APIs and Jobs](#async-apis-and-jobs) · [Messaging and Pub/Sub](#messaging-and-pubsub) · [Streams and Telemetry](#streams-and-telemetry) · [Data and Pipelines](#data-and-pipelines) · [Orchestration and Workflows](#orchestration-and-workflows) · [Reliability](#reliability) · [Security and Tenancy](#security-and-tenancy) · [Runtime and Ops](#runtime-and-ops) · [Realtime](#realtime) · [AI and Agents](#ai-and-agents) · [Guides](#guides)

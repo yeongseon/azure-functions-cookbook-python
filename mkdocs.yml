@@ -18,6 +18,7 @@ nav:
   - Foundations:
       - Overview: foundations/index.md
       - Execution Model: foundations/execution-model.md
+      - Azure-Native Execution: foundations/azure-native-execution.md
       - Triggers & Bindings: foundations/triggers-bindings-overview.md
       - Pattern Chooser: foundations/pattern-chooser.md
       - Delivery Guarantees: foundations/delivery-guarantees.md
@@ -159,6 +160,7 @@ nav:
       - Guidelines: contributing.md
   - FAQ: faq.md
   - Changelog: changelog.md
+  - Roadmap: roadmap.md
 
 markdown_extensions:
   - admonition
