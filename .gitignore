@@ -39,3 +39,6 @@ local.settings.json
 # worse than none, because uv honours it automatically.
 uv.lock
 security-results/
+
+# Local agent session and loop state (contributor guidance remains tracked)
+.sisyphus/

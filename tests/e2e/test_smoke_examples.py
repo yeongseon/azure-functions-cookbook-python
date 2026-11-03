@@ -2,7 +2,8 @@
 
 These tests verify that each example's ``function_app.py`` module can be
 imported without errors, confirming that the Blueprint structure is valid
-and all dependencies are resolvable.
+and all dependencies are resolvable. Import-only: no host is started, no trigger
+runs, and no Azure resource is contacted.
 
 Non-emulatable triggers include:
 - Service Bus (no Azurite support)

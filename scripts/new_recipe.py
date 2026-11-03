@@ -3,10 +3,10 @@
 Usage:
     python scripts/new_recipe.py --category apis-and-ingress --name my_recipe
 
-Creates ``examples/<category>/<name>/`` pre-populated with the standard flat
-recipe file set (function_app.py, README.md, recipe.yaml, host.json,
-local.settings.json.example, pyproject.toml) so a new example passes the
-auto-discovery smoke and recipe-metadata guards out of the box.
+Creates ``examples/<category>/<name>/`` with the flat recipe file set (function_app.py,
+README.md, recipe.yaml, host.json, local.settings.json.example, pyproject.toml, tests/).
+The starter depends only on ``azure-functions`` and ships one passing test.
+``--with-dx-libraries`` opts into the logging and OpenAPI integrations.
 """
 
 from __future__ import annotations
@@ -35,7 +35,20 @@ def _title_from_name(name: str) -> str:
     return " ".join(word.capitalize() for word in name.split("_"))
 
 
-def _function_app_py(title: str) -> str:
+def _function_app_py(title: str, *, dx_libraries: bool) -> str:
+    if not dx_libraries:
+        return '''from __future__ import annotations
+
+import azure.functions as func
+
+app = func.FunctionApp(http_auth_level=func.AuthLevel.FUNCTION)
+
+
+@app.route(route="ping")
+def ping(req: func.HttpRequest) -> func.HttpResponse:
+    """Return a simple OK response."""
+    return func.HttpResponse("ok", status_code=200)
+'''
     return f'''from __future__ import annotations
 
 import azure.functions as func
@@ -56,6 +69,24 @@ def ping(req: func.HttpRequest) -> func.HttpResponse:
 '''
 
 
+_TEST_PY = """from __future__ import annotations
+
+import azure.functions as func
+
+from function_app import app
+
+
+def test_ping_returns_ok() -> None:
+    request = func.HttpRequest(method="GET", url="http://localhost/api/ping", body=b"")
+
+    (function,) = app.get_functions()
+    response = function.get_user_function()(request)
+
+    assert response.status_code == 200
+    assert response.get_body() == b"ok"
+"""
+
+
 def _readme_md(title: str, description: str) -> str:
     return f"""# {title}
 
@@ -66,6 +97,7 @@ def _readme_md(title: str, description: str) -> str:
 ```bash
 pip install -e ".[dev]"
 cp local.settings.json.example local.settings.json
+pytest
 func start
 ```
 
@@ -107,7 +139,12 @@ _LOCAL_SETTINGS = {
 }
 
 
-def _pyproject_toml(name: str, title: str) -> str:
+def _pyproject_toml(name: str, title: str, *, dx_libraries: bool) -> str:
+    extra = (
+        '  "azure-functions-logging>=0.15.0",\n  "azure-functions-openapi>=0.30.0",\n'
+        if dx_libraries
+        else ""
+    )
     return f"""[build-system]
 requires = ["hatchling>=1.27.0"]
 build-backend = "hatchling.build"
@@ -122,9 +159,7 @@ description = "{title} example for Azure Functions."
 requires-python = ">=3.11"
 dependencies = [
   "azure-functions>=1.21.3",
-  "azure-functions-logging>=0.15.0",
-  "azure-functions-openapi>=0.30.0",
-]
+{extra}]
 
 [project.optional-dependencies]
 dev = [
@@ -147,13 +182,16 @@ def create_recipe(
     *,
     description: str | None = None,
     difficulty: str,
+    dx_libraries: bool = False,
     examples_dir: Path = DEFAULT_EXAMPLES_DIR,
 ) -> Path:
     """Create a new flat recipe directory and return its path.
 
     Raises ``ValueError`` if the category does not exist, the name is not a
     valid snake_case identifier, the target already exists, or difficulty
-    is not one of the values the README-table generator accepts.
+    is not one of the values the README-table generator accepts. The scaffold
+    depends only on ``azure-functions``; ``dx_libraries=True`` explicitly adds the
+    logging and OpenAPI companion libraries and their wiring.
     """
     if not name.replace("_", "").isalnum() or not name.islower() or name[0].isdigit():
         raise ValueError(f"name must be lowercase snake_case: {name!r}")
@@ -177,14 +215,16 @@ def create_recipe(
     desc = description or f"{title} recipe for Azure Functions Python v2."
 
     target.mkdir(parents=True)
-    (target / "function_app.py").write_text(_function_app_py(title))
+    (target / "function_app.py").write_text(_function_app_py(title, dx_libraries=dx_libraries))
     (target / "README.md").write_text(_readme_md(title, desc))
     (target / "recipe.yaml").write_text(_recipe_yaml(slug, title, category, desc, difficulty))
     (target / "host.json").write_text(json.dumps(_HOST_JSON, indent=2) + "\n")
     (target / "local.settings.json.example").write_text(
         json.dumps(_LOCAL_SETTINGS, indent=2) + "\n"
     )
-    (target / "pyproject.toml").write_text(_pyproject_toml(name, title))
+    (target / "tests").mkdir()
+    (target / "tests" / "test_function_app.py").write_text(_TEST_PY)
+    (target / "pyproject.toml").write_text(_pyproject_toml(name, title, dx_libraries=dx_libraries))
     (target / "requirements.txt").write_text(gen_requirements.render(target / "pyproject.toml"))
     return target
 
@@ -200,11 +240,20 @@ def main(argv: list[str] | None = None) -> int:
         choices=_VALID_DIFFICULTY,
         help="Recipe difficulty shown in the README table",
     )
+    parser.add_argument(
+        "--with-dx-libraries",
+        action="store_true",
+        help="Also depend on and wire azure-functions-logging and azure-functions-openapi",
+    )
     args = parser.parse_args(argv)
 
     try:
         target = create_recipe(
-            args.category, args.name, description=args.description, difficulty=args.difficulty
+            args.category,
+            args.name,
+            description=args.description,
+            difficulty=args.difficulty,
+            dx_libraries=args.with_dx_libraries,
         )
     except ValueError as exc:
         print(f"error: {exc}", file=sys.stderr)

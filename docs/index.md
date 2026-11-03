@@ -5,9 +5,12 @@ Python v2 programming model.
 
 !!! info "What this project is"
     This cookbook is the **dogfood** of the **Azure Functions Python DX Toolkit**.
-    Every example is a real, runnable Azure Function that uses the toolkit libraries
-    in production-realistic scenarios. It is not a runtime library you install as
-    an application dependency — it is proof that the toolkit works end-to-end.
+    Every example is a real, runnable Azure Function. Many opt in to the toolkit
+    libraries in production-realistic scenarios; others are plain Azure Functions
+    examples with no toolkit package (see [Toolkit usage by recipe](toolkit-usage.md)).
+    It is not a runtime library you install as an application dependency.
+
+    Reading `main` or a released snapshot? See [Versions, snapshots, and verification](snapshots-and-verification.md).
 
 ## Why this cookbook exists
 

@@ -14,7 +14,10 @@ theme:
 
 nav:
   - Home: index.md
+  - Toolkit usage by recipe: toolkit-usage.md
+  - Versions and verification: snapshots-and-verification.md
   - Paid AI security: paid-ai-security.md
+  - Anonymous endpoint classification: anonymous-endpoints.md
   - Foundations:
       - Overview: foundations/index.md
       - Execution Model: foundations/execution-model.md
@@ -119,6 +122,7 @@ nav:
           - WebSocket Proxy: patterns/realtime/websocket-proxy.md
       - AI & Agents:
           - Overview: patterns/ai-and-agents/index.md
+          - Agent Learning Path: patterns/ai-and-agents/learning-path.md
           - MCP Server Example: patterns/ai-and-agents/mcp-server-example.md
           - LangGraph Agent: patterns/ai-and-agents/langgraph-agent.md
           - RAG Knowledge API: patterns/ai-and-agents/rag-knowledge-api.md

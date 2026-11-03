@@ -67,6 +67,7 @@ lint: ensure-hatch
 .PHONY: lint-workflows
 lint-workflows: ensure-hatch
 	@$(HATCH) run python tools/lint_hatch_matrix.py
+	@$(HATCH) run python tools/lint_workflow_pins.py
 .PHONY: security
 security: ensure-hatch
 	@$(HATCH) run security
@@ -96,15 +97,22 @@ security-host: ensure-hatch
 
 .PHONY: recipe-tests docs-strict
 recipe-tests: ensure-hatch
-	@UV_PYTHON=3.11 $(HATCH) run python scripts/run_recipe_tests.py
+	@$(HATCH) run python scripts/run_recipe_tests.py
 
 docs-strict: ensure-hatch
 	@$(HATCH) run mkdocs build --strict
 
 # `lint` already runs the type check (hatch script `lint` = style + typecheck), so mypy runs once.
+.PHONY: generated-check
+generated-check: ensure-hatch
+	@$(HATCH) run python scripts/gen_recipe_index.py --check
+	@$(HATCH) run python scripts/gen_recipe_table.py --check
+	@$(HATCH) run python scripts/gen_requirements.py --check
+	@$(HATCH) run python scripts/check_ecosystem_counts.py
+
 .PHONY: check
-check: lint lint-workflows
-	@echo "Lint and type check passed."
+check: lint lint-workflows generated-check
+	@echo "Lint, type check, workflow lints and generated-file checks passed."
 
 .PHONY: check-all
 check-all: ensure-hatch
