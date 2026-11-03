@@ -10,7 +10,7 @@ _SPEC.loader.exec_module(gen_requirements)
 
 
 def test_requirements_match_project_dependencies() -> None:
-    """Offline: every recipe's requirements.txt equals the file generated from its pyproject.toml."""
+    """Offline: each recipe's requirements.txt equals the one generated from its pyproject.toml."""
     projects = gen_requirements.recipe_projects()
 
     stale = []
