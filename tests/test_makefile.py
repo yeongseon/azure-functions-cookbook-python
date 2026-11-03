@@ -144,7 +144,19 @@ def test_check_runs_every_check_exactly_once() -> None:
     assert plan.count("ruff check src tests") == 1
     assert plan.count("ruff format --check src tests") == 1
     assert plan.count("mypy src tests") == 1
-    assert plan.count("tools/lint_hatch_matrix.py") == 1
+    for part in (
+        "tools/lint_hatch_matrix.py",
+        "tools/lint_workflow_pins.py",
+        "scripts/gen_recipe_index.py --check",
+        "scripts/gen_recipe_table.py --check",
+        "scripts/gen_requirements.py --check",
+    ):
+        assert plan.count(part) == 1, part
+
+
+def test_recipe_tests_do_not_force_an_interpreter() -> None:
+    """Offline: the runner passes ``sys.executable`` to uv, so the target must not pin UV_PYTHON."""
+    assert "UV_PYTHON" not in _plan("recipe-tests")
 
 
 @pytest.mark.parametrize("target", ["test", "check", "check-all", "verify", "integration", "bicep"])
@@ -173,6 +185,8 @@ def test_verify_runs_each_lane_once_in_dependency_order() -> None:
     lanes = [
         "mypy src tests",
         "tools/lint_hatch_matrix.py",
+        "tools/lint_workflow_pins.py",
+        "scripts/gen_requirements.py --check",
         "pytest -v tests",
         *VERIFY_ONLY_LANES[:2],
         "-m worker_registration",
@@ -426,7 +440,7 @@ def test_verify_stays_serial_under_make_jobs(project: Project) -> None:
     assert result.returncode == 0
     tools = [tool for tool, _, _ in project.rows()]
     assert tools == ["hatch", "end"] * (len(tools) // 2)
-    assert len(project.calls("hatch")) == 10
+    assert len(project.calls("hatch")) == 14
 
 
 @pytest.mark.parametrize("target", ["clean", "clean-all"])
