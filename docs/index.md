@@ -10,6 +10,8 @@ Python v2 programming model.
     examples with no toolkit package (see [Toolkit usage by recipe](toolkit-usage.md)).
     It is not a runtime library you install as an application dependency.
 
+    Reading `main` or a released snapshot? See [Versions, snapshots, and verification](snapshots-and-verification.md).
+
 ## Why this cookbook exists
 
 Azure Functions documentation is broad, but many teams still need concrete,

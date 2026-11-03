@@ -31,6 +31,8 @@ blog posts, and sample code. This cookbook provides curated, runnable recipes th
 
 This repository is content-first. It is not a CLI tool.
 
+`main` is moving development content; tagged [GitHub Releases](https://github.com/yeongseon/azure-functions-cookbook-python/releases) are reproducible snapshots (the cookbook is not published to PyPI). See [Versions, snapshots, and verification](docs/snapshots-and-verification.md) for what each CI level does and does not verify.
+
 ## Quick Index
 
 Jump to a category: [APIs and Ingress](#apis-and-ingress) · [Scheduled and Background](#scheduled-and-background) · [Blob and File Triggers](#blob-and-file-triggers) · [Async APIs and Jobs](#async-apis-and-jobs) · [Messaging and Pub/Sub](#messaging-and-pubsub) · [Streams and Telemetry](#streams-and-telemetry) · [Data and Pipelines](#data-and-pipelines) · [Orchestration and Workflows](#orchestration-and-workflows) · [Reliability](#reliability) · [Security and Tenancy](#security-and-tenancy) · [Runtime and Ops](#runtime-and-ops) · [Realtime](#realtime) · [AI and Agents](#ai-and-agents) · [Guides](#guides)
