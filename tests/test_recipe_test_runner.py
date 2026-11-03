@@ -3,9 +3,11 @@
 from __future__ import annotations
 
 import importlib.util
+import os
 from pathlib import Path
 import subprocess
 import sys
+import time
 from typing import Any
 
 import pytest
@@ -16,7 +18,7 @@ assert _spec and _spec.loader
 runner = importlib.util.module_from_spec(_spec)
 _spec.loader.exec_module(runner)
 
-_REAL_RUN = subprocess.run
+_REAL_POPEN = subprocess.Popen
 
 
 def _recipe(examples: Path, name: str, test_body: str, *, pyproject: bool = True) -> None:
@@ -43,11 +45,11 @@ def uv_commands(monkeypatch: pytest.MonkeyPatch) -> list[list[str]]:
     """
     commands: list[list[str]] = []
 
-    def run(command: list[str], **kwargs: Any) -> subprocess.CompletedProcess[bytes]:
+    def popen(command: list[str], **kwargs: Any) -> subprocess.Popen[bytes]:
         commands.append(command)
-        return _REAL_RUN([sys.executable, *command[command.index("python") + 1 :]], **kwargs)
+        return _REAL_POPEN([sys.executable, *command[command.index("python") + 1 :]], **kwargs)
 
-    monkeypatch.setattr(subprocess, "run", run)
+    monkeypatch.setattr(subprocess, "Popen", popen)
     return commands
 
 
@@ -92,3 +94,44 @@ def test_zero_suites_is_a_failure_not_a_pass(
     """Offline: an inventory with no recipe suites cannot report success."""
     assert runner.main() == 1
     assert "no recipe test suites found" in capsys.readouterr().err
+
+
+def test_hanging_suite_is_killed_with_its_children_and_named(
+    examples: Path,
+    uv_commands: list[list[str]],
+    capsys: pytest.CaptureFixture[str],
+    monkeypatch: pytest.MonkeyPatch,
+    tmp_path: Path,
+) -> None:
+    """Offline: a hung suite fails by name and its grandchild process does not survive."""
+    pid_file = tmp_path / "grandchild.pid"
+    body = (
+        "import subprocess, sys, time\n\n"
+        "def test_hang():\n"
+        "    child = subprocess.Popen([sys.executable, '-c', 'import time; time.sleep(600)'])\n"
+        f"    open({str(pid_file)!r}, 'w').write(str(child.pid))\n"
+        "    time.sleep(600)\n"
+    )
+    _recipe(examples, "hung", body)
+    monkeypatch.setenv("RECIPE_TEST_TIMEOUT_SECONDS", "5")
+
+    assert runner.main() == 1
+
+    assert "category/hung: suite timed out after 5s" in capsys.readouterr().err
+    grandchild = int(pid_file.read_text())
+    with pytest.raises(ProcessLookupError):
+        for _ in range(50):
+            os.kill(grandchild, 0)
+            time.sleep(0.1)
+        os.kill(grandchild, 0)
+        os.kill(grandchild, 9)
+        pytest.fail("grandchild survived the timeout")
+
+
+@pytest.mark.parametrize("value", ["abc", "0", "-3"])
+def test_invalid_timeout_override_is_rejected(value: str, monkeypatch: pytest.MonkeyPatch) -> None:
+    """Offline: a malformed timeout cannot silently disable the bound."""
+    monkeypatch.setenv("RECIPE_TEST_TIMEOUT_SECONDS", value)
+
+    with pytest.raises(SystemExit):
+        runner.suite_timeout()
