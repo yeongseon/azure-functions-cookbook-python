@@ -84,7 +84,6 @@ def test_anything_that_may_affect_code_runs_the_full_matrix(files: list[str]) ->
         ["tests/test_recipes.py"],
         ["tests/test_requirements.py"],
         ["tests/_isolation.py"],
-        ["tests/_recipes.py"],
         ["scripts/gen_recipe_index.py"],
         ["scripts/gen_recipe_table.py"],
         ["scripts/gen_requirements.py"],

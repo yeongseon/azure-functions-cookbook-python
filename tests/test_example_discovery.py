@@ -14,8 +14,8 @@ from __future__ import annotations
 import azure.functions as func
 import pytest
 
+from azure_functions_python_cookbook.recipes import RECIPES
 from tests._isolation import load_example_module as _load_example_module
-from tests._recipes import RECIPES
 
 EXAMPLE_PATHS = [r.example_path for r in RECIPES]
 

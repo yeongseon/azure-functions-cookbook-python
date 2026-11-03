@@ -19,9 +19,9 @@ import argparse
 from pathlib import Path
 import sys
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 
-from tests._recipes import RECIPES, Recipe  # noqa: E402
+from azure_functions_python_cookbook.recipes import RECIPES, Recipe  # noqa: E402
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 README = REPO_ROOT / "README.md"
