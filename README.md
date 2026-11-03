@@ -331,6 +331,17 @@ The **Status** column reflects how each package is currently exercised in this r
 
 This repository includes `llms.txt` and `llms-full.txt` in the root directory — quick and full references optimized for LLM context windows. Use them for better context when working with these recipes in AI-assisted coding environments.
 
+## Contributing
+
+Contributions are welcome. The [Contributing Guide](CONTRIBUTING.md) covers local setup, the checks to run, and the pull request workflow.
+
+Looking for something to work on?
+
+- [Good first issue](https://github.com/yeongseon/azure-functions-cookbook-python/labels/good%20first%20issue): small, self-contained starter tasks.
+- [Help wanted](https://github.com/yeongseon/azure-functions-cookbook-python/labels/help%20wanted): tasks that may need more familiarity with this codebase or Azure Functions.
+
+Please comment on an issue to request assignment before you open a pull request. Either list can be empty at any time, so bug reports and small documentation suggestions are always welcome too.
+
 ## Disclaimer
 
 This project is an independent community project and is not affiliated with,
