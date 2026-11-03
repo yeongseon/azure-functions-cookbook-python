@@ -9,31 +9,31 @@ Ordinary `func start` does not enforce function keys locally, so the auth level 
 
 ## How the classification is maintained
 
-The classification comes from `security/recipe-security-manifest.json`, which `make security-manifest` compares against each recipe's declared bindings. This page is a reading aid generated from that manifest; the manifest is authoritative. Route lists show the auth level of each HTTP route as indexed by the check.
+The classification starts from `security/recipe-security-manifest.json`, which `make security-manifest` compares against each recipe's discovered bindings. This page is a **hand-synchronized reading aid** derived from that manifest; it is not generated or checked by CI, so the manifest remains authoritative and this page can lag it. When you add a recipe with an HTTP route or change its auth level, update the manifest *and* this page (category, route list and note), preferring `FUNCTION` unless the recipe's purpose requires anonymous access.
 
-When you add a recipe with an HTTP route, add it to the manifest with a category that matches the table below and an honest reason. Prefer `FUNCTION` unless the recipe's purpose requires anonymous access.
+In the tables below, route entries are the registered **handler names** (not URL paths) with their declared auth level. `adapter-routes` stands for several routes registered by a library adapter, not a single endpoint. A function key (or any auth level) only covers the routes the check indexed; routes that a library registers itself can have a different level, which the notes call out.
 
 ## Categories
 
 | Category | Meaning |
 |---|---|
-| **Paid backend** (3) | Calls a billed model API. Defaults to `FUNCTION`; becomes anonymous only with the explicit `COOKBOOK_PUBLIC_DEMO=true` opt-in. See [Paid AI recipe security](paid-ai-security.md). |
+| **Paid backend** (3) | These three recipes call a billed model API and default to `FUNCTION`; becomes anonymous only with the explicit `COOKBOOK_PUBLIC_DEMO=true` opt-in. See [Paid AI recipe security](paid-ai-security.md). Other recipes that also call Azure OpenAI when configured (for example Embedding Vector Search and Durable AI Pipeline) are classified as cloud backend demos and remain **anonymous by default**. |
 | **Cloud backend demo (anonymous)** (25) | Anonymous routes that start jobs or write to Azure services (Storage, Service Bus, Durable, Event Grid, Web PubSub, search or model backends). Tutorial defaults only: put identity-based access, per-caller authorization and quotas in front of them before deploying. |
-| **Local demo (anonymous)** (11) | Anonymous routes with no paid or external backend (greetings, in-memory CRUD, in-process rate limiter, tracing). Intended for learning and local runs; not an access boundary. |
-| **Authentication demonstration** (4) | Binding is anonymous or mixed on purpose because the recipe demonstrates handler-level JWT, tenant or EasyAuth checks, or contrasts auth levels. |
-| **Edge authentication demonstration** (1) | Anonymous backend meant to sit behind API Management; restrict direct backend ingress in production. |
+| **Local demo (anonymous)** (11) | Anonymous routes without a paid model backend (greetings, CRUD, in-process rate limiter, tracing). Most are self-contained, but BFF Facade API calls configurable upstream HTTP services (httpbin.org by default) and Full Stack CRUD API persists to SQLite or a configurable `DB_URL`; see their notes. Intended for learning and local runs; not an access boundary. |
+| **Authentication demonstration** (4) | Binding is anonymous or mixed on purpose because the recipe demonstrates handler-level JWT, tenant or EasyAuth checks, or contrasts auth levels. EasyAuth only protects the app when App Service Authentication is enabled and set to reject unauthenticated requests; the handler merely reads the `X-MS-CLIENT-PRINCIPAL` header and would trust a forged one. |
+| **Edge authentication demonstration** (1) | Anonymous backend meant to sit behind API Management. Configure the APIM policies (authentication, throttling) and restrict direct ingress to the backend; the recipe itself does not enforce either. |
 | **Public documentation routes** (1) | Anonymous health and OpenAPI/Swagger routes; the webhook route keeps `FUNCTION`. |
 | **Public webhook with own verification** (1) | Anonymous by design; the handler verifies an HMAC-SHA256 signature. |
 | **Public health** (1) | Only the lightweight health route is anonymous; other routes inherit `FUNCTION`. |
-| **Protected (function key)** (12) | All HTTP routes require `FUNCTION`. A function key is shared-secret access control, not per-user authorization. |
+| **Protected (function key)** (12) | All indexed HTTP routes require `FUNCTION` (a library-provided route can differ; see notes, e.g. Personal LangGraph Agent's public health route). A function key is shared-secret access control, not per-user authorization. |
 | **No HTTP route** (23) | Queue, blob, timer, Event Hub, Service Bus or Event Grid triggers only. |
 
 ## Deployment guidance by risk
 
 - **Paid backend**: keep the default `FUNCTION` level, leave `COOKBOOK_PUBLIC_DEMO` unset, and add Entra/APIM and distributed rate limits if callers are untrusted.
-- **Cloud backend demo**: do not publish unchanged. Authenticate callers, authorize each operation (for example job status, cancel, purge, approve), restrict network ingress, and cap concurrency and cost.
+- **Cloud backend demo**: do not publish unchanged. Do not return Durable status/management URLs to untrusted callers: they carry the Durable extension's system key, which grants access to the built-in management API regardless of any per-job authorization on the custom routes. Expose an authorized proxy route instead and restrict access to the management API. Authenticate callers, authorize each operation (for example job status, cancel, purge, approve), restrict network ingress, and cap concurrency and cost.
 - **Local demo**: safe to run locally; if deployed, treat every route as public.
-- **Authentication, edge and webhook demonstrations**: the anonymous binding is intentional, but the protection lives in the handler or in front of the app. Copy the verification code, not just the binding.
+- **Authentication, edge and webhook demonstrations**: the anonymous binding is intentional, but the protection lives in the handler or in front of the app. Copying the handler is not enough for EasyAuth (enable App Service Authentication with unauthenticated requests rejected) or the APIM edge recipe (configure the policies and restrict direct ingress). The JWT and webhook recipes verify credentials in the handler.
 - **Protected**: a function key is the only gate; still add per-user authorization where data is user-specific.
 
 ## Recipes by category
@@ -80,8 +80,8 @@ When you add a recipe with an HTTP route, add it to the manifest with a category
 
 | Recipe | HTTP routes | Note |
 |---|---|---|
-| [BFF Facade API](patterns/apis-and-ingress/bff-facade-api.md) | `dashboard=ANONYMOUS` | Local facade demo; backend configuration needs production ingress controls. |
-| [Full Stack CRUD API](patterns/apis-and-ingress/full-stack-crud-api.md) | `create_item=ANONYMOUS`, `delete_item=ANONYMOUS`, `get_item=ANONYMOUS`, `list_items=ANONYMOUS`, `openapi_json=ANONYMOUS`, `update_item=ANONYMOUS` | Educational local CRUD and OpenAPI surface, not a production access boundary. |
+| [BFF Facade API](patterns/apis-and-ingress/bff-facade-api.md) | `dashboard=ANONYMOUS` | Local facade demo; backend configuration needs production ingress controls. Note: calls configurable upstream HTTP services (httpbin.org by default). |
+| [Full Stack CRUD API](patterns/apis-and-ingress/full-stack-crud-api.md) | `create_item=ANONYMOUS`, `delete_item=ANONYMOUS`, `get_item=ANONYMOUS`, `list_items=ANONYMOUS`, `openapi_json=ANONYMOUS`, `update_item=ANONYMOUS` | Educational local CRUD and OpenAPI surface, not a production access boundary. Note: persists to SQLite or a configurable `DB_URL`; anonymous routes read and write that data. |
 | [Hello HTTP Minimal](patterns/apis-and-ingress/hello-http-minimal.md) | `hello=ANONYMOUS` | Public greeting with no paid backend. |
 | [HTTP Routing Query Body](patterns/apis-and-ingress/http-routing-query-body.md) | `create_user_http=ANONYMOUS`, `delete_user_http=ANONYMOUS`, `get_user=ANONYMOUS`, `list_users=ANONYMOUS`, `search_users_http=ANONYMOUS`, `update_user_http=ANONYMOUS` | In-memory routing/CRUD tutorial without external backend. |
 | [OpenAPI Return-Type Inference](patterns/apis-and-ingress/openapi-inference.md) | `inferred_greeting=ANONYMOUS` | Public schema inference greeting demo. |
@@ -132,7 +132,7 @@ When you add a recipe with an HTTP route, add it to the manifest with a category
 | [LangGraph Agent](patterns/ai-and-agents/langgraph-agent.md) | `adapter-routes=FUNCTION`, `invoke_agent=FUNCTION` | Adapter and custom invocation require function keys. |
 | [Langgraph Tool Use](patterns/ai-and-agents/langgraph-tool-use.md) | `adapter-routes=FUNCTION`, `invoke_tool_agent=FUNCTION` | Tool adapter and invocation require function keys. |
 | [MCP Server Example](patterns/ai-and-agents/mcp-server-example.md) | `mcp=FUNCTION` | Function-key MCP endpoint; calculator eval is separately tracked in #426. |
-| [Personal LangGraph Agent](patterns/ai-and-agents/personal-langgraph-agent.md) | `adapter-routes=FUNCTION` | Adapter requires FUNCTION; its library-provided lightweight health route is intentionally public. |
+| [Personal LangGraph Agent](patterns/ai-and-agents/personal-langgraph-agent.md) | `adapter-routes=FUNCTION` | Adapter requires FUNCTION; its library-provided lightweight health route is intentionally public. Note: the library-provided health route is public and is not listed here. |
 | [CQRS Read Projection](patterns/data-and-pipelines/cqrs-read-projection.md) | `create_order=FUNCTION`, `get_order_projection=FUNCTION` | Order write/read projection requires function key. |
 | [DB Input and Output Bindings](patterns/data-and-pipelines/db-input-output.md) | `create_item=FUNCTION`, `list_items=FUNCTION` | Database read/write endpoints require function key. |
 | [SQLAlchemy REST Pagination](patterns/data-and-pipelines/sqlalchemy-rest-pagination.md) | `create_item=FUNCTION`, `list_items=FUNCTION` | Paginated database API requires function key. |
@@ -140,7 +140,7 @@ When you add a recipe with an HTTP route, add it to the manifest with a category
 | [Blueprint Modular App](patterns/runtime-and-ops/blueprint-modular-app.md) | `get_health=FUNCTION`, `create_user_route=FUNCTION`, `get_user_route=FUNCTION`, `list_users_route=FUNCTION` | Blueprint health/users inherit FUNCTION default. |
 | [Output Binding vs SDK](patterns/runtime-and-ops/output-binding-vs-sdk.md) | `enqueue_via_binding=FUNCTION`, `enqueue_via_sdk=FUNCTION` | Both queue submission routes inherit FUNCTION. |
 | [Secretless Key Vault](patterns/security-and-tenancy/secretless-keyvault.md) | `secretless_keyvault=FUNCTION` | Secretless configuration demonstration requires function key. |
-| [Tenant Isolation](patterns/security-and-tenancy/tenant-isolation.md) | `query_tenant_invoices=FUNCTION` | Tenant database query requires function key plus handler tenant resolution. |
+| [Tenant Isolation](patterns/security-and-tenancy/tenant-isolation.md) | `query_tenant_invoices=FUNCTION` | Tenant database query requires function key plus handler tenant resolution. Note: tenant resolution trusts `X-Tenant-ID` and decodes bearer tokens without signature validation, so it is not authorization; any holder of the shared function key can select another configured tenant. Add verified identity and tenant authorization before real use. |
 
 ### No HTTP route
 
