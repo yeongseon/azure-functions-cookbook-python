@@ -4,6 +4,8 @@ from __future__ import annotations
 
 import importlib.util
 from pathlib import Path
+import subprocess
+import sys
 import tomllib
 
 import pytest
@@ -35,6 +37,7 @@ def test_create_recipe_writes_full_flat_file_set(examples_dir: Path) -> None:
         "local.settings.json.example",
         "pyproject.toml",
         "requirements.txt",
+        "tests",
     }
     assert {p.name for p in target.iterdir()} == expected
 
@@ -78,14 +81,56 @@ def test_generated_recipe_targets_python_311_and_current_family_floors(
     assert project["tool"]["ruff"]["target-version"] == "py311"
     assert project["project"]["dependencies"] == [
         "azure-functions>=1.21.3",
+    ]
+    assert (target / "requirements.txt").read_text() == "azure-functions>=1.21.3\n"
+
+
+def test_default_scaffold_has_no_companion_library_wiring(examples_dir: Path) -> None:
+    target = new_recipe.create_recipe(
+        "apis-and-ingress", "my_new_recipe", difficulty="Beginner", examples_dir=examples_dir
+    )
+
+    source = (target / "function_app.py").read_text()
+
+    assert "azure_functions_logging" not in source
+    assert "azure_functions_openapi" not in source
+
+
+def test_dx_libraries_are_added_only_on_explicit_opt_in(examples_dir: Path) -> None:
+    target = new_recipe.create_recipe(
+        "apis-and-ingress",
+        "my_dx_recipe",
+        difficulty="Beginner",
+        dx_libraries=True,
+        examples_dir=examples_dir,
+    )
+
+    project = tomllib.loads((target / "pyproject.toml").read_text(encoding="utf-8"))
+    source = (target / "function_app.py").read_text()
+
+    assert project["project"]["dependencies"] == [
+        "azure-functions>=1.21.3",
         "azure-functions-logging>=0.15.0",
         "azure-functions-openapi>=0.30.0",
     ]
-    assert (target / "requirements.txt").read_text() == (
-        "azure-functions-logging>=0.15.0\n"
-        "azure-functions-openapi>=0.30.0\n"
-        "azure-functions>=1.21.3\n"
+    compile(source, "function_app.py", "exec")
+    assert "@openapi(" in source
+
+
+def test_generated_starter_test_passes(examples_dir: Path) -> None:
+    target = new_recipe.create_recipe(
+        "apis-and-ingress", "my_new_recipe", difficulty="Beginner", examples_dir=examples_dir
     )
+
+    result = subprocess.run(
+        [sys.executable, "-m", "pytest", "-q", "-p", "no:cacheprovider", "tests"],
+        cwd=target,
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+
+    assert result.returncode == 0, result.stdout + result.stderr
 
 
 def test_rejects_unknown_category(examples_dir: Path) -> None:
