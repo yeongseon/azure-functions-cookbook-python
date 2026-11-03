@@ -53,24 +53,21 @@ def _recipe_counts() -> Counter[str]:
 
 @pytest.mark.parametrize("filename", LLMS_FILES)
 def test_version_matches_package(filename: str) -> None:
-    # Given: an LLM index file that restates the package version.
+    """Offline: each LLM index file advertises the package's own `__version__`."""
     text = (REPO_ROOT / filename).read_text(encoding="utf-8")
 
-    # When: its `Version:` line is read.
     match = re.search(r"^- Version: (\S+)", text, re.MULTILINE)
     assert match is not None, f"{filename}: no `- Version: ...` line found."
 
-    # Then: it equals the version declared by the package.
     assert match.group(1) == _package_version()
 
 
 @pytest.mark.parametrize("filename", LLMS_FILES)
 def test_total_recipe_count_matches_filesystem(filename: str) -> None:
-    # Given: an LLM index file that advertises a recipe total.
+    """Offline: the advertised recipe total equals the number of `recipe.yaml` files."""
     text = (REPO_ROOT / filename).read_text(encoding="utf-8")
     total = sum(_recipe_counts().values())
 
-    # When/Then: the advertised total equals the discovered recipe count.
     assert f"{total} published recipes" in text, (
         f"{filename}: expected the phrase '{total} published recipes'."
     )
@@ -78,62 +75,54 @@ def test_total_recipe_count_matches_filesystem(filename: str) -> None:
 
 @pytest.mark.parametrize("filename", LLMS_FILES)
 def test_no_stale_recipes_directory_reference(filename: str) -> None:
-    # Given: the `recipes/` directory was replaced by `docs/patterns/`.
+    """Offline: no index file points readers at the removed `recipes/` layout."""
     text = (REPO_ROOT / filename).read_text(encoding="utf-8")
 
-    # When/Then: no index file still points readers at the removed layout.
     assert "`recipes/`" not in text, f"{filename}: still references the removed `recipes/` layout."
 
 
 def test_llms_txt_category_counts_match_filesystem() -> None:
-    # Given: the compact index lists each category with a bracketed count.
+    """Offline: `llms.txt` lists every category once with its real recipe count."""
     text = (REPO_ROOT / "llms.txt").read_text(encoding="utf-8")
 
-    # When: the `- <Label> (<n>):` bullets are parsed.
     documented = {
         label: int(count) for label, count in re.findall(r"^- (.+?) \((\d+)\):", text, re.MULTILINE)
     }
 
-    # Then: every category appears exactly once with its real recipe count.
     expected = {CATEGORY_LABELS[key]: value for key, value in _recipe_counts().items()}
     assert documented == expected
 
 
 def test_llms_full_category_counts_match_filesystem() -> None:
-    # Given: the full index has one `### <Label> (<n>)` section per category.
+    """Offline: `llms-full.txt` has one section per category with its real recipe count."""
     text = (REPO_ROOT / "llms-full.txt").read_text(encoding="utf-8")
 
-    # When: those headings are parsed.
     documented = {
         label: int(count)
         for label, count in re.findall(r"^### (.+?) \((\d+)\)$", text, re.MULTILINE)
     }
 
-    # Then: every category appears exactly once with its real recipe count.
     expected = {CATEGORY_LABELS[key]: value for key, value in _recipe_counts().items()}
     assert documented == expected
 
 
 def test_llms_full_inventory_lists_every_example_path() -> None:
-    # Given: the full index claims to map every recipe to its example project.
+    """Offline: `llms-full.txt` has an inventory row for every example directory."""
     text = (REPO_ROOT / "llms-full.txt").read_text(encoding="utf-8")
 
-    # When: each discovered example path is looked up in the inventory tables.
     missing = [
         path.parent.relative_to(REPO_ROOT).as_posix()
         for path in sorted(EXAMPLES_DIR.glob("*/*/recipe.yaml"))
         if f"`{path.parent.relative_to(REPO_ROOT).as_posix()}`" not in text
     ]
 
-    # Then: none are absent.
     assert missing == [], f"llms-full.txt is missing inventory rows for: {missing}"
 
 
 def test_llms_full_inventory_titles_match_recipe_metadata() -> None:
-    # Given: inventory rows restate each recipe's authored title.
+    """Offline: inventory titles repeat each `recipe.yaml` title verbatim."""
     text = (REPO_ROOT / "llms-full.txt").read_text(encoding="utf-8")
 
-    # When: every recipe.yaml title is checked against its inventory row.
     mismatched: list[str] = []
     for path in sorted(EXAMPLES_DIR.glob("*/*/recipe.yaml")):
         data = yaml.safe_load(path.read_text(encoding="utf-8")) or {}
@@ -142,5 +131,4 @@ def test_llms_full_inventory_titles_match_recipe_metadata() -> None:
         if row not in text or f"`{example_path}` |" not in text:
             mismatched.append(example_path)
 
-    # Then: every title is present verbatim.
     assert mismatched == [], f"llms-full.txt inventory titles out of sync for: {mismatched}"
