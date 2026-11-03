@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from collections.abc import Mapping
 import json
 import sys
 from types import ModuleType
@@ -8,7 +9,7 @@ from typing import Any
 import azure.functions as func
 import pytest
 
-from tests._isolation import EXAMPLES_DIR, clean_app_modules, load_example_module
+from tests._isolation import EXAMPLES_DIR, clean_app_modules, import_service, load_example_module
 
 EXAMPLE = "ai-and-agents/personal_langgraph_agent"
 EXAMPLE_DIR = EXAMPLES_DIR / EXAMPLE
@@ -43,10 +44,7 @@ def _invoke(module: ModuleType, message: str, thread_id: str) -> tuple[int, dict
         body=json.dumps(
             {
                 "input": {"messages": [{"role": "human", "content": message}]},
-                "config": {
-                    "configurable": {"thread_id": thread_id},
-                    "recursion_limit": 10_000,
-                },
+                "config": {"configurable": {"thread_id": thread_id}},
             }
         ).encode(),
         headers={"Content-Type": "application/json"},
@@ -57,7 +55,9 @@ def _invoke(module: ModuleType, message: str, thread_id: str) -> tuple[int, dict
 
 def _message_content(payload: dict[str, Any], message_type: str) -> list[str]:
     messages = payload["output"]["messages"]
-    return [str(item["content"]) for item in messages if item["type"] == message_type]
+    # Flat dicts up to azure-functions-langgraph 0.12; {"type", "data"} envelopes on newer builds.
+    bodies = [item.get("data", item) for item in messages if item["type"] == message_type]
+    return [str(body["content"]) for body in bodies]
 
 
 def test_exported_route_executes_real_tool_loop(monkeypatch: pytest.MonkeyPatch) -> None:
@@ -90,6 +90,44 @@ def test_thread_memory_is_preserved_and_isolated(monkeypatch: pytest.MonkeyPatch
     # Then
     assert _message_content(follow_up, "ai")[-1].endswith("human_turns=2")
     assert _message_content(isolated, "ai")[-1].endswith("human_turns=1")
+
+
+class _RecordingGraph:
+    checkpointer = None
+
+    def __init__(self) -> None:
+        self.configs: list[Mapping[str, Any] | None] = []
+
+    def invoke(
+        self, input: Mapping[str, Any], config: Mapping[str, Any] | None = None, **kwargs: Any
+    ) -> dict[str, Any]:
+        self.configs.append(config)
+        return {"messages": []}
+
+
+@pytest.mark.parametrize(
+    "client_config",
+    [
+        None,
+        {"configurable": {"thread_id": "bound-proof"}},
+        {"configurable": {"thread_id": "bound-proof"}, "recursion_limit": 10_000},
+    ],
+    ids=["no-config", "no-client-limit", "client-limit-above-bound"],
+)
+def test_recipe_recursion_bound_applies_to_any_client_config(
+    monkeypatch: pytest.MonkeyPatch, client_config: dict[str, Any] | None
+) -> None:
+    """Offline: the recipe replaces any client recursion_limit with its own bound."""
+    _load(monkeypatch)
+    graph_module = import_service(EXAMPLE, "app.services.graph")
+    wrapped = _RecordingGraph()
+
+    graph_module.BoundedGraph(wrapped).invoke({"messages": []}, config=client_config)
+
+    [forwarded] = wrapped.configs
+    assert forwarded is not None
+    assert forwarded["recursion_limit"] == graph_module.GRAPH_RECURSION_LIMIT
+    assert forwarded.get("configurable") == (client_config or {}).get("configurable")
 
 
 def test_real_mode_lists_only_missing_setting_names(monkeypatch: pytest.MonkeyPatch) -> None:
