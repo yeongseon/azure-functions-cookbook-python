@@ -302,6 +302,16 @@ Contributors never need to bump a version or create a tag. Release Please cuts a
 versioned snapshot when its Release PR is merged, tagging the repository
 for reference only -- no artifact is produced or uploaded.
 
+A release is a pinned GitHub recipe snapshot rather than a PyPI
+package. The maintainer normally groups meaningful, verified changes
+into **at most one planned snapshot every two weeks**, skipping quiet
+periods. Urgent safety or broken-example corrections can be released
+earlier with the reason documented in the Release PR. Contributors
+do not need to schedule releases or bump versions.
+
+See [recipe snapshot cadence](docs/release_process.md#recipe-snapshot-cadence)
+for the verification and release decision procedure.
+
 ## Code of Conduct
 
 Be respectful and inclusive. See our [Code of Conduct](CODE_OF_CONDUCT.md) for details.

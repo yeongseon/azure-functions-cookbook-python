@@ -32,6 +32,33 @@ update the secret before it does, or no Release PR will appear.
 
 ---
 
+## Recipe snapshot cadence
+
+This repository intentionally publishes **GitHub source/recipe snapshots**,
+not Python distributions on PyPI. A snapshot signals a coherent, pinned
+set of recipe examples, with evidence appropriate to the examples.
+Routine PRs can merge without triggering a release.
+
+**Default:** aim for **at most one planned snapshot every two weeks**,
+when a meaningful set of recipes is ready and tested. There is no
+obligation to publish if no recipe-facing changes are ready. The maintainer
+decides when to merge Release Please's open Release PR.
+
+**Out-of-cycle exception:** a verified unsafe example, harmful deployment
+guidance, or a widely broken released snapshot can be fixed sooner. Briefly
+record the affected examples, impact and reason for early release in the
+Release PR. Do not create an automatic minimum wait time or publish a
+placeholder release to meet a calendar target.
+
+Before merging, compare the candidate with the last actual GitHub recipe
+snapshot, check the recipe index and dependency/runtime constraints, and
+verify the available test and Azure evidence without claiming Azure
+certification from a tag alone. Preserve existing snapshot/version/tag
+history. Release Please remains the only owner of version, tag, release
+PR and `CHANGELOG.md`; no PyPI publishing is introduced.
+
+---
+
 ## What is no longer used
 
 | Retired | Replacement |
