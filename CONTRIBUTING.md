@@ -295,12 +295,13 @@ Use `!` in a Conventional Commit/PR title, or a `BREAKING CHANGE:` footer in the
 ## Releases
 
 Merging to `main` does not publish anything. This repository is a collection of
-runnable examples; it is not packaged or published to PyPI, and no workflow is
-triggered by a tag.
+runnable examples; it is not packaged or published to PyPI. The only workflow a
+tag triggers is the read-only tag verification (`tag-verification.yml`: dependency
+policy, build, packaging-metadata and clean-install checks), which uploads nothing.
 
 Contributors never need to bump a version or create a tag. Release Please cuts a
 versioned snapshot when its Release PR is merged, tagging the repository
-for reference only -- no artifact is produced or uploaded.
+for reference only -- no artifact is uploaded or published.
 
 A release is a pinned GitHub recipe snapshot rather than a PyPI
 package. The maintainer normally groups meaningful, verified changes
