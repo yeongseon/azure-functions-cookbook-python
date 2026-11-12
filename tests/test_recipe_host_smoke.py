@@ -42,6 +42,18 @@ def test_indexed_functions_parses_the_functions_section() -> None:
     assert smoke.runtime_version(_INDEXED_LOG) == "4.1045.200.1"
 
 
+def test_indexed_functions_survives_interleaved_host_logs() -> None:
+    log = (
+        'Functions:\n\n[2026-11-12T13:43:05.321Z]   "Arguments": [\n'
+        "\thello: [GET] http://localhost:39081/api/hello\n\n"
+        "[2026-11-12T13:43:05.321Z]   }\n\tqueue_worker: queueTrigger\n"
+    )
+    assert smoke.indexed_functions(log) == [
+        "hello: [GET] http://localhost:39081/api/hello",
+        "queue_worker: queueTrigger",
+    ]
+
+
 def test_indexed_functions_is_empty_without_a_functions_section() -> None:
     log = "Worker process started and initialized.\nFor detailed output, run func with --verbose\n"
     assert smoke.indexed_functions(log) == []
@@ -90,7 +102,7 @@ _FAKE_FUNC = textwrap.dedent(
     elif mode != "silent":
         if mode == "late":
             time.sleep(3)
-        banner = "Function Runtime Version: 4.0.0\\n\\nFunctions:\\n\\n\\thello: [GET] x\\n"
+        banner = "Function Runtime Version: 4.0.0\\n\\nFunctions:\\n\\n\\thello: [GET] http://localhost/x\\n"
         print(banner, flush=True)
     time.sleep(600)
     """
@@ -144,7 +156,7 @@ def test_main_writes_evidence_for_a_passing_host(fake_host: Path, tmp_path: Path
     assert record["result"] == "passed"
     assert record["versions"]["core_tools"] == "9.9.9"
     assert record["versions"]["function_runtime"] == "4.0.0"
-    assert record["indexed_functions"] == ["hello: [GET] x"]
+    assert record["indexed_functions"] == ["hello: [GET] http://localhost/x"]
     assert record["packages"] == {"azure-functions": "1.0"}
     assert record["response"]["status"] == 200
 

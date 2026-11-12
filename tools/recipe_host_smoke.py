@@ -33,7 +33,9 @@ _FAILURE_MARKERS = (
     "Worker failed",
     "Host startup operation has been canceled",
 )
-_FUNCTION_LINE = re.compile(r"^\s+(?P<name>[\w.-]+): (?P<detail>.+)$")
+_FUNCTION_LINE = re.compile(
+    r"^\t(?P<name>[\w.-]+): (?P<detail>\[[A-Z,]+\] https?://\S+|\w+Trigger\b.*)$"
+)
 _RUNTIME_VERSION = re.compile(r"Function Runtime Version:\s+(?P<version>\S+)")
 _INDEX_WAIT_SECONDS = 30
 _RECORDED_PREFIXES = ("azure-functions", "langgraph", "langchain", "pydantic")
@@ -44,21 +46,12 @@ class HostSmokeError(RuntimeError):
 
 
 def indexed_functions(log: str) -> list[str]:
-    """Return ``name: detail`` lines from the host's ``Functions:`` section (empty if none)."""
-    found: list[str] = []
-    in_section = False
-    for line in log.splitlines():
-        if line.strip() == "Functions:":
-            in_section = True
-            continue
-        if not in_section:
-            continue
-        match = _FUNCTION_LINE.match(line)
-        if match:
-            found.append(f"{match['name']}: {match['detail'].strip()}")
-        elif line.strip() and not line.startswith((" ", "\t")):
-            break
-    return found
+    """Return ``name: detail`` for each function Core Tools lists (empty if none).
+
+    Core Tools prints the list as TAB-indented lines that can be interleaved with timestamped host
+    log lines, so this matches the entry shape rather than the ``Functions:`` heading.
+    """
+    return [f"{m['name']}: {m['detail']}" for m in map(_FUNCTION_LINE.match, log.splitlines()) if m]
 
 
 def runtime_version(log: str) -> str | None:
