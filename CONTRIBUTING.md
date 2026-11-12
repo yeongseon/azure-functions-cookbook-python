@@ -110,10 +110,21 @@ make build
 make format      # Format code with ruff
 make lint        # Lint with ruff
 make typecheck   # Type check with mypy
-make test        # Run tests
+make test        # Run the full suite (library + repository infrastructure)
+make test-library  # Library lane: shipped-library and recipe behavior only
+make test-infra    # Infrastructure lane: tools, scripts, workflows, Makefile, packaging
 make cov         # Run tests with coverage
 make check-all   # Run the full local gate
 ```
+
+Tests that exercise repository tooling (`tools/`, `scripts/`, workflows, the
+Makefile, packaging, generated artifacts) carry the `repo_infra` pytest marker
+(module-level `pytestmark = pytest.mark.repo_infra`, or per test); everything
+else is a library or recipe test. CI runs the library lane and the
+infrastructure lane as separate steps of the `test` job with their own
+coverage gates (`src` and `tools`, each 95%) and then the unchanged combined
+95% gate, so neither lane can hide behind the other. Mark new tests of
+repository machinery with `repo_infra`; unmarked tests count as library tests.
 
 Before opening a PR, run `ruff format --check <changed-python-files>` (or
 `ruff format <changed-python-files>` to fix them). `make format-check` checks

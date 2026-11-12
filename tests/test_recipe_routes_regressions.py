@@ -4,6 +4,8 @@ import pytest
 
 from tools.recipe_routes import routes
 
+pytestmark = pytest.mark.repo_infra
+
 
 @pytest.mark.parametrize(
     "nested",

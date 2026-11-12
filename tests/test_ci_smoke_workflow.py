@@ -1,6 +1,9 @@
 from pathlib import Path
 
+import pytest
 import yaml
+
+pytestmark = pytest.mark.repo_infra
 
 WORKFLOW = Path(__file__).resolve().parents[1] / ".github" / "workflows" / "ci-smoke.yml"
 EXPECTED_PATHS = [

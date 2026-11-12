@@ -1,6 +1,9 @@
 from pathlib import Path
 
+import pytest
 import yaml
+
+pytestmark = pytest.mark.repo_infra
 
 _ROOT = Path(__file__).parents[1]
 _WORKFLOW = _ROOT / ".github" / "workflows" / "ci-test.yml"
