@@ -1,4 +1,4 @@
-"""Offline tests for ``tools/compat_report.py``, the evidence gate of the toolkit-compat job."""
+"""Offline tests for ``tools/compat_report.py`` and ``tools/pytest_outcome_json.py``."""
 
 from __future__ import annotations
 
@@ -11,36 +11,35 @@ from tools import compat_report as report
 
 pytestmark = pytest.mark.repo_infra
 
-_JUNIT = """<?xml version="1.0" encoding="utf-8"?>
-<testsuites><testsuite name="pytest" tests="{n}">
-{cases}
-</testsuite></testsuites>
-"""
 
-
-def _write_junit(path: Path, *cases: str) -> Path:
-    path.write_text(_JUNIT.format(n=len(cases), cases="\n".join(cases)), encoding="utf-8")
+def _write_outcomes(path: Path, *records: tuple[str, str, str]) -> Path:
+    tests = [{"nodeid": n, "outcome": o, "reason": r} for n, o, r in records]
+    path.write_text(json.dumps({"tests": tests}), encoding="utf-8")
     return path
 
 
-_PASS = '<testcase classname="t.a" name="test_ok" time="0.1"/>'
-_FAIL = '<testcase classname="t.a" name="test_bad"><failure message="x">boom</failure></testcase>'
-_ERROR = '<testcase classname="t.a" name="test_err"><error message="x">boom</error></testcase>'
-_SKIP = '<testcase classname="t.a" name="test_skip"><skipped message="no func"/></testcase>'
+_PASS = ("t.py::test_ok", "passed", "")
+_FAIL = ("t.py::test_bad", "failed", "")
+_ERROR = ("t.py::test_err", "error", "")
+_SKIP = ("t.py::test_skip", "skipped", "no func")
 
 
-def test_parse_junit_counts_each_outcome_and_skip_reasons(tmp_path: Path) -> None:
-    counts = report.parse_junit(_write_junit(tmp_path / "j.xml", _PASS, _FAIL, _ERROR, _SKIP))
+def test_parse_outcomes_counts_each_outcome_and_skip_reasons(tmp_path: Path) -> None:
+    counts = report.parse_outcomes(
+        _write_outcomes(
+            tmp_path / "o.json", _PASS, _FAIL, _ERROR, _SKIP, ("t.py::x", "xfailed", "r")
+        )
+    )
 
     assert (counts.tests, counts.passed, counts.failed, counts.errors, counts.skipped) == (
-        4,
+        5,
         1,
         1,
         1,
-        1,
+        2,
     )
-    assert counts.skip_reasons == ["t.a::test_skip: no func"]
-    assert counts.failures == ["t.a::test_bad", "t.a::test_err"]
+    assert counts.skip_reasons == ["t.py::test_skip: no func", "t.py::x: r"]
+    assert counts.failures == ["t.py::test_bad", "t.py::test_err"]
 
 
 def test_parse_pins_ignores_comments_and_normalizes_names(tmp_path: Path) -> None:
@@ -89,14 +88,14 @@ def test_verdict_accepts_a_full_green_run_and_flags_pin_drift() -> None:
     ]
 
 
-def _run(tmp_path: Path, junit: Path, pins: str, min_tests: int = 1) -> tuple[int, Path]:
+def _run(tmp_path: Path, outcomes: Path, pins: str, min_tests: int = 1) -> tuple[int, Path]:
     constraints = tmp_path / "constraints.txt"
     constraints.write_text(pins, encoding="utf-8")
     out = tmp_path / "out"
     code = report.main(
         [
-            "--junit",
-            str(junit),
+            "--outcomes",
+            str(outcomes),
             "--constraints",
             str(constraints),
             "--min-tests",
@@ -117,7 +116,9 @@ def test_main_writes_a_readable_report_for_a_green_run(
     monkeypatch.setenv("GITHUB_STEP_SUMMARY", str(summary))
     installed = report.installed_versions()["pytest"]
 
-    code, out = _run(tmp_path, _write_junit(tmp_path / "j.xml", _PASS), f"pytest=={installed}\n")
+    code, out = _run(
+        tmp_path, _write_outcomes(tmp_path / "o.json", _PASS), f"pytest=={installed}\n"
+    )
 
     data = json.loads((out / "report.json").read_text())
     markdown = (out / "report.md").read_text()
@@ -137,27 +138,86 @@ def test_main_writes_a_readable_report_for_a_green_run(
 
 
 def test_main_fails_and_explains_a_skipped_lane(tmp_path: Path) -> None:
-    code, out = _run(tmp_path, _write_junit(tmp_path / "j.xml", _PASS, _SKIP), "")
+    code, out = _run(tmp_path, _write_outcomes(tmp_path / "o.json", _PASS, _SKIP), "")
 
     data = json.loads((out / "report.json").read_text())
     assert code == 1
     assert data["result"] == "failed"
-    assert data["skip_reasons"] == ["t.a::test_skip: no func"]
+    assert data["skip_reasons"] == ["t.py::test_skip: no func"]
     assert "Skipped tests and reasons" in (out / "report.md").read_text()
 
 
 def test_main_fails_when_the_junit_file_is_missing(tmp_path: Path) -> None:
-    code, out = _run(tmp_path, tmp_path / "missing.xml", "")
+    code, out = _run(tmp_path, tmp_path / "missing.json", "")
 
     assert code == 1
-    assert "no JUnit file" in json.loads((out / "report.json").read_text())["reasons"][0]
+    assert "no outcome file" in json.loads((out / "report.json").read_text())["reasons"][0]
 
 
 def test_main_fails_on_dependency_drift(tmp_path: Path) -> None:
-    code, _ = _run(tmp_path, _write_junit(tmp_path / "j.xml", _PASS), "pytest==0.0.1\n")
+    code, _ = _run(tmp_path, _write_outcomes(tmp_path / "o.json", _PASS), "pytest==0.0.1\n")
     assert code == 1
 
 
 def test_version_of_handles_missing_and_failing_tools(monkeypatch: pytest.MonkeyPatch) -> None:
     assert report._version_of(["definitely-not-a-real-tool"]) == "unavailable"
     assert report._version_of(["python3", "--version"]).startswith("Python")
+
+
+pytest_plugins = ["pytester"]
+
+
+def test_outcome_plugin_records_each_test_once_with_its_worst_outcome(
+    pytester: pytest.Pytester,
+) -> None:
+    pytester.makepyfile(
+        """
+        import pytest
+
+        @pytest.fixture
+        def broken():
+            raise RuntimeError("setup")
+
+        def test_ok(): ...
+        def test_bad(): assert False
+        def test_error(broken): ...
+        @pytest.mark.skip(reason="no func")
+        def test_skip(): ...
+        @pytest.mark.xfail(reason="known")
+        def test_xfail(): assert False
+        def test_runtime_skip(): pytest.skip("late")
+        """
+    )
+    target = pytester.path / "out" / "outcomes.json"
+
+    pytester.runpytest_inprocess(
+        "-p",
+        "tools.pytest_outcome_json",
+        "--outcome-json",
+        str(target),
+        "--no-cov",
+        "-p",
+        "no:cacheprovider",
+    )
+
+    records = {
+        Path(t["nodeid"]).name.split("::")[-1]: t for t in json.loads(target.read_text())["tests"]
+    }
+    assert {k: v["outcome"] for k, v in records.items()} == {
+        "test_ok": "passed",
+        "test_bad": "failed",
+        "test_error": "error",
+        "test_skip": "skipped",
+        "test_xfail": "xfailed",
+        "test_runtime_skip": "skipped",
+    }
+    assert records["test_skip"]["reason"] == "no func"
+    assert records["test_runtime_skip"]["reason"] == "late"
+    assert records["test_xfail"]["reason"] == "known"
+
+
+def test_outcome_plugin_is_inert_without_the_option(pytester: pytest.Pytester) -> None:
+    pytester.makepyfile("def test_ok(): ...")
+    result = pytester.runpytest_inprocess("-p", "tools.pytest_outcome_json", "--no-cov")
+    assert result.ret == 0
+    assert not list(pytester.path.rglob("*.json"))

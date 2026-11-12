@@ -346,7 +346,14 @@ jobs:
             constraints-min.txt
 
       - name: Install Functions Core Tools v4
-        run: npm install --global azure-functions-core-tools@4 --unsafe-perm true
+        # The package downloads the CLI from a CDN in its install script; retry transient failures.
+        run: |
+          for attempt in 1 2 3; do
+            npm install --global azure-functions-core-tools@4 --unsafe-perm true && exit 0
+            echo "Core Tools install attempt ${attempt} failed" >&2
+            sleep 10
+          done
+          exit 1
 
       - name: Install the pinned dependency set
         run: |
@@ -361,7 +368,7 @@ jobs:
       - name: Run host-backed compatibility tests
         run: >-
           python -m pytest -v -m compat tests/e2e --no-cov
-          --junitxml=compat-results/junit.xml
+          -p tools.pytest_outcome_json --outcome-json compat-results/outcomes.json
 
       # Runs on success and failure so a red or empty run still leaves a readable record.
       - name: Summarize compatibility evidence
@@ -369,7 +376,7 @@ jobs:
         env:
           PR_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
         run: >-
-          python tools/compat_report.py --junit compat-results/junit.xml
+          python tools/compat_report.py --outcomes compat-results/outcomes.json
           --constraints constraints-min.txt --min-tests 5 --out compat-results
 
       - name: Upload compatibility evidence

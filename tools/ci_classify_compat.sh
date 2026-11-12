@@ -23,7 +23,7 @@ while IFS= read -r path || [ -n "$path" ]; do
     examples/apis-and-ingress/full_stack_crud_api/* | \
     examples/ai-and-agents/personal_langgraph_agent/* | \
     pyproject.toml | constraints-min.txt | \
-    tools/pytest_fail_on_skip.py | tools/compat_report.py | \
+    tools/pytest_fail_on_skip.py | tools/pytest_outcome_json.py | tools/compat_report.py | \
     tools/ci_classify_compat.sh | tools/ci_classify_workflow.sh | \
     .github/workflows/ci-test.yml | .github/workflows/e2e-toolkit.yml)
       required=true

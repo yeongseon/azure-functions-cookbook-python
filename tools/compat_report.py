@@ -1,11 +1,12 @@
 """Summarize the pre-merge toolkit compatibility run and fail closed on weak evidence.
 
-Reads the JUnit XML written by ``pytest -m compat tests/e2e`` and the pinned dependency set in
-``constraints-min.txt``, then writes ``report.json`` and ``report.md`` (tested commit, interpreter,
-host tooling, declared versus installed versions, pass/fail/skip counts and skip reasons). The
-exit status is non-zero when the run is not trustworthy evidence: no JUnit file, fewer selected
-tests than ``--min-tests`` (a zero-selection run included), any failure or error, any skipped
-test, or an installed version that differs from its pin.
+Reads the per-test outcome JSON written by ``tools/pytest_outcome_json.py`` for
+``pytest -m compat tests/e2e`` and the pinned dependency set in ``constraints-min.txt``, then
+writes ``report.json`` and ``report.md`` (tested commit, interpreter, host tooling, declared versus
+installed versions, pass/fail/skip counts and skip reasons). The exit status is non-zero when the
+run is not trustworthy evidence: no outcome file, fewer selected tests than ``--min-tests`` (a
+zero-selection run included), any failure or error, any skipped test, or an installed version that
+differs from its pin.
 
 Nothing here reads a secret. The report records local Core Tools host evidence only.
 """
@@ -25,7 +26,6 @@ import shutil
 import subprocess
 import sys
 from typing import Any
-import xml.etree.ElementTree as ET  # noqa: S405 - parses the JUnit file this job just wrote
 
 
 @dataclass
@@ -39,22 +39,21 @@ class Counts:
     failures: list[str] = field(default_factory=list)
 
 
-def parse_junit(path: Path) -> Counts:
-    """Count outcomes in a JUnit XML file written by pytest."""
+def parse_outcomes(path: Path) -> Counts:
+    """Count outcomes in the JSON written by ``tools/pytest_outcome_json.py``."""
     counts = Counts()
-    for case in ET.parse(path).getroot().iter("testcase"):  # noqa: S314 - own CI artifact
-        name = f"{case.get('classname', '')}::{case.get('name', '')}"
+    for record in json.loads(path.read_text(encoding="utf-8"))["tests"]:
         counts.tests += 1
-        skipped = case.find("skipped")
-        if skipped is not None:
+        outcome = record["outcome"]
+        if outcome in ("skipped", "xfailed"):
             counts.skipped += 1
-            counts.skip_reasons.append(f"{name}: {skipped.get('message', 'no reason given')}")
-        elif case.find("failure") is not None:
+            counts.skip_reasons.append(f"{record['nodeid']}: {record['reason']}")
+        elif outcome == "failed":
             counts.failed += 1
-            counts.failures.append(name)
-        elif case.find("error") is not None:
+            counts.failures.append(record["nodeid"])
+        elif outcome == "error":
             counts.errors += 1
-            counts.failures.append(name)
+            counts.failures.append(record["nodeid"])
         else:
             counts.passed += 1
     return counts
@@ -190,7 +189,7 @@ def render_markdown(report: Mapping[str, Any]) -> str:
 
 def main(argv: Sequence[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--junit", type=Path, required=True)
+    parser.add_argument("--outcomes", type=Path, required=True)
     parser.add_argument("--constraints", type=Path, required=True)
     parser.add_argument("--min-tests", type=int, required=True)
     parser.add_argument("--out", type=Path, required=True)
@@ -198,10 +197,10 @@ def main(argv: Sequence[str] | None = None) -> int:
 
     counts = Counts()
     reasons: list[str] = []
-    if args.junit.is_file():
-        counts = parse_junit(args.junit)
+    if args.outcomes.is_file():
+        counts = parse_outcomes(args.outcomes)
     else:
-        reasons.append(f"no JUnit file at {args.junit}; the compatibility tests did not run")
+        reasons.append(f"no outcome file at {args.outcomes}; the compatibility tests did not run")
     pins = parse_pins(args.constraints)
     installed = installed_versions()
     reasons += verdict(counts, args.min_tests, compare_pins(pins, installed))

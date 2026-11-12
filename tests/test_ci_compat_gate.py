@@ -51,6 +51,7 @@ def _classify(files: list[str]) -> str:
         ["constraints-min.txt"],
         ["tools/pytest_fail_on_skip.py"],
         ["tools/compat_report.py"],
+        ["tools/pytest_outcome_json.py"],
         [".github/workflows/ci-test.yml"],
         [".github/workflows/e2e-toolkit.yml"],
         ["README.md", "constraints-min.txt"],
@@ -155,6 +156,7 @@ def test_toolkit_compat_job_is_scoped_fork_safe_and_pinned() -> None:
     assert "secrets." not in text
     assert "-c constraints-min.txt" in text
     assert "-m compat tests/e2e" in text
+    assert "-p tools.pytest_outcome_json" in text
     for step in job["steps"]:
         if "uses" in step:
             assert re.fullmatch(r"[\w./-]+@[0-9a-f]{40}", step["uses"]), step["uses"]
