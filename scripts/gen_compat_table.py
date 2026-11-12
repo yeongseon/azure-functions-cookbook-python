@@ -22,6 +22,7 @@ import hashlib
 import json
 from pathlib import Path
 import re
+import shutil
 import subprocess
 import sys
 import tomllib
@@ -238,8 +239,17 @@ def render(inv: dict[str, Any], evidence: dict[str, Any]) -> str:
     return "\n".join([*out, ""])
 
 
+def _run(tool: str, *args: str, check: bool = True) -> subprocess.CompletedProcess[str]:
+    executable = shutil.which(tool)
+    if executable is None:
+        raise SystemExit(f"{tool} is required to record evidence")
+    return subprocess.run(  # noqa: S603 - fixed argv, shell disabled
+        [executable, *args], cwd=REPO_ROOT, check=check, capture_output=True, text=True
+    )
+
+
 def _gh(*args: str) -> str:
-    return subprocess.run(["gh", *args], check=True, capture_output=True, text=True).stdout
+    return _run("gh", *args).stdout
 
 
 def _installed(log: str) -> dict[str, str]:
@@ -264,18 +274,15 @@ def record(run_ids: list[str]) -> dict[str, Any]:
         data = json.loads(
             _gh("run", "view", run_id, "-R", SLUG, "--json", "workflowName,url,headSha,jobs")
         )
-        drift = subprocess.run(
-            [
-                "git",
-                "diff",
-                "--quiet",
-                data["headSha"],
-                "--",
-                "pyproject.toml",
-                "constraints-min.txt",
-                "examples",
-            ],
-            cwd=REPO_ROOT,
+        drift = _run(
+            "git",
+            "diff",
+            "--quiet",
+            data["headSha"],
+            "--",
+            "pyproject.toml",
+            "constraints-min.txt",
+            "examples",
             check=False,
         )
         if drift.returncode != 0:
