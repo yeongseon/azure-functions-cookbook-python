@@ -211,6 +211,27 @@ def test_emulator_and_worker_lanes_fail_on_skips(target: str, lanes: int) -> Non
     assert _plan(target).count(f'PYTEST_ADDOPTS="{FAIL_ON_SKIP}"') == lanes
 
 
+def test_verify_test_lane_fails_on_skips_while_make_test_stays_offline() -> None:
+    """Offline: verify runs the opt-in real-host tests and rejects skips; `make test` does not."""
+    strict = 'COOKBOOK_RUN_PAID_AI_HOST=true PYTEST_ADDOPTS="' + FAIL_ON_SKIP + '"'
+
+    assert _plan("verify").count(strict) == 1
+    for target in ("test", "check-all"):
+        plan = _plan(target)
+        assert "COOKBOOK_RUN_PAID_AI_HOST" not in plan
+        assert "pytest_fail_on_skip" not in plan
+
+
+def test_test_required_runs_the_suite_once_with_the_fail_on_skip_plugin(project: Project) -> None:
+    """Offline: the strict lane replaces a stray PYTEST_ADDOPTS and opts the host tests in."""
+    result = project.make("test-required", PYTEST_ADDOPTS="-k nothing")
+
+    assert result.returncode == 0
+    assert [row for row in project.rows() if row[0] == "hatch"] == [
+        ("hatch", "run test", FAIL_ON_SKIP)
+    ]
+
+
 def test_install_ci_installs_into_the_selected_interpreter_and_not_through_hatch() -> None:
     """Offline: `install-ci` is `$(PYTHON) -m pip install -e ".[dev]"` and nothing else."""
     assert _plan("install-ci").strip() == 'python3 -m pip install -e ".[dev]"'

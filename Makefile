@@ -171,12 +171,19 @@ bicep: ensure-hatch
 worker-registration: ensure-hatch
 	@PYTEST_ADDOPTS="$(FAIL_ON_SKIP)" $(HATCH) run worker:registration
 
+# The test part of `verify`: the offline suite plus the opt-in real-host tests (Core Tools and
+# Azurite, checked by `make doctor`), with a skipped or xfailed test failing the run. `make test`
+# stays the offline, skip-tolerant everyday lane.
+.PHONY: test-required
+test-required: ensure-hatch
+	@COOKBOOK_RUN_PAID_AI_HOST=true PYTEST_ADDOPTS="$(FAIL_ON_SKIP)" $(HATCH) run test
+
 # Each part runs once and the first failure stops the run. Serial even under `make -j`: the lanes
 # share Azurite's fixed ports and the Hatch environments. `check-all` is the narrower everyday gate
 # and keeps its meaning.
 .NOTPARALLEL: verify
 .PHONY: verify
-verify: check test recipe-tests bicep worker-registration integration build docs-strict
+verify: check test-required recipe-tests bicep worker-registration integration build docs-strict
 	@echo "Full local verification passed."
 
 .PHONY: new-recipe

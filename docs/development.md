@@ -40,6 +40,10 @@ pip install -e ".[dev,docs]"
 | `make test` | Run test suite |
 | `make security` | Run Bandit security checks |
 | `make check-all` | Lint + type + test + security |
+| `make doctor` | Read-only check that every tool `make verify` needs is installed (installs and runs nothing) |
+| `make check` | Non-mutating lint, format check, mypy, workflow lints and generated-file checks |
+| `make integration` | Smoke and e2e suites against emulators the fixtures start (needs `func` and `azurite`; a skipped or empty lane fails) |
+| `make verify` | Full local gate: check, tests (skips fail), per-recipe suites, Bicep, worker registration, integration, build, strict docs |
 | `make docs` | Build MkDocs site |
 | `make docs-serve` | Serve docs locally |
 

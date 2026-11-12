@@ -137,3 +137,37 @@ def test_invalid_timeout_override_is_rejected(value: str, monkeypatch: pytest.Mo
 
     with pytest.raises(SystemExit):
         runner.suite_timeout()
+
+
+@pytest.mark.parametrize(
+    ("body", "status"), [("def test_ok(): ...\n", 0), ("def test_x(): 1/0\n", 1)]
+)
+def test_junit_xml_is_written_for_passing_and_failing_suites(
+    examples: Path,
+    uv_commands: list[list[str]],
+    monkeypatch: pytest.MonkeyPatch,
+    tmp_path: Path,
+    body: str,
+    status: int,
+) -> None:
+    """Offline: with RECIPE_TEST_JUNIT_DIR each suite leaves one JUnit file, pass or fail."""
+    junit = tmp_path / "results" / "nested"
+    monkeypatch.setenv("RECIPE_TEST_JUNIT_DIR", str(junit))
+    _recipe(examples, "reported", body)
+
+    assert runner.main() == status
+
+    assert [path.name for path in junit.iterdir()] == ["category__reported.xml"]
+    assert "<testcase" in (junit / "category__reported.xml").read_text()
+
+
+def test_no_junit_argument_without_the_environment_variable(
+    examples: Path, uv_commands: list[list[str]], monkeypatch: pytest.MonkeyPatch
+) -> None:
+    """Offline: the default local run adds no report arguments."""
+    monkeypatch.delenv("RECIPE_TEST_JUNIT_DIR", raising=False)
+    _recipe(examples, "plain", "def test_ok(): ...\n")
+
+    assert runner.main() == 0
+
+    assert "--junitxml" not in uv_commands[0]
