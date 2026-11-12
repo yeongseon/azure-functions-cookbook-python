@@ -17,13 +17,11 @@ EXPECTED_PATHS = [
 
 
 def test_push_and_pull_request_filters_match_smoke_inputs() -> None:
-    # Given: the non-required smoke workflow configuration.
+    """Offline: the non-required smoke workflow's push and PR path filters are identical."""
     workflow = yaml.load(WORKFLOW.read_text(encoding="utf-8"), Loader=yaml.BaseLoader)
 
-    # When: its automatic-event path filters are inspected.
     triggers = workflow["on"]
 
-    # Then: push and pull requests use the same minimal consumed-input list.
     assert triggers["pull_request"]["paths"] == EXPECTED_PATHS
     assert triggers["push"]["paths"] == EXPECTED_PATHS
 
