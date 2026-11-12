@@ -59,6 +59,70 @@ PR and `CHANGELOG.md`; no PyPI publishing is introduced.
 
 ---
 
+## Snapshot audit
+
+`python -m tools.audit_snapshots` is a **read-only** audit of the tagged GitHub recipe snapshots. It
+never creates, moves or deletes a tag or Release, never edits a version, `CHANGELOG.md` or the
+release manifest, and never looks at PyPI: the cookbook is not a PyPI package, and a GitHub Release is
+not treated as proof of distribution or of Azure certification. Release Please remains the only owner
+of versions, tags, Releases and `CHANGELOG.md`.
+
+For each `vX.Y.Z` tag it prints a deterministic result, with tag/commit/compare links for every failure:
+
+| Check | Meaning |
+|---|---|
+| `tag-name`, `ancestry` | the tag is plain semver and its commit is reachable from `origin/main` |
+| `duplicate-commit`, `tag-order` | tags map to distinct commits that follow version order |
+| `release-exists`, `release-draft`, `release-orphan` | each tag has a published GitHub Release, and no Release lacks a tag |
+| `source-version`, `changelog-entry` | `__version__`, the Release Please manifest and `CHANGELOG.md` agree with the tag (manifest and changelog only for snapshots cut by Release Please) |
+| `head-version` | on the checked-out commit (so on a Release PR, before it is merged) `__version__`, the manifest and the newest `CHANGELOG.md` entry agree |
+| `recipe-inventory`, `recipe-index` | `recipes.json` at the tag parses; the current generated recipe index and README tables have not drifted |
+| `verification-level` (info) | which CI definitions existed at the tag; this is not a claim that every run passed or that any recipe is Azure-certified |
+
+It also reports, informationally, whether commits since the newest tag include user-facing
+Conventional Commit types (a snapshot is expected) or only `docs`/`ci`/`chore`/... changes (no snapshot is
+needed). A content-only change never needs a snapshot.
+
+```bash
+git fetch --tags origin
+python -m tools.audit_snapshots --ref origin/main                 # needs the GitHub CLI for Release data
+python -m tools.audit_snapshots --ref origin/main --skip-releases # git-only checks
+python -m tools.audit_snapshots --format json                     # machine-readable
+```
+
+Exit status is `0` when every finding is either passing or excepted, `1` for an unexcepted failure, and
+`2` when the audit itself could not run (for example `gh` could not list Releases).
+
+### Historical exceptions
+
+Verified historical cases live in
+[`.github/release-audit-exceptions.json`](https://github.com/yeongseon/azure-functions-cookbook-python/blob/main/.github/release-audit-exceptions.json).
+An exception is pinned to the tag's **commit SHA** and to **specific checks**, with a classification,
+reason, evidence links and the tracking issue. If a tag moves, or a different kind of defect appears on
+the same tag, the finding is reported again; entries that no longer match anything are listed as stale.
+Add an entry only for verified history, never to silence a new release.
+
+### Where it runs
+
+The `Snapshot audit` workflow runs the audit on pull requests that touch the audit, the exception registry,
+the recipe index or the version sources (so a Release PR is checked before it is merged), **when a GitHub Release is published**, daily, and on demand. A published Release
+with a bad version/changelog, a tag that never received a Release (no release event fires for that, so
+the daily run catches it) or recipe-index drift fails the run and writes the report to the job summary.
+The workflow has `contents: read` only and uses the built-in `github.token` solely to list Releases.
+Its result is a signal about repository metadata, not a publication gate.
+
+### Fixing a discrepancy (fix-forward)
+
+Never rewrite history. Correct the cause on `main` with a Conventional Commit so Release Please cuts the next
+snapshot: a `fix:` for a user-facing problem, or `docs:`/`ci:` for metadata that needs no snapshot. If a
+Release is missing for a *new* tag, create or repair it with the maintainer's GitHub release tooling for that
+same tag and verify that it targets the tag's commit; do not create a replacement tag or version. A historical
+tag that is deliberately tag-only is recorded in the exception registry instead. Only `Added`, `Fixed`,
+breaking and other user-facing items appear in release notes; audit statuses (`excepted`, `stale`, ...)
+are for maintainers and never appear there.
+
+---
+
 ## What is no longer used
 
 | Retired | Replacement |
