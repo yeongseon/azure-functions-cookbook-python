@@ -172,6 +172,9 @@ markers = [
     "package_validation: Live HTTP runtime gate for azure-functions-validation",
     "package_logging: Live HTTP runtime gate for azure-functions-logging",
     "package_openapi: Live HTTP runtime gate for azure-functions-openapi",
+    "package_db: Live HTTP runtime gate for azure-functions-db",
+    "agent_endpoint: Live HTTP runtime gate for azure-functions-langgraph endpoint registration",
+    "compat: Pre-merge toolkit compatibility gate (host-backed, run by the toolkit-compat CI job with -m compat)",
     "repo_infra: Repository tooling, CI/workflow, docs/generated-artifact and packaging checks, not shipped-library or recipe behavior (run with -m repo_infra; excluded from the library lane)",
     "worker_registration: Deterministic Python worker signature-registration gate (clones a pinned azure-functions-python-worker SHA; requires network)",
 ]

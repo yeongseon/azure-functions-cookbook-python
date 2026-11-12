@@ -3,9 +3,14 @@ name: E2E Toolkit Matrix
 # Cross-repo regression net for the Azure Functions Python DX Toolkit.
 #
 # Runs the cookbook smoke + e2e tiers against a 2-axis toolkit source matrix:
-#   - latest: toolkit libraries as published on PyPI (what recipes advertise)
+#   - latest: toolkit libraries as published on PyPI (what recipes advertise). This is a
+#             deliberate published-wheel consumer check.
 #   - main:   toolkit libraries installed from each sibling repo's main branch
-#             (catches drift before it is ever released)
+#             (catches drift before it is ever released). It does not download the published
+#             toolkit wheels (#459; see docs/ci-package-downloads.md).
+#
+# Pre-merge: the `toolkit-compat` job in ci-test.yml runs a scoped, pinned-dependency subset for
+# pull requests (see docs/testing.md). This workflow stays scheduled/post-release only.
 #
 # The repository_dispatch trigger lets a sibling library's release workflow
 # re-run this suite immediately after it publishes, so downstream breakage is
@@ -91,24 +96,34 @@ jobs:
       - name: Install Azurite
         run: npm install -g azurite
 
-      - name: Install dependencies into the Python 3.12 interpreter
-        run: |
-          python -c "import sys; assert sys.version_info[:2] == (3, 12), sys.version"
-          python -m pip install -e ".[dev]"
+      - name: Assert the runtime interpreter is Python 3.12
+        run: python -c "import sys; assert sys.version_info[:2] == (3, 12), sys.version"
 
-      - name: Override toolkit libraries from sibling main branches
+      # `main` axis: install the sibling-repository sources FIRST, with their own dependencies,
+      # so the later `-e ".[dev]"` finds every toolkit requirement already satisfied and does not
+      # download the published toolkit wheels from PyPI only to replace them (#459). Installing the
+      # published wheels and then overriding them also tested a dependency set resolved for the
+      # released metadata rather than for the unreleased source.
+      - name: Install toolkit libraries from sibling main branches
         if: matrix.toolkit-source == 'main'
         run: |
-          # Swap only the toolkit packages (not their transitive deps) for their
-          # main-branch source, so we test unreleased toolkit code against the
-          # already-resolved dependency set.
-          python -m pip install --upgrade --force-reinstall --no-deps \
+          python -m pip install \
             "azure-functions-logging @ git+https://github.com/yeongseon/azure-functions-logging-python@main" \
             "azure-functions-openapi @ git+https://github.com/yeongseon/azure-functions-openapi-python@main" \
             "azure-functions-validation @ git+https://github.com/yeongseon/azure-functions-validation-python@main" \
             "azure-functions-doctor @ git+https://github.com/yeongseon/azure-functions-doctor-python@main" \
             "azure-functions-db @ git+https://github.com/yeongseon/azure-functions-db-python@main" \
             "azure-functions-langgraph @ git+https://github.com/yeongseon/azure-functions-langgraph-python@main"
+
+      # `latest` axis: deliberately installs the published releases from PyPI. This is a
+      # consumer check of what the recipes advertise and is retained (docs/ci-package-downloads.md).
+      - name: Install cookbook dependencies
+        run: python -m pip install -e ".[dev]"
+
+      - name: Verify the toolkit packages come from the axis under test
+        env:
+          AXIS: ${{ matrix.toolkit-source }}
+        run: python tools/verify_toolkit_source.py "$AXIS"
 
       - name: Record resolved toolkit versions
         run: |

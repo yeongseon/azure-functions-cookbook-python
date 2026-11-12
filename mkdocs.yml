@@ -163,6 +163,7 @@ nav:
       - Package Runtime Gates: package-runtime-gates.md
       - Sibling Cross-validation: sibling-cross-validation.md
       - Scheduled Trigger Smoke: scheduled-trigger-smoke.md
+      - CI Package Downloads: ci-package-downloads.md
       - Guidelines: contributing.md
   - FAQ: faq.md
   - Changelog: changelog.md

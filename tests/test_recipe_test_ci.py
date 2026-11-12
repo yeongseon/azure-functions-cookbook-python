@@ -25,5 +25,6 @@ def test_ci_runs_discovered_recipe_test_suites() -> None:
         "recipe-tests",
         "artifact-python310-negative",
         "host-smoke",
+        "toolkit-compat",
         "docs-check",
     }

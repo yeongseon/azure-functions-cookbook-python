@@ -127,6 +127,7 @@ def test_pull_request_git_failure_selects_full_matrix(tmp_path: Path) -> None:
         "docs_only": "false",
         "docs_changed": "true",
         "full_required": "true",
+        "compat_required": "true",
     }
 
 
@@ -135,4 +136,5 @@ def test_push_git_failure_selects_full_matrix(tmp_path: Path) -> None:
         "docs_only": "false",
         "docs_changed": "true",
         "full_required": "true",
+        "compat_required": "true",
     }
