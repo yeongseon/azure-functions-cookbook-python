@@ -13,6 +13,10 @@ from __future__ import annotations
 import importlib.util
 from pathlib import Path
 
+import pytest
+
+pytestmark = pytest.mark.repo_infra
+
 _REPO_ROOT = Path(__file__).resolve().parent.parent
 _LINT_PATH = _REPO_ROOT / "tools" / "lint_hatch_matrix.py"
 

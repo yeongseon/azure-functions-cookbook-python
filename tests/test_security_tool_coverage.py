@@ -14,6 +14,8 @@ from tools import security_report as report
 from tools import security_structure as structure
 from tools.security_exceptions import apply_policy, read_rules
 
+pytestmark = pytest.mark.repo_infra
+
 
 @pytest.mark.parametrize(
     "parse,value",

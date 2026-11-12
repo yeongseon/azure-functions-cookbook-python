@@ -19,6 +19,10 @@ import shutil
 import subprocess
 import tempfile
 
+import pytest
+
+pytestmark = pytest.mark.repo_infra
+
 _EXAMPLES = Path(__file__).parents[1] / "examples"
 _RESOURCE = re.compile(
     r"resource\s+(?P<name>\w+)\s+'(?P<kind>Microsoft\.Web/serverfarms|Microsoft\.Web/sites)@[^']+'"

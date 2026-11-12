@@ -8,6 +8,9 @@ import sys
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
 
 import check_ecosystem_counts as checker  # noqa: E402
+import pytest
+
+pytestmark = pytest.mark.repo_infra
 
 
 def test_documented_counts_match_declared_dependencies() -> None:

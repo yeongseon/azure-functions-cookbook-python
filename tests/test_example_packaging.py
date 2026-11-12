@@ -2,6 +2,10 @@ from pathlib import Path
 import subprocess
 import zipfile
 
+import pytest
+
+pytestmark = pytest.mark.repo_infra
+
 
 def test_full_stack_crud_wheel_contains_flat_modules(tmp_path: Path) -> None:
     example = Path("examples/apis-and-ingress/full_stack_crud_api")
