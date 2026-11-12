@@ -82,4 +82,6 @@ To maintain focus and ensure high quality, we have explicitly defined what this 
 3. Stability and longevity of the underlying Azure services and Python SDKs.
 4. Completeness of the existing collection to ensure we cover the most important use cases.
 
+Download statistics are not a priority signal on their own. PyPI counts include scheduled and release-triggered CI runs; read them as downloads, not users, and see [CI package downloads and adoption signals](ci-package-downloads.md) for what this repository's automation contributes and what remains uncertain.
+
 The roadmap is a living document and will be updated as the project evolves and we receive more feedback from the community.
