@@ -98,6 +98,19 @@ When documentation changes include command examples or paths:
 - Confirm route names match real handlers in `examples/*/function_app.py`
 - Confirm recipe page cross-links resolve
 
+## Test comments and docstrings
+
+- Leave simple, self-explanatory tests without comments; do not add `# Given` / `# When` /
+  `# Then` headings by default.
+- When a test's failure mode or evidence level is not obvious (catalog and index drift guards,
+  dependency or verification-level checks, host-level probes), add a one-line English docstring that
+  states the contract and the claim level: offline, host (Core Tools/Azurite), or Azure-only.
+- Keep a short inline comment where setup or a host limitation would surprise a reader, for example
+  that local Core Tools skips function-key checks.
+- A host-boot or import-only smoke test must not suggest it validates optional companion libraries
+  it does not import or exercise.
+- Comments in runnable recipes follow [CONTRIBUTING.md](https://github.com/yeongseon/azure-functions-cookbook-python/blob/main/CONTRIBUTING.md#comments-and-docstrings-in-recipes) instead.
+
 ## CI alignment
 
 Local validation should mirror CI as closely as possible.
