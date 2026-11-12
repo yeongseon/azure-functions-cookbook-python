@@ -66,7 +66,12 @@ def stop(process: subprocess.Popen[str]) -> None:
 def test_real_host_indexes_function_auth_and_local_requests_without_keys(
     tmp_path: Path, recipe_environment: tuple[str, Path], setting: str | None
 ) -> None:
-    # Given a private copied app and unique emulator/host ports, without provider credentials.
+    """Host (opt-in Core Tools + Azurite, no provider credentials).
+
+    Checks the indexed `authLevel` for each `COOKBOOK_PUBLIC_DEMO` value and that local Core Tools
+    still accepts a keyless request; this is not evidence that Azure enforces the key.
+    """
+    # The app runs from a private copy on unique emulator and host ports.
     assert shutil.which("func") and shutil.which("azurite")
     name, environment = recipe_environment
     project = ROOT / "examples/ai-and-agents" / name
@@ -139,7 +144,7 @@ def test_real_host_indexes_function_auth_and_local_requests_without_keys(
         )
         stack.callback(stop, host)
         base = f"http://127.0.0.1:{ports[3]}"
-        # When the real worker publishes indexing metadata, inspect its binding declaration.
+        # Wait for the worker to publish indexing metadata, then read the binding declarations.
         metadata = None
         for _ in range(120):
             assert host.poll() is None, "Host exited before indexing; inspect private test log"
@@ -172,7 +177,7 @@ def test_real_host_indexes_function_auth_and_local_requests_without_keys(
                 }
             )
         )
-        # Then ordinary Core Tools still allows a keyless fallback request.
+        # Core Tools skips key checks locally, so the keyless request below is expected to succeed.
         route, payload = (
             ("/api/images/generate", b'{"prompt":"hello"}')
             if name == "ai_image_generation"
