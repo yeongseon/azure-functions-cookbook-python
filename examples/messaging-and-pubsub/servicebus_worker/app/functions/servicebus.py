@@ -20,8 +20,10 @@ logger = logging.getLogger(__name__)
 def process_service_bus_message(msg: func.ServiceBusMessage) -> None:
     """Process a Service Bus message and track delivery metadata.
 
-    In production, handle poison messages by moving them to the dead-letter queue
-    after max delivery attempts, then inspect and replay after remediation.
+    Invalid JSON is logged and the invocation returns normally, so the message is
+    completed and dropped. An unhandled exception instead makes Service Bus redeliver it,
+    and it is dead-lettered once the queue's max delivery count is exceeded; inspect and
+    replay dead-lettered messages after remediation.
     """
     raw_body = msg.get_body().decode("utf-8", errors="replace")
     correlation_id = getattr(msg, "correlation_id", None)
