@@ -15,6 +15,10 @@ import json
 from pathlib import Path
 import re
 
+import pytest
+
+pytestmark = pytest.mark.repo_infra
+
 _ROOT = Path(__file__).resolve().parents[1]
 
 

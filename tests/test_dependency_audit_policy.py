@@ -8,6 +8,8 @@ from tools.dependency_audit_policy import classify_audit, requirement_scopes
 from tools.recipe_security import ROOT
 from tools.security_report import Status
 
+pytestmark = pytest.mark.repo_infra
+
 
 def test_root_closure_is_explicitly_empty_not_dev_extras() -> None:
     scopes = requirement_scopes(ROOT)

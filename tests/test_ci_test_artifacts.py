@@ -28,15 +28,22 @@ def _paths(upload: dict[str, Any]) -> list[str]:
 
 def test_matrix_test_job_uploads_junit_and_coverage_even_when_tests_fail() -> None:
     """Offline: every matrix cell uploads JUnit and coverage XML on success and on failure."""
-    run = next(step for step in _steps("test") if step.get("name", "").startswith("Run tests"))
     (upload,) = _uploads("test")
     steps = _steps("test")
-
-    assert "--junitxml=test-results/junit.xml" in run["run"]
-    assert "--cov-report=xml" in run["run"]
-    assert set(_paths(upload)) == {"test-results/junit.xml", "coverage.xml"}
+    lanes = {
+        "Library tests": "test-results/junit-library.xml",
+        "Repository infrastructure tests": "test-results/junit-infra.xml",
+    }
+    runs = [step for step in steps if any(step.get("name", "").startswith(n) for n in lanes)]
+    assert len(runs) == len(lanes)
+    for step in runs:
+        (expected,) = [v for k, v in lanes.items() if step["name"].startswith(k)]
+        assert f"--junitxml={expected}" in step["run"]
+    assert "--junitxml=test-results/junit.xml" not in yaml.safe_dump(steps)
+    assert any("--cov-report=xml" in step["run"] for step in runs)
+    assert set(_paths(upload)) == {*lanes.values(), "coverage.xml"}
     assert upload["if"] == "always()"
-    assert steps.index(upload) > steps.index(run)
+    assert all(steps.index(upload) > steps.index(r) for r in runs)
     # One artifact per matrix cell, so parallel cells never overwrite each other.
     assert "matrix.python-version" in upload["with"]["name"]
     assert "matrix.resolution" in upload["with"]["name"]

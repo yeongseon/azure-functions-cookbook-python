@@ -8,6 +8,8 @@ import re
 
 import pytest
 
+pytestmark = pytest.mark.repo_infra
+
 _ROOT = Path(__file__).resolve().parents[1]
 _SCRIPT = _ROOT / "scripts" / "gen_recipe_table.py"
 _spec = importlib.util.spec_from_file_location("gen_recipe_table", _SCRIPT)

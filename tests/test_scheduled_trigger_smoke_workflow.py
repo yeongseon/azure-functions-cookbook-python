@@ -4,7 +4,10 @@ import shlex
 import subprocess
 import sys
 
+import pytest
 import yaml
+
+pytestmark = pytest.mark.repo_infra
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 WORKFLOW = REPO_ROOT / ".github" / "workflows" / "scheduled-trigger-smoke.yml"

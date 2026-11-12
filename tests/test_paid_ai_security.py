@@ -45,8 +45,7 @@ def request_body(recipe: ModuleType, prompt: str) -> bytes:
 
 
 def test_binding_requires_key_by_default(recipe: ModuleType) -> None:
-    # Given the default environment; when the worker indexes the app;
-    # then its HTTP binding is protected (not proof of Azure enforcement).
+    """Offline: the indexed HTTP binding defaults to FUNCTION auth (not Azure enforcement proof)."""
     trigger = recipe.app.get_functions()[0].get_trigger()
     assert trigger.get_dict_repr()["authLevel"] == func.AuthLevel.FUNCTION
 
@@ -66,7 +65,7 @@ def test_public_demo_requires_explicit_opt_in(
     monkeypatch: pytest.MonkeyPatch,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
-    # Given an explicit setting; when imported; then binding and warning agree.
+    """Offline: only exact `COOKBOOK_PUBLIC_DEMO=true` selects anonymous auth and logs a warning."""
     monkeypatch.setenv("COOKBOOK_PUBLIC_DEMO", setting)
     with caplog.at_level(logging.DEBUG):
         module = load_example_module(f"ai-and-agents/{name}")
@@ -84,7 +83,7 @@ def test_oversized_input_never_calls_provider(
     kind: str,
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
-    # Given oversized input and a provider spy; when invoked; then no work is billed.
+    """Offline: oversized input is rejected before the (spied) provider client is called."""
     client = MagicMock()
     monkeypatch.setattr(recipe, "AzureOpenAI", client)
     if kind == "body":
@@ -109,8 +108,7 @@ def test_budget_and_redaction_at_provider_boundary(
     monkeypatch: pytest.MonkeyPatch,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
-    # Given fake credentials and provider output/error; when called; then bounded,
-    # sanitized results never leak request/credential/response canaries to logs.
+    """Offline: provider output and errors are bounded and never leak canary strings to logs."""
     monkeypatch.setenv("AZURE_OPENAI_ENDPOINT", "https://example.invalid")
     monkeypatch.setenv("AZURE_OPENAI_KEY", CANARIES[1])
     factory = MagicMock()

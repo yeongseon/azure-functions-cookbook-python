@@ -11,6 +11,8 @@ import tomllib
 import pytest
 import yaml
 
+pytestmark = pytest.mark.repo_infra
+
 _SCRIPT = Path(__file__).resolve().parents[1] / "scripts" / "new_recipe.py"
 _spec = importlib.util.spec_from_file_location("new_recipe", _SCRIPT)
 assert _spec and _spec.loader

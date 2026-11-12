@@ -8,6 +8,8 @@ import pytest
 
 from tools import check_pr_format
 
+pytestmark = pytest.mark.repo_infra
+
 
 def test_changed_python_files_handles_spaces_and_renames(
     monkeypatch: pytest.MonkeyPatch, tmp_path: Path

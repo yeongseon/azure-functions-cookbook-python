@@ -16,6 +16,8 @@ import re
 import pytest
 import yaml
 
+pytestmark = pytest.mark.repo_infra
+
 REPO_ROOT = Path(__file__).resolve().parents[1]
 EXAMPLES_DIR = REPO_ROOT / "examples"
 LLMS_FILES = ("llms.txt", "llms-full.txt")
