@@ -1,8 +1,11 @@
 # Azure Functions Python Cookbook
+<!-- translation-snapshot: v0.5.0 2026-11-12 -->
 > [!NOTE]
 > 이 문서는 [영어 원문](README.md)의 번역본으로 커뮤니티가 관리합니다.
 > 영어 원문이 업데이트된 뒤에는 내용이 다소 늦어질 수 있으며,
 > 단일 정보 원본(Single Source of Truth)은 영어 [README.md](README.md)입니다.
+>
+> 번역 스냅샷: 영어 README [v0.5.0](https://github.com/yeongseon/azure-functions-cookbook-python/releases/tag/v0.5.0) 기준, 마지막 정렬일 2026-11-12. 이후 변경은 반영되지 않았을 수 있습니다. 보안/정확성 경고는 항상 영어 [README.md](README.md)를 확인하세요. 정책: [CONTRIBUTING](CONTRIBUTING.md#documentation-and-translations).
 >
 > 예약 트리거 스모크: worker-registration 검사는 고정된 Python worker의 런타임 의존성(`grpcio`, `protobuf`, `python-dateutil`)을 설치하고 실제 `Registry.add_indexed_function()`으로 핸들러를 등록합니다. 복제 실패, 누락된 의존성, 레지스트리 로딩 실패 또는 건너뛴 테스트는 성공으로 처리하지 않고 작업을 실패시킵니다. 이 네트워크 의존 검사는 예약 실행과 수동 실행에서 수행되며, Durable 스모크는 실제 오케스트레이션 실행이 아닌 임포트 검사입니다. 자세한 내용: [운영 문서](docs/scheduled-trigger-smoke.md).
 >

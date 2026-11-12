@@ -56,9 +56,9 @@ Use `make security-manifest`, `make security-static`, `make security-semgrep`,
 - When adding a new recipe, add a corresponding test and documentation entry.
 
 ### Documentation & Translations
-- When a change touches `README.md` or any English documentation, update the translated READMEs (`README.ko.md`, `README.ja.md`, `README.zh-CN.md`) **in the same PR** so translations never drift from the English source.
-- This applies to any code change that alters documented behavior, CLI output, or the ecosystem/package table — not just direct edits to prose.
-- If a full translation cannot land in the same PR, add a short "translation pending" note to the affected translated file and open a tracking issue before merging.
+- English documentation (`README.md`, `docs/`) is canonical. Translated READMEs are labeled snapshots that may lag; they are refreshed at releases or important user-facing changes, and a PR is not blocked by translation drift.
+- Exception: keep security/correctness warnings current in the translations in the same PR.
+- Full policy: [CONTRIBUTING.md](CONTRIBUTING.md#documentation-and-translations).
 
 ### Recipe Quality Bar
 - Treat recipe quality as the primary product surface.
@@ -79,22 +79,12 @@ Use `make security-manifest`, `make security-static`, `make security-semgrep`,
 
 ## Unified PR Review and Merge Policy
 
-Apply the same review standards to human-authored changes and code produced
-with OpenCode, Codex, Claude Code, ChatGPT, Copilot or any other agent.
-There is **no required AI-specific design, code review or approval route**.
-
-1. Submit a focused, issue-linked PR with appropriate tests, docs and risks.
-2. Use **GitHub CI** required checks on the final relevant PR head as the
-   authoritative validation record; local checks are useful but optional.
-   Preserve coverage thresholds, documentation, security, Azure integration
-   and release/publishing safeguards. Do not assume a specific CI runner.
-3. Evaluate behavior, security, regressions and maintainability. Oracle,
-   Copilot and `agent-review` may provide optional **advisory** observations,
-   but do not substitute for human review or actual test execution.
-4. Resolve or disposition findings and let the responsible maintainer
-   make the merge decision after confirming final CI. High-impact
-   security, credential, workflow and release changes need explicit
-   independent scrutiny.
+The same standards apply to human-authored and AI-assisted changes. There is
+no required AI-specific design, code review or approval route. The review
+checklist, the CI-authoritative rule and the high-risk escalation live in
+[CONTRIBUTING.md](CONTRIBUTING.md#pull-request-review-and-merge-policy);
+do not restate them here. Required CI, branch protection (see "Merge Policy"
+below), coverage, security and docs gates are unchanged.
 
 ## PR Workflow
 
@@ -266,7 +256,7 @@ Write issues, pull requests, and commits following the title convention in `CONT
 - Keep material compatibility and security implications, follow-up work, and stacked PR dependencies when relevant.
 - Exclude routine AI review attempts, canceled tool work, raw provenance traces, empty risk fields, and repeated policy disclaimers. Report real findings and unresolved blockers.
 - Apply the same approach to Codex, Claude, OpenCode, Copilot, and human-authored PRs, and inspect the saved title/body.
-- For high-risk changes, follow `docs/review-evidence-policy.md`. This writing rule does not relax existing CI, review or release safeguards.
+- For high-risk changes, follow the CONTRIBUTING review policy and `docs/review-evidence-policy.md`. This writing rule does not relax existing CI, review or release safeguards.
 
 ## Agent Rules
 
