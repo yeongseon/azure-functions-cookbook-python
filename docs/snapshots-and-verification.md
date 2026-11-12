@@ -44,6 +44,11 @@ Tag verification (`tag-verification.yml`) additionally builds the repository pac
 
 Do **not** read "CI passed" as "Azure-certified" or "production-ready". Passing CI means the checks in the table above passed.
 
+A snapshot tells you what was verified, not what to add before calling a recipe production-like. A
+reference path for that question (edge, caller and resource identity, observability, reliability) is tracked in
+[issue #352](https://github.com/yeongseon/azure-functions-cookbook-python/issues/352); it is not published yet, so
+this page does not link to a guide that does not exist.
+
 ## How to judge a recipe
 
 For each recipe, look at:
@@ -63,5 +68,6 @@ Release Please decides versions from conventional commit titles on `main`, and n
 - `feat` adds a minor release, `fix` a patch, and `perf`/`revert` appear in the changelog; a breaking change uses `!`.
 - `docs`, `refactor`, `style`, `test`, `ci`, `chore` and `build` are hidden in the changelog (`release-please-config.json`), so a typo-only `docs:` change does not by itself cut a release.
 - A new recipe, capability or navigation surface that readers should find in a snapshot should use a user-facing type such as `feat(...)`.
+- For a major recipe addition, the GitHub Release notes should name the recipe and link its docs page so readers can find it from the snapshot; check this when reviewing the Release PR. Notes are presentation only, and Release Please still decides the version.
 
 Do not edit version strings, `CHANGELOG.md` or the Release Please manifest; see the [Release Process](release_process.md).

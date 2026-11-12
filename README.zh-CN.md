@@ -38,6 +38,8 @@
 
 本仓库以内容为先。它不是一个 CLI 工具。
 
+`main` 是持续演进的开发内容；带标签的 [GitHub Releases](https://github.com/yeongseon/azure-functions-cookbook-python/releases) 是可复现的快照（本 Cookbook 不会发布到 PyPI）。各级 CI 分别验证什么、不验证什么，请参见[版本、快照与验证](docs/snapshots-and-verification.md)。
+
 ## Quick Index
 
 跳转到分类: [APIs and Ingress](#apis-and-ingress) · [Scheduled and Background](#scheduled-and-background) · [Blob and File Triggers](#blob-and-file-triggers) · [Async APIs and Jobs](#async-apis-and-jobs) · [Messaging and Pub/Sub](#messaging-and-pubsub) · [Streams and Telemetry](#streams-and-telemetry) · [Data and Pipelines](#data-and-pipelines) · [Orchestration and Workflows](#orchestration-and-workflows) · [Reliability](#reliability) · [Security and Tenancy](#security-and-tenancy) · [Runtime and Ops](#runtime-and-ops) · [Realtime](#realtime) · [AI and Agents](#ai-and-agents) · [Guides](#guides)

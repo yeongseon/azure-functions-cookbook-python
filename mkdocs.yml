@@ -16,6 +16,7 @@ nav:
   - Home: index.md
   - Toolkit usage by recipe: toolkit-usage.md
   - Versions and verification: snapshots-and-verification.md
+  - Early snapshot tags: early-snapshot-tags.md
   - Paid AI security: paid-ai-security.md
   - Anonymous endpoint classification: anonymous-endpoints.md
   - Foundations:
