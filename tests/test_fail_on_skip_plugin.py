@@ -4,6 +4,8 @@ from __future__ import annotations
 
 import pytest
 
+pytestmark = pytest.mark.repo_infra
+
 pytest_plugins = ["pytester"]
 
 _PLUGIN = ("-p", "tools.pytest_fail_on_skip", "--no-cov", "-p", "no:cacheprovider")

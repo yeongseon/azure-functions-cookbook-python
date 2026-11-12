@@ -1,6 +1,9 @@
 from pathlib import Path
 
+import pytest
 import yaml
+
+pytestmark = pytest.mark.repo_infra
 
 KNOWN_LABELS = {
     "blocker",

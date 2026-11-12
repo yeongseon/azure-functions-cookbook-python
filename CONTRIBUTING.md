@@ -110,10 +110,21 @@ make build
 make format      # Format code with ruff
 make lint        # Lint with ruff
 make typecheck   # Type check with mypy
-make test        # Run tests
+make test        # Run the full suite (library + repository infrastructure)
+make test-library  # Library lane: shipped-library and recipe behavior only
+make test-infra    # Infrastructure lane: tools, scripts, workflows, Makefile, packaging
 make cov         # Run tests with coverage
 make check-all   # Run the full local gate
 ```
+
+Tests that exercise repository tooling (`tools/`, `scripts/`, workflows, the
+Makefile, packaging, generated artifacts) carry the `repo_infra` pytest marker
+(module-level `pytestmark = pytest.mark.repo_infra`, or per test); everything
+else is a library or recipe test. CI runs the library lane and the
+infrastructure lane as separate steps of the `test` job with their own
+coverage gates (`src` and `tools`, each 95%) and then the unchanged combined
+95% gate, so neither lane can hide behind the other. Mark new tests of
+repository machinery with `repo_infra`; unmarked tests count as library tests.
 
 Before opening a PR, run `ruff format --check <changed-python-files>` (or
 `ruff format <changed-python-files>` to fix them). `make format-check` checks
@@ -186,6 +197,24 @@ Examples are part of the supported API experience and should stay verified.
 - Keep one complex example for advanced integration patterns.
 - Add or update smoke tests whenever an example changes.
 - Prefer lightweight smoke coverage over infrastructure-heavy end-to-end tests.
+
+## Comments and Docstrings in Recipes
+
+Recipes under `examples/` are copied and run on their own, so comments should
+explain what the code cannot. Write them in English and keep each recipe
+self-contained (no cross-recipe imports and no boilerplate added just to hold
+comments).
+
+- Comment trigger and configuration caveats, security or privacy assumptions
+  (for example an `ANONYMOUS` auth level), intentionally simplified code
+  (in-memory state, simulated processing), and mock-versus-live limits.
+- Say what the code does at its verification level; do not claim behavior that
+  the recipe's `verification` value in `recipe.yaml` does not back.
+- Skip line-by-line narration and setup steps that belong in the recipe README.
+- Add a short docstring to a public entrypoint when it clarifies behavior; do
+  not add one to every trivial handler.
+- Fix comments that are incorrect or misleading, but do not mass-edit working
+  recipes. This convention does not cover test comments.
 
 ## Example Layout: Flat vs App-Layout
 

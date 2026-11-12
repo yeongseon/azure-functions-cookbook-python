@@ -1,6 +1,10 @@
 import importlib.util
 from pathlib import Path
 
+import pytest
+
+pytestmark = pytest.mark.repo_infra
+
 _ROOT = Path(__file__).parents[1]
 _SCRIPT = _ROOT / "scripts" / "gen_requirements.py"
 _SPEC = importlib.util.spec_from_file_location("gen_requirements", _SCRIPT)

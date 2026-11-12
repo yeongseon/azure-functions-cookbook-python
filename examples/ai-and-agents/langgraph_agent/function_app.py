@@ -67,6 +67,8 @@ if graph:
 def invoke_agent(
     req: func.HttpRequest, body: InvokeRequest, context: func.Context
 ) -> func.HttpResponse:
+    # This sample route echoes the message and does not call `graph`; the graph is only
+    # registered with LangGraphApp above, which is not attached to `app` here.
     thread_id = body.thread_id or str(uuid.uuid4())
     logger.info("Invoking agent", extra={"thread_id": thread_id})
     result = {"response": f"Agent received: {body.message}", "thread_id": thread_id}

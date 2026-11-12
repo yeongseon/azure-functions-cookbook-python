@@ -22,6 +22,8 @@ import pytest
 from tools import compile_bicep_templates
 from tools.compile_bicep_templates import compile_all_templates
 
+pytestmark = pytest.mark.repo_infra
+
 
 def test_every_recipe_bicep_template_compiles_without_errors() -> None:
     bicep = os.environ.get("BICEP_CLI") or shutil.which("bicep")

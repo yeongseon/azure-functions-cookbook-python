@@ -13,6 +13,10 @@ from collections import Counter
 from pathlib import Path
 import re
 
+import pytest
+
+pytestmark = pytest.mark.repo_infra
+
 REPO_ROOT = Path(__file__).resolve().parents[1]
 EXAMPLES_DIR = REPO_ROOT / "examples"
 

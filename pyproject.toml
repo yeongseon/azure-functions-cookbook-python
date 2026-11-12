@@ -114,6 +114,10 @@ style = "ruff check src tests && ruff format --check src tests"
 typecheck = "mypy src tests"
 lint = "hatch run style && hatch run typecheck"
 test = "pytest -v tests"
+# Library lane: shipped-library and recipe behavior only; needs none of the repository tooling.
+test-library = "pytest -v --no-cov -m 'not (e2e or smoke or worker_registration or repo_infra)' tests"
+# Infrastructure lane: tools/, scripts/, workflow, Makefile, packaging and generated-artifact checks.
+test-infra = "pytest -v --no-cov -m 'repo_infra and not (e2e or smoke or worker_registration)' tests"
 cov = "pytest --cov-report=term-missing --cov-report=html --cov-report=xml tests/"
 smoke = "pytest -v -m smoke tests/e2e/ --no-cov"
 e2e = "pytest -v -m e2e tests/e2e/ --no-cov"
@@ -168,6 +172,7 @@ markers = [
     "package_validation: Live HTTP runtime gate for azure-functions-validation",
     "package_logging: Live HTTP runtime gate for azure-functions-logging",
     "package_openapi: Live HTTP runtime gate for azure-functions-openapi",
+    "repo_infra: Repository tooling, CI/workflow, docs/generated-artifact and packaging checks, not shipped-library or recipe behavior (run with -m repo_infra; excluded from the library lane)",
     "worker_registration: Deterministic Python worker signature-registration gate (clones a pinned azure-functions-python-worker SHA; requires network)",
 ]
 

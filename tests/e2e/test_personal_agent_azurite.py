@@ -15,7 +15,7 @@ pytestmark = pytest.mark.e2e
 @pytest.mark.usefixtures("azurite")
 def test_azurite_state_survives_app_recreation(monkeypatch: pytest.MonkeyPatch) -> None:
     """Azurite: a recreated app and checkpointer still see the thread's earlier turn."""
-    # Given
+    # First app instance writes the thread state to Azurite-backed blob storage.
     settings = {
         "AGENT_MEMORY_MODE": "blob",
         "AZURE_STORAGE_CONNECTION_STRING": AZURITE_CONN_STR,
@@ -25,9 +25,9 @@ def test_azurite_state_survives_app_recreation(monkeypatch: pytest.MonkeyPatch) 
     first = _load(monkeypatch, **settings)
     _invoke(first, "What is planned for Project Atlas?", "restart-thread")
 
-    # When
+    # A second app and checkpointer are built from scratch against the same storage.
     second = _load(monkeypatch, **settings)
     _, payload = _invoke(second, "Check Project Atlas again", "restart-thread")
 
-    # Then
+    # The earlier turn is still visible, so the second reply counts both human turns.
     assert _message_content(payload, "ai")[-1].endswith("human_turns=2")

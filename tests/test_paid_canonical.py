@@ -9,6 +9,8 @@ from tools.recipe_routes import routes
 from tools.recipe_security import ROOT, check_manifest
 from tools.security_report import Status
 
+pytestmark = pytest.mark.repo_infra
+
 
 def assert_unknown(project: Path, root: Path) -> None:
     assert any(route.auth == "UNKNOWN" for route in routes(project, root))

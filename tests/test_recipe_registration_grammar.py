@@ -12,6 +12,8 @@ from tools.recipe_routes import routes
 from tools.recipe_security import check_manifest
 from tools.security_report import Status
 
+pytestmark = pytest.mark.repo_infra
+
 
 def test_oracle_route_kwargs_options_cannot_assume_function(tmp_path: Path) -> None:
     source = (

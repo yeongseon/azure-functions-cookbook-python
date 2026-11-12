@@ -1,9 +1,13 @@
 from pathlib import Path
 from unittest.mock import patch
 
+import pytest
+
 from scripts import gen_requirements
 from tools.recipe_discovery import recipe_files
 from tools.recipe_security import inventory
+
+pytestmark = pytest.mark.repo_infra
 
 
 def test_generated_recipe_environments_and_caches_are_not_sources(tmp_path: Path) -> None:

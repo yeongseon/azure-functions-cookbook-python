@@ -180,7 +180,7 @@ def test_find_recipe_preserves_supplied_order_after_filtering(
     query: str,
     tag: str | None,
 ) -> None:
-    # Given: matching recipes surround a nonmatch in non-alphabetical slug order
+    """Offline: filtering keeps the supplied order and leaves the corpus intact."""
     corpus = [
         _make_recipe(slug="zeta", description="retry", tags=("durable",)),
         _make_recipe(slug="middle", description="http", tags=("http",)),
@@ -188,21 +188,17 @@ def test_find_recipe_preserves_supplied_order_after_filtering(
     ]
     original = corpus.copy()
 
-    # When: any supported filter combination is applied
     results = find_recipe(query, tag=tag, recipes=corpus)
 
-    # Then: matches retain input order and filtering leaves the corpus untouched
     assert [recipe.slug for recipe in results] == ["zeta", "alpha"]
     assert corpus == original
 
 
 def test_readme_quickstart_finds_durable_recipes() -> None:
-    # Given: the committed recipe index imported exactly as the README documents
-    # When: the README's free-text and exact-tag lookups run
+    """Offline: the README quickstart lookups against the committed index return durable recipes."""
     query_results = find_recipe("durable retry")
     durable = find_recipe(tag="durable")
 
-    # Then: both documented lookups produce usable recipe metadata
     assert (
         "Durable Retry Pattern",
         "orchestration-and-workflows/durable_retry_pattern",
@@ -211,6 +207,7 @@ def test_readme_quickstart_finds_durable_recipes() -> None:
     assert all("durable" in recipe.tags for recipe in durable)
 
 
+@pytest.mark.repo_infra
 def test_recipes_json_index_is_up_to_date() -> None:
     """Drift guard: committed recipes.json must match the generated index."""
     committed = (_ROOT / "recipes.json").read_text()
@@ -219,6 +216,7 @@ def test_recipes_json_index_is_up_to_date() -> None:
     )
 
 
+@pytest.mark.repo_infra
 def test_generator_check_mode_passes_when_index_current() -> None:
     script = _ROOT / "scripts" / "gen_recipe_index.py"
     spec = importlib.util.spec_from_file_location("gen_recipe_index", script)

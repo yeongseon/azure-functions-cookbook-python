@@ -8,6 +8,8 @@ from tools.recipe_routes import routes
 from tools.recipe_security import check_manifest
 from tools.security_report import Status
 
+pytestmark = pytest.mark.repo_infra
+
 PREFIX = "import azure.functions as func\napp = func.FunctionApp()\n"
 CHAT = '@app.route(route="chat", auth_level=auth)\ndef chat(req): return req\n'
 

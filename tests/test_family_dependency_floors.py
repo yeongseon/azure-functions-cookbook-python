@@ -3,6 +3,9 @@ import tomllib
 
 from packaging.requirements import Requirement
 from packaging.version import Version
+import pytest
+
+pytestmark = pytest.mark.repo_infra
 
 _ROOT = Path(__file__).parents[1]
 _KNOWN_GOOD = {
@@ -17,10 +20,9 @@ _KNOWN_GOOD = {
 
 
 def test_recipe_family_dependency_floors_are_known_good() -> None:
-    # Given: the first family versions supporting recipe API usage.
+    """Offline: every recipe's family lower bound is at least the first release its APIs need."""
     stale: list[str] = []
 
-    # When: every recipe's explicit family lower bounds are inspected.
     from tools.recipe_discovery import recipe_files
 
     for pyproject in recipe_files(_ROOT / "examples", "pyproject.toml"):
@@ -38,5 +40,4 @@ def test_recipe_family_dependency_floors_are_known_good() -> None:
             if not lower_bounds or max(lower_bounds) < known_good:
                 stale.append(f"{pyproject.relative_to(_ROOT)}: {dependency}")
 
-    # Then: no recipe advertises an incompatible family floor.
     assert stale == [], "\n".join(stale)
