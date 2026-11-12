@@ -191,10 +191,26 @@ jobs:
         # Raw pytest on the interpreter provisioned above (NOT through the
         # default pinned Hatch env). The repo pytest config enables --cov
         # with fail_under=95.
-        run: pytest --cov-report=xml --cov-report=term-missing tests/
+        run: >-
+          pytest --cov-report=xml --cov-report=term-missing
+          --junitxml=test-results/junit.xml tests/
 
       - name: Verify coverage output
         run: ls -lh coverage.xml
+
+      # Runs on success and failure (and when pytest itself failed) so a red cell still leaves
+      # its JUnit and coverage XML behind. These files hold test ids and line coverage only:
+      # no secrets are exposed to the test step and pytest runs without --showlocals.
+      - name: Upload JUnit and coverage XML
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: test-results-py${{ matrix.python-version }}-${{ matrix.resolution }}
+          path: |
+            test-results/junit.xml
+            coverage.xml
+          if-no-files-found: warn
+          retention-days: 14
 
       - name: Upload coverage to Codecov
         if: matrix.python-version == '3.11' && matrix.resolution == 'latest' && github.actor != 'dependabot[bot]'
@@ -228,7 +244,20 @@ jobs:
         run: python -m pip install uv
 
       - name: Run every discovered recipe test suite
+        env:
+          RECIPE_TEST_JUNIT_DIR: recipe-test-results
         run: python scripts/run_recipe_tests.py
+
+      # Runs on success and failure so a red suite still leaves its JUnit XML behind. The step
+      # above has no secrets and the runner never passes --showlocals.
+      - name: Upload recipe JUnit XML
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: recipe-test-results
+          path: recipe-test-results/*.xml
+          if-no-files-found: warn
+          retention-days: 14
 
   artifact-python310-negative:
     name: Wheel install rejection (Py 3.10)

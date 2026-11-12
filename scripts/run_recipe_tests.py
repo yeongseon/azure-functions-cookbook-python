@@ -13,6 +13,10 @@ EXAMPLES = REPO_ROOT / "examples"
 # RECIPE_TEST_TIMEOUT_SECONDS so one hanging install or test cannot monopolize the CI job.
 DEFAULT_TIMEOUT_SECONDS = 900.0
 
+# When set, every suite also writes ``<category>__<recipe>.xml`` JUnit results into this directory
+# (created on demand) so CI can upload them whether the suite passed or failed.
+JUNIT_DIR_ENV = "RECIPE_TEST_JUNIT_DIR"
+
 
 def suite_timeout() -> float:
     raw = os.environ.get("RECIPE_TEST_TIMEOUT_SECONDS")
@@ -62,11 +66,19 @@ def main() -> int:
     # suite selects nothing); PYTHONPATH makes it importable inside uv's isolated environment.
     pythonpath = os.pathsep.join(filter(None, [str(REPO_ROOT), os.environ.get("PYTHONPATH")]))
     timeout = suite_timeout()
+    junit_dir = os.environ.get(JUNIT_DIR_ENV)
+    if junit_dir:
+        Path(junit_dir).mkdir(parents=True, exist_ok=True)
     for project in projects:
         name = project.relative_to(EXAMPLES).as_posix()
         if not (project / "pyproject.toml").exists():
             failures.append(f"{name}: has tests but no pyproject.toml")
             continue
+        junit = (
+            ["--junitxml", str(Path(junit_dir).resolve() / f"{name.replace('/', '__')}.xml")]
+            if junit_dir
+            else []
+        )
         returncode = run_bounded(
             [
                 "uv",
@@ -86,6 +98,7 @@ def main() -> int:
                 "no:cacheprovider",
                 "-p",
                 "tools.pytest_fail_on_skip",
+                *junit,
                 "tests",
             ],
             cwd=project,
