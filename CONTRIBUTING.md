@@ -16,19 +16,57 @@ Recommended branch prefixes:
 
 ## Pull Request Review and Merge Policy
 
-Every contribution follows the same review and merge process regardless
-of human or AI implementation (OpenCode, Codex, Claude Code, ChatGPT,
-Copilot, etc.). No reviewer tool is a prerequisite.
+This section is the single source of truth for review and merge expectations.
+`AGENTS.md`, the pull request template, and `docs/review-evidence-policy.md`
+point here instead of restating it. Every contribution follows the same
+process regardless of human or AI implementation (OpenCode, Codex, Claude
+Code, ChatGPT, Copilot, etc.). No reviewer tool is a prerequisite.
 
-- Explain scope, relevant issue, tests, affected docs, and any checks not run.
-- Treat **required GitHub CI checks** at the final PR head as authoritative.
-  Local `make check-all` is recommended but not a separate mandatory gate;
-  no assumption is made about CI runner hosting.
-- Review correctness, tests, compatibility, safety and maintainability.
-  Oracle, Copilot and agent-review outputs are advisory only.
-- Address blocking findings and have the responsible maintainer decide on
-  merge after verifying CI and relevant Azure integration/release evidence.
-  Keep independent review of secrets, write permissions and publishing.
+**Routine PRs** (recipes, docs, tests, tooling): submit one focused,
+issue-linked PR and check it against this list.
+
+- Behavior: does the change do what the linked issue asks, and is the
+  recipe or doc still accurate against the code and tests?
+- Tests and docs: updated together with the behavior; coverage stays at 95% or above.
+- Compatibility: supported Python range, dependency ranges, and documented
+  invocations are not changed unintentionally.
+- Safety: no secrets, no new anonymous endpoints, no unreviewed dependency or
+  workflow changes.
+- Description: explains scope, tests, affected docs, and checks not run.
+
+Treat **required GitHub CI checks** at the final PR head as authoritative.
+Local `make check-all` is recommended but not a separate mandatory gate; no
+assumption is made about CI runner hosting. Branch protection, coverage,
+security and docs gates are unchanged by this policy. Oracle, Copilot and
+agent-review outputs are advisory only. Resolve or disposition findings, then
+the responsible maintainer decides on merge after verifying CI.
+
+**High-risk PRs** (workflow permissions or secrets, release or publishing
+configuration, the recipe-metadata guards, and policy files themselves) need
+independent review tied to the reviewed commit. The scope list and what to
+record are in [docs/review-evidence-policy.md](docs/review-evidence-policy.md).
+Routine PRs do not need review transcripts or empty evidence fields.
+
+## Documentation and Translations
+
+- The English documentation (`README.md` and `docs/`) is **canonical**. A PR
+  that changes documented behavior updates the English text and tests only.
+- `README.ko.md`, `README.ja.md` and `README.zh-CN.md` are community-maintained
+  **translation snapshots**. Each carries a machine-readable
+  `translation-snapshot` comment and a visible banner naming the release of
+  the English README it was last aligned with. A snapshot may lag behind
+  `main`; readers are told to treat the English README as authoritative.
+- Refresh the snapshots when a release changes user-facing documentation, or
+  sooner for an important user-facing change. Update the banner version and
+  date whenever you do; a refresh is its own PR and never blocks other work.
+- Security and correctness warnings are the exception: when a change adds,
+  removes or corrects one in the English README (for example an authentication
+  default, an unsafe example, or a supported-version statement), update the
+  same warning in each translation in the same PR, or replace the stale
+  sentence in the translation with a link to the English text.
+- CI enforces generated content (recipe tables, ecosystem counts) against the
+  English README only. `tests/test_translation_policy.py` checks that every
+  translation keeps its snapshot banner.
 
 ## Development Workflow
 

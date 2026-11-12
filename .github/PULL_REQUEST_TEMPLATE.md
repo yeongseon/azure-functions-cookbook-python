@@ -37,5 +37,8 @@
 
 <!-- Link to related issues: Closes #123 -->
 
-<!-- Extra review details for high-risk changes: docs/review-evidence-policy.md.
+<!-- Review expectations: CONTRIBUTING.md "Pull Request Review and Merge Policy".
+     High-risk changes (workflows/secrets, release config, policy files): docs/review-evidence-policy.md.
+     Translations: update README.ko/ja/zh-CN here only for security/correctness warnings
+     (CONTRIBUTING.md "Documentation and Translations").
      Do not copy agent transcripts or unused review fields. -->
