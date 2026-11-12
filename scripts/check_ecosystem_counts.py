@@ -8,8 +8,9 @@ and the docs call that case out as *CLI-generated*.
 
 The recipe list comes from the same loader as ``scripts/gen_recipe_table.py``.
 Run ``python scripts/check_ecosystem_counts.py`` to validate the counts in the
-README files and ``docs/toolkit-usage.md``; add ``--print`` to show the real
-counts. ``azure-functions-scaffold`` is not counted: it is a CLI that generates
+English README and ``docs/toolkit-usage.md`` (translated READMEs are snapshots
+and are not checked); add ``--print`` to show the real counts.
+``azure-functions-scaffold`` is not counted: it is a CLI that generates
 projects and no recipe declares it. ``make check`` runs it as part of ``generated-check``.
 """
 
@@ -26,7 +27,9 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 from azure_functions_python_cookbook.recipes import RECIPES  # noqa: E402
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
-READMES = ("README.md", "README.ko.md", "README.ja.md", "README.zh-CN.md")
+# English is canonical; translated READMEs are labeled snapshots (CONTRIBUTING.md,
+# "Documentation and Translations") and are not checked.
+READMES = ("README.md",)
 USAGE_DOC = REPO_ROOT / "docs" / "toolkit-usage.md"
 PACKAGES = (
     "azure-functions-openapi",

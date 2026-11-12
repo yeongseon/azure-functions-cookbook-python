@@ -36,13 +36,17 @@ Verification comes in distinct levels. A higher level is not implied by a lower 
 |---|---|---|
 | Static and generated-artifact checks | Linting, type checking, recipe metadata, generated README/index tables, docs build, security manifest and dependency policy checks | Pull-request CI (`Test and Coverage`, docs, security workflows) and, for dependency policy, tag verification |
 | Recipe unit tests and import checks | Each recipe's own `tests/` suite, plus library tests across Python 3.11-3.14 | Pull-request CI (`recipe-tests`, `test`) |
-| Local Functions host with Azurite | A small set of recipes is started on a real Functions Core Tools host with Azurite and called over HTTP | Pull-request CI (`host-smoke`); currently the HTTP hello recipe and the validated OpenAPI/logging CRUD recipe |
+| Local Functions host with Azurite | A small, representative set of recipes is started on a real Functions Core Tools host with Azurite, must index at least one function, and is called over HTTP; each run records the Core Tools, host runtime, Azurite and Python versions and the installed toolkit package versions in an uploaded `host-smoke-*` artifact | Pull-request CI (`host-smoke`); currently the HTTP hello recipe, the validated OpenAPI/logging CRUD recipe, the personal LangGraph agent, the Doctor diagnostics endpoint and the queue-producer output binding |
 | Toolkit regression matrix | Cookbook smoke and e2e tiers against released toolkit packages and against sibling repositories' `main` | `E2E Toolkit Matrix` workflow (scheduled, manual, and after sibling releases) |
 | Real Azure deployment | Behavior that only exists in a deployed app (identity/RBAC, edge limits, host-enforced function keys) | **Not run by this repository's CI.** Treat it as unverified unless a recipe documents otherwise. |
 
 Tag verification (`tag-verification.yml`) additionally builds the repository package, checks it declares the Python range, installs it cleanly on Python 3.11, and requires that Python 3.10 rejects it. That verifies the packaging metadata of the snapshot, not that any recipe works in Azure.
 
+Host smoke is **local-host** evidence: it shows a recipe indexes and answers on Core Tools with Azurite. It does not exercise Azure-enforced function keys, identity or RBAC, networking, scale or deployment, so it never makes a recipe production-ready. A recipe's `verification: func-host` is only set for recipes in the host-smoke matrix; a skipped, zero-function or failed host run fails the job.
+
 Do **not** read "CI passed" as "Azure-certified" or "production-ready". Passing CI means the checks in the table above passed.
+
+For this repository's definitions of *verified*, *experimental* and *package compatibility*, which integration paths each check backs, and the breaking-change and deprecation process, see [Stability and compatibility](stability-and-compatibility.md).
 
 A snapshot tells you what was verified, not what to add before calling a recipe production-like. A
 reference path for that question (edge, caller and resource identity, observability, reliability) is tracked in

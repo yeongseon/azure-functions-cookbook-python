@@ -1,8 +1,11 @@
 # Azure Functions Python Cookbook
+<!-- translation-snapshot: v0.5.0 2026-11-12 -->
 > [!NOTE]
 > このドキュメントは[英語の原文](README.md)の翻訳であり、コミュニティが管理しています。
 > 英語の原文が更新された後は、内容が少し遅れることがあります。
 > 唯一の情報源（Single Source of Truth）は英語の [README.md](README.md) です。
+>
+> 翻訳スナップショット: 英語 README [v0.5.0](https://github.com/yeongseon/azure-functions-cookbook-python/releases/tag/v0.5.0) 時点（最終整合日 2026-11-12）。それ以降の変更は反映されていない場合があります。セキュリティ／正確性に関する警告は必ず英語の [README.md](README.md) を確認してください。ポリシー: [CONTRIBUTING](CONTRIBUTING.md#documentation-and-translations)。
 >
 > スケジュールされたトリガースモーク: worker-registration 検査は固定された Python worker の実行時依存関係（`grpcio`、`protobuf`、`python-dateutil`）をインストールし、実際の `Registry.add_indexed_function()` でハンドラーを登録します。クローン失敗、依存関係の不足、レジストリの読み込み失敗、スキップされたテストは成功扱いにせず、ジョブを失敗させます。このネットワーク依存の検査は定期実行と手動実行で行われ、Durable スモークは実際のオーケストレーション実行ではなくインポート検査です。詳細は[運用メモ](docs/scheduled-trigger-smoke.md)を参照してください。
 >
@@ -20,6 +23,8 @@
 Python で実運用レベルの Azure Functions を構築するための実践的なレシピ集です。
 
 > **サポート対象の Python: 3.11、3.12、3.13、3.14。** 正式な範囲は [`pyproject.toml`](pyproject.toml) の `requires-python` です。4 つのバージョンはいずれも Azure Functions Python ランタイムで一般提供されているため、依存関係が許す範囲で最も新しいバージョンを選んでください。ランタイムのサポート終了日は [Azure Functions のサポート対象言語](https://learn.microsoft.com/azure/azure-functions/supported-languages) を参照してください。
+
+> **安定性と検証。** このクックブックは `0.x` スナップショットとしてリリースされ、使用するツールキットのパッケージも `<1` であるため、レシピのルートや設定に SemVer の保証はありません。「検証済み」は `recipe.yaml` の `verification` レベル（`docs`、`unit`、`func-host`）が示す範囲のみを意味し、デプロイ済みの Azure 環境で検証されたレシピはありません。詳細: [安定性と互換性](docs/stability-and-compatibility.md)。
 
 ## Why Use It
 
@@ -40,6 +45,17 @@ Python で実運用レベルの Azure Functions を構築するための実践�
 このリポジトリはコンテンツ中心です。CLI ツールではありません。
 
 `main` は進行中の開発コンテンツであり、タグ付きの [GitHub Releases](https://github.com/yeongseon/azure-functions-cookbook-python/releases) は再現可能なスナップショットです（このクックブックは PyPI には公開されていません）。各 CI レベルが何を検証し、何を検証しないかについては、[バージョン、スナップショット、検証](docs/snapshots-and-verification.md) を参照してください。
+
+## Choose Another Option When...
+
+これらのレシピは Azure Functions Python v2 のパターンを扱います。次の場合は別の選択肢のほうが適しています。
+
+- **本格的な Web フレームワークが必要なとき。** HTTP レシピはルートごとに通常の `@app.route` ハンドラーを 1 つ使います。既存の FastAPI/Starlette 系アプリがある場合や、そのミドルウェアとルーティングが必要な場合は、ASGI アプリを [`AsgiFunctionApp`](https://learn.microsoft.com/python/api/azure-functions/azure.functions.asgifunctionapp) でラップするか、コンテナーで実行してください。HTTP トリガーの関数は、関数のタイムアウト設定にかかわらず [230 秒](https://learn.microsoft.com/azure/azure-functions/functions-scale#function-app-timeout-duration)以内に応答する必要があります。
+- **厳密なデータベース変更のセマンティクスが必要なとき。** `azure-functions-db`（複数のレシピで使用）にはポーリングベースの疑似トリガーが含まれます。Azure SQL には、SQL 変更追跡に基づく組み込みの [SQL トリガー](https://learn.microsoft.com/azure/azure-functions/functions-bindings-azure-sql-trigger)があります。Cosmos DB では、[Cosmos DB トリガー](https://learn.microsoft.com/azure/azure-functions/functions-bindings-cosmosdb-v2-trigger)が変更フィードを読み取ります。変更フィードは挿入と更新を公開しますが削除は公開せず、Cosmos DB は変更フィードプロセッサについて[少なくとも 1 回（at-least-once）の配信](https://learn.microsoft.com/azure/cosmos-db/change-feed-processor)を文書化しています。[Outbox Pattern](examples/reliability/outbox_pattern/) レシピはこの変更フィードからリレーし、exactly-once ではないと明記しています。exactly-once が必要な場合は、コンシューマーを冪等にするか、それを提供するプラットフォーム機能を選んでください。
+- **組み込みのテレメトリで十分なとき。** Azure で実行されるアプリでは、Python の `logging` ルートロガーが既に Application Insights に送られ、Functions は Azure Monitor と組み合わせた [OpenTelemetry](https://learn.microsoft.com/azure/azure-functions/opentelemetry-howto) もサポートします。[Observability Tracing](examples/runtime-and-ops/observability_tracing/) レシピの相関 ID の規約が不要なら、追加の構造化ログ層は省略できます。
+- **公式ツールで足りるとき。** プロジェクトの開始には [`func init`/`func new`](https://learn.microsoft.com/azure/azure-functions/functions-core-tools-reference#func-init) または [`azd init`](https://learn.microsoft.com/azure/developer/azure-developer-cli/reference#azd-init)、デプロイ済みアプリの診断にはポータルの[問題の診断と解決](https://learn.microsoft.com/azure/azure-functions/functions-diagnostics)を先に使い、その後で scaffold や doctor のレシピを検討してください。
+- **LangGraph エージェントが Functions の範囲を超えるとき。** LangGraph レシピは短いリクエスト/レスポンスのグラフを実行し、ストリーミングを示すものはありません。また、[Personal LangGraph Agent](examples/ai-and-agents/personal_langgraph_agent/) の永続 Blob メモリはツール効果の exactly-once を保証しません。上記の HTTP 制限より長い実行、ストリーミング、インスタンスをまたぐ耐久実行が必要な場合は、[LangSmith Deployment](https://docs.langchain.com/langsmith/deployments)（耐久実行、リアルタイムストリーミング、水平スケーリングをうたっています）を検討するか、[Azure Container Apps](https://learn.microsoft.com/azure/container-apps/overview) でエージェントをホストしてください。
+- **通常の Functions レシピで十分なとき。** 多くのレシピは `azure-functions` だけを使います（[レシピ別ツールキット利用状況](docs/toolkit-usage.md)を参照）。トリガーやバインディングのパターンだけが必要なら、そうしたレシピから始め、実際に必要になったときだけ任意のツールキットパッケージを追加してください。
 
 ## Quick Index
 

@@ -22,4 +22,4 @@ def test_drift_is_reported_for_a_wrong_count() -> None:
     counts["azure-functions-openapi"] += 1
     problems = checker.find_drift(counts)
     assert any("azure-functions-openapi" in p for p in problems)
-    assert len(problems) == 5  # four READMEs and docs/toolkit-usage.md
+    assert len(problems) == 2  # English README and docs/toolkit-usage.md
