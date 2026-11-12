@@ -46,6 +46,17 @@ Python으로 실제 프로덕션 수준의 Azure Functions를 구축하기 위�
 
 `main`은 계속 변화하는 개발 콘텐츠이며, 태그가 지정된 [GitHub Releases](https://github.com/yeongseon/azure-functions-cookbook-python/releases)는 재현 가능한 스냅샷입니다(이 쿡북은 PyPI에 게시되지 않습니다). 각 CI 수준이 무엇을 검증하고 무엇을 검증하지 않는지는 [버전, 스냅샷 및 검증](docs/snapshots-and-verification.md)을 참조하세요.
 
+## Choose Another Option When...
+
+이 레시피들은 Azure Functions Python v2 패턴을 다룹니다. 다음 경우에는 다른 선택지가 더 적합합니다.
+
+- **완전한 웹 프레임워크가 필요할 때.** HTTP 레시피는 라우트마다 일반 `@app.route` 핸들러 하나를 사용합니다. 기존 FastAPI/Starlette 계열 앱이 있거나 해당 미들웨어와 라우팅이 필요하다면 ASGI 앱을 [`AsgiFunctionApp`](https://learn.microsoft.com/python/api/azure-functions/azure.functions.asgifunctionapp)으로 감싸거나 컨테이너에서 실행하세요. HTTP 트리거 함수는 함수 타임아웃 설정과 관계없이 [230초](https://learn.microsoft.com/azure/azure-functions/functions-scale#function-app-timeout-duration) 안에 응답해야 합니다.
+- **정확한 데이터베이스 변경 의미론이 필요할 때.** `azure-functions-db`(여러 레시피에서 사용)에는 폴링 기반 의사(pseudo) 트리거가 포함되어 있습니다. Azure SQL에는 SQL 변경 추적을 기반으로 하는 기본 제공 [SQL 트리거](https://learn.microsoft.com/azure/azure-functions/functions-bindings-azure-sql-trigger)가 있습니다. Cosmos DB에서는 [Cosmos DB 트리거](https://learn.microsoft.com/azure/azure-functions/functions-bindings-cosmosdb-v2-trigger)가 변경 피드를 읽는데, 변경 피드는 삽입과 업데이트는 게시하지만 삭제는 게시하지 않으며, Cosmos DB는 변경 피드 프로세서에 대해 [최소 한 번(at-least-once) 전달](https://learn.microsoft.com/azure/cosmos-db/change-feed-processor)을 문서화합니다. [Outbox Pattern](examples/reliability/outbox_pattern/) 레시피는 이 변경 피드에서 릴레이하며 정확히 한 번(exactly-once)을 보장하지 않는다고 명시합니다. 정확히 한 번이 필요하면 소비자를 멱등하게 만들거나 이를 제공하는 플랫폼 기능을 선택하세요.
+- **기본 제공 텔레메트리로 충분할 때.** Azure에서 앱이 실행되면 Python `logging` 루트 로거는 이미 Application Insights로 전송되며, Functions는 Azure Monitor와 함께 [OpenTelemetry](https://learn.microsoft.com/azure/azure-functions/opentelemetry-howto)도 지원합니다. [Observability Tracing](examples/runtime-and-ops/observability_tracing/) 레시피의 상관관계 ID 규칙이 필요한 경우가 아니라면 추가 구조화 로깅 계층은 건너뛰어도 됩니다.
+- **공식 도구로 이미 충분할 때.** 프로젝트 시작에는 [`func init`/`func new`](https://learn.microsoft.com/azure/azure-functions/functions-core-tools-reference#func-init) 또는 [`azd init`](https://learn.microsoft.com/azure/developer/azure-developer-cli/reference#azd-init)을, 배포된 앱 진단에는 포털의 [문제 진단 및 해결](https://learn.microsoft.com/azure/azure-functions/functions-diagnostics)을 먼저 사용한 뒤 scaffold 및 doctor 레시피를 검토하세요.
+- **LangGraph 에이전트가 Functions의 한계를 넘을 때.** LangGraph 레시피는 짧은 요청/응답 그래프를 실행하며 스트리밍을 보여 주는 레시피는 없습니다. 또한 [Personal LangGraph Agent](examples/ai-and-agents/personal_langgraph_agent/)의 영속 Blob 메모리는 도구 효과의 정확히 한 번 실행을 보장하지 않습니다. 위의 HTTP 제한보다 긴 실행, 스트리밍, 인스턴스 간 내구성 있는 실행이 필요하다면 [LangSmith Deployment](https://docs.langchain.com/langsmith/deployments)(내구성 있는 실행, 실시간 스트리밍, 수평 확장을 내세움)를 살펴보거나 [Azure Container Apps](https://learn.microsoft.com/azure/container-apps/overview)에서 에이전트를 호스팅하세요.
+- **일반 Functions 레시피로 충분할 때.** 많은 레시피가 `azure-functions`만 사용합니다([레시피별 툴킷 사용 현황](docs/toolkit-usage.md) 참조). 트리거나 바인딩 패턴만 필요하다면 그런 레시피에서 시작하고, 실제로 필요한 경우에만 선택적 툴킷 패키지를 추가하세요.
+
 ## Quick Index
 
 카테고리로 이동: [APIs and Ingress](#apis-and-ingress) · [Scheduled and Background](#scheduled-and-background) · [Blob and File Triggers](#blob-and-file-triggers) · [Async APIs and Jobs](#async-apis-and-jobs) · [Messaging and Pub/Sub](#messaging-and-pubsub) · [Streams and Telemetry](#streams-and-telemetry) · [Data and Pipelines](#data-and-pipelines) · [Orchestration and Workflows](#orchestration-and-workflows) · [Reliability](#reliability) · [Security and Tenancy](#security-and-tenancy) · [Runtime and Ops](#runtime-and-ops) · [Realtime](#realtime) · [AI and Agents](#ai-and-agents) · [Guides](#guides)
