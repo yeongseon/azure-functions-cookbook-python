@@ -33,10 +33,11 @@ def test_all_recipes_appear_in_generated_tables() -> None:
         assert link in section, f"{recipe.example_path} missing from generated recipe tables"
 
 
-# READMEs whose Ecosystem table hardcodes the total example count in the
-# "this repo" row. The count drifts silently as recipes are added/removed
-# unless enforced against the actual inventory (len(RECIPES)).
-_README_FILES = ["README.md", "README.ko.md", "README.ja.md", "README.zh-CN.md"]
+# The canonical English README's Ecosystem table hardcodes the total example count in the
+# "this repo" row; translated READMEs are labeled snapshots and are not checked.
+# The count drifts silently as recipes are added/removed unless enforced against
+# the actual inventory (len(RECIPES)).
+_README_FILES = ["README.md"]
 _ECOSYSTEM_ROW_TOKEN = "**azure-functions-cookbook-python**"
 
 
