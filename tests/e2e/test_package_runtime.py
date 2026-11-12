@@ -1,11 +1,13 @@
 from __future__ import annotations
 
+from pathlib import Path
+
 import pytest
 import requests
 
 from tests.e2e.conftest import run_func_host
 
-pytestmark = pytest.mark.e2e
+pytestmark = [pytest.mark.e2e, pytest.mark.compat]
 EXAMPLE = "apis-and-ingress/full_stack_crud_api"
 
 
@@ -45,3 +47,21 @@ def test_openapi_document_and_documented_endpoint_are_live() -> None:
     assert document.status_code == 200
     assert "/api/items" in document.json()["paths"]
     assert endpoint.status_code == 200
+
+
+@pytest.mark.package_db
+def test_db_item_round_trips_through_the_host(tmp_path: Path) -> None:
+    """azure-functions-db: a created row is read back through the Functions host."""
+    db_url = f"sqlite:///{tmp_path / 'items.db'}"
+    with run_func_host(EXAMPLE, env_vars={"DB_URL": db_url}) as base_url:
+        created = requests.post(
+            f"{base_url}/api/items",
+            json={"name": "Round trip", "description": "DB gate", "price": 1.5},
+            timeout=10,
+        )
+        item_id = created.json()["id"]
+        fetched = requests.get(f"{base_url}/api/items/{item_id}", timeout=10)
+
+    assert created.status_code == 201
+    assert fetched.status_code == 200
+    assert fetched.json()["name"] == "Round trip"
