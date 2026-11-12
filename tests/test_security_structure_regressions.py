@@ -5,6 +5,8 @@ import pytest
 from tools.security_report import Status
 from tools.security_structure import check_structure
 
+pytestmark = pytest.mark.repo_infra
+
 
 @pytest.mark.parametrize("key", ["minTlsVersion", "scmMinTlsVersion", "minimumTlsVersion"])
 @pytest.mark.parametrize("version", ["1.0", "1.1", "TLS1_0", "TLS1_1", "1.2", "TLS1_2"])

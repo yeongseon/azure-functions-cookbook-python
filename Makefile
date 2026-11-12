@@ -108,6 +108,7 @@ generated-check: ensure-hatch
 	@$(HATCH) run python scripts/gen_recipe_index.py --check
 	@$(HATCH) run python scripts/gen_recipe_table.py --check
 	@$(HATCH) run python scripts/gen_requirements.py --check
+	@$(HATCH) run python scripts/gen_recipe_snippets.py --check
 	@$(HATCH) run python scripts/check_ecosystem_counts.py
 
 .PHONY: check
@@ -133,6 +134,19 @@ precommit-install: ensure-hatch
 test: ensure-hatch
 	@echo "Running tests..."
 	@$(HATCH) run test
+
+# Default fast loop: shipped-library and recipe behavior only (no `repo_infra` tests). `make test` is
+# still the full suite and is what `check-all` and `verify` run, so no check is dropped.
+.PHONY: test-library
+test-library: ensure-hatch
+	@echo "Running library tests..."
+	@$(HATCH) run test-library
+
+# Repository tooling, CI/workflow contract, packaging and generated-artifact tests, reported apart.
+.PHONY: test-infra
+test-infra: ensure-hatch
+	@echo "Running repository infrastructure tests..."
+	@$(HATCH) run test-infra
 
 # Full local verification. A required lane fails on a skipped or xfailed test
 # (tools/pytest_fail_on_skip.py) and pytest exits 5 when a lane selects nothing. PYTEST_ADDOPTS is

@@ -43,6 +43,20 @@ pip install -e ".[dev,docs]"
 | `make docs` | Build MkDocs site |
 | `make docs-serve` | Serve docs locally |
 
+## Repeated recipe files
+
+Recipes are copied and run on their own, so each one keeps its own `Makefile`, `.funcignore`,
+`.gitignore` and `app/core/logging.py` instead of importing shared code. To keep those copies from
+drifting, the canonical versions live in `scripts/recipe_snippets/`:
+
+```bash
+python scripts/gen_recipe_snippets.py          # apply a canonical change to every standard copy
+python scripts/gen_recipe_snippets.py --check  # verify (also run by make check and CI)
+```
+
+A recipe whose copy must differ is listed in `scripts/gen_recipe_snippets.py` with the reason;
+anything else that differs from the canonical copy fails the check.
+
 ## Running examples during development
 
 ### HTTP API Basic

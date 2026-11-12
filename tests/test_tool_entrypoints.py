@@ -11,6 +11,8 @@ from tools import lint_hatch_matrix as matrix
 from tools import lint_workflow_pins as pins
 from tools import verify_scheduled_smoke_selection as selection
 
+pytestmark = pytest.mark.repo_infra
+
 
 @pytest.mark.parametrize(
     "reference,errors",

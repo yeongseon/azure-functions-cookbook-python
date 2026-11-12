@@ -1,6 +1,9 @@
 from pathlib import Path
 
+import pytest
 import yaml
+
+pytestmark = pytest.mark.repo_infra
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -49,9 +52,10 @@ def test_collectors_always_run_and_semgrep_only_tolerates_incomplete() -> None:
 
 def test_ci_coverage_does_not_override_tool_inventory() -> None:
     workflow = yaml.safe_load((ROOT / ".github/workflows/ci-test.yml").read_text())
-    command = next(
+    commands = [
         step["run"]
         for step in workflow["jobs"]["test"]["steps"]
-        if step.get("name") == "Run tests on the matrix interpreter"
-    )
-    assert "--cov=src/" not in command
+        if step.get("run", "").startswith("pytest ")
+    ]
+    assert commands  # both lanes of the matrix test job (#468)
+    assert not [command for command in commands if "--cov=src/" in command]

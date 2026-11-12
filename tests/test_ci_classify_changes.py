@@ -5,6 +5,8 @@ import subprocess
 
 import pytest
 
+pytestmark = pytest.mark.repo_infra
+
 SCRIPT = Path(__file__).resolve().parents[1] / "tools" / "ci_classify_changes.sh"
 
 

@@ -3,8 +3,12 @@ import json
 from pathlib import Path
 from unittest.mock import patch
 
+import pytest
+
 from tools.security_exceptions import apply_policy
 from tools.security_report import Check, Finding, Status
+
+pytestmark = pytest.mark.repo_infra
 
 
 def test_exception_dates_use_utc_at_kst_midnight(tmp_path: Path) -> None:
