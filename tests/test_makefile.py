@@ -19,6 +19,8 @@ import tomllib
 import pytest
 import yaml
 
+pytestmark = pytest.mark.repo_infra
+
 REPO_ROOT = Path(__file__).resolve().parents[1]
 MAKE = shutil.which("make") or "make"
 FAIL_ON_SKIP = "-p tools.pytest_fail_on_skip"

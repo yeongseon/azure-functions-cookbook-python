@@ -16,6 +16,8 @@ import pytest
 
 from tests.e2e import conftest as host
 
+pytestmark = pytest.mark.repo_infra
+
 _ORIGINAL_CONTENT = '{"Values":{"RecipeProfile":"keep-my-local-setting"}}\n'
 
 

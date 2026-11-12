@@ -3,6 +3,9 @@ import tomllib
 
 from packaging.requirements import Requirement
 from packaging.version import Version
+import pytest
+
+pytestmark = pytest.mark.repo_infra
 
 _ROOT = Path(__file__).parents[1]
 _KNOWN_GOOD = {

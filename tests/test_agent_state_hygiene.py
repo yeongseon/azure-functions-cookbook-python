@@ -3,6 +3,10 @@ from pathlib import Path
 import subprocess
 from typing import Final
 
+import pytest
+
+pytestmark = pytest.mark.repo_infra
+
 ROOT: Final = Path(__file__).resolve().parents[1]
 
 

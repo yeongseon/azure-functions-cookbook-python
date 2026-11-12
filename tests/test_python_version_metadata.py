@@ -11,6 +11,8 @@ from zipfile import ZipFile
 from packaging.specifiers import SpecifierSet
 import pytest
 
+pytestmark = pytest.mark.repo_infra
+
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 SUPPORTED_PYTHON = SpecifierSet(">=3.11,<3.15")
 

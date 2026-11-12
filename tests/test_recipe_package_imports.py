@@ -9,6 +9,8 @@ from tools.recipe_local_imports import reachable_modules
 from tools.recipe_security import check_manifest
 from tools.security_report import Status
 
+pytestmark = pytest.mark.repo_infra
+
 ENTRY = (
     "import azure.functions as func\nfrom endpoints.routes import bp\n"
     "app = func.FunctionApp(http_auth_level=func.AuthLevel.FUNCTION)\n"

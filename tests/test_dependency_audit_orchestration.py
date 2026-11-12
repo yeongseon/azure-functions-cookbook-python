@@ -10,6 +10,8 @@ import pytest
 from tools import dependency_audit_policy as audit
 from tools.security_report import Status
 
+pytestmark = pytest.mark.repo_infra
+
 
 @pytest.fixture
 def repository(tmp_path: Path) -> Path:

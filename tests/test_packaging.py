@@ -2,6 +2,10 @@ from pathlib import Path
 import subprocess
 import zipfile
 
+import pytest
+
+pytestmark = pytest.mark.repo_infra
+
 
 def test_wheel_contains_cookbook_package(tmp_path: Path) -> None:
     config = Path("pyproject.toml").read_text()

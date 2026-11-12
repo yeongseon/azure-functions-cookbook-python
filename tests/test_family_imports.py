@@ -1,7 +1,11 @@
 import ast
 from pathlib import Path
 
+import pytest
+
 from tools.recipe_discovery import recipe_files
+
+pytestmark = pytest.mark.repo_infra
 
 _EXAMPLES = Path(__file__).parents[1] / "examples"
 

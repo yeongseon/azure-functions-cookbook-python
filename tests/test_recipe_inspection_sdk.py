@@ -12,6 +12,8 @@ from tools.recipe_routes import routes
 from tools.recipe_security import check_manifest
 from tools.security_report import Status
 
+pytestmark = pytest.mark.repo_infra
+
 PROTECTED = (
     "import azure.functions as func\napp = func.FunctionApp()\n"
     "@app.route(route='chat')\ndef chat(req): return req\n"

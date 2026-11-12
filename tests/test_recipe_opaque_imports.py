@@ -10,6 +10,8 @@ from tests.test_recipe_inspection_sdk import sdk_levels
 from tools.recipe_security import check_manifest
 from tools.security_report import Status
 
+pytestmark = pytest.mark.repo_infra
+
 ENTRY = (
     "import azure.functions as func\n"
     "app = func.FunctionApp(http_auth_level=func.AuthLevel.FUNCTION)\n"

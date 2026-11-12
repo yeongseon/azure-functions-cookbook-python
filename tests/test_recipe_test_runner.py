@@ -12,6 +12,8 @@ from typing import Any
 
 import pytest
 
+pytestmark = pytest.mark.repo_infra
+
 _SCRIPT = Path(__file__).resolve().parents[1] / "scripts" / "run_recipe_tests.py"
 _spec = importlib.util.spec_from_file_location("run_recipe_tests", _SCRIPT)
 assert _spec and _spec.loader

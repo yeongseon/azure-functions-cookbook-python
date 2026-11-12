@@ -31,7 +31,9 @@ make docs
 | --- | --- |
 | `make format` | Formatting conventions |
 | `make lint` | Ruff + mypy correctness |
-| `make test` | Automated tests |
+| `make test` | Full suite: library and repository infrastructure tests |
+| `make test-library` | Library lane: shipped-library and recipe behavior only |
+| `make test-infra` | Infrastructure lane (`repo_infra` marker): tools, scripts, workflows, Makefile, packaging |
 | `make cov` | Coverage report generation |
 | `make security` | Bandit static security checks |
 | `make docs` | MkDocs build and link rendering |
