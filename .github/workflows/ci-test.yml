@@ -20,6 +20,7 @@ jobs:
       docs_only: ${{ steps.classify.outputs.docs_only }}
       docs_changed: ${{ steps.classify.outputs.docs_changed }}
       full_required: ${{ steps.classify.outputs.full_required }}
+      compat_required: ${{ steps.classify.outputs.compat_required }}
     steps:
       - name: Checkout classification source
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -41,7 +42,7 @@ jobs:
           if [ "$EVENT_NAME" = "pull_request" ]; then
             if [ "$SAME_REPOSITORY" != "true" ]; then
               git fetch --no-tags origin "refs/pull/${PR_NUMBER}/head" || {
-                printf 'docs_only=false\ndocs_changed=true\nfull_required=true\n' >> "$GITHUB_OUTPUT"
+                printf 'docs_only=false\ndocs_changed=true\nfull_required=true\ncompat_required=true\n' >> "$GITHUB_OUTPUT"
                 exit 0
               }
             fi
@@ -316,6 +317,70 @@ jobs:
           grep -F "requires a different Python" <<<"$output"
           grep -F ">=3.11" <<<"$output"
 
+  # Pre-merge toolkit compatibility gate (#427). It runs only for pull requests that touch the
+  # integration-sensitive paths listed in tools/ci_classify_compat.sh, tests the PR checkout on a
+  # real Functions host against the exact dependency pins in constraints-min.txt, and is
+  # aggregated by `ci-required` like every other job. The scheduled and post-release
+  # `E2E Toolkit Matrix` (e2e-toolkit.yml) is unchanged and still runs the full latest/main matrix.
+  # No secrets, Azure credentials or write permissions are used, so fork PRs run it unchanged.
+  toolkit-compat:
+    name: Toolkit compatibility (pinned set, Functions host)
+    needs: changes
+    if: needs.changes.outputs.full_required == 'true' && needs.changes.outputs.compat_required == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    env:
+      # A skipped or xfailed compatibility test is not evidence (#439).
+      PYTEST_ADDOPTS: -p tools.pytest_fail_on_skip
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+        with:
+          python-version: "3.11"
+          cache: pip
+          cache-dependency-path: |
+            pyproject.toml
+            constraints-min.txt
+
+      - name: Install Functions Core Tools v4
+        run: npm install --global azure-functions-core-tools@4 --unsafe-perm true
+
+      - name: Install the pinned dependency set
+        run: |
+          python -m pip install --upgrade pip
+          pip install -c constraints-min.txt -e ".[dev]"
+          python -m pip check
+
+      # Host-backed scenarios selected by the `compat` marker: validation, OpenAPI and logging
+      # metadata, DB round trip (all through full_stack_crud_api) and LangGraph agent endpoint
+      # registration (personal_langgraph_agent). Zero selected tests exits 5; tools/compat_report.py
+      # below also enforces a minimum count, no skips and no drift from the pins.
+      - name: Run host-backed compatibility tests
+        run: >-
+          python -m pytest -v -m compat tests/e2e --no-cov
+          --junitxml=compat-results/junit.xml
+
+      # Runs on success and failure so a red or empty run still leaves a readable record.
+      - name: Summarize compatibility evidence
+        if: always()
+        env:
+          PR_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        run: >-
+          python tools/compat_report.py --junit compat-results/junit.xml
+          --constraints constraints-min.txt --min-tests 5 --out compat-results
+
+      - name: Upload compatibility evidence
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: toolkit-compat-evidence
+          path: compat-results/
+          if-no-files-found: error
+          retention-days: 14
+
   # The single required status check for branch protection.
   #
   # Branch protection matches required checks by literal name, so requiring
@@ -436,6 +501,7 @@ jobs:
       - recipe-tests
       - artifact-python310-negative
       - host-smoke
+      - toolkit-compat
       - docs-check
     if: always()
     runs-on: ubuntu-latest
@@ -457,22 +523,26 @@ jobs:
                   return ["changes"]
               outputs = changes.get("outputs", {})
               if any(outputs.get(name) not in {"true", "false"} for name in (
-                  "docs_only", "docs_changed", "full_required"
+                  "docs_only", "docs_changed", "full_required", "compat_required"
               )):
                   return ["changes"]
               docs_only = outputs["docs_only"] == "true"
               docs_changed = outputs["docs_changed"] == "true"
               full_required = outputs["full_required"] == "true"
+              compat_required = outputs["compat_required"] == "true"
               if docs_only == full_required or docs_only and not docs_changed:
                   return ["changes"]
+              if compat_required and not full_required:
+                  return ["changes"]
               expected = {job: "success" if full_required else "skipped" for job in matrix_jobs}
+              expected["toolkit-compat"] = "success" if compat_required else "skipped"
               expected["docs-check"] = "success" if docs_changed else "skipped"
               expected.update({job: "success" for job in results if job not in set(expected) | {"changes"}})
               return sorted(
                   job for job, wanted in expected.items() if results[job]["result"] != wanted
               )
 
-          def scenario(full_required, docs_changed, overrides=None, changes_result="success", outputs=None):
+          def scenario(full_required, docs_changed, overrides=None, changes_result="success", outputs=None, compat=False):
               results = {
                   "changes": {
                       "result": changes_result,
@@ -480,9 +550,11 @@ jobs:
                           "docs_only": str(not full_required).lower(),
                           "full_required": str(full_required).lower(),
                           "docs_changed": str(docs_changed).lower(),
+                          "compat_required": str(compat).lower(),
                       },
                   },
                   **{job: {"result": "success" if full_required else "skipped"} for job in matrix_jobs},
+                  "toolkit-compat": {"result": "success" if compat else "skipped"},
                   "docs-check": {"result": "success" if docs_changed else "skipped"},
               }
               for job, result in (overrides or {}).items():
@@ -498,8 +570,15 @@ jobs:
               "classifier failure": (scenario(True, True, changes_result="failure"), ["changes"]),
               "cancelled": (scenario(True, False, {"host-smoke": "cancelled"}), ["host-smoke"]),
               "empty outputs": (scenario(True, False, outputs={}), ["changes"]),
-              "invalid output": (scenario(True, False, outputs={"docs_only": "false", "docs_changed": "yes", "full_required": "true"}), ["changes"]),
-              "impossible no-work outputs": (scenario(False, False, outputs={"docs_only": "false", "docs_changed": "false", "full_required": "false"}), ["changes"]),
+              "invalid output": (scenario(True, False, outputs={"docs_only": "false", "docs_changed": "yes", "full_required": "true", "compat_required": "false"}), ["changes"]),
+              "impossible no-work outputs": (scenario(False, False, outputs={"docs_only": "false", "docs_changed": "false", "full_required": "false", "compat_required": "false"}), ["changes"]),
+              "compat ok": (scenario(True, False, compat=True), []),
+              "compat fail": (scenario(True, False, {"toolkit-compat": "failure"}, compat=True), ["toolkit-compat"]),
+              "compat skipped when required": (scenario(True, False, {"toolkit-compat": "skipped"}, compat=True), ["toolkit-compat"]),
+              "compat cancelled": (scenario(True, False, {"toolkit-compat": "cancelled"}, compat=True), ["toolkit-compat"]),
+              "compat ran when not required": (scenario(True, False, {"toolkit-compat": "success"}), ["toolkit-compat"]),
+              "compat required without full": (scenario(False, True, compat=True), ["changes"]),
+              "missing compat output": (scenario(True, False, outputs={"docs_only": "false", "docs_changed": "false", "full_required": "true"}), ["changes"]),
               "extra failed job": (scenario(True, False, {"future-job": "failure"}), ["future-job"]),
               "extra skipped job": (scenario(True, False, {"future-job": "skipped"}), ["future-job"]),
           }
