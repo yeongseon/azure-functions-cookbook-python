@@ -44,6 +44,8 @@ class AgentState(TypedDict):
     top_k: int
 
 
+# In-process memory: it is per worker instance and lost on restart or scale-out.
+# Use a durable checkpointer or store for real conversations.
 THREAD_MEMORY: dict[str, list[dict[str, str]]] = {}
 SEARCH_HINTS = (
     "search",
@@ -60,6 +62,8 @@ SEARCH_HINTS = (
 
 
 def _build_knowledge_client() -> Any | None:
+    # Returns no client, so search_knowledge() always serves the canned mock:// results
+    # below. Return a real search client here to retrieve live knowledge.
     return None
 
 
@@ -211,6 +215,8 @@ def invoke_agent_graph(state: AgentState) -> AgentState:
     return direct_response_node(routed_state)
 
 
+# ANONYMOUS keeps the sample easy to call locally; require a key or
+# platform authentication before exposing it.
 LANGGRAPH_HOST = LangGraphApp(auth_level=func.AuthLevel.ANONYMOUS)
 app = LANGGRAPH_HOST.function_app
 GRAPH = build_graph()
