@@ -108,6 +108,28 @@ def create_item(req: func.HttpRequest, out: DbOut) -> func.HttpResponse:
 `@db.output` injects a `DbOut` instance. Call `out.set()` with a dict (single row)
 or `list[dict]` (batch insert). The handler return value is independent of the write.
 
+When you combine `@db.output` with `@validate_http` and `@with_context` (as the
+runnable recipe does), keep this order, outermost first:
+
+```python
+@app.route(route="items", methods=["POST"])
+@openapi(summary="Create item", tags=["items"])
+@with_context
+@validate_http(body=ItemCreate, response_model=ItemResponse, status_code=201)
+@db.output("out", url="%DB_URL%", table="items")
+def create_item(
+    req: func.HttpRequest, body: ItemCreate, out: DbOut, context: func.Context
+) -> func.HttpResponse: ...
+```
+
+!!! warning "Keep `@db.output` below `@validate_http`"
+    With `azure-functions-db` 0.9.0, placing `@db.output` **above** `@validate_http`
+    raises `TypeError: ... takes from 0 to 1 positional arguments but 3 were given`
+    when the Python worker invokes the handler. `@validate_http` exposes `out` as a
+    positional-or-keyword parameter but accepts only `req` positionally, and
+    0.9.0 forwards the exposed signature positionally. The order above works on
+    `azure-functions-db` 0.8.1, 0.8.3 and 0.9.0.
+
 ## Behavior
 ```mermaid
 sequenceDiagram

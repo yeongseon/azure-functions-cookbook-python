@@ -24,9 +24,8 @@ P2    HTTP + @openapi + @with_context + @validate_http (path,      supported
 P3    HTTP + @openapi + @with_context + @validate_http above       supported
       ``db.output`` (fixture; same decorators as the DB recipe,
       with ``@validate_http`` above ``@db.output``)
-P4    HTTP + @openapi + ``db.output`` + @with_context +            xfail
-      @validate_http (recipe ``data-and-pipelines/db_input_output``)
-      -- raises ``TypeError`` on azure-functions-db>=0.9.0 (#503)
+P4    HTTP + @openapi + @with_context + @validate_http above       supported
+      ``db.output`` (recipe ``data-and-pipelines/db_input_output``)
 P5    Independent LangGraph ``endpoint`` producer read by OpenAPI  supported
 N1    ``@validate_http`` above ``@app.route``                      rejected
 N2    ``endpoint`` namespace with an unsupported version           degraded +
@@ -389,16 +388,12 @@ def test_db_recipe_registration_and_metadata_hold_for_create_item() -> None:
     assert "422" in operation["responses"]
 
 
-@pytest.mark.xfail(
-    # Verified failing on azure-functions-db 0.9.0 and passing on the 0.8.1 floor
-    # (minimum-deps lane), so the xfail is non-strict; see #503.
-    condition=_installed("azure-functions-db") >= Version("0.9.0"),
-    strict=False,
-    raises=TypeError,
-    reason="#503: db.output above with_context forwards `out` positionally into validate_http",
-)
 def test_db_recipe_create_item_runs_and_inserts_row(tmp_path: Path) -> None:
-    """P4 (c): remove the xfail when #503 is fixed."""
+    """P4 (c): the handler runs the way the worker calls it and writes one row (#503).
+
+    ``@db.output`` must sit below ``@validate_http``; the reverse order raises
+    ``TypeError`` on azure-functions-db>=0.9.0 (see the recipe comment).
+    """
     db_path = tmp_path / "recipe.sqlite"
     with sqlite3.connect(db_path) as connection:
         connection.execute(
@@ -412,8 +407,10 @@ def test_db_recipe_create_item_runs_and_inserts_row(tmp_path: Path) -> None:
             context=None,
         )
         assert response.status_code == 201
+        created = json.loads(response.get_body())
     with sqlite3.connect(db_path) as connection:
-        assert len(connection.execute("SELECT id FROM items").fetchall()) == 1
+        rows = connection.execute("SELECT id, name, category, price FROM items").fetchall()
+    assert rows == [(created["id"], "Widget", "tools", 9.5)]
 
 
 # ---------------------------------------------------------------------------
