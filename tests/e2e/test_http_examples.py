@@ -1,7 +1,9 @@
 """E2E tests for HTTP-triggered examples.
 
-Each test class starts a ``func`` host for a specific example and
-validates the HTTP surface using ``requests``.
+Each test class starts a local ``func`` host for a specific example and
+validates the HTTP surface using ``requests``. These tests need Core Tools
+(the ``e2e`` marker) and never contact Azure. Local Core Tools skips function-key
+checks, so auth assertions here describe local behavior, not Azure enforcement.
 """
 
 from __future__ import annotations
@@ -60,7 +62,6 @@ class TestHttpRoutingQueryBody:
 
     def test_create_and_get_user(self) -> None:
         with run_func_host(self.EXAMPLE) as base_url:
-            # Create
             payload = {"id": "test-1", "name": "Test User", "email": "test@example.com"}
             resp = requests.post(f"{base_url}/api/users", json=payload, timeout=10)
             assert resp.status_code in (200, 201)

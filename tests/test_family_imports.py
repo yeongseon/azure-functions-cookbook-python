@@ -11,10 +11,12 @@ _EXAMPLES = Path(__file__).parents[1] / "examples"
 
 
 def test_family_packages_are_not_soft_imported() -> None:
-    # Given: every deployable recipe source file.
+    """Offline: no recipe source soft-imports a family package behind `except ImportError`.
+
+    A missing family API must fail at import time instead of silently selecting a fallback.
+    """
     violations: list[str] = []
 
-    # When: imports guarded by ImportError are inspected.
     for source in recipe_files(_EXAMPLES, "*.py"):
         tree = ast.parse(source.read_text())
         for node in ast.walk(tree):
@@ -45,5 +47,4 @@ def test_family_packages_are_not_soft_imported() -> None:
             if catches_import_error and family_import:
                 violations.append(f"{source.relative_to(_EXAMPLES)}:{node.lineno}")
 
-    # Then: missing family APIs fail during import instead of selecting a fallback.
     assert violations == [], "\n".join(violations)

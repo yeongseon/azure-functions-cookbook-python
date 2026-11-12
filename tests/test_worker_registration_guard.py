@@ -60,6 +60,12 @@ AFFECTED_HANDLERS: list[tuple[str, str]] = [
     ("data-and-pipelines/cqrs_read_projection", "create_order"),
     ("data-and-pipelines/cqrs_read_projection", "project_order_read_models"),
     ("data-and-pipelines/cqrs_read_projection", "get_order_projection"),
+    # Decorator-composition representatives (#474): HTTP + @openapi + @with_context +
+    # @validate_http, and the DB recipe's db.output/db.inject_reader stacks.
+    ("ai-and-agents/langgraph_agent", "invoke_agent"),
+    ("apis-and-ingress/apim_function_backend", "get_catalog_item"),
+    ("data-and-pipelines/db_input_output", "create_item"),
+    ("data-and-pipelines/db_input_output", "list_items"),
 ]
 
 
