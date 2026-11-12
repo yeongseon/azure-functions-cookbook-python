@@ -17,6 +17,7 @@ nav:
   - Toolkit usage by recipe: toolkit-usage.md
   - Versions and verification: snapshots-and-verification.md
   - Compatibility evidence: compatibility.md
+  - Stability and compatibility: stability-and-compatibility.md
   - Early snapshot tags: early-snapshot-tags.md
   - Paid AI security: paid-ai-security.md
   - Anonymous endpoint classification: anonymous-endpoints.md

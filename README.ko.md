@@ -1,8 +1,11 @@
 # Azure Functions Python Cookbook
+<!-- translation-snapshot: v0.5.0 2026-11-12 -->
 > [!NOTE]
 > 이 문서는 [영어 원문](README.md)의 번역본으로 커뮤니티가 관리합니다.
 > 영어 원문이 업데이트된 뒤에는 내용이 다소 늦어질 수 있으며,
 > 단일 정보 원본(Single Source of Truth)은 영어 [README.md](README.md)입니다.
+>
+> 번역 스냅샷: 영어 README [v0.5.0](https://github.com/yeongseon/azure-functions-cookbook-python/releases/tag/v0.5.0) 기준, 마지막 정렬일 2026-11-12. 이후 변경은 반영되지 않았을 수 있습니다. 보안/정확성 경고는 항상 영어 [README.md](README.md)를 확인하세요. 정책: [CONTRIBUTING](CONTRIBUTING.md#documentation-and-translations).
 >
 > 예약 트리거 스모크: worker-registration 검사는 고정된 Python worker의 런타임 의존성(`grpcio`, `protobuf`, `python-dateutil`)을 설치하고 실제 `Registry.add_indexed_function()`으로 핸들러를 등록합니다. 복제 실패, 누락된 의존성, 레지스트리 로딩 실패 또는 건너뛴 테스트는 성공으로 처리하지 않고 작업을 실패시킵니다. 이 네트워크 의존 검사는 예약 실행과 수동 실행에서 수행되며, Durable 스모크는 실제 오케스트레이션 실행이 아닌 임포트 검사입니다. 자세한 내용: [운영 문서](docs/scheduled-trigger-smoke.md).
 >
@@ -20,6 +23,8 @@
 Python으로 실제 프로덕션 수준의 Azure Functions를 구축하기 위한 실용적인 레시피 모음입니다.
 
 > **지원 Python 버전: 3.11, 3.12, 3.13, 3.14.** 기준이 되는 범위는 [`pyproject.toml`](pyproject.toml)의 `requires-python`입니다. 네 버전 모두 Azure Functions Python 런타임에서 정식 지원되므로, 의존성이 허용하는 가장 최신 버전을 선택하세요. 런타임 지원 종료 일정은 [Azure Functions 지원 언어](https://learn.microsoft.com/azure/azure-functions/supported-languages) 문서를 참고하세요.
+
+> **안정성과 검증.** 이 쿡북은 `0.x` 스냅샷으로 릴리스되고 사용하는 툴킷 패키지도 `<1`이므로, 레시피의 라우트와 설정에는 SemVer 보장이 없습니다. "검증됨"은 `recipe.yaml`의 `verification` 수준(`docs`, `unit`, `func-host`)이 말하는 범위만 의미하며, 배포된 Azure 환경에서 검증된 레시피는 없습니다. 자세한 내용: [안정성과 호환성](docs/stability-and-compatibility.md).
 
 ## Why Use It
 
@@ -40,6 +45,17 @@ Python으로 실제 프로덕션 수준의 Azure Functions를 구축하기 위�
 이 저장소는 콘텐츠 중심입니다. CLI 도구가 아닙니다.
 
 `main`은 계속 변화하는 개발 콘텐츠이며, 태그가 지정된 [GitHub Releases](https://github.com/yeongseon/azure-functions-cookbook-python/releases)는 재현 가능한 스냅샷입니다(이 쿡북은 PyPI에 게시되지 않습니다). 각 CI 수준이 무엇을 검증하고 무엇을 검증하지 않는지는 [버전, 스냅샷 및 검증](docs/snapshots-and-verification.md)을 참조하세요.
+
+## Choose Another Option When...
+
+이 레시피들은 Azure Functions Python v2 패턴을 다룹니다. 다음 경우에는 다른 선택지가 더 적합합니다.
+
+- **완전한 웹 프레임워크가 필요할 때.** HTTP 레시피는 라우트마다 일반 `@app.route` 핸들러 하나를 사용합니다. 기존 FastAPI/Starlette 계열 앱이 있거나 해당 미들웨어와 라우팅이 필요하다면 ASGI 앱을 [`AsgiFunctionApp`](https://learn.microsoft.com/python/api/azure-functions/azure.functions.asgifunctionapp)으로 감싸거나 컨테이너에서 실행하세요. HTTP 트리거 함수는 함수 타임아웃 설정과 관계없이 [230초](https://learn.microsoft.com/azure/azure-functions/functions-scale#function-app-timeout-duration) 안에 응답해야 합니다.
+- **정확한 데이터베이스 변경 의미론이 필요할 때.** `azure-functions-db`(여러 레시피에서 사용)에는 폴링 기반 의사(pseudo) 트리거가 포함되어 있습니다. Azure SQL에는 SQL 변경 추적을 기반으로 하는 기본 제공 [SQL 트리거](https://learn.microsoft.com/azure/azure-functions/functions-bindings-azure-sql-trigger)가 있습니다. Cosmos DB에서는 [Cosmos DB 트리거](https://learn.microsoft.com/azure/azure-functions/functions-bindings-cosmosdb-v2-trigger)가 변경 피드를 읽는데, 변경 피드는 삽입과 업데이트는 게시하지만 삭제는 게시하지 않으며, Cosmos DB는 변경 피드 프로세서에 대해 [최소 한 번(at-least-once) 전달](https://learn.microsoft.com/azure/cosmos-db/change-feed-processor)을 문서화합니다. [Outbox Pattern](examples/reliability/outbox_pattern/) 레시피는 이 변경 피드에서 릴레이하며 정확히 한 번(exactly-once)을 보장하지 않는다고 명시합니다. 정확히 한 번이 필요하면 소비자를 멱등하게 만들거나 이를 제공하는 플랫폼 기능을 선택하세요.
+- **기본 제공 텔레메트리로 충분할 때.** Azure에서 앱이 실행되면 Python `logging` 루트 로거는 이미 Application Insights로 전송되며, Functions는 Azure Monitor와 함께 [OpenTelemetry](https://learn.microsoft.com/azure/azure-functions/opentelemetry-howto)도 지원합니다. [Observability Tracing](examples/runtime-and-ops/observability_tracing/) 레시피의 상관관계 ID 규칙이 필요한 경우가 아니라면 추가 구조화 로깅 계층은 건너뛰어도 됩니다.
+- **공식 도구로 이미 충분할 때.** 프로젝트 시작에는 [`func init`/`func new`](https://learn.microsoft.com/azure/azure-functions/functions-core-tools-reference#func-init) 또는 [`azd init`](https://learn.microsoft.com/azure/developer/azure-developer-cli/reference#azd-init)을, 배포된 앱 진단에는 포털의 [문제 진단 및 해결](https://learn.microsoft.com/azure/azure-functions/functions-diagnostics)을 먼저 사용한 뒤 scaffold 및 doctor 레시피를 검토하세요.
+- **LangGraph 에이전트가 Functions의 한계를 넘을 때.** LangGraph 레시피는 짧은 요청/응답 그래프를 실행하며 스트리밍을 보여 주는 레시피는 없습니다. 또한 [Personal LangGraph Agent](examples/ai-and-agents/personal_langgraph_agent/)의 영속 Blob 메모리는 도구 효과의 정확히 한 번 실행을 보장하지 않습니다. 위의 HTTP 제한보다 긴 실행, 스트리밍, 인스턴스 간 내구성 있는 실행이 필요하다면 [LangSmith Deployment](https://docs.langchain.com/langsmith/deployments)(내구성 있는 실행, 실시간 스트리밍, 수평 확장을 내세움)를 살펴보거나 [Azure Container Apps](https://learn.microsoft.com/azure/container-apps/overview)에서 에이전트를 호스팅하세요.
+- **일반 Functions 레시피로 충분할 때.** 많은 레시피가 `azure-functions`만 사용합니다([레시피별 툴킷 사용 현황](docs/toolkit-usage.md) 참조). 트리거나 바인딩 패턴만 필요하다면 그런 레시피에서 시작하고, 실제로 필요한 경우에만 선택적 툴킷 패키지를 추가하세요.
 
 ## Quick Index
 

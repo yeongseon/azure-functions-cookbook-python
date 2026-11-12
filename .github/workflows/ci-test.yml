@@ -339,10 +339,32 @@ jobs:
         recipe:
           - name: hello-http
             path: examples/apis-and-ingress/hello_http_minimal
-            url: http://127.0.0.1:7071/api/hello
+            route: /api/hello
+            method: GET
+            expect: Hello
           - name: validated-openapi-logging
             path: examples/apis-and-ingress/full_stack_crud_api
-            url: http://127.0.0.1:7071/api/items
+            route: /api/items
+            method: GET
+            expect: '"items"'
+          - name: personal-langgraph-agent
+            path: examples/ai-and-agents/personal_langgraph_agent
+            route: /api/graphs/personal_agent/invoke
+            method: POST
+            body: '{"input":{"messages":[{"role":"human","content":"What is planned for Project Atlas?"}]},"config":{"configurable":{"thread_id":"host-smoke"}}}'
+            expect: "human_turns=1"
+          - name: doctor-diagnostics
+            path: examples/runtime-and-ops/doctor_diagnostics_endpoint
+            route: /api/health
+            method: GET
+            expect: '"healthy"'
+          - name: queue-producer-binding
+            path: examples/messaging-and-pubsub/queue_producer
+            route: /api/enqueue
+            method: POST
+            body: '{"task_type":"email","payload":{"to":"user@example.com"}}'
+            status: 202
+            expect: accepted
     steps:
       - name: Checkout code
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -367,25 +389,34 @@ jobs:
           python -m venv .venv
           .venv/bin/python -m pip install -r requirements.txt
 
-      - name: Start recipe host and call its public route
-        working-directory: ${{ matrix.recipe.path }}
+      # tools/recipe_host_smoke.py starts Azurite and `func start`, fails on a host that indexes
+      # no functions, a worker failure, a timeout or an unexpected response, and writes the
+      # evidence record (Core Tools/runtime/Azurite/Python versions, installed toolkit packages,
+      # indexed functions, response) that the next step uploads.
+      - name: Start recipe host and call its route
         env:
-          RECIPE_URL: ${{ matrix.recipe.url }}
+          RECIPE_PATH: ${{ matrix.recipe.path }}
+          RECIPE_NAME: ${{ matrix.recipe.name }}
+          RECIPE_ROUTE: ${{ matrix.recipe.route }}
+          RECIPE_METHOD: ${{ matrix.recipe.method }}
+          RECIPE_BODY: ${{ matrix.recipe.body }}
+          RECIPE_STATUS: ${{ matrix.recipe.status || 200 }}
+          RECIPE_EXPECT: ${{ matrix.recipe.expect }}
         run: |
-          azurite --silent > "${RUNNER_TEMP}/azurite.log" 2>&1 &
-          PATH="$PWD/.venv/bin:$PATH" func start --python --port 7071 > "${RUNNER_TEMP}/func-host.log" 2>&1 &
-          host_pid=$!
-          trap 'cat "${RUNNER_TEMP}/func-host.log"; kill "${host_pid}" 2>/dev/null || true' EXIT
-          for attempt in $(seq 1 60); do
-            if grep -Eq "Generating 0 job function|Worker failed|Host startup operation has been canceled" "${RUNNER_TEMP}/func-host.log"; then
-              exit 1
-            fi
-            if curl --fail --silent "${RECIPE_URL}" > "${RUNNER_TEMP}/response.out"; then
-              exit 0
-            fi
-            sleep 2
-          done
-          exit 1
+          args=(--recipe-dir "${RECIPE_PATH}" --route "${RECIPE_ROUTE}" --method "${RECIPE_METHOD}"
+                --expect-status "${RECIPE_STATUS}" --expect-body "${RECIPE_EXPECT}"
+                --evidence "host-smoke-evidence/${RECIPE_NAME}.json")
+          if [ -n "${RECIPE_BODY}" ]; then args+=(--body "${RECIPE_BODY}"); fi
+          python tools/recipe_host_smoke.py "${args[@]}"
+
+      - name: Upload host-smoke evidence
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: host-smoke-${{ matrix.recipe.name }}
+          path: host-smoke-evidence/${{ matrix.recipe.name }}.json
+          if-no-files-found: error
+          retention-days: 14
 
   docs-check:
     needs: changes

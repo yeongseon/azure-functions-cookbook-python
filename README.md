@@ -9,9 +9,13 @@
 
 Read this in: [Korean](README.ko.md) | [日本語](README.ja.md) | [简体中文](README.zh-CN.md)
 
+> This English README is canonical. Translations are community-maintained snapshots that may lag behind it; each states the release it was last aligned with. See [Documentation and Translations](CONTRIBUTING.md#documentation-and-translations).
+
 Practical recipes for building real-world Azure Functions with Python.
 
 > **Supported Python: 3.11, 3.12, 3.13, and 3.14.** The authoritative range is `requires-python` in [`pyproject.toml`](pyproject.toml). All four minors are generally available on the Azure Functions Python runtime, so pick the newest one your dependencies allow. See [Azure Functions supported languages](https://learn.microsoft.com/azure/azure-functions/supported-languages) for runtime end-of-support dates.
+
+> **Stability and verification.** The Cookbook is released as `0.x` snapshots and the toolkit packages it uses are `<1`, so recipe routes and settings carry no SemVer promise. "Verified" means only what a recipe's `verification` level in `recipe.yaml` says (`docs`, `unit` or `func-host`); no recipe is verified in a deployed Azure environment. See [Stability and compatibility](docs/stability-and-compatibility.md).
 
 ## Why Use It
 
@@ -32,6 +36,17 @@ blog posts, and sample code. This cookbook provides curated, runnable recipes th
 This repository is content-first. It is not a CLI tool.
 
 `main` is moving development content; tagged [GitHub Releases](https://github.com/yeongseon/azure-functions-cookbook-python/releases) are reproducible snapshots (the cookbook is not published to PyPI). See [Versions, snapshots, and verification](docs/snapshots-and-verification.md) for what each CI level does and does not verify.
+
+## Choose Another Option When...
+
+These recipes teach Azure Functions Python v2 patterns. Pick something else when:
+
+- **You need a full web framework.** HTTP recipes use one plain `@app.route` handler per route. For an existing FastAPI/Starlette-style app, or when you need its middleware and routing, wrap the ASGI app with [`AsgiFunctionApp`](https://learn.microsoft.com/python/api/azure-functions/azure.functions.asgifunctionapp) or run it in a container. HTTP-triggered functions must respond within [230 seconds](https://learn.microsoft.com/azure/azure-functions/functions-scale#function-app-timeout-duration) whatever the function timeout is.
+- **You need exact database-change semantics.** `azure-functions-db` (used by several recipes) includes a poll-based pseudo trigger. For Azure SQL, the built-in [SQL trigger](https://learn.microsoft.com/azure/azure-functions/functions-bindings-azure-sql-trigger) is based on SQL change tracking. For Cosmos DB, the [Cosmos DB trigger](https://learn.microsoft.com/azure/azure-functions/functions-bindings-cosmosdb-v2-trigger) reads the change feed, which publishes inserts and updates but not deletes, and Cosmos DB documents [at-least-once delivery](https://learn.microsoft.com/azure/cosmos-db/change-feed-processor) for its change feed processor. The [Outbox Pattern](examples/reliability/outbox_pattern/) recipe relays from that change feed and states that it is not exactly-once; if you need exactly-once, make consumers idempotent or choose a platform feature that provides it.
+- **Native telemetry is enough.** The Python `logging` root logger already reaches Application Insights when your app runs in Azure, and Functions supports [OpenTelemetry](https://learn.microsoft.com/azure/azure-functions/opentelemetry-howto) with Azure Monitor. Skip the extra structured-logging layer used in the [Observability Tracing](examples/runtime-and-ops/observability_tracing/) recipe unless you want its correlation-ID conventions.
+- **The official tools already do the job.** Use [`func init`/`func new`](https://learn.microsoft.com/azure/azure-functions/functions-core-tools-reference#func-init) or [`azd init`](https://learn.microsoft.com/azure/developer/azure-developer-cli/reference#azd-init) to start a project, and the portal's [Diagnose and solve problems](https://learn.microsoft.com/azure/azure-functions/functions-diagnostics) for a deployed app, before reaching for the scaffold and doctor recipes.
+- **Your LangGraph agent outgrows Functions.** The LangGraph recipes run short request/response graphs; none demonstrates streaming, and the persistent Blob memory in [Personal LangGraph Agent](examples/ai-and-agents/personal_langgraph_agent/) does not promise exactly-once tool effects. For runs longer than the HTTP limit above, streaming, or durable execution across instances, look at [LangSmith Deployment](https://docs.langchain.com/langsmith/deployments) (it advertises durable execution, real-time streaming and horizontal scaling) or host the agent on [Azure Container Apps](https://learn.microsoft.com/azure/container-apps/overview).
+- **A plain Functions recipe is enough.** Many recipes use only `azure-functions` ([Toolkit usage by recipe](docs/toolkit-usage.md) lists which). If you only need the trigger or binding pattern, start from those and add an optional toolkit package only for a need you actually have.
 
 ## Quick Index
 
@@ -318,7 +333,7 @@ particular issue; see [contributor-reserved issues](CONTRIBUTING.md#contributor-
 
 This cookbook is the **dogfood** of the **Azure Functions Python DX Toolkit**: many examples are real, runnable Azure Functions that opt in to toolkit libraries in production-realistic scenarios, while others are plain Azure Functions examples that use no toolkit package. 47 of the 82 recipes declare at least one toolkit package and 35 are plain Azure Functions only; [Toolkit usage by recipe](docs/toolkit-usage.md) lists both kinds.
 
-The **Status** column reflects how each package is currently used in this repo: **Dogfooded** (declared as a dependency by example projects), **Experimental** (advertised but not yet used by any example), or **Planned** (integration tracked but not started). Counts are the number of example projects whose `pyproject.toml` declares the package, the same definition the repository tests use for the docs home page; one CLI-generated example (`scaffold_walkthrough_app`) declares the packages its template generates and is called out where it applies. A declared dependency is not evidence that the package was exercised in a Functions host or in Azure; see each recipe's `verification` level.
+The **Status** column reflects how each package is currently used in this repo: **Dogfooded** (declared as a dependency by example projects), **Experimental** (advertised but not yet used by any example), or **Planned** (integration tracked but not started). Counts are the number of example projects whose `pyproject.toml` declares the package, the same definition the repository tests use for the docs home page; one CLI-generated example (`scaffold_walkthrough_app`) declares the packages its template generates and is called out where it applies. A declared dependency is not evidence that the package was exercised in a Functions host or in Azure; see each recipe's `verification` level and [Stability and compatibility](docs/stability-and-compatibility.md).
 
 | Package | Role | Status |
 |---------|------|--------|

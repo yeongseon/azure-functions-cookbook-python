@@ -8,6 +8,10 @@
 > not add a required check, and must not be treated as one until a trusted verdict publisher is
 > configured and verified in this repository (see "Rollout" below).
 
+**Scope:** this document applies to high-risk ("R3") changes only. Routine PRs follow the
+checklist in [CONTRIBUTING.md](https://github.com/yeongseon/azure-functions-cookbook-python/blob/main/CONTRIBUTING.md#pull-request-review-and-merge-policy)
+and need no review-evidence record.
+
 This repository runs with zero required native GitHub approvals because the sole maintainer
 cannot approve their own PR. Independent review still happens — GitHub Copilot code review, or
 a human — but prior to this policy nothing recorded *who* reviewed *which commit*, *what* was

@@ -4,15 +4,50 @@
   "runs": [
     {
       "workflow": "Test and Coverage",
-      "run_id": 43220513622,
-      "url": "https://github.com/yeongseon/azure-functions-cookbook-python/actions/runs/43220513622",
-      "head_sha": "4a79843ee0a7e79c467b92168543d42ba87690b2",
+      "run_id": 43251395252,
+      "url": "https://github.com/yeongseon/azure-functions-cookbook-python/actions/runs/43251395252",
+      "head_sha": "3e8b445438f06accec5a204cff6fab7f8d71ae93",
       "jobs": [
+        {
+          "name": "Recipe host smoke (doctor-diagnostics)",
+          "tag": "host-tested",
+          "python": "3.12",
+          "scope": "Functions host smoke with Azurite: recipe `doctor-diagnostics`",
+          "date": "2026-11-12",
+          "installed": {
+            "azure-functions": "1.26.0",
+            "azure-functions-doctor": "0.23.1",
+            "pydantic": "2.14.3"
+          }
+        },
         {
           "name": "Recipe host smoke (hello-http)",
           "tag": "host-tested",
           "python": "3.12",
-          "scope": "Functions host smoke with Azurite: recipe `hello-http` (Core Tools 4.16.0)",
+          "scope": "Functions host smoke with Azurite: recipe `hello-http`",
+          "date": "2026-11-12",
+          "installed": {
+            "azure-functions": "1.26.0"
+          }
+        },
+        {
+          "name": "Recipe host smoke (personal-langgraph-agent)",
+          "tag": "host-tested",
+          "python": "3.12",
+          "scope": "Functions host smoke with Azurite: recipe `personal-langgraph-agent`",
+          "date": "2026-11-12",
+          "installed": {
+            "azure-functions": "1.26.0",
+            "azure-functions-langgraph": "0.12.2",
+            "langgraph": "1.2.20",
+            "pydantic": "2.14.3"
+          }
+        },
+        {
+          "name": "Recipe host smoke (queue-producer-binding)",
+          "tag": "host-tested",
+          "python": "3.12",
+          "scope": "Functions host smoke with Azurite: recipe `queue-producer-binding`",
           "date": "2026-11-12",
           "installed": {
             "azure-functions": "1.26.0"
@@ -22,7 +57,7 @@
           "name": "Recipe host smoke (validated-openapi-logging)",
           "tag": "host-tested",
           "python": "3.12",
-          "scope": "Functions host smoke with Azurite: recipe `validated-openapi-logging` (Core Tools 4.16.0)",
+          "scope": "Functions host smoke with Azurite: recipe `validated-openapi-logging`",
           "date": "2026-11-12",
           "installed": {
             "azure-functions": "1.26.0",
