@@ -23,6 +23,8 @@
 
 > **支持的 Python 版本：3.11、3.12、3.13、3.14。** 权威范围以 [`pyproject.toml`](pyproject.toml) 中的 `requires-python` 为准。这四个版本在 Azure Functions Python 运行时均已正式发布，请在依赖允许的前提下选择最新版本。运行时支持终止日期请参阅 [Azure Functions 支持的语言](https://learn.microsoft.com/azure/azure-functions/supported-languages)。
 
+> **稳定性与验证。** 本 Cookbook 以 `0.x` 快照形式发布，所用工具包的版本也是 `<1`，因此配方的路由和设置不提供 SemVer 保证。“已验证”仅指配方 `recipe.yaml` 中 `verification` 级别（`docs`、`unit`、`func-host`）所表示的范围；没有任何配方在已部署的 Azure 环境中验证过。详见：[稳定性与兼容性](docs/stability-and-compatibility.md)。
+
 ## Why Use It
 
 启动一个新的 Azure Functions 项目通常意味着要拼凑分散的文档、

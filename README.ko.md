@@ -24,6 +24,8 @@ Python으로 실제 프로덕션 수준의 Azure Functions를 구축하기 위�
 
 > **지원 Python 버전: 3.11, 3.12, 3.13, 3.14.** 기준이 되는 범위는 [`pyproject.toml`](pyproject.toml)의 `requires-python`입니다. 네 버전 모두 Azure Functions Python 런타임에서 정식 지원되므로, 의존성이 허용하는 가장 최신 버전을 선택하세요. 런타임 지원 종료 일정은 [Azure Functions 지원 언어](https://learn.microsoft.com/azure/azure-functions/supported-languages) 문서를 참고하세요.
 
+> **안정성과 검증.** 이 쿡북은 `0.x` 스냅샷으로 릴리스되고 사용하는 툴킷 패키지도 `<1`이므로, 레시피의 라우트와 설정에는 SemVer 보장이 없습니다. "검증됨"은 `recipe.yaml`의 `verification` 수준(`docs`, `unit`, `func-host`)이 말하는 범위만 의미하며, 배포된 Azure 환경에서 검증된 레시피는 없습니다. 자세한 내용: [안정성과 호환성](docs/stability-and-compatibility.md).
+
 ## Why Use It
 
 새로운 Azure Functions 프로젝트를 시작하려면 흩어져 있는 문서, 블로그 게시물,
