@@ -9,6 +9,8 @@
 
 Read this in: [Korean](README.ko.md) | [日本語](README.ja.md) | [简体中文](README.zh-CN.md)
 
+> This English README is canonical. Translations are community-maintained snapshots that may lag behind it; each states the release it was last aligned with. See [Documentation and Translations](CONTRIBUTING.md#documentation-and-translations).
+
 Practical recipes for building real-world Azure Functions with Python.
 
 > **Supported Python: 3.11, 3.12, 3.13, and 3.14.** The authoritative range is `requires-python` in [`pyproject.toml`](pyproject.toml). All four minors are generally available on the Azure Functions Python runtime, so pick the newest one your dependencies allow. See [Azure Functions supported languages](https://learn.microsoft.com/azure/azure-functions/supported-languages) for runtime end-of-support dates.

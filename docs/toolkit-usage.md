@@ -17,7 +17,7 @@ Print the counts from the repository root:
 python scripts/check_ecosystem_counts.py --print
 ```
 
-`make check` (through `make generated-check`) runs `python scripts/check_ecosystem_counts.py`, which fails when the counts below or the ecosystem table in `README.md` and its translations differ from what the recipes declare. `azure-functions-scaffold` is not counted that way: it is a CLI that generates projects, and no recipe declares it.
+`make check` (through `make generated-check`) runs `python scripts/check_ecosystem_counts.py`, which fails when the counts below or the ecosystem table in `README.md` differ from what the recipes declare (translated READMEs are labeled snapshots and are not checked). `azure-functions-scaffold` is not counted that way: it is a CLI that generates projects, and no recipe declares it.
 
 ## Counts
 
