@@ -26,13 +26,13 @@ P3    HTTP + @openapi + @with_context + @validate_http above       supported
       with ``@validate_http`` above ``@db.output``)
 P4    HTTP + @openapi + ``db.output`` + @with_context +            xfail
       @validate_http (recipe ``data-and-pipelines/db_input_output``)
-      -- invocation raises ``TypeError`` today, tracked in #503
+      -- raises ``TypeError`` on azure-functions-db>=0.9.0 (#503)
 P5    Independent LangGraph ``endpoint`` producer read by OpenAPI  supported
 N1    ``@validate_http`` above ``@app.route``                      rejected
 N2    ``endpoint`` namespace with an unsupported version           degraded +
                                                                    warning
 N3    explicit ``@openapi(requests=...)`` vs ``@validate_http``    rejected
-      request model
+      request model (needs azure-functions-openapi>=0.31)
 ====  ===========================================================  =========
 
 Each case separates four checks: (a) registered SDK function, bindings and
@@ -47,6 +47,7 @@ from __future__ import annotations
 
 from collections.abc import Callable, Iterator
 from dataclasses import dataclass
+import importlib.metadata
 import inspect
 import json
 import os
@@ -70,6 +71,7 @@ from azure_functions_openapi import (
     scan_endpoint_metadata,
 )
 from azure_functions_validation import validate_http
+from packaging.version import Version
 from pydantic import BaseModel
 import pytest
 
@@ -78,6 +80,10 @@ from tests._isolation import load_example_module
 METADATA_ATTR = "_azure_functions_metadata"
 HTTP_BINDINGS = [("req", "httpTrigger"), ("$return", "http")]
 JSON_HEADERS = {"content-type": "application/json"}
+
+
+def _installed(distribution: str) -> Version:
+    return Version(importlib.metadata.version(distribution))
 
 
 @pytest.fixture(autouse=True)
@@ -384,7 +390,10 @@ def test_db_recipe_registration_and_metadata_hold_for_create_item() -> None:
 
 
 @pytest.mark.xfail(
-    strict=True,
+    # Verified failing on azure-functions-db 0.9.0 and passing on the 0.8.1 floor
+    # (minimum-deps lane), so the xfail is non-strict; see #503.
+    condition=_installed("azure-functions-db") >= Version("0.9.0"),
+    strict=False,
     raises=TypeError,
     reason="#503: db.output above with_context forwards `out` positionally into validate_http",
 )
@@ -520,6 +529,11 @@ def test_n2_unsupported_endpoint_version_degrades_visibly() -> None:
     assert rejected.status_code == 422
 
 
+@pytest.mark.skipif(
+    _installed("azure-functions-openapi") < Version("0.31.0"),
+    reason="request-body conflict detection between @openapi and @validate_http needs "
+    "azure-functions-openapi>=0.31.0 (the declared floor, 0.30.0, does not raise)",
+)
 def test_n3_explicit_openapi_request_model_conflicting_with_validation_raises() -> None:
     class OtherRequest(BaseModel):
         z: int
