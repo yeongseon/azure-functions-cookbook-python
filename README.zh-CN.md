@@ -328,6 +328,7 @@ PR 标题检查只验证语法，正文中的标题本身不能保证最终提�
 - 设计原则: `DESIGN.md`
 - 贡献指南: `CONTRIBUTING.md`
 - AI 与智能体学习路径: [`docs/patterns/ai-and-agents/learning-path.md`](docs/patterns/ai-and-agents/learning-path.md)
+- 兼容性证据（声明、已安装、主机测试的组合及 CI 运行引用）: [`docs/compatibility.md`](docs/compatibility.md)
 
 ## Ecosystem
 

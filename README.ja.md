@@ -331,6 +331,7 @@ PR の説明は [AGENTS.md](AGENTS.md#pull-request-writing) に従い、`Summary
 - 設計原則: `DESIGN.md`
 - コントリビューションガイド: `CONTRIBUTING.md`
 - AI & エージェント学習パス: [`docs/patterns/ai-and-agents/learning-path.md`](docs/patterns/ai-and-agents/learning-path.md)
+- 互換性の根拠（宣言済み・インストール済み・ホストテスト済みの組み合わせと CI 実行の参照）: [`docs/compatibility.md`](docs/compatibility.md)
 
 ## Ecosystem
 

@@ -44,6 +44,8 @@ Tag verification (`tag-verification.yml`) additionally builds the repository pac
 
 Do **not** read "CI passed" as "Azure-certified" or "production-ready". Passing CI means the checks in the table above passed.
 
+For the Python, `azure-functions`, Pydantic and toolkit-library versions CI actually installed or ran on a Functions host, with dates and run links, see [Compatibility evidence](compatibility.md).
+
 A snapshot tells you what was verified, not what to add before calling a recipe production-like. A
 reference path for that question (edge, caller and resource identity, observability, reliability) is tracked in
 [issue #352](https://github.com/yeongseon/azure-functions-cookbook-python/issues/352); it is not published yet, so

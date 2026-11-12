@@ -330,6 +330,7 @@ PR 설명은 [AGENTS.md](AGENTS.md#pull-request-writing)에 따라 `Summary`, `C
 - 설계 원칙: `DESIGN.md`
 - 기여 가이드: `CONTRIBUTING.md`
 - AI 및 에이전트 학습 경로: [`docs/patterns/ai-and-agents/learning-path.md`](docs/patterns/ai-and-agents/learning-path.md)
+- 호환성 증거(선언됨·설치됨·호스트 테스트됨 조합과 CI 실행 참조): [`docs/compatibility.md`](docs/compatibility.md)
 
 ## Ecosystem
 
