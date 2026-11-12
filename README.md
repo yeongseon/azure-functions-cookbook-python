@@ -13,6 +13,8 @@ Practical recipes for building real-world Azure Functions with Python.
 
 > **Supported Python: 3.11, 3.12, 3.13, and 3.14.** The authoritative range is `requires-python` in [`pyproject.toml`](pyproject.toml). All four minors are generally available on the Azure Functions Python runtime, so pick the newest one your dependencies allow. See [Azure Functions supported languages](https://learn.microsoft.com/azure/azure-functions/supported-languages) for runtime end-of-support dates.
 
+> **Stability and verification.** The Cookbook is released as `0.x` snapshots and the toolkit packages it uses are `<1`, so recipe routes and settings carry no SemVer promise. "Verified" means only what a recipe's `verification` level in `recipe.yaml` says (`docs`, `unit` or `func-host`); no recipe is verified in a deployed Azure environment. See [Stability and compatibility](docs/stability-and-compatibility.md).
+
 ## Why Use It
 
 Starting a new Azure Functions project often means piecing together scattered documentation,
@@ -317,7 +319,7 @@ particular issue; see [contributor-reserved issues](CONTRIBUTING.md#contributor-
 
 This cookbook is the **dogfood** of the **Azure Functions Python DX Toolkit**: many examples are real, runnable Azure Functions that opt in to toolkit libraries in production-realistic scenarios, while others are plain Azure Functions examples that use no toolkit package. 47 of the 82 recipes declare at least one toolkit package and 35 are plain Azure Functions only; [Toolkit usage by recipe](docs/toolkit-usage.md) lists both kinds.
 
-The **Status** column reflects how each package is currently used in this repo: **Dogfooded** (declared as a dependency by example projects), **Experimental** (advertised but not yet used by any example), or **Planned** (integration tracked but not started). Counts are the number of example projects whose `pyproject.toml` declares the package, the same definition the repository tests use for the docs home page; one CLI-generated example (`scaffold_walkthrough_app`) declares the packages its template generates and is called out where it applies. A declared dependency is not evidence that the package was exercised in a Functions host or in Azure; see each recipe's `verification` level.
+The **Status** column reflects how each package is currently used in this repo: **Dogfooded** (declared as a dependency by example projects), **Experimental** (advertised but not yet used by any example), or **Planned** (integration tracked but not started). Counts are the number of example projects whose `pyproject.toml` declares the package, the same definition the repository tests use for the docs home page; one CLI-generated example (`scaffold_walkthrough_app`) declares the packages its template generates and is called out where it applies. A declared dependency is not evidence that the package was exercised in a Functions host or in Azure; see each recipe's `verification` level and [Stability and compatibility](docs/stability-and-compatibility.md).
 
 | Package | Role | Status |
 |---------|------|--------|
