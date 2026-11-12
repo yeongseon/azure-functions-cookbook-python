@@ -208,6 +208,27 @@ This repository is **issue-based, not milestone-based**. Track and group work us
 1. Merge Conventional-Commit PRs into `main`. Release Please keeps an open **Release PR** with the next version and the changelog.
 2. Merging that Release PR tags the release commit and publishes the GitHub Release.
 
+### Recipe snapshot cadence
+
+- This repository publishes **tagged GitHub recipe snapshots, not PyPI
+  distributions**. A snapshot should represent a coherent, reproducible,
+  tested collection of recipes, not every merged example or tooling change.
+- **Default:** aim for at most one planned snapshot every **two weeks**,
+  when meaningful tested recipe changes are ready. Skip quiet periods and
+  continue accepting normal documentation/example PRs without cutting tags.
+- **Urgent exception:** a verified insecure example, materially misleading
+  deployment instructions, or a widely broken released snapshot can justify
+  an early correction. Record the impacted recipe and reason in the Release PR;
+  do not impose a timer that blocks urgent repairs.
+- Before a snapshot, verify the latest actual GitHub snapshot, updated recipe
+  metadata and index, reproducible package/runtime constraints, offline tests
+  and appropriate Functions-host/Azure evidence. Do not imply every recipe
+  was tested in Azure when it was not.
+- Release Please retains ownership of versions, tag, GitHub Release and
+  `CHANGELOG.md`. No automatic release PR merge, calendar tag push, PyPI
+  publication or alteration of previous snapshots. See
+  [release process](docs/release_process.md#recipe-snapshot-cadence).
+
 ### Upstream Toolkit Release Gate
 This cookbook is the dogfood verification gate for every toolkit library (`azure-functions-openapi`, `azure-functions-validation`, `azure-functions-logging`, `azure-functions-db`, `azure-functions-langgraph`, `azure-functions-scaffold`, `azure-functions-doctor`). When any of those libraries publishes a new release:
 1. Upgrade to the freshly published version (`hatch run pip install -U "<package>>=X.Y,<1"`) and run `make test`.
