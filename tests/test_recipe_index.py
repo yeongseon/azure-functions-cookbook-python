@@ -180,7 +180,7 @@ def test_find_recipe_preserves_supplied_order_after_filtering(
     query: str,
     tag: str | None,
 ) -> None:
-    """Offline: filtering keeps the supplied (non-alphabetical) order and never mutates the corpus."""
+    """Offline: filtering keeps the supplied order and leaves the corpus intact."""
     corpus = [
         _make_recipe(slug="zeta", description="retry", tags=("durable",)),
         _make_recipe(slug="middle", description="http", tags=("http",)),
