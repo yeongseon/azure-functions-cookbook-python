@@ -67,14 +67,20 @@ if _db_available:
             mimetype="application/json",
         )
 
+    # Decorator order matters: ``@db.output`` must sit BELOW ``@validate_http``.
+    # ``validate_http`` advertises ``out`` as a positional-or-keyword parameter
+    # but only accepts ``req`` positionally; ``azure-functions-db>=0.9.0`` binds
+    # by the advertised signature and forwards positionally, so an outer
+    # ``@db.output`` raises ``TypeError`` (#503). Keep ``@with_context``
+    # outermost (just under ``@openapi``) so validation errors keep correlation.
     @app.route(route="items", methods=["POST"])
     @openapi(
         summary="Create item",
         tags=["items"],
     )
-    @db.output("out", url="%DB_URL%", table="items")
     @with_context
     @validate_http(body=ItemCreate, response_model=ItemResponse, status_code=201)
+    @db.output("out", url="%DB_URL%", table="items")
     def create_item(
         req: func.HttpRequest, body: ItemCreate, out: DbOut, context: func.Context
     ) -> func.HttpResponse:
