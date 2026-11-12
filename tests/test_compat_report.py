@@ -113,6 +113,7 @@ def test_main_writes_a_readable_report_for_a_green_run(
     summary = tmp_path / "summary.md"
     monkeypatch.setenv("GITHUB_SHA", "abc123")
     monkeypatch.setenv("PR_HEAD_SHA", "def456")
+    monkeypatch.setenv("GITHUB_EVENT_NAME", "pull_request")
     monkeypatch.setenv("GITHUB_STEP_SUMMARY", str(summary))
     installed = report.installed_versions()["pytest"]
 
@@ -127,7 +128,7 @@ def test_main_writes_a_readable_report_for_a_green_run(
     assert data["commit"] == {
         "tested": "abc123",
         "pull_request_head": "def456",
-        "event": "unknown",
+        "event": "pull_request",
     }
     assert data["counts"]["selected"] == 1
     assert data["installed_toolkit_packages"] == {
