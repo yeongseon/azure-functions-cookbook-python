@@ -8,11 +8,15 @@ a final-head author-reply, a remapped inline-comment commit, and the
 
 from __future__ import annotations
 
+import pytest
+
 from tools.classify_review_evidence import (
     classify_inline_comment,
     classify_review,
     has_open_findings,
 )
+
+pytestmark = pytest.mark.repo_infra
 
 PR_AUTHOR = "yeongseon"
 CURRENT_HEAD = "cccccc2"

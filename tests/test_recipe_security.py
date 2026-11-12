@@ -12,6 +12,8 @@ from tools.recipe_security import ROOT, check_manifest, inventory
 from tools.security_exceptions import apply_policy
 from tools.security_report import Check, Finding, Status, identifier, write_report
 
+pytestmark = pytest.mark.repo_infra
+
 
 def test_real_manifest_covers_all_examples() -> None:
     result = check_manifest(ROOT)

@@ -190,11 +190,29 @@ jobs:
           PY
           python -m pip check
 
-      - name: Run tests on the matrix interpreter
-        # Raw pytest on the interpreter provisioned above (NOT through the
-        # default pinned Hatch env). The repo pytest config enables --cov
-        # with fail_under=95.
-        run: pytest --cov-report=xml --cov-report=term-missing tests/
+      # The suite runs as two lanes on the matrix interpreter (raw pytest, NOT the
+      # default pinned Hatch env). `repo_infra` marks tests of repository tooling
+      # (tools/, scripts/, workflows, Makefile, packaging, generated artifacts);
+      # the library lane is everything else. Together they select exactly the
+      # tests the previous single `pytest tests/` run did (tests/test_library_infra_split.py
+      # asserts that), and both share one coverage data file so the combined
+      # 95% gate in the last step is unchanged.
+      - name: Library tests (shipped library and recipe behavior)
+        run: pytest -m 'not (e2e or smoke or worker_registration or repo_infra)' --cov-fail-under=0 tests/
+
+      - name: Library coverage gate (src, 95%)
+        run: coverage report --include='src/*' --fail-under=95
+
+      - name: Repository infrastructure tests (tooling, CI contracts, packaging)
+        run: pytest -m 'repo_infra and not (e2e or smoke or worker_registration)' --cov-append --cov-fail-under=0 --cov-report=xml --cov-report=term-missing tests/
+
+      - name: Repository tooling coverage gate (tools, 95%)
+        run: coverage report --include='tools/*' --fail-under=95
+
+      - name: Combined coverage gate (src and tools, 95%)
+        # Same measured sources and threshold as the former single pytest run
+        # (pyproject [tool.coverage]); fail_under comes from that config.
+        run: coverage report
 
       - name: Verify coverage output
         run: ls -lh coverage.xml

@@ -8,6 +8,8 @@ import pytest
 from tools.security_evidence import classify_bandit, semgrep_evidence
 from tools.security_report import Status
 
+pytestmark = pytest.mark.repo_infra
+
 
 def bandit_payload(files: list[str], findings: list[dict[str, str | int]]) -> str:
     return json.dumps(

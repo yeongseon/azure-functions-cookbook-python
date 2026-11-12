@@ -17,8 +17,12 @@ from __future__ import annotations
 
 import ast
 
+import pytest
+
 from tests._isolation import EXAMPLES_DIR
 from tools.recipe_discovery import recipe_files
+
+pytestmark = pytest.mark.repo_infra
 
 
 def _decorator_leaf_name(dec: ast.expr) -> str | None:
