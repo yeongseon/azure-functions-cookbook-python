@@ -13,10 +13,6 @@ EXAMPLES = REPO_ROOT / "examples"
 # RECIPE_TEST_TIMEOUT_SECONDS so one hanging install or test cannot monopolize the CI job.
 DEFAULT_TIMEOUT_SECONDS = 900.0
 
-# When set, every suite also writes ``<category>__<recipe>.xml`` JUnit results into this directory
-# (created on demand) so CI can upload them whether the suite passed or failed.
-JUNIT_DIR_ENV = "RECIPE_TEST_JUNIT_DIR"
-
 
 def suite_timeout() -> float:
     raw = os.environ.get("RECIPE_TEST_TIMEOUT_SECONDS")
@@ -54,6 +50,11 @@ def run_bounded(
 def recipe_projects() -> tuple[Path, ...]:
     """Every recipe that ships a local ``tests/test_*.py`` suite."""
     return tuple(sorted({test.parent.parent for test in EXAMPLES.glob("*/*/tests/test_*.py")}))
+
+
+# When set, every suite also writes ``<category>__<recipe>.xml`` JUnit results into this directory
+# (created on demand) so CI can upload them whether the suite passed or failed.
+JUNIT_DIR_ENV = "RECIPE_TEST_JUNIT_DIR"
 
 
 def main() -> int:
