@@ -39,6 +39,8 @@ Python で実運用レベルの Azure Functions を構築するための実践�
 
 このリポジトリはコンテンツ中心です。CLI ツールではありません。
 
+`main` は進行中の開発コンテンツであり、タグ付きの [GitHub Releases](https://github.com/yeongseon/azure-functions-cookbook-python/releases) は再現可能なスナップショットです（このクックブックは PyPI には公開されていません）。各 CI レベルが何を検証し、何を検証しないかについては、[バージョン、スナップショット、検証](docs/snapshots-and-verification.md) を参照してください。
+
 ## Quick Index
 
 カテゴリへ移動: [APIs and Ingress](#apis-and-ingress) · [Scheduled and Background](#scheduled-and-background) · [Blob and File Triggers](#blob-and-file-triggers) · [Async APIs and Jobs](#async-apis-and-jobs) · [Messaging and Pub/Sub](#messaging-and-pubsub) · [Streams and Telemetry](#streams-and-telemetry) · [Data and Pipelines](#data-and-pipelines) · [Orchestration and Workflows](#orchestration-and-workflows) · [Reliability](#reliability) · [Security and Tenancy](#security-and-tenancy) · [Runtime and Ops](#runtime-and-ops) · [Realtime](#realtime) · [AI and Agents](#ai-and-agents) · [Guides](#guides)
