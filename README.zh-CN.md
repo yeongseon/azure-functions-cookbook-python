@@ -40,6 +40,17 @@
 
 `main` 是持续演进的开发内容；带标签的 [GitHub Releases](https://github.com/yeongseon/azure-functions-cookbook-python/releases) 是可复现的快照（本 Cookbook 不会发布到 PyPI）。各级 CI 分别验证什么、不验证什么，请参见[版本、快照与验证](docs/snapshots-and-verification.md)。
 
+## Choose Another Option When...
+
+这些配方讲解 Azure Functions Python v2 的模式。在以下情况下，其他选择可能更合适：
+
+- **需要完整的 Web 框架时。** HTTP 配方为每个路由使用一个普通的 `@app.route` 处理函数。如果已有 FastAPI/Starlette 一类的应用，或需要其中间件和路由，请用 [`AsgiFunctionApp`](https://learn.microsoft.com/python/api/azure-functions/azure.functions.asgifunctionapp) 包装 ASGI 应用，或在容器中运行。无论函数超时如何设置，HTTP 触发的函数都必须在 [230 秒](https://learn.microsoft.com/azure/azure-functions/functions-scale#function-app-timeout-duration)内响应。
+- **需要精确的数据库变更语义时。** `azure-functions-db`（多个配方使用）包含基于轮询的伪触发器。对于 Azure SQL，内置的 [SQL 触发器](https://learn.microsoft.com/azure/azure-functions/functions-bindings-azure-sql-trigger)基于 SQL 更改跟踪。对于 Cosmos DB，[Cosmos DB 触发器](https://learn.microsoft.com/azure/azure-functions/functions-bindings-cosmosdb-v2-trigger)读取更改源，更改源会发布插入和更新，但不发布删除；Cosmos DB 为其更改源处理器记录了[至少一次（at-least-once）投递](https://learn.microsoft.com/azure/cosmos-db/change-feed-processor)。[Outbox Pattern](examples/reliability/outbox_pattern/) 配方从该更改源中继，并明确说明它不是 exactly-once；如果需要 exactly-once，请让消费者具备幂等性，或选择能提供该语义的平台功能。
+- **原生遥测已经足够时。** 应用在 Azure 中运行时，Python `logging` 根记录器的输出已会发送到 Application Insights，Functions 还支持结合 Azure Monitor 使用 [OpenTelemetry](https://learn.microsoft.com/azure/azure-functions/opentelemetry-howto)。除非需要 [Observability Tracing](examples/runtime-and-ops/observability_tracing/) 配方中的关联 ID 约定，否则可以不使用额外的结构化日志层。
+- **官方工具已能完成任务时。** 启动项目请先用 [`func init`/`func new`](https://learn.microsoft.com/azure/azure-functions/functions-core-tools-reference#func-init) 或 [`azd init`](https://learn.microsoft.com/azure/developer/azure-developer-cli/reference#azd-init)，诊断已部署的应用请先用门户中的[诊断并解决问题](https://learn.microsoft.com/azure/azure-functions/functions-diagnostics)，然后再考虑 scaffold 和 doctor 配方。
+- **LangGraph 智能体超出 Functions 的能力时。** LangGraph 配方运行的是简短的请求/响应图，没有一个演示流式传输；并且 [Personal LangGraph Agent](examples/ai-and-agents/personal_langgraph_agent/) 的持久化 Blob 记忆不保证工具效果恰好执行一次。如果需要超过上述 HTTP 限制的运行时长、流式传输或跨实例的持久执行，可以了解 [LangSmith Deployment](https://docs.langchain.com/langsmith/deployments)（其宣称提供持久执行、实时流式传输和水平扩展），或把智能体托管在 [Azure Container Apps](https://learn.microsoft.com/azure/container-apps/overview) 上。
+- **普通的 Functions 配方就够用时。** 许多配方只使用 `azure-functions`（参见[按配方划分的工具包使用情况](docs/toolkit-usage.md)）。如果只需要触发器或绑定模式，请从这些配方开始，只在确有需要时才添加可选的工具包。
+
 ## Quick Index
 
 跳转到分类: [APIs and Ingress](#apis-and-ingress) · [Scheduled and Background](#scheduled-and-background) · [Blob and File Triggers](#blob-and-file-triggers) · [Async APIs and Jobs](#async-apis-and-jobs) · [Messaging and Pub/Sub](#messaging-and-pubsub) · [Streams and Telemetry](#streams-and-telemetry) · [Data and Pipelines](#data-and-pipelines) · [Orchestration and Workflows](#orchestration-and-workflows) · [Reliability](#reliability) · [Security and Tenancy](#security-and-tenancy) · [Runtime and Ops](#runtime-and-ops) · [Realtime](#realtime) · [AI and Agents](#ai-and-agents) · [Guides](#guides)
