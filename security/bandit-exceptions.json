@@ -12,6 +12,8 @@
   {"id":"B603","file":"tools/check_pr_format.py","line":12,"reason":"Git argv is explicit and no shell is used.","owner":"yeongseon","added":"2026-10-22","expires":"2026-12-22"},
   {"id":"B607","file":"tools/check_pr_format.py","line":41,"reason":"Trusted CI PATH resolves ruff, file arguments come from git inventory.","owner":"yeongseon","added":"2026-10-22","expires":"2026-12-22"},
   {"id":"B603","file":"tools/check_pr_format.py","line":41,"reason":"Ruff uses fixed options and explicit file argv, shell disabled.","owner":"yeongseon","added":"2026-10-22","expires":"2026-12-22"},
+  {"id":"B404","file":"tools/audit_snapshots.py","line":42,"reason":"Read-only snapshot audit runs git, the GitHub CLI and the recipe-index generators out-of-process.","owner":"yeongseon","added":"2026-11-12","expires":"2027-02-10"},
+  {"id":"B603","file":"tools/audit_snapshots.py","line":122,"reason":"Single subprocess helper: fixed git/gh argv or the current interpreter with repository script paths, shell disabled, read-only commands only.","owner":"yeongseon","added":"2026-11-12","expires":"2027-02-10"},
   {"id":"B404","file":"tools/compile_bicep_templates.py","line":15,"reason":"Offline Bicep compilation requires subprocess.","owner":"yeongseon","added":"2026-10-22","expires":"2026-12-22"},
   {"id":"B603","file":"tools/compile_bicep_templates.py","line":41,"reason":"Compiler invocation uses repository template inventory and shell disabled.","owner":"yeongseon","added":"2026-10-22","expires":"2026-12-22"},
   {"id":"B404","file":"tools/dependency_audit_policy.py","line":8,"reason":"Isolated venv and pip-audit execution require subprocess.","owner":"yeongseon","added":"2026-10-22","expires":"2026-12-22"},
