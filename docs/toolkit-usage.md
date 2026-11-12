@@ -42,7 +42,7 @@ python scripts/check_ecosystem_counts.py --print
 | [LangGraph Agent](patterns/ai-and-agents/langgraph-agent.md) | ai-and-agents | `azure-functions-openapi`, `azure-functions-validation`, `azure-functions-logging`, `azure-functions-langgraph` | docs |
 | [LangGraph RAG Agent](patterns/ai-and-agents/langgraph-rag-agent.md) | ai-and-agents | `azure-functions-openapi`, `azure-functions-validation`, `azure-functions-logging`, `azure-functions-langgraph` | docs |
 | [Langgraph Tool Use](patterns/ai-and-agents/langgraph-tool-use.md) | ai-and-agents | `azure-functions-openapi`, `azure-functions-validation`, `azure-functions-logging`, `azure-functions-langgraph` | docs |
-| [Personal LangGraph Agent](patterns/ai-and-agents/personal-langgraph-agent.md) | ai-and-agents | `azure-functions-langgraph` | docs |
+| [Personal LangGraph Agent](patterns/ai-and-agents/personal-langgraph-agent.md) | ai-and-agents | `azure-functions-langgraph` | func-host |
 | [RAG Knowledge API](patterns/ai-and-agents/rag-knowledge-api.md) | ai-and-agents | `azure-functions-openapi`, `azure-functions-validation`, `azure-functions-logging` | docs |
 | [Streaming AI Response](patterns/ai-and-agents/streaming-ai-response.md) | ai-and-agents | `azure-functions-openapi`, `azure-functions-validation`, `azure-functions-logging` | unit |
 | [APIM Function Backend](patterns/apis-and-ingress/apim-function-backend.md) | apis-and-ingress | `azure-functions-openapi`, `azure-functions-validation`, `azure-functions-logging` | docs |
@@ -75,7 +75,7 @@ python scripts/check_ecosystem_counts.py --print
 | [Outbox Pattern](patterns/reliability/outbox-pattern.md) | reliability | `azure-functions-logging`, `azure-functions-db` | docs |
 | [Rate Limiting / Throttle](patterns/reliability/rate-limiting-throttle.md) | reliability | `azure-functions-openapi`, `azure-functions-validation`, `azure-functions-logging` | docs |
 | [Cold Start Mitigation](patterns/runtime-and-ops/cold-start-mitigation.md) | runtime-and-ops | `azure-functions-logging` | docs |
-| [Doctor Diagnostics Endpoint](patterns/runtime-and-ops/doctor-diagnostics-endpoint.md) | runtime-and-ops | `azure-functions-doctor` | unit |
+| [Doctor Diagnostics Endpoint](patterns/runtime-and-ops/doctor-diagnostics-endpoint.md) | runtime-and-ops | `azure-functions-doctor` | func-host |
 | [Observability Tracing](patterns/runtime-and-ops/observability-tracing.md) | runtime-and-ops | `azure-functions-logging` | docs |
 | [Durable Timer Reminder](patterns/scheduled-and-background/durable-timer-reminder.md) | scheduled-and-background | `azure-functions-openapi`, `azure-functions-validation`, `azure-functions-logging` | docs |
 | [Queue Scheduled Dispatch](patterns/scheduled-and-background/queue-scheduled-dispatch.md) | scheduled-and-background | `azure-functions-logging` | docs |
@@ -101,7 +101,7 @@ python scripts/check_ecosystem_counts.py --print
 | Local Run and Direct Invoke | guides | unit |
 | [Event Grid Domain Events](patterns/messaging-and-pubsub/eventgrid-domain-events.md) | messaging-and-pubsub | docs |
 | [Queue Consumer](patterns/messaging-and-pubsub/queue-consumer.md) | messaging-and-pubsub | unit |
-| [Queue Producer](patterns/messaging-and-pubsub/queue-producer.md) | messaging-and-pubsub | unit |
+| [Queue Producer](patterns/messaging-and-pubsub/queue-producer.md) | messaging-and-pubsub | func-host |
 | [Service Bus Worker](patterns/messaging-and-pubsub/servicebus-worker.md) | messaging-and-pubsub | unit |
 | [Durable Determinism Gotchas](patterns/orchestration-and-workflows/durable-determinism-gotchas.md) | orchestration-and-workflows | unit |
 | [Durable Entity Counter](patterns/orchestration-and-workflows/durable-entity-counter.md) | orchestration-and-workflows | unit |
