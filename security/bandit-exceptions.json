@@ -27,6 +27,8 @@
   {"id":"B603","file":"tools/recipe_host_smoke.py","line":219,"reason":"func start resolved with shutil.which; fixed argv, repository-discovered recipe cwd, shell disabled.","owner":"yeongseon","added":"2026-11-12","expires":"2027-02-10"},
   {"id":"B404","file":"tools/security_evidence.py","line":8,"reason":"Bandit must run out-of-process to collect machine-readable evidence.","owner":"yeongseon","added":"2026-10-22","expires":"2026-12-22"},
   {"id":"B603","file":"tools/security_evidence.py","line":74,"reason":"Current interpreter runs Bandit against exact repository file argv without a shell.","owner":"yeongseon","added":"2026-10-22","expires":"2026-12-22"},
+  {"id":"B404","file":"tools/compat_report.py","line":26,"reason":"Compatibility report probes `func --version` out-of-process.","owner":"yeongseon","added":"2026-11-12","expires":"2027-02-10"},
+  {"id":"B603","file":"tools/compat_report.py","line":116,"reason":"Version probe: executable resolved with shutil.which, fixed argv, shell disabled, read-only.","owner":"yeongseon","added":"2026-11-12","expires":"2027-02-10"},
   {"id":"B105","file":"tools/security_report.py","line":59,"reason":"False positive: PASS is an evidence status enum, not a password.","owner":"yeongseon","added":"2026-10-22","expires":"2026-12-22"},
   {"id":"B404","file":"tools/security_structure.py","line":7,"reason":"Shell syntax checking requires invoking bash -n.","owner":"yeongseon","added":"2026-10-22","expires":"2026-12-22"},
   {"id":"B607","file":"tools/security_structure.py","line":74,"reason":"Trusted CI PATH resolves bash; only -n syntax checking, not execution.","owner":"yeongseon","added":"2026-10-22","expires":"2026-12-22"},

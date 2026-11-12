@@ -9,6 +9,9 @@ name: E2E Toolkit Matrix
 #             (catches drift before it is ever released). It does not download the published
 #             toolkit wheels (#459; see docs/ci-package-downloads.md).
 #
+# Pre-merge: the `toolkit-compat` job in ci-test.yml runs a scoped, pinned-dependency subset for
+# pull requests (see docs/testing.md). This workflow stays scheduled/post-release only.
+#
 # The repository_dispatch trigger lets a sibling library's release workflow
 # re-run this suite immediately after it publishes, so downstream breakage is
 # caught per-release instead of by manual verification.
