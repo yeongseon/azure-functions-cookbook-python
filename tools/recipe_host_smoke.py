@@ -14,6 +14,7 @@ from __future__ import annotations
 
 import argparse
 from collections.abc import Sequence
+import http.client
 import json
 import os
 from pathlib import Path
@@ -26,8 +27,6 @@ import sys
 import tempfile
 import time
 from typing import Any
-import urllib.error
-import urllib.request
 
 _FAILURE_MARKERS = (
     "Generating 0 job function",
@@ -36,6 +35,7 @@ _FAILURE_MARKERS = (
 )
 _FUNCTION_LINE = re.compile(r"^\s+(?P<name>[\w.-]+): (?P<detail>.+)$")
 _RUNTIME_VERSION = re.compile(r"Function Runtime Version:\s+(?P<version>\S+)")
+_INDEX_WAIT_SECONDS = 30
 _RECORDED_PREFIXES = ("azure-functions", "langgraph", "langchain", "pydantic")
 
 
@@ -80,9 +80,12 @@ def check_response(status: int, body: str, expect_status: int, expect_body: Sequ
 
 
 def _first_line(command: Sequence[str]) -> str:
+    executable = shutil.which(command[0])
+    if executable is None:
+        return "unavailable"
     try:
         completed = subprocess.run(  # noqa: S603 - fixed argv, no shell
-            command, capture_output=True, text=True, timeout=30, check=False
+            [executable, *command[1:]], capture_output=True, text=True, timeout=30, check=False
         )
     except (OSError, subprocess.SubprocessError):
         return "unavailable"
@@ -142,17 +145,17 @@ def _stop(proc: subprocess.Popen[bytes]) -> None:
             continue
 
 
-def _request(url: str, method: str, body: str | None) -> tuple[int, str]:
-    data = body.encode() if body is not None else None
+def _request(port: int, route: str, method: str, body: str | None) -> tuple[int, str]:
     headers = {"Content-Type": "application/json"} if body is not None else {}
-    request = urllib.request.Request(url, data=data, method=method, headers=headers)  # noqa: S310
+    connection = http.client.HTTPConnection("127.0.0.1", port, timeout=20)
     try:
-        with urllib.request.urlopen(request, timeout=20) as response:  # noqa: S310
-            return int(response.status), response.read().decode(errors="replace")
-    except urllib.error.HTTPError as error:
-        return error.code, error.read().decode(errors="replace")
+        connection.request(method, route, body=body, headers=headers)
+        response = connection.getresponse()
+        return response.status, response.read().decode(errors="replace")
     except OSError:
         return 0, ""
+    finally:
+        connection.close()
 
 
 def _build_parser() -> argparse.ArgumentParser:
@@ -184,6 +187,13 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
     if args.min_functions < 1:
         raise HostSmokeError("--min-functions must be at least 1")
 
+    func_exe = shutil.which("func")
+    if func_exe is None:
+        raise HostSmokeError("Azure Functions Core Tools (`func`) is not on PATH")
+    azurite_exe = None if args.no_azurite else shutil.which("azurite")
+    if not args.no_azurite and azurite_exe is None:
+        raise HostSmokeError("`azurite` is not on PATH")
+
     workdir = Path(tempfile.mkdtemp(prefix="host-smoke-"))
     func_log = workdir / "func-host.log"
     azurite: subprocess.Popen[bytes] | None = None
@@ -198,9 +208,9 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
         if not args.no_azurite:
             if _port_open(10000):
                 raise HostSmokeError("port 10000 is already in use; stop the other Azurite first")
-            azurite = subprocess.Popen(  # noqa: S603,S607 - fixed argv, no shell
+            azurite = subprocess.Popen(  # noqa: S603 - fixed argv, no shell
                 [
-                    "azurite",
+                    str(azurite_exe),
                     "--silent",
                     "--skipApiVersionCheck",
                     "--location",
@@ -213,8 +223,8 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
             if not _wait_port(10000, 30):
                 raise HostSmokeError("Azurite did not open port 10000")
         with func_log.open("wb") as sink:
-            host = subprocess.Popen(  # noqa: S603,S607 - fixed argv, no shell
-                ["func", "start", "--python", "--port", str(port)],
+            host = subprocess.Popen(  # noqa: S603 - fixed argv, no shell
+                [func_exe, "start", "--python", "--port", str(port)],
                 cwd=recipe_dir,
                 env=env,
                 stdout=sink,
@@ -222,7 +232,6 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
                 start_new_session=True,
             )
 
-        url = f"http://127.0.0.1:{port}{args.route}"
         deadline = time.monotonic() + args.startup_timeout
         status, body = 0, ""
         while time.monotonic() < deadline:
@@ -232,13 +241,19 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
             if host.poll() is not None:
                 raise HostSmokeError(f"func host exited early with code {host.returncode}")
             if _port_open(port):
-                status, body = _request(url, args.method, args.body)
+                status, body = _request(port, args.route, args.method, args.body)
                 # A host that is not ready answers 404/5xx; only the expected answer ends the wait.
                 if status == args.expect_status:
                     break
             time.sleep(2)
-        log = func_log.read_text(errors="replace")
-        functions = indexed_functions(log)
+        # The host can answer before it prints its function list; give the list time to appear.
+        index_deadline = time.monotonic() + _INDEX_WAIT_SECONDS
+        while True:
+            log = func_log.read_text(errors="replace")
+            functions = indexed_functions(log)
+            if len(functions) >= args.min_functions or time.monotonic() >= index_deadline:
+                break
+            time.sleep(1)
         if len(functions) < args.min_functions:
             raise HostSmokeError(
                 f"host indexed {len(functions)} function(s), need at least {args.min_functions}"

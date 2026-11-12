@@ -69,7 +69,7 @@ def test_check_response_accepts_expected_answer() -> None:
 _FAKE_FUNC = textwrap.dedent(
     """\
     #!{python}
-    import http.server, os, sys
+    import http.server, os, sys, threading, time
     if "--version" in sys.argv:
         print("9.9.9")
         raise SystemExit(0)
@@ -77,18 +77,22 @@ _FAKE_FUNC = textwrap.dedent(
     mode = os.environ.get("FAKE_FUNC_MODE", "ok")
     if mode == "crash":
         raise SystemExit(3)
-    if mode == "zero":
-        print("Generating 0 job function(s)", flush=True)
-    else:
-        banner = "Function Runtime Version: 4.0.0\\n\\nFunctions:\\n\\n\\thello: [GET] x\\n"
-        print(banner, flush=True)
     class Handler(http.server.BaseHTTPRequestHandler):
         def do_GET(self):
             self.send_response(200); self.end_headers(); self.wfile.write(b"Hello from fake")
         def do_POST(self):
             self.send_response(202); self.end_headers(); self.wfile.write(b"accepted")
         def log_message(self, *args): pass
-    http.server.HTTPServer(("127.0.0.1", port), Handler).serve_forever()
+    server = http.server.HTTPServer(("127.0.0.1", port), Handler)
+    threading.Thread(target=server.serve_forever, daemon=True).start()
+    if mode == "zero":
+        print("Generating 0 job function(s)", flush=True)
+    elif mode != "silent":
+        if mode == "late":
+            time.sleep(3)
+        banner = "Function Runtime Version: 4.0.0\\n\\nFunctions:\\n\\n\\thello: [GET] x\\n"
+        print(banner, flush=True)
+    time.sleep(600)
     """
 )
 
@@ -105,6 +109,9 @@ def fake_host(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> Path:
     func = bindir / "func"
     func.write_text(_FAKE_FUNC.format(python=sys.executable))
     func.chmod(func.stat().st_mode | stat.S_IEXEC)
+    azurite = bindir / "azurite"
+    azurite.write_text(f"#!{sys.executable}\nimport time\ntime.sleep(600)\n")
+    azurite.chmod(azurite.stat().st_mode | stat.S_IEXEC)
     monkeypatch.setenv("PATH", f"{bindir}:{Path(sys.executable).parent}:/usr/bin:/bin")
     monkeypatch.setattr(
         smoke,
@@ -167,6 +174,42 @@ def test_main_fails_when_the_host_is_unhealthy(
     assert code == 1
     assert message in capsys.readouterr().err
     assert json.loads(evidence.read_text())["result"] == "failed"
+
+
+def test_main_waits_for_a_late_function_list(
+    fake_host: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    monkeypatch.setenv("FAKE_FUNC_MODE", "late")
+    assert smoke.main(_args(fake_host)) == 0
+
+
+def test_main_fails_when_no_function_is_ever_indexed(
+    fake_host: Path, monkeypatch: pytest.MonkeyPatch, capsys: pytest.CaptureFixture[str]
+) -> None:
+    monkeypatch.setenv("FAKE_FUNC_MODE", "silent")
+    monkeypatch.setattr(smoke, "_INDEX_WAIT_SECONDS", 2)
+
+    assert smoke.main(_args(fake_host)) == 1
+    assert "host indexed 0 function(s)" in capsys.readouterr().err
+
+
+def test_main_requires_func_on_path(
+    fake_host: Path, monkeypatch: pytest.MonkeyPatch, capsys: pytest.CaptureFixture[str]
+) -> None:
+    monkeypatch.setenv("PATH", "/nonexistent")
+    assert smoke.main(_args(fake_host)) == 1
+    assert "(`func`) is not on PATH" in capsys.readouterr().err
+
+
+def test_main_requires_azurite_unless_disabled(
+    fake_host: Path, monkeypatch: pytest.MonkeyPatch, capsys: pytest.CaptureFixture[str]
+) -> None:
+    monkeypatch.setenv("PATH", f"{fake_host.parent / 'bin'}:/nonexistent")
+    (fake_host.parent / "bin" / "azurite").unlink()
+    args = _args(fake_host)
+    args.remove("--no-azurite")
+    assert smoke.main(args) == 1
+    assert "`azurite` is not on PATH" in capsys.readouterr().err
 
 
 def test_main_fails_on_an_unexpected_body(fake_host: Path) -> None:
