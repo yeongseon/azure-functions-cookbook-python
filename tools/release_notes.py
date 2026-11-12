@@ -454,7 +454,8 @@ def render(
     notes = list(parsed.notes)
     if cfg.snapshot_only and not any("GitHub recipe snapshot" in n for n in notes):
         notes.insert(
-            0, "**GitHub recipe snapshot** — source and examples are versioned at this tag; "
+            0,
+            "**GitHub recipe snapshot** — source and examples are versioned at this tag; "
             "nothing is published to PyPI.",
         )
     if reconstructed_from:
