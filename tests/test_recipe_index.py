@@ -180,7 +180,7 @@ def test_find_recipe_preserves_supplied_order_after_filtering(
     query: str,
     tag: str | None,
 ) -> None:
-    # Given: matching recipes surround a nonmatch in non-alphabetical slug order
+    """Offline: filtering keeps the supplied (non-alphabetical) order and never mutates the corpus."""
     corpus = [
         _make_recipe(slug="zeta", description="retry", tags=("durable",)),
         _make_recipe(slug="middle", description="http", tags=("http",)),
@@ -188,21 +188,17 @@ def test_find_recipe_preserves_supplied_order_after_filtering(
     ]
     original = corpus.copy()
 
-    # When: any supported filter combination is applied
     results = find_recipe(query, tag=tag, recipes=corpus)
 
-    # Then: matches retain input order and filtering leaves the corpus untouched
     assert [recipe.slug for recipe in results] == ["zeta", "alpha"]
     assert corpus == original
 
 
 def test_readme_quickstart_finds_durable_recipes() -> None:
-    # Given: the committed recipe index imported exactly as the README documents
-    # When: the README's free-text and exact-tag lookups run
+    """Offline: the README quickstart lookups against the committed index return durable recipes."""
     query_results = find_recipe("durable retry")
     durable = find_recipe(tag="durable")
 
-    # Then: both documented lookups produce usable recipe metadata
     assert (
         "Durable Retry Pattern",
         "orchestration-and-workflows/durable_retry_pattern",
