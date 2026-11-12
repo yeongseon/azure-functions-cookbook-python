@@ -529,3 +529,20 @@ def test_exceptions_for_unchecked_areas_are_not_reported_stale(repo: Path) -> No
     sha = make_valid(repo)
     report = run(repo, None, exceptions=[exception_for("v0.5.0", sha, "release-exists")])
     assert not any("stale exception" in n for n in report.notes)
+
+
+def test_fetch_releases_rejects_unusable_output(monkeypatch: pytest.MonkeyPatch) -> None:
+    for stdout, message in (("not json", "invalid JSON"), ("{}", "JSON array")):
+        monkeypatch.setattr(
+            subprocess,
+            "run",
+            lambda args, _out=stdout, **_: subprocess.CompletedProcess(args, 0, _out, ""),
+        )
+        with pytest.raises(AuditError, match=message):
+            fetch_releases(SLUG)
+
+
+def test_tag_key_rejects_non_semver() -> None:
+    assert audit_mod._tag_key("v1.2.3") == (1, 2, 3)
+    with pytest.raises(AuditError, match="not a vMAJOR"):
+        audit_mod._tag_key("v1.2")

@@ -117,10 +117,13 @@ class Report:
         return [f for f in self.findings if f.severity == "error" and f.status != "excepted"]
 
 
+def _run(argv: list[str], *, cwd: Path | None = None) -> subprocess.CompletedProcess[str]:
+    """Run a fixed argv without a shell and capture its output (the only subprocess call site)."""
+    return subprocess.run(argv, cwd=cwd, capture_output=True, text=True, check=False)
+
+
 def _git(repo: Path, *args: str, check: bool = True) -> str | None:
-    result = subprocess.run(
-        ["git", "-C", str(repo), *args], capture_output=True, text=True, check=False
-    )
+    result = _run(["git", "-C", str(repo), *args])
     if result.returncode != 0:
         if check:
             raise AuditError(f"git {' '.join(args)} failed: {result.stderr.strip()}")
@@ -134,7 +137,8 @@ def _show(repo: Path, rev: str, path: str) -> str | None:
 
 def _tag_key(tag: str) -> tuple[int, int, int]:
     match = _TAG_RE.match(tag)
-    assert match is not None
+    if match is None:
+        raise AuditError(f"not a vMAJOR.MINOR.PATCH tag: {tag}")
     return (int(match.group(1)), int(match.group(2)), int(match.group(3)))
 
 
@@ -204,7 +208,7 @@ def load_releases(path: Path) -> list[dict[str, Any]]:
 def fetch_releases(slug: str) -> list[dict[str, Any]]:
     """Fetch GitHub Release metadata read-only through the GitHub CLI."""
     try:
-        result = subprocess.run(
+        result = _run(
             [
                 "gh",
                 "release",
@@ -215,17 +219,18 @@ def fetch_releases(slug: str) -> list[dict[str, Any]]:
                 "1000",
                 "--json",
                 "tagName,isDraft,isPrerelease",
-            ],
-            capture_output=True,
-            text=True,
-            check=False,
+            ]
         )
     except OSError as exc:
         raise AuditError(f"cannot run gh to list releases: {exc}") from exc
     if result.returncode != 0:
         raise AuditError(f"gh release list failed: {result.stderr.strip()}")
-    data = json.loads(result.stdout)
-    assert isinstance(data, list)
+    try:
+        data = json.loads(result.stdout)
+    except ValueError as exc:
+        raise AuditError(f"gh release list returned invalid JSON: {exc}") from exc
+    if not isinstance(data, list):
+        raise AuditError("gh release list did not return a JSON array")
     return data
 
 
@@ -483,13 +488,7 @@ def _check_generated(repo: Path, findings: list[Finding]) -> None:
         path = repo / script
         if not path.exists():
             continue
-        result = subprocess.run(
-            [sys.executable, str(path), "--check"],
-            cwd=repo,
-            capture_output=True,
-            text=True,
-            check=False,
-        )
+        result = _run([sys.executable, str(path), "--check"], cwd=repo)
         if result.returncode != 0:
             detail = (result.stderr or result.stdout).strip().splitlines()
             findings.append(
