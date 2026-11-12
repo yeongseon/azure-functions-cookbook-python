@@ -1,0 +1,62 @@
+name: Snapshot audit
+
+# Read-only audit of the tagged GitHub recipe snapshots (tools/audit_snapshots.py).
+# This repository is not a PyPI package: nothing here checks, or implies, PyPI publication,
+# and a GitHub Release is never treated as proof of distribution or of Azure certification.
+# Release Please remains the only owner of versions, tags, Releases and CHANGELOG.md.
+
+on:
+  pull_request:
+    paths:
+      - ".github/release-audit-exceptions.json"
+      - ".github/workflows/snapshot-audit.yml"
+      - "tools/audit_snapshots.py"
+      - "tests/test_audit_snapshots.py"
+      - "release-please-config.json"
+      - ".release-please-manifest.json"
+      - "CHANGELOG.md"
+      - "src/azure_functions_python_cookbook/__init__.py"
+      - "recipes.json"
+  # A published Release is audited immediately: a tag without a usable Release,
+  # a version/changelog mismatch or recipe-index drift fails this run.
+  release:
+    types: [published]
+  # Catches a tag whose Release was never created (no release event fires in that case).
+  schedule:
+    - cron: "23 5 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: snapshot-audit-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  audit:
+    name: Audit recipe snapshot tags
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout full history and tags
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+        with:
+          python-version: "3.11"
+
+      - name: Install PyYAML for the recipe index checks
+        run: python -m pip install "pyyaml>=6.0,<7"
+
+      - name: Audit snapshot tags, Releases and recipe index
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          status=0
+          python -m tools.audit_snapshots --ref origin/main --format markdown > audit.md || status=$?
+          cat audit.md
+          cat audit.md >> "$GITHUB_STEP_SUMMARY"
+          exit "$status"

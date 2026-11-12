@@ -1,0 +1,64 @@
+{
+  "_comment": "Verified historical findings for tools/audit_snapshots.py. Each entry is pinned to the tag's commit and to specific checks, so a moved tag or a different defect on the same tag is still reported. Add entries only for verified history (see docs/release_process.md); never to silence a new release.",
+  "exceptions": [
+    {
+      "tag": "v0.1.0",
+      "commit": "def1417d253dcc4eaeca02cca06a0dbfa74bca54",
+      "checks": [
+        "release-exists",
+        "source-version"
+      ],
+      "classification": "tag-only-historical",
+      "reason": "Tag predates Release Please adoption; it points at the same commit as v0.1.1, where __version__ is already 0.1.1 (the 0.1.0 source predates that commit), and it has no GitHub Release entry.",
+      "evidence": [
+        "https://github.com/yeongseon/azure-functions-cookbook-python/issues/492",
+        "https://github.com/yeongseon/azure-functions-cookbook-python/commit/def1417d253dcc4eaeca02cca06a0dbfa74bca54"
+      ],
+      "issue": "#492"
+    },
+    {
+      "tag": "v0.1.1",
+      "commit": "def1417d253dcc4eaeca02cca06a0dbfa74bca54",
+      "checks": [
+        "release-exists",
+        "duplicate-commit"
+      ],
+      "classification": "tag-only-historical",
+      "reason": "Tag predates Release Please adoption; it shares its commit with v0.1.0 (the commit that bumped __version__ to 0.1.1) and has no GitHub Release entry.",
+      "evidence": [
+        "https://github.com/yeongseon/azure-functions-cookbook-python/issues/492",
+        "https://github.com/yeongseon/azure-functions-cookbook-python/commit/def1417d253dcc4eaeca02cca06a0dbfa74bca54"
+      ],
+      "issue": "#492"
+    },
+    {
+      "tag": "v0.1.3",
+      "commit": "3c1c37aac9bb813aa81fc56bc3d23191adb4e8da",
+      "checks": [
+        "release-exists",
+        "tag-order"
+      ],
+      "classification": "tag-only-historical",
+      "reason": "Tag created (per its tagger date, 2026-07-18) after v0.2.0 was released, on the 'docs: update changelog' commit that descends from v0.2.0; no GitHub Release entry exists.",
+      "evidence": [
+        "https://github.com/yeongseon/azure-functions-cookbook-python/issues/492",
+        "https://github.com/yeongseon/azure-functions-cookbook-python/commit/3c1c37aac9bb813aa81fc56bc3d23191adb4e8da"
+      ],
+      "issue": "#492"
+    },
+    {
+      "tag": "v0.2.0",
+      "commit": "c82e5bad05a11e047f5567d870a73fdde02a19be",
+      "checks": [
+        "source-version"
+      ],
+      "classification": "published-release-source-version-mismatch",
+      "reason": "The v0.2.0 GitHub Release exists, but the tagged commit still declares __version__ 0.1.2; the snapshot was not cut by Release Please (adopted from v0.3.0). Tags are never rewritten; the mismatch is documented instead.",
+      "evidence": [
+        "https://github.com/yeongseon/azure-functions-cookbook-python/issues/492",
+        "https://github.com/yeongseon/azure-functions-cookbook-python/commit/c82e5bad05a11e047f5567d870a73fdde02a19be"
+      ],
+      "issue": "#492"
+    }
+  ]
+}
