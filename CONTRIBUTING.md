@@ -187,6 +187,24 @@ Examples are part of the supported API experience and should stay verified.
 - Add or update smoke tests whenever an example changes.
 - Prefer lightweight smoke coverage over infrastructure-heavy end-to-end tests.
 
+## Comments and Docstrings in Recipes
+
+Recipes under `examples/` are copied and run on their own, so comments should
+explain what the code cannot. Write them in English and keep each recipe
+self-contained (no cross-recipe imports and no boilerplate added just to hold
+comments).
+
+- Comment trigger and configuration caveats, security or privacy assumptions
+  (for example an `ANONYMOUS` auth level), intentionally simplified code
+  (in-memory state, simulated processing), and mock-versus-live limits.
+- Say what the code does at its verification level; do not claim behavior that
+  the recipe's `verification` value in `recipe.yaml` does not back.
+- Skip line-by-line narration and setup steps that belong in the recipe README.
+- Add a short docstring to a public entrypoint when it clarifies behavior; do
+  not add one to every trivial handler.
+- Fix comments that are incorrect or misleading, but do not mass-edit working
+  recipes. This convention does not cover test comments.
+
 ## Example Layout: Flat vs App-Layout
 
 Examples use one of two directory layouts. Pick the layout that matches the
