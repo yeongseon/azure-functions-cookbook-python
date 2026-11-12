@@ -1,8 +1,11 @@
 # Azure Functions Python Cookbook
+<!-- translation-snapshot: v0.5.0 2026-11-12 -->
 > [!NOTE]
 > このドキュメントは[英語の原文](README.md)の翻訳であり、コミュニティが管理しています。
 > 英語の原文が更新された後は、内容が少し遅れることがあります。
 > 唯一の情報源（Single Source of Truth）は英語の [README.md](README.md) です。
+>
+> 翻訳スナップショット: 英語 README [v0.5.0](https://github.com/yeongseon/azure-functions-cookbook-python/releases/tag/v0.5.0) 時点（最終整合日 2026-11-12）。それ以降の変更は反映されていない場合があります。セキュリティ／正確性に関する警告は必ず英語の [README.md](README.md) を確認してください。ポリシー: [CONTRIBUTING](CONTRIBUTING.md#documentation-and-translations)。
 >
 > スケジュールされたトリガースモーク: worker-registration 検査は固定された Python worker の実行時依存関係（`grpcio`、`protobuf`、`python-dateutil`）をインストールし、実際の `Registry.add_indexed_function()` でハンドラーを登録します。クローン失敗、依存関係の不足、レジストリの読み込み失敗、スキップされたテストは成功扱いにせず、ジョブを失敗させます。このネットワーク依存の検査は定期実行と手動実行で行われ、Durable スモークは実際のオーケストレーション実行ではなくインポート検査です。詳細は[運用メモ](docs/scheduled-trigger-smoke.md)を参照してください。
 >
@@ -20,6 +23,8 @@
 Python で実運用レベルの Azure Functions を構築するための実践的なレシピ集です。
 
 > **サポート対象の Python: 3.11、3.12、3.13、3.14。** 正式な範囲は [`pyproject.toml`](pyproject.toml) の `requires-python` です。4 つのバージョンはいずれも Azure Functions Python ランタイムで一般提供されているため、依存関係が許す範囲で最も新しいバージョンを選んでください。ランタイムのサポート終了日は [Azure Functions のサポート対象言語](https://learn.microsoft.com/azure/azure-functions/supported-languages) を参照してください。
+
+> **安定性と検証。** このクックブックは `0.x` スナップショットとしてリリースされ、使用するツールキットのパッケージも `<1` であるため、レシピのルートや設定に SemVer の保証はありません。「検証済み」は `recipe.yaml` の `verification` レベル（`docs`、`unit`、`func-host`）が示す範囲のみを意味し、デプロイ済みの Azure 環境で検証されたレシピはありません。詳細: [安定性と互換性](docs/stability-and-compatibility.md)。
 
 ## Why Use It
 

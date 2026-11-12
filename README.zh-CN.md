@@ -1,7 +1,10 @@
 # Azure Functions Python Cookbook
+<!-- translation-snapshot: v0.5.0 2026-11-12 -->
 > [!NOTE]
 > 本文档是[英文原版](README.md)的翻译，由社区维护。英文原版更新后，译文内容可能会有所滞后。
 > 唯一的信息源（Single Source of Truth）是英文 [README.md](README.md)。
+>
+> 翻译快照：对应英文 README [v0.5.0](https://github.com/yeongseon/azure-functions-cookbook-python/releases/tag/v0.5.0)，最后对齐日期 2026-11-12。此后的更改可能尚未反映；安全/正确性警告请始终以英文 [README.md](README.md) 为准。政策：[CONTRIBUTING](CONTRIBUTING.md#documentation-and-translations)。
 >
 > 计划触发器冒烟测试：worker-registration 检查会安装固定版本 Python worker 的运行时依赖（`grpcio`、`protobuf`、`python-dateutil`），并通过真实的 `Registry.add_indexed_function()` 注册处理函数。克隆失败、缺少依赖、无法加载注册表或任何测试被跳过都会使作业失败，而不会被视为成功。这项需要网络的检查在定时和手动运行中执行；Durable 冒烟测试只检查导入，不执行真实编排。详见[运维说明](docs/scheduled-trigger-smoke.md)。
 >
@@ -19,6 +22,8 @@
 用于使用 Python 构建真实生产级 Azure Functions 的实用配方集。
 
 > **支持的 Python 版本：3.11、3.12、3.13、3.14。** 权威范围以 [`pyproject.toml`](pyproject.toml) 中的 `requires-python` 为准。这四个版本在 Azure Functions Python 运行时均已正式发布，请在依赖允许的前提下选择最新版本。运行时支持终止日期请参阅 [Azure Functions 支持的语言](https://learn.microsoft.com/azure/azure-functions/supported-languages)。
+
+> **稳定性与验证。** 本 Cookbook 以 `0.x` 快照形式发布，所用工具包的版本也是 `<1`，因此配方的路由和设置不提供 SemVer 保证。“已验证”仅指配方 `recipe.yaml` 中 `verification` 级别（`docs`、`unit`、`func-host`）所表示的范围；没有任何配方在已部署的 Azure 环境中验证过。详见：[稳定性与兼容性](docs/stability-and-compatibility.md)。
 
 ## Why Use It
 
