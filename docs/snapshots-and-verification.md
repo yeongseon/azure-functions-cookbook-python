@@ -47,6 +47,8 @@ Host smoke is **local-host** evidence: it shows a recipe indexes and answers on 
 
 Do **not** read "CI passed" as "Azure-certified" or "production-ready". Passing CI means the checks in the table above passed.
 
+For the Python, `azure-functions`, Pydantic and toolkit-library versions CI actually installed or ran on a Functions host, with dates and run links, see [Compatibility evidence](compatibility.md).
+
 For this repository's definitions of *verified*, *experimental* and *package compatibility*, which integration paths each check backs, and the breaking-change and deprecation process, see [Stability and compatibility](stability-and-compatibility.md).
 
 A snapshot tells you what was verified, not what to add before calling a recipe production-like. A

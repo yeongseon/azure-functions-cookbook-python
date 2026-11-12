@@ -327,6 +327,7 @@ particular issue; see [contributor-reserved issues](CONTRIBUTING.md#contributor-
 - Design principles: `DESIGN.md`
 - Contributing guide: `CONTRIBUTING.md`
 - AI & Agent Learning Path: [`docs/patterns/ai-and-agents/learning-path.md`](docs/patterns/ai-and-agents/learning-path.md)
+- Compatibility evidence (declared, installed and host-tested combinations with CI run references): [`docs/compatibility.md`](docs/compatibility.md)
 
 ## Ecosystem
 

@@ -110,6 +110,7 @@ generated-check: ensure-hatch
 	@$(HATCH) run python scripts/gen_requirements.py --check
 	@$(HATCH) run python scripts/gen_recipe_snippets.py --check
 	@$(HATCH) run python scripts/check_ecosystem_counts.py
+	@$(HATCH) run python scripts/gen_compat_table.py --check
 
 .PHONY: check
 check: lint lint-workflows generated-check

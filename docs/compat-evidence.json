@@ -1,0 +1,169 @@
+{
+  "schema": 1,
+  "inventory_digest": "eccb3babef45c080",
+  "runs": [
+    {
+      "workflow": "Test and Coverage",
+      "run_id": 43251395252,
+      "url": "https://github.com/yeongseon/azure-functions-cookbook-python/actions/runs/43251395252",
+      "head_sha": "3e8b445438f06accec5a204cff6fab7f8d71ae93",
+      "jobs": [
+        {
+          "name": "Recipe host smoke (doctor-diagnostics)",
+          "tag": "host-tested",
+          "python": "3.12",
+          "scope": "Functions host smoke with Azurite: recipe `doctor-diagnostics`",
+          "date": "2026-11-12",
+          "installed": {
+            "azure-functions": "1.26.0",
+            "azure-functions-doctor": "0.23.1",
+            "pydantic": "2.14.3"
+          }
+        },
+        {
+          "name": "Recipe host smoke (hello-http)",
+          "tag": "host-tested",
+          "python": "3.12",
+          "scope": "Functions host smoke with Azurite: recipe `hello-http`",
+          "date": "2026-11-12",
+          "installed": {
+            "azure-functions": "1.26.0"
+          }
+        },
+        {
+          "name": "Recipe host smoke (personal-langgraph-agent)",
+          "tag": "host-tested",
+          "python": "3.12",
+          "scope": "Functions host smoke with Azurite: recipe `personal-langgraph-agent`",
+          "date": "2026-11-12",
+          "installed": {
+            "azure-functions": "1.26.0",
+            "azure-functions-langgraph": "0.12.2",
+            "langgraph": "1.2.20",
+            "pydantic": "2.14.3"
+          }
+        },
+        {
+          "name": "Recipe host smoke (queue-producer-binding)",
+          "tag": "host-tested",
+          "python": "3.12",
+          "scope": "Functions host smoke with Azurite: recipe `queue-producer-binding`",
+          "date": "2026-11-12",
+          "installed": {
+            "azure-functions": "1.26.0"
+          }
+        },
+        {
+          "name": "Recipe host smoke (validated-openapi-logging)",
+          "tag": "host-tested",
+          "python": "3.12",
+          "scope": "Functions host smoke with Azurite: recipe `validated-openapi-logging`",
+          "date": "2026-11-12",
+          "installed": {
+            "azure-functions": "1.26.0",
+            "azure-functions-db": "0.9.0",
+            "azure-functions-logging": "0.16.0",
+            "azure-functions-openapi": "0.31.0",
+            "azure-functions-validation": "0.16.0",
+            "pydantic": "2.14.3"
+          }
+        },
+        {
+          "name": "Test (Py 3.11, latest deps)",
+          "tag": "installed",
+          "python": "3.11",
+          "scope": "library suite on the latest compatible releases",
+          "date": "2026-11-12",
+          "installed": {
+            "azure-functions": "1.26.0",
+            "azure-functions-db": "0.9.0",
+            "azure-functions-doctor": "0.23.1",
+            "azure-functions-durable": "1.7.0",
+            "azure-functions-langgraph": "0.13.0",
+            "azure-functions-logging": "0.16.0",
+            "azure-functions-openapi": "0.31.0",
+            "azure-functions-validation": "0.16.0",
+            "langgraph": "1.2.20",
+            "pydantic": "2.14.3"
+          }
+        },
+        {
+          "name": "Test (Py 3.11, minimum deps)",
+          "tag": "installed",
+          "python": "3.11",
+          "scope": "library suite on the lowest declared floors (`constraints-min.txt`)",
+          "date": "2026-11-12",
+          "installed": {
+            "azure-functions": "1.25.0",
+            "azure-functions-db": "0.8.3",
+            "azure-functions-doctor": "0.23.1",
+            "azure-functions-durable": "1.7.0",
+            "azure-functions-langgraph": "0.12.2",
+            "azure-functions-logging": "0.15.3",
+            "azure-functions-openapi": "0.30.1",
+            "azure-functions-validation": "0.16.0",
+            "langgraph": "1.2.20",
+            "pydantic": "2.14.2"
+          }
+        },
+        {
+          "name": "Test (Py 3.12, latest deps)",
+          "tag": "installed",
+          "python": "3.12",
+          "scope": "library suite on the latest compatible releases",
+          "date": "2026-11-12",
+          "installed": {
+            "azure-functions": "1.26.0",
+            "azure-functions-db": "0.9.0",
+            "azure-functions-doctor": "0.23.1",
+            "azure-functions-durable": "1.7.0",
+            "azure-functions-langgraph": "0.13.0",
+            "azure-functions-logging": "0.16.0",
+            "azure-functions-openapi": "0.31.0",
+            "azure-functions-validation": "0.16.0",
+            "langgraph": "1.2.20",
+            "pydantic": "2.14.3"
+          }
+        },
+        {
+          "name": "Test (Py 3.13, latest deps)",
+          "tag": "installed",
+          "python": "3.13",
+          "scope": "library suite on the latest compatible releases",
+          "date": "2026-11-12",
+          "installed": {
+            "azure-functions": "2.4.0",
+            "azure-functions-db": "0.9.0",
+            "azure-functions-doctor": "0.23.1",
+            "azure-functions-durable": "1.7.0",
+            "azure-functions-langgraph": "0.13.0",
+            "azure-functions-logging": "0.16.0",
+            "azure-functions-openapi": "0.31.0",
+            "azure-functions-validation": "0.16.0",
+            "langgraph": "1.2.20",
+            "pydantic": "2.14.3"
+          }
+        },
+        {
+          "name": "Test (Py 3.14, latest deps)",
+          "tag": "installed",
+          "python": "3.14",
+          "scope": "library suite on the latest compatible releases",
+          "date": "2026-11-12",
+          "installed": {
+            "azure-functions": "2.4.0",
+            "azure-functions-db": "0.9.0",
+            "azure-functions-doctor": "0.23.1",
+            "azure-functions-durable": "1.7.0",
+            "azure-functions-langgraph": "0.13.0",
+            "azure-functions-logging": "0.16.0",
+            "azure-functions-openapi": "0.31.0",
+            "azure-functions-validation": "0.16.0",
+            "langgraph": "1.2.20",
+            "pydantic": "2.14.3"
+          }
+        }
+      ]
+    }
+  ]
+}

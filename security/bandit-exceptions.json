@@ -35,5 +35,7 @@
   {"id":"B603","file":"tools/security_structure.py","line":74,"reason":"Fixed bash -n argv with repository script path; script contents never execute.","owner":"yeongseon","added":"2026-10-22","expires":"2026-12-22"},
   {"id":"B404","file":"tools/verify_scheduled_smoke_selection.py","line":18,"reason":"Smoke selection helper invokes pytest collection out-of-process.","owner":"yeongseon","added":"2026-10-22","expires":"2026-12-22"},
   {"id":"B603","file":"tools/verify_scheduled_smoke_selection.py","line":23,"reason":"Current interpreter uses fixed pytest collection argv and shell disabled.","owner":"yeongseon","added":"2026-10-22","expires":"2026-12-22"},
+  {"id":"B404","file":"scripts/gen_compat_table.py","line":26,"reason":"Evidence recorder runs git and the GitHub CLI out-of-process; read-only commands.","owner":"yeongseon","added":"2026-11-12","expires":"2027-02-10"},
+  {"id":"B603","file":"scripts/gen_compat_table.py","line":246,"reason":"Single helper: executable resolved with shutil.which, fixed git/gh argv, shell disabled, read-only commands, run only by the maintainer for --record.","owner":"yeongseon","added":"2026-11-12","expires":"2027-02-10"},
   {"id":"INLINE_NOSEC","file":"examples/runtime-and-ops/cold_start_mitigation/function_app.py","line":42,"reason":"Existing B311 suppression labels non-security random demonstration; Bandit runs with --ignore-nosec regardless.","owner":"yeongseon","added":"2026-10-22","expires":"2026-12-22"}
 ]}

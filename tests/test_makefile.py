@@ -154,6 +154,7 @@ def test_check_runs_every_check_exactly_once() -> None:
         "scripts/gen_requirements.py --check",
         "scripts/gen_recipe_snippets.py --check",
         "scripts/check_ecosystem_counts.py",
+        "scripts/gen_compat_table.py --check",
     ):
         assert plan.count(part) == 1, part
 
@@ -465,7 +466,7 @@ def test_verify_stays_serial_under_make_jobs(project: Project) -> None:
     assert result.returncode == 0
     tools = [tool for tool, _, _ in project.rows()]
     assert tools == ["hatch", "end"] * (len(tools) // 2)
-    assert len(project.calls("hatch")) == 16
+    assert len(project.calls("hatch")) == 17
 
 
 @pytest.mark.parametrize("target", ["clean", "clean-all"])

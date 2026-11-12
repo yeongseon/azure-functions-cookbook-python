@@ -84,6 +84,11 @@ certification from a tag alone. Preserve existing snapshot/version/tag
 history. Release Please remains the only owner of version, tag, release
 PR and `CHANGELOG.md`; no PyPI publishing is introduced.
 
+If the dependency ranges changed since the last recording, refresh the
+[compatibility evidence](compatibility.md) from a real CI run on the candidate
+manifests (`python scripts/gen_compat_table.py --record RUN_ID`); the table
+labels older evidence as such rather than hiding it.
+
 ---
 
 ## Snapshot audit
