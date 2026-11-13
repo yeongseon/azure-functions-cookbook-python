@@ -133,6 +133,7 @@ nav:
           - LangGraph RAG Agent: patterns/ai-and-agents/langgraph-rag-agent.md
           - LangGraph Tool Use: patterns/ai-and-agents/langgraph-tool-use.md
           - Personal LangGraph Agent: patterns/ai-and-agents/personal-langgraph-agent.md
+          - Service Bus LangGraph Agent: patterns/ai-and-agents/servicebus-langgraph-agent.md
           - Azure OpenAI Direct Chat: patterns/ai-and-agents/openai-direct-chat.md
           - Durable AI Pipeline: patterns/ai-and-agents/durable-ai-pipeline.md
           - Streaming AI Response: patterns/ai-and-agents/streaming-ai-response.md

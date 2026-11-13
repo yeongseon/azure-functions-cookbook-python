@@ -27,7 +27,7 @@ python scripts/check_ecosystem_counts.py --print
 | `azure-functions-validation` | 26 |
 | `azure-functions-logging` | 45 |
 | `azure-functions-db` | 9 |
-| `azure-functions-langgraph` | 4 |
+| `azure-functions-langgraph` | 5 |
 | `azure-functions-scaffold` | 1 |
 | `azure-functions-doctor` | 2 |
 
@@ -43,6 +43,7 @@ python scripts/check_ecosystem_counts.py --print
 | [LangGraph RAG Agent](patterns/ai-and-agents/langgraph-rag-agent.md) | ai-and-agents | `azure-functions-openapi`, `azure-functions-validation`, `azure-functions-logging`, `azure-functions-langgraph` | docs |
 | [Langgraph Tool Use](patterns/ai-and-agents/langgraph-tool-use.md) | ai-and-agents | `azure-functions-openapi`, `azure-functions-validation`, `azure-functions-logging`, `azure-functions-langgraph` | docs |
 | [Personal LangGraph Agent](patterns/ai-and-agents/personal-langgraph-agent.md) | ai-and-agents | `azure-functions-langgraph` | func-host |
+| [Service Bus LangGraph Agent](patterns/ai-and-agents/servicebus-langgraph-agent.md) | ai-and-agents | `azure-functions-langgraph` | unit |
 | [RAG Knowledge API](patterns/ai-and-agents/rag-knowledge-api.md) | ai-and-agents | `azure-functions-openapi`, `azure-functions-validation`, `azure-functions-logging` | docs |
 | [Streaming AI Response](patterns/ai-and-agents/streaming-ai-response.md) | ai-and-agents | `azure-functions-openapi`, `azure-functions-validation`, `azure-functions-logging` | unit |
 | [APIM Function Backend](patterns/apis-and-ingress/apim-function-backend.md) | apis-and-ingress | `azure-functions-openapi`, `azure-functions-validation`, `azure-functions-logging` | docs |
