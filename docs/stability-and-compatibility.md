@@ -35,8 +35,8 @@ which row applies to the recipe you plan to copy.
 
 ## LangGraph recipes: where the limits apply
 
-Four recipes use `azure-functions-langgraph` (`langgraph_agent`, `langgraph_rag_agent`,
-`langgraph_tool_use`, `personal_langgraph_agent`). None is `func-host` or `azure`. The limits
+Five recipes use `azure-functions-langgraph` (`langgraph_agent`, `langgraph_rag_agent`,
+`langgraph_tool_use`, `personal_langgraph_agent`, `servicebus_langgraph_agent`). Only `personal_langgraph_agent` is `func-host`; none is `azure`. The limits
 below are the ones these recipes' code and READMEs expose; they are not a statement about
 other uses of the package.
 
@@ -48,6 +48,10 @@ other uses of the package.
   opt-in Azurite lane `tests/e2e/test_personal_agent_azurite.py`, which is part of the toolkit
   matrix, not a required PR check, and is not an Azure check. The recipe README states that its
   lock does not promise exactly-once tool effects.
+- **`servicebus_langgraph_agent` is unit-level only.** It uses the adapter's Service Bus trigger,
+  which that package documents as experimental, and pins `>=0.13.0,<0.14`. Offline tests call the
+  generated handler with synthetic messages; no Functions host, Service Bus broker, lock expiry,
+  dead-lettering or session behavior has been exercised. Its checkpointer is process-local.
 - **No streaming in these recipes.** `personal_langgraph_agent` registers its graph with
   `stream=False`; streaming is not demonstrated or tested by any LangGraph recipe.
 - **`langgraph_agent` does not call the compiled graph** from its HTTP handler; it returns a
