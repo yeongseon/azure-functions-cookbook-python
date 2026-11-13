@@ -21,8 +21,8 @@ the toolkit libraries the way a real application would.
 
 ## What you get
 
-- **82 patterns** across 14 categories covering APIs, messaging, orchestration, AI, and more
-- **82 runnable example projects** under `examples/`, organized by category
+- **83 patterns** across 14 categories covering APIs, messaging, orchestration, AI, and more
+- **83 runnable example projects** under `examples/`, organized by category
 - Dogfood coverage: 45 examples use `azure-functions-logging`, 28 use `azure-functions-openapi`, 26 use `azure-functions-validation`, 9 use `azure-functions-db`
 - Production considerations in every pattern
 - Mermaid architecture and behavior diagrams
@@ -130,6 +130,8 @@ the toolkit libraries the way a real application would.
 - [Streaming AI Response](patterns/ai-and-agents/streaming-ai-response.md) — SSE streaming from Azure OpenAI
 - [AI Image Generation](patterns/ai-and-agents/ai-image-generation.md) — DALL-E 3 image generation
 - [Embedding Vector Search](patterns/ai-and-agents/embedding-vector-search.md) — embeddings + vector search
+- [Azure RAG Path](patterns/ai-and-agents/azure-rag-path.md) — Blob events to Azure AI Search to an agent, composed from existing recipes
+- [Blob RAG Ingestion](patterns/ai-and-agents/blob-rag-ingestion.md) — Event Grid blob trigger that chunks, embeds and indexes documents
 
 ### Guides
 

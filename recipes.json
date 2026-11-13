@@ -15,6 +15,21 @@
     ]
   },
   {
+    "slug": "blob-rag-ingestion",
+    "title": "Blob RAG Ingestion",
+    "category": "ai-and-agents",
+    "description": "Event Grid-sourced blob trigger that chunks, embeds and indexes documents into Azure AI Search with idempotent chunk ids and delete handling.",
+    "example_path": "ai-and-agents/blob_rag_ingestion",
+    "docs_url": "https://yeongseon.dev/azure-functions-python/cookbook/patterns/ai-and-agents/blob-rag-ingestion/",
+    "difficulty": "Advanced",
+    "tags": [
+      "ai-and-agents",
+      "blob",
+      "ingestion",
+      "rag"
+    ]
+  },
+  {
     "slug": "durable-ai-pipeline",
     "title": "Durable AI Pipeline",
     "category": "ai-and-agents",

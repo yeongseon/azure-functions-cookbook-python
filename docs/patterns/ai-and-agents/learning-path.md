@@ -134,7 +134,10 @@ flowchart TD
 * **Why use the Azure SDK**: Querying Azure AI Search via the official `azure-search-documents` Python SDK provides direct control over vector queries, score thresholds, and metadata filters within the function execution context.
 * **Required for capability**: Azure AI Search index, embedding model deployment.
 * **Production upgrades**: Limit retrieved chunk count and payload size to avoid blowing model context windows; sanitize document metadata to prevent prompt injection.
+* **Index population**: retrieval needs an index first. [Azure RAG Path](azure-rag-path.md) composes the event-driven ingestion side (Blob events to Azure OpenAI embeddings to Azure AI Search) with these query recipes, audits which handoffs already work, and states what is not handled (deletes, ordering, binary formats).
 * **Reference recipes**:
+  - [Azure RAG Path](azure-rag-path.md) — end-to-end composition guide.
+  - [Blob RAG Ingestion](blob-rag-ingestion.md) — Event Grid blob trigger that chunks, embeds and indexes documents.
   - [RAG Knowledge API](rag-knowledge-api.md) — vector search knowledge endpoint.
   - [Embedding Vector Search](embedding-vector-search.md) — direct embedding generation and query.
   - [LangGraph RAG Agent](langgraph-rag-agent.md) — agent graph with search tool integration.
