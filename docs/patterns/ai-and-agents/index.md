@@ -35,6 +35,7 @@ flowchart LR
 | --- | --- | --- | --- |
 | **[AI & Agent Learning Path](./learning-path.md)** | Overview | Guide | 7-stage architectural progression from direct chat to Durable agents |
 | [Personal LangGraph Agent](./personal-langgraph-agent.md) | HTTP + LangGraphApp | Advanced | Integrated assistant with tools, deterministic tests, and persistent Blob memory |
+| [Service Bus LangGraph Agent](./servicebus-langgraph-agent.md) | Service Bus + LangGraphApp | Advanced | Event-driven agent runs with message-to-thread mapping and idempotent results |
 | [Azure OpenAI Direct Chat](./openai-direct-chat.md) | HTTP + Azure OpenAI SDK | Beginner | Minimal direct chat completions endpoint |
 | [LangGraph Agent](./langgraph-agent.md) | HTTP + agent graph runtime | Advanced | Compiled StateGraph mounted via azure-functions-langgraph |
 | [Langgraph Tool Use](./langgraph-tool-use.md) | HTTP + LangGraph tool routing | Advanced | Tool calling with schema validation and error recovery |

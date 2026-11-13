@@ -26,6 +26,7 @@ nav:
       - Execution Model: foundations/execution-model.md
       - Triggers & Bindings: foundations/triggers-bindings-overview.md
       - Pattern Chooser: foundations/pattern-chooser.md
+      - Production Upgrade Path: foundations/production-upgrade-path.md
       - Delivery Guarantees: foundations/delivery-guarantees.md
       - Hosting & Scale: foundations/hosting-and-scale.md
   - Patterns:
@@ -132,6 +133,7 @@ nav:
           - LangGraph RAG Agent: patterns/ai-and-agents/langgraph-rag-agent.md
           - LangGraph Tool Use: patterns/ai-and-agents/langgraph-tool-use.md
           - Personal LangGraph Agent: patterns/ai-and-agents/personal-langgraph-agent.md
+          - Service Bus LangGraph Agent: patterns/ai-and-agents/servicebus-langgraph-agent.md
           - Azure OpenAI Direct Chat: patterns/ai-and-agents/openai-direct-chat.md
           - Durable AI Pipeline: patterns/ai-and-agents/durable-ai-pipeline.md
           - Streaming AI Response: patterns/ai-and-agents/streaming-ai-response.md

@@ -50,6 +50,8 @@ These recipes teach Azure Functions Python v2 patterns. Pick something else when
 
 ## Quick Index
 
+> **I have a working Function. What should I add before production?** See the [Production upgrade path](docs/foundations/production-upgrade-path.md), a decision guide with a baseline and optional upgrades.
+
 Jump to a category: [APIs and Ingress](#apis-and-ingress) · [Scheduled and Background](#scheduled-and-background) · [Blob and File Triggers](#blob-and-file-triggers) · [Async APIs and Jobs](#async-apis-and-jobs) · [Messaging and Pub/Sub](#messaging-and-pubsub) · [Streams and Telemetry](#streams-and-telemetry) · [Data and Pipelines](#data-and-pipelines) · [Orchestration and Workflows](#orchestration-and-workflows) · [Reliability](#reliability) · [Security and Tenancy](#security-and-tenancy) · [Runtime and Ops](#runtime-and-ops) · [Realtime](#realtime) · [AI and Agents](#ai-and-agents) · [Guides](#guides)
 
 Prefer to search programmatically? A machine-readable index of every recipe
@@ -219,6 +221,7 @@ durable = find_recipe(tag="durable")
 | [MCP Server Example](examples/ai-and-agents/mcp_server_example/) | Advanced | This example hosts a manual Model Context Protocol (MCP) server on Azure Functions using a standard HTTP trigger and JSON-RPC 2.0 messages. |
 | [Personal LangGraph Agent](examples/ai-and-agents/personal_langgraph_agent/) | Advanced | Build a tool-calling personal notes agent with deterministic local mode, Azure OpenAI, and restart-safe Blob memory. |
 | [RAG Knowledge API](examples/ai-and-agents/rag_knowledge_api/) | Advanced | Demonstrates a minimal RAG API using Azure AI Search and Azure OpenAI, combined with `azure-functions-validation-python`, `azure-functions-openapi-python`, and `azure-functions-logging-python`. |
+| [Service Bus LangGraph Agent](examples/ai-and-agents/servicebus_langgraph_agent/) | Advanced | Run a compiled LangGraph agent from Azure Service Bus messages with deterministic local mode, session-aware thread mapping, and idempotent results. |
 | [Streaming AI Response](examples/ai-and-agents/streaming_ai_response/) | Intermediate | HTTP-triggered sample that converts Azure OpenAI streaming chat completions into Server-Sent Events. |
 
 ### Guides
@@ -227,7 +230,7 @@ durable = find_recipe(tag="durable")
 | --- | --- | --- |
 | [Local Run and Direct Invoke](examples/guides/local_run_and_direct_invoke/) | Beginner | This example shows two local testing workflows for an Azure Functions Python app: |
 
-_83 recipes._
+_84 recipes._
 
 <!-- END RECIPES -->
 
@@ -327,12 +330,13 @@ particular issue; see [contributor-reserved issues](CONTRIBUTING.md#contributor-
 - Product requirements: `PRD.md`
 - Design principles: `DESIGN.md`
 - Contributing guide: `CONTRIBUTING.md`
+- Production upgrade path ("I have a working Function. What should I add before production?"): [`docs/foundations/production-upgrade-path.md`](docs/foundations/production-upgrade-path.md)
 - AI & Agent Learning Path: [`docs/patterns/ai-and-agents/learning-path.md`](docs/patterns/ai-and-agents/learning-path.md)
 - Compatibility evidence (declared, installed and host-tested combinations with CI run references): [`docs/compatibility.md`](docs/compatibility.md)
 
 ## Ecosystem
 
-This cookbook is the **dogfood** of the **Azure Functions Python DX Toolkit**: many examples are real, runnable Azure Functions that opt in to toolkit libraries in production-realistic scenarios, while others are plain Azure Functions examples that use no toolkit package. 47 of the 83 recipes declare at least one toolkit package and 36 are plain Azure Functions only; [Toolkit usage by recipe](docs/toolkit-usage.md) lists both kinds.
+This cookbook is the **dogfood** of the **Azure Functions Python DX Toolkit**: many examples are real, runnable Azure Functions that opt in to toolkit libraries in production-realistic scenarios, while others are plain Azure Functions examples that use no toolkit package. 47 of the 84 recipes declare at least one toolkit package and 36 are plain Azure Functions only; [Toolkit usage by recipe](docs/toolkit-usage.md) lists both kinds.
 
 The **Status** column reflects how each package is currently used in this repo: **Dogfooded** (declared as a dependency by example projects), **Experimental** (advertised but not yet used by any example), or **Planned** (integration tracked but not started). Counts are the number of example projects whose `pyproject.toml` declares the package, the same definition the repository tests use for the docs home page; one CLI-generated example (`scaffold_walkthrough_app`) declares the packages its template generates and is called out where it applies. A declared dependency is not evidence that the package was exercised in a Functions host or in Azure; see each recipe's `verification` level and [Stability and compatibility](docs/stability-and-compatibility.md).
 
@@ -342,10 +346,10 @@ The **Status** column reflects how each package is currently used in this repo: 
 | [azure-functions-validation-python](https://github.com/yeongseon/azure-functions-validation-python) | Request/response validation and serialization | Dogfooded ([26 examples, one CLI-generated](https://github.com/search?q=repo%3Ayeongseon%2Fazure-functions-cookbook-python+azure_functions_validation+path%3Aexamples&type=code)) |
 | [azure-functions-logging-python](https://github.com/yeongseon/azure-functions-logging-python) | Structured logging and observability | Dogfooded ([45 examples](https://github.com/search?q=repo%3Ayeongseon%2Fazure-functions-cookbook-python+azure_functions_logging+path%3Aexamples&type=code)) |
 | [azure-functions-db-python](https://github.com/yeongseon/azure-functions-db-python) | SQLAlchemy-powered DB integration helpers (poll-based pseudo trigger, input/output/client injection) | Dogfooded ([9 examples](https://github.com/search?q=repo%3Ayeongseon%2Fazure-functions-cookbook-python+azure_functions_db+path%3Aexamples&type=code)) |
-| [azure-functions-langgraph-python](https://github.com/yeongseon/azure-functions-langgraph-python) | LangGraph deployment adapter for Azure Functions | Dogfooded ([4 examples](https://github.com/search?q=repo%3Ayeongseon%2Fazure-functions-cookbook-python+azure_functions_langgraph+path%3Aexamples&type=code)) |
+| [azure-functions-langgraph-python](https://github.com/yeongseon/azure-functions-langgraph-python) | LangGraph deployment adapter for Azure Functions | Dogfooded ([5 examples](https://github.com/search?q=repo%3Ayeongseon%2Fazure-functions-cookbook-python+azure_functions_langgraph+path%3Aexamples&type=code)) |
 | [azure-functions-scaffold-python](https://github.com/yeongseon/azure-functions-scaffold-python) | Project scaffolding CLI | Dogfooded ([1 example, CLI-generated](examples/apis-and-ingress/scaffold_walkthrough_app/)) |
 | [azure-functions-doctor-python](https://github.com/yeongseon/azure-functions-doctor-python) | Pre-deploy diagnostic CLI | Dogfooded ([2 examples, one CLI-generated](https://github.com/search?q=repo%3Ayeongseon%2Fazure-functions-cookbook-python+azure_functions_doctor+path%3Aexamples&type=code)) |
-| **azure-functions-cookbook-python** *(this repo)* | Dogfood examples for the full toolkit | 83 examples |
+| **azure-functions-cookbook-python** *(this repo)* | Dogfood examples for the full toolkit | 84 examples |
 
 ## For AI Coding Assistants
 
