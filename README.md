@@ -50,6 +50,8 @@ These recipes teach Azure Functions Python v2 patterns. Pick something else when
 
 ## Quick Index
 
+> **I have a working Function. What should I add before production?** See the [Production upgrade path](docs/foundations/production-upgrade-path.md), a decision guide with a baseline and optional upgrades.
+
 Jump to a category: [APIs and Ingress](#apis-and-ingress) · [Scheduled and Background](#scheduled-and-background) · [Blob and File Triggers](#blob-and-file-triggers) · [Async APIs and Jobs](#async-apis-and-jobs) · [Messaging and Pub/Sub](#messaging-and-pubsub) · [Streams and Telemetry](#streams-and-telemetry) · [Data and Pipelines](#data-and-pipelines) · [Orchestration and Workflows](#orchestration-and-workflows) · [Reliability](#reliability) · [Security and Tenancy](#security-and-tenancy) · [Runtime and Ops](#runtime-and-ops) · [Realtime](#realtime) · [AI and Agents](#ai-and-agents) · [Guides](#guides)
 
 Prefer to search programmatically? A machine-readable index of every recipe
@@ -326,6 +328,7 @@ particular issue; see [contributor-reserved issues](CONTRIBUTING.md#contributor-
 - Product requirements: `PRD.md`
 - Design principles: `DESIGN.md`
 - Contributing guide: `CONTRIBUTING.md`
+- Production upgrade path ("I have a working Function. What should I add before production?"): [`docs/foundations/production-upgrade-path.md`](docs/foundations/production-upgrade-path.md)
 - AI & Agent Learning Path: [`docs/patterns/ai-and-agents/learning-path.md`](docs/patterns/ai-and-agents/learning-path.md)
 - Compatibility evidence (declared, installed and host-tested combinations with CI run references): [`docs/compatibility.md`](docs/compatibility.md)
 
