@@ -15,6 +15,21 @@
     ]
   },
   {
+    "slug": "durable-agent-approval",
+    "title": "Durable Agent Approval",
+    "category": "ai-and-agents",
+    "description": "Durable Functions workflow that drafts with a LangGraph activity, waits for a human approval event or timeout, then runs a bounded idempotent completion activity.",
+    "example_path": "ai-and-agents/durable_agent_approval",
+    "docs_url": "https://yeongseon.dev/azure-functions-python/cookbook/patterns/ai-and-agents/durable-agent-approval/",
+    "difficulty": "Advanced",
+    "tags": [
+      "agent",
+      "ai-and-agents",
+      "approval",
+      "durable"
+    ]
+  },
+  {
     "slug": "durable-ai-pipeline",
     "title": "Durable AI Pipeline",
     "category": "ai-and-agents",

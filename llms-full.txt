@@ -46,7 +46,7 @@ Use this flow:
 
 ## Full Recipe Inventory
 
-83 published recipes across 14 categories. Each row maps a pattern page
+84 published recipes across 14 categories. Each row maps a pattern page
 (`docs/patterns/<category>/<slug>.md`) to its runnable example project. The same inventory is
 available as machine-readable JSON in `recipes.json`, regenerated with
 `python scripts/gen_recipe_index.py`.
@@ -181,12 +181,13 @@ available as machine-readable JSON in `recipes.json`, regenerated with
 | --- | --- | --- | --- |
 | WebSocket Proxy | Advanced | `examples/realtime/websocket_proxy` | Azure Functions front door for Azure Web PubSub that negotiates client tokens and forwards publish requests. |
 
-### AI & Agents (12)
+### AI & Agents (13)
 
 | Recipe | Difficulty | Example path | Description |
 | --- | --- | --- | --- |
 | AI Image Generation | Intermediate | `examples/ai-and-agents/ai_image_generation` | HTTP-triggered sample that sends a prompt to Azure OpenAI image generation and returns the generated image URL. |
 | Durable AI Pipeline | Advanced | `examples/ai-and-agents/durable_ai_pipeline` | Durable Functions sample that orchestrates three AI steps: embedding, vector search, and answer generation. |
+| Durable Agent Approval | Advanced | `examples/ai-and-agents/durable_agent_approval` | Durable Functions workflow that drafts with a LangGraph activity, waits for a human approval event or timeout, then runs a bounded idempotent completion activity. |
 | Embedding Vector Search | Advanced | `examples/ai-and-agents/embedding_vector_search` | HTTP-triggered sample that creates Azure OpenAI embeddings and uses them to run a vector query against Azure AI Search. |
 | LangGraph Agent | Intermediate | `examples/ai-and-agents/langgraph_agent` | Demonstrates `azure-functions-langgraph-python` adapter with `azure-functions-logging-python`, `azure-functions-validation-python`, and `azure-functions-openapi-python`. |
 | LangGraph RAG Agent | Advanced | `examples/ai-and-agents/langgraph_rag_agent` | This example shows how to combine: |
@@ -207,7 +208,7 @@ available as machine-readable JSON in `recipes.json`, regenerated with
 ## Repository Layout
 
 ```text
-docs/patterns/<category>/<slug>.md   Pattern pages (83 published recipes)
+docs/patterns/<category>/<slug>.md   Pattern pages (84 published recipes)
 examples/<category>/<name>/          Matching runnable example projects
 recipes.json                         Machine-readable recipe index
 scripts/                             Index and requirements generators
