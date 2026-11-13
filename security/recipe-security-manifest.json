@@ -25,6 +25,7 @@
   ],
   "recipes": {
     "examples/ai-and-agents/ai_image_generation": {"category":"paid-backend","reason":"One paid image per request; FUNCTION unless explicitly opted into a public demo.","routes":["generate_image=FUNCTION"]},
+    "examples/ai-and-agents/blob_rag_ingestion": {"category":"non-http","reason":"Blob and Event Grid ingestion triggers; no declared HTTP route.","routes":[]},
     "examples/ai-and-agents/durable_ai_pipeline": {"category":"cloud-backend-demo","reason":"Durable model/search demo; isolate ingress and apply quotas before deployment.","routes":["sample_result=ANONYMOUS","start_pipeline=ANONYMOUS"]},
     "examples/ai-and-agents/embedding_vector_search": {"category":"cloud-backend-demo","reason":"Embedding/search demo; requires production ingress and budget controls.","routes":["search=ANONYMOUS"]},
     "examples/ai-and-agents/langgraph_agent": {"category":"protected","reason":"Adapter and custom invocation require function keys.","routes":["adapter-routes=FUNCTION","invoke_agent=FUNCTION"]},
