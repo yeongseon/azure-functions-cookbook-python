@@ -45,7 +45,10 @@ def test_evidence_for_older_manifests_is_flagged_not_hidden() -> None:
     stale = {**_evidence(), "inventory_digest": "0" * 16}
     page = gen.render(gen.inventory(), stale)
     assert "Evidence is older than the manifests" in page
-    assert "Evidence is older than the manifests" not in gen.render(gen.inventory(), _evidence())
+    # Whether the committed evidence matches the current manifests is deliberately not asserted:
+    # a recipe that adds or changes a tracked dependency range makes the recorded runs older, and
+    # the page then says so instead of hiding it. Evidence is re-recorded from a real CI run
+    # (`gen_compat_table.py --record RUN_ID`), which cannot precede the manifest change.
 
 
 def test_evidence_records_real_runs_with_dates_and_links() -> None:

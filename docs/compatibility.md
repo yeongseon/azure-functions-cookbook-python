@@ -8,22 +8,24 @@ This page separates what the manifests **declare** from what CI **installed** an
 - `installed`: a CI job installed the combination and ran the library test suite.
 - `host-tested`: a CI job started a Functions host on the combination and called it.
 
+> **Evidence is older than the manifests.** The declared ranges below changed after the CI runs were recorded, so the `installed` and `host-tested` rows describe the earlier manifests. Re-record with `python scripts/gen_compat_table.py --record RUN_ID`.
+
 ## Declared ranges
 
 Python: `>=3.11,<3.15` (`requires-python` in `pyproject.toml`).
 
 | Package | Root range | Recipe ranges (recipes) | Lowest declared floor | Lowest version CI installs | Floor installed by CI? |
 |---|---|---|---|---|---|
-| `azure-functions` | `>=1.22.1,<3` | `(unpinned)` (43); `>=1.21.0` (25); `>=1.21.3` (12); `>=1.22.1,<3` (1); `>=1.23.0,<2.0.0` (1) | `1.21.0` | `1.25.0` | no |
+| `azure-functions` | `>=1.22.1,<3` | `(unpinned)` (43); `>=1.21.0` (25); `>=1.21.3` (12); `>=1.22.1,<3` (2); `>=1.23.0,<2.0.0` (1) | `1.21.0` | `1.25.0` | no |
 | `azure-functions-durable` | `>=1.2.4,<3` | `(unpinned)` (5); `>=1.2.10` (2); `>=1.2.9` (7) | `1.2.4` | `1.7.0` | no |
 | `pydantic` | `>=2.11,<3` | `>=2.11` (16); `>=2.11.0` (1); `>=2.11.3` (8) | `2.11` | `2.14.2` | no |
 | `azure-functions-openapi` | `>=0.30.0,<1` | `>=0.30.0` (25); `>=0.30.0,<1` (3) | `0.30.0` | `0.30.1` | no |
 | `azure-functions-validation` | `>=0.16.0,<1` | `>=0.16.0` (1); `>=0.16.0,<1` (25) | `0.16.0` | `0.16.0` | yes |
 | `azure-functions-logging` | `>=0.15.0,<1` | `>=0.15.0` (45) | `0.15.0` | `0.15.3` | no |
 | `azure-functions-db` | `>=0.8.1,<1` | `>=0.8.1` (9) | `0.8.1` | `0.8.3` | no |
-| `azure-functions-langgraph` | `>=0.12.0,<1` | `>=0.12.0` (3); `>=0.12.0,<0.13` (1) | `0.12.0` | `0.12.2` | no |
+| `azure-functions-langgraph` | `>=0.12.0,<1` | `>=0.12.0` (3); `>=0.12.0,<0.13` (1); `>=0.12.0,<0.14` (1) | `0.12.0` | `0.12.2` | no |
 | `azure-functions-doctor` | `>=0.22.0,<1` | `>=0.22.0` (2) | `0.22.0` | `0.23.1` | no |
-| `langgraph` | `>=1.0,<2` | `>=0.2.0` (3); `>=1.0,<2` (1) | `0.2.0` | `1.2.20` | no |
+| `langgraph` | `>=1.0,<2` | `>=0.2.0` (3); `>=1.0,<2` (2) | `0.2.0` | `1.2.20` | no |
 
 `no` means some manifest declares a floor lower than anything CI installs, so that floor is declared but not installed. `(unpinned)` recipes declare no floor.
 

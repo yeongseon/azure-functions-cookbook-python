@@ -149,6 +149,21 @@
     ]
   },
   {
+    "slug": "servicebus-langgraph-agent",
+    "title": "Service Bus LangGraph Agent",
+    "category": "ai-and-agents",
+    "description": "Run a compiled LangGraph agent from Azure Service Bus messages with deterministic local mode, session-aware thread mapping, and idempotent results.",
+    "example_path": "ai-and-agents/servicebus_langgraph_agent",
+    "docs_url": null,
+    "difficulty": "Advanced",
+    "tags": [
+      "agent",
+      "ai-and-agents",
+      "langgraph",
+      "servicebus"
+    ]
+  },
+  {
     "slug": "streaming-ai-response",
     "title": "Streaming AI Response",
     "category": "ai-and-agents",
