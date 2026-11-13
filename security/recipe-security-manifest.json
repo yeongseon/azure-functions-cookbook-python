@@ -26,6 +26,7 @@
   "recipes": {
     "examples/ai-and-agents/ai_image_generation": {"category":"paid-backend","reason":"One paid image per request; FUNCTION unless explicitly opted into a public demo.","routes":["generate_image=FUNCTION"]},
     "examples/ai-and-agents/durable_ai_pipeline": {"category":"cloud-backend-demo","reason":"Durable model/search demo; isolate ingress and apply quotas before deployment.","routes":["sample_result=ANONYMOUS","start_pipeline=ANONYMOUS"]},
+    "examples/ai-and-agents/durable_agent_approval": {"category":"protected","reason":"Agent run start, status, approval and cancel routes require a function key.","routes":["cancel_run=FUNCTION","get_run=FUNCTION","start_run=FUNCTION","submit_approval=FUNCTION"]},
     "examples/ai-and-agents/embedding_vector_search": {"category":"cloud-backend-demo","reason":"Embedding/search demo; requires production ingress and budget controls.","routes":["search=ANONYMOUS"]},
     "examples/ai-and-agents/langgraph_agent": {"category":"protected","reason":"Adapter and custom invocation require function keys.","routes":["adapter-routes=FUNCTION","invoke_agent=FUNCTION"]},
     "examples/ai-and-agents/langgraph_rag_agent": {"category":"cloud-backend-demo","reason":"RAG adapter/chat/state educational surface; isolate before deploying with credentials.","routes":["adapter-routes=ANONYMOUS","chat=ANONYMOUS","get_thread_state=ANONYMOUS"]},
