@@ -18,7 +18,7 @@ pytestmark = pytest.mark.repo_infra
 def test_real_manifest_covers_all_examples() -> None:
     result = check_manifest(ROOT)
     assert result.status == Status.PASS, result.findings
-    assert result.counts["discovered"] == result.counts["classified"] == 83
+    assert result.counts["discovered"] == result.counts["classified"] == 84
 
 
 @pytest.fixture

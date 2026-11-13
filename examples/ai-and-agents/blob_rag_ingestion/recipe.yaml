@@ -1,0 +1,7 @@
+slug: blob-rag-ingestion
+title: Blob RAG Ingestion
+category: ai-and-agents
+difficulty: Advanced
+description: Event Grid-sourced blob trigger that chunks, embeds and indexes documents into Azure AI Search with idempotent chunk ids and delete handling.
+docs_url: https://yeongseon.dev/azure-functions-python/cookbook/patterns/ai-and-agents/blob-rag-ingestion/
+verification: unit

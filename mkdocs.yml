@@ -139,6 +139,8 @@ nav:
           - Streaming AI Response: patterns/ai-and-agents/streaming-ai-response.md
           - AI Image Generation: patterns/ai-and-agents/ai-image-generation.md
           - Embedding Vector Search: patterns/ai-and-agents/embedding-vector-search.md
+          - Azure RAG Path: patterns/ai-and-agents/azure-rag-path.md
+          - Blob RAG Ingestion: patterns/ai-and-agents/blob-rag-ingestion.md
   - Reference:
       - Overview: reference/index.md
       - HTTP: reference/http.md
