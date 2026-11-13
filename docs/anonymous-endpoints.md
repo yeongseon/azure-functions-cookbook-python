@@ -25,7 +25,7 @@ In the tables below, route entries are the registered **handler names** (not URL
 | **Public documentation routes** (1) | Anonymous health and OpenAPI/Swagger routes; the webhook route keeps `FUNCTION`. |
 | **Public webhook with own verification** (1) | Anonymous by design; the handler verifies an HMAC-SHA256 signature. |
 | **Public health** (1) | Only the lightweight health route is anonymous; other routes inherit `FUNCTION`. |
-| **Protected (function key)** (12) | All indexed HTTP routes require `FUNCTION` (a library-provided route can differ; see notes, e.g. Personal LangGraph Agent's public health route). A function key is shared-secret access control, not per-user authorization. |
+| **Protected (function key)** (13) | All indexed HTTP routes require `FUNCTION` (a library-provided route can differ; see notes, e.g. Personal LangGraph Agent's public health route). A function key is shared-secret access control, not per-user authorization. |
 | **No HTTP route** (23) | Queue, blob, timer, Event Hub, Service Bus or Event Grid triggers only. |
 
 ## Deployment guidance by risk
@@ -133,6 +133,7 @@ In the tables below, route entries are the registered **handler names** (not URL
 | [Langgraph Tool Use](patterns/ai-and-agents/langgraph-tool-use.md) | `adapter-routes=FUNCTION`, `invoke_tool_agent=FUNCTION` | Tool adapter and invocation require function keys. |
 | [MCP Server Example](patterns/ai-and-agents/mcp-server-example.md) | `mcp=FUNCTION` | Function-key MCP endpoint; calculator eval is separately tracked in #426. |
 | [Personal LangGraph Agent](patterns/ai-and-agents/personal-langgraph-agent.md) | `adapter-routes=FUNCTION` | Adapter requires FUNCTION; its library-provided lightweight health route is intentionally public. Note: the library-provided health route is public and is not listed here. |
+| [Service Bus LangGraph Agent](patterns/ai-and-agents/servicebus-langgraph-agent.md) | `adapter-routes=FUNCTION` | Service Bus trigger; the adapter's health routes are set to FUNCTION, so no anonymous route exists. |
 | [CQRS Read Projection](patterns/data-and-pipelines/cqrs-read-projection.md) | `create_order=FUNCTION`, `get_order_projection=FUNCTION` | Order write/read projection requires function key. |
 | [DB Input and Output Bindings](patterns/data-and-pipelines/db-input-output.md) | `create_item=FUNCTION`, `list_items=FUNCTION` | Database read/write endpoints require function key. |
 | [SQLAlchemy REST Pagination](patterns/data-and-pipelines/sqlalchemy-rest-pagination.md) | `create_item=FUNCTION`, `list_items=FUNCTION` | Paginated database API requires function key. |

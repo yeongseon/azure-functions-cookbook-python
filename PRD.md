@@ -156,6 +156,7 @@ The published cookbook currently contains **83 published recipes**.
 |---|---|---|
 | MCP Server | `examples/ai-and-agents/mcp_server_example` | MCP server on Azure Functions |
 | Personal LangGraph Agent | `examples/ai-and-agents/personal_langgraph_agent` | Integrated model, typed tool, per-thread memory, and Blob persistence |
+| Service Bus LangGraph Agent | `examples/ai-and-agents/servicebus_langgraph_agent` | Event-driven graph runs from Service Bus messages with idempotent state and results |
 
 #### Local Development
 
