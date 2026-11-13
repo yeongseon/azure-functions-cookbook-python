@@ -51,10 +51,9 @@ For the Python, `azure-functions`, Pydantic and toolkit-library versions CI actu
 
 For this repository's definitions of *verified*, *experimental* and *package compatibility*, which integration paths each check backs, and the breaking-change and deprecation process, see [Stability and compatibility](stability-and-compatibility.md).
 
-A snapshot tells you what was verified, not what to add before calling a recipe production-like. A
-reference path for that question (edge, caller and resource identity, observability, reliability) is tracked in
-[issue #352](https://github.com/yeongseon/azure-functions-cookbook-python/issues/352); it is not published yet, so
-this page does not link to a guide that does not exist.
+A snapshot tells you what was verified, not what to add before calling a recipe production-like. For
+that question (edge, caller and resource identity, observability, reliability, networking) see the
+[Production upgrade path](foundations/production-upgrade-path.md).
 
 ## How to judge a recipe
 

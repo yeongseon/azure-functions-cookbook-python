@@ -10,6 +10,7 @@ A curated, runnable collection of Azure Functions Python v2 patterns — from HT
 - [Pattern Chooser](https://yeongseon.dev/azure-functions-python/cookbook/foundations/pattern-chooser/): Pick the right pattern.
 - [Delivery Guarantees](https://yeongseon.dev/azure-functions-python/cookbook/foundations/delivery-guarantees/): At-least-once and idempotency.
 - [Hosting & Scale](https://yeongseon.dev/azure-functions-python/cookbook/foundations/hosting-and-scale/): Plans and scaling.
+- [Production Upgrade Path](https://yeongseon.dev/azure-functions-python/cookbook/foundations/production-upgrade-path/): What to add to a working Function before production.
 
 ## Patterns
 - [Patterns Overview](https://yeongseon.dev/azure-functions-python/cookbook/patterns/): All recipe categories.

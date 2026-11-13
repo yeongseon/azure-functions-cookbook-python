@@ -34,6 +34,7 @@
     "examples/ai-and-agents/openai_direct_chat": {"category":"paid-backend","reason":"Paid chat requires FUNCTION unless explicitly opted into a public demo.","routes":["chat=FUNCTION"]},
     "examples/ai-and-agents/personal_langgraph_agent": {"category":"protected","reason":"Adapter requires FUNCTION; its library-provided lightweight health route is intentionally public.","routes":["adapter-routes=FUNCTION"]},
     "examples/ai-and-agents/rag_knowledge_api": {"category":"cloud-backend-demo","reason":"Anonymous health plus RAG ask/ingest demo; isolate data/model routes before production.","routes":["ask=ANONYMOUS","healthz=ANONYMOUS","ingest=ANONYMOUS"]},
+    "examples/ai-and-agents/servicebus_langgraph_agent": {"category":"protected","reason":"Service Bus trigger; adapter health routes are set to FUNCTION, so no anonymous route exists.","routes":["adapter-routes=FUNCTION"]},
     "examples/ai-and-agents/streaming_ai_response": {"category":"paid-backend","reason":"Paid streaming chat requires FUNCTION unless explicitly opted into a public demo.","routes":["stream_chat=FUNCTION"]},
     "examples/apis-and-ingress/apim_function_backend": {"category":"edge-auth-demonstration","reason":"Public health and APIM backend example; restrict direct backend ingress in production.","routes":["get_catalog_item=ANONYMOUS","health=ANONYMOUS"]},
     "examples/apis-and-ingress/auth_easyauth": {"category":"auth-demonstration","reason":"Binding deliberately anonymous; trusted EasyAuth ingress supplies identity.","routes":["auth_admin=ANONYMOUS","auth_me=ANONYMOUS"]},

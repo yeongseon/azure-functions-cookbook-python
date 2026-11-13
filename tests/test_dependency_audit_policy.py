@@ -14,7 +14,7 @@ pytestmark = pytest.mark.repo_infra
 def test_root_closure_is_explicitly_empty_not_dev_extras() -> None:
     scopes = requirement_scopes(ROOT)
     assert scopes["root-runtime"] == ()
-    assert len(scopes) == 83
+    assert len(scopes) == 84
 
 
 def test_unknown_severity_advisory_blocks() -> None:
