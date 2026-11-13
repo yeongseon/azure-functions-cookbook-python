@@ -99,6 +99,12 @@ flowchart TD
 | "How do I push updates to browsers or apps in real time?" | [Realtime](../patterns/realtime/index.md) |
 | "How do I host tool-calling or agent workflows?" | [AI & Agents](../patterns/ai-and-agents/index.md) |
 
+## After you have a working Function
+
+| If you are asking... | Start here |
+| --- | --- |
+| "I have a working Function. What should I add before production?" | [Production upgrade path](production-upgrade-path.md) |
+
 ## Practical guidance
 
 - Start with the category that matches the **trigger or interaction boundary**, not the internal implementation detail.

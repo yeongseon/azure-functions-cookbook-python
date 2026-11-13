@@ -12,6 +12,10 @@ Python v2 programming model.
 
     Reading `main` or a released snapshot? See [Versions, snapshots, and verification](snapshots-and-verification.md).
 
+!!! question "I have a working Function. What should I add before production?"
+    Start with the [Production upgrade path](foundations/production-upgrade-path.md): a short
+    decision guide that separates the baseline from upgrades you only add when needed.
+
 ## Why this cookbook exists
 
 Azure Functions documentation is broad, but many teams still need concrete,
@@ -202,6 +206,7 @@ If you want to improve patterns or examples:
 ## Additional references
 
 - Core concepts: [Foundations](foundations/index.md)
+- I have a working Function. What should I add before production? [Production upgrade path](foundations/production-upgrade-path.md)
 - Planned expansion: [Roadmap](roadmap.md)
 - Common failures and fixes: [Troubleshooting](troubleshooting.md)
 - Frequently asked questions: [FAQ](faq.md)
