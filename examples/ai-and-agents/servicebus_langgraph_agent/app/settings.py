@@ -26,17 +26,16 @@ class AgentSettings:
     model_timeout_seconds: float
     queue_name: str
     sessions: bool
-    lock_timeout_seconds: float
 
 
 def _enabled(name: str) -> bool:
     return os.getenv(name, "").strip().lower() in {"1", "true", "yes", "on"}
 
 
-def _finite_seconds(name: str, default: str) -> float:
+def _timeout_seconds(name: str, default: str) -> float:
     value = float(os.getenv(name, default))
-    if not math.isfinite(value) or value < 0:
-        raise RuntimeError(f"{name} must be a finite, non-negative number of seconds")
+    if not math.isfinite(value) or value <= 0:
+        raise RuntimeError(f"{name} must be a finite number of seconds greater than zero")
     return value
 
 
@@ -44,10 +43,9 @@ def load_settings() -> AgentSettings:
     """Read the app settings. Unknown model modes fail loudly instead of falling back."""
     return AgentSettings(
         model_mode=ModelMode(os.environ.get("AGENT_MODEL_MODE", "fake")),
-        model_timeout_seconds=_finite_seconds("AGENT_MODEL_TIMEOUT_SECONDS", "30"),
+        model_timeout_seconds=_timeout_seconds("AGENT_MODEL_TIMEOUT_SECONDS", "30"),
         queue_name=os.environ.get("SERVICEBUS_QUEUE_NAME", "agent-requests"),
         sessions=_enabled("SERVICEBUS_SESSIONS"),
-        lock_timeout_seconds=_finite_seconds("SERVICEBUS_LOCK_TIMEOUT_SECONDS", "5"),
     )
 
 

@@ -49,7 +49,7 @@ other uses of the package.
   matrix, not a required PR check, and is not an Azure check. The recipe README states that its
   lock does not promise exactly-once tool effects.
 - **`servicebus_langgraph_agent` is unit-level only.** It uses the adapter's Service Bus trigger,
-  which that package documents as experimental, and pins `>=0.13.0,<0.14`. Offline tests call the
+  which that package documents as experimental, and declares `>=0.12.0,<0.14` (its tests passed locally on 0.12.2 and 0.13.0). Offline tests call the
   generated handler with synthetic messages; no Functions host, Service Bus broker, lock expiry,
   dead-lettering or session behavior has been exercised. Its checkpointer is process-local.
 - **No streaming in these recipes.** `personal_langgraph_agent` registers its graph with

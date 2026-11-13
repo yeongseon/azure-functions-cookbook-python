@@ -106,11 +106,7 @@ def test_settings_defaults_to_the_credential_free_fake(monkeypatch: pytest.Monke
     settings = load_settings()
 
     assert settings.model_mode is ModelMode.FAKE
-    assert (settings.queue_name, settings.sessions, settings.lock_timeout_seconds) == (
-        "agent-requests",
-        False,
-        5.0,
-    )
+    assert (settings.queue_name, settings.sessions) == ("agent-requests", False)
     assert isinstance(build_model(settings, build_tool()), FakeModel)
 
 
@@ -121,13 +117,13 @@ def test_unknown_model_mode_does_not_fall_back_to_fake(monkeypatch: pytest.Monke
         load_settings()
 
 
-@pytest.mark.parametrize("value", ["-1", "nan", "inf"])
-def test_lock_timeout_must_be_finite_and_non_negative(
+@pytest.mark.parametrize("value", ["0", "-1", "nan", "inf"])
+def test_model_timeout_must_be_finite_and_positive(
     monkeypatch: pytest.MonkeyPatch, value: str
 ) -> None:
-    monkeypatch.setenv("SERVICEBUS_LOCK_TIMEOUT_SECONDS", value)
+    monkeypatch.setenv("AGENT_MODEL_TIMEOUT_SECONDS", value)
 
-    with pytest.raises(RuntimeError, match="finite, non-negative"):
+    with pytest.raises(RuntimeError, match="greater than zero"):
         load_settings()
 
 
@@ -139,7 +135,7 @@ def test_live_mode_lists_missing_settings_by_name(monkeypatch: pytest.MonkeyPatc
         "AZURE_OPENAI_USE_ENTRA_ID",
     ):
         monkeypatch.delenv(name, raising=False)
-    settings = AgentSettings(ModelMode.AZURE_OPENAI, 30.0, "q", False, 5.0)
+    settings = AgentSettings(ModelMode.AZURE_OPENAI, 30.0, "q", False)
 
     with pytest.raises(RuntimeError) as error:
         build_model(settings, build_tool())
@@ -182,7 +178,7 @@ def test_live_mode_uses_an_explicit_key_and_binds_the_tool(
     monkeypatch: pytest.MonkeyPatch, recording_client: type[_RecordingAzureChat]
 ) -> None:
     monkeypatch.setenv("AZURE_OPENAI_API_KEY", "test-key")
-    settings = AgentSettings(ModelMode.AZURE_OPENAI, 12.0, "q", False, 5.0)
+    settings = AgentSettings(ModelMode.AZURE_OPENAI, 12.0, "q", False)
     tool = build_tool()
 
     build_model(settings, tool)
@@ -198,7 +194,7 @@ def test_live_mode_can_use_entra_id_without_a_key(
     monkeypatch: pytest.MonkeyPatch, recording_client: type[_RecordingAzureChat]
 ) -> None:
     monkeypatch.setenv("AZURE_OPENAI_USE_ENTRA_ID", "true")
-    settings = AgentSettings(ModelMode.AZURE_OPENAI, 30.0, "q", False, 5.0)
+    settings = AgentSettings(ModelMode.AZURE_OPENAI, 30.0, "q", False)
 
     # Token acquisition is lazy, so no credential or network is needed to build the client.
     build_model(settings, build_tool())

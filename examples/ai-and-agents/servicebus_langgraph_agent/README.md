@@ -73,8 +73,12 @@ fallback to fake mode. Live calls were not run for this recipe.
   `MaxDeliveryCount` Service Bus dead-letters it. See [Service Bus Worker](../../messaging-and-pubsub/servicebus_worker/),
   [DLQ Replay](../../messaging-and-pubsub/servicebus_dlq_replay/) and
   [Poison Message Handling](../../reliability/poison_message_handling/).
-- **Lock budget**: `lock_timeout` + graph run + sink must fit inside the message lock, the host's
-  `maxAutoLockRenewalDuration` and `functionTimeout` (`host.json` sets 5 minutes each).
+- **Lock budget**: graph run + sink (plus the thread-lock wait on adapter 0.13) must fit inside the
+  message lock, the host's `maxAutoLockRenewalDuration` and `functionTimeout` (`host.json` sets
+  5 minutes each).
+- **Adapter version**: declares `azure-functions-langgraph>=0.12.0,<0.14` and uses only APIs present
+  in both 0.12.2 and 0.13.0. 0.13 adds `session=True`, `session_exclusive` and `lock_timeout`; see
+  the pattern page for what they change.
 - **Checkpoints** here are `InMemorySaver`: per instance, lost on restart. Use a durable
   checkpointer and a distributed thread lock before scaling out; see
   [Personal LangGraph Agent](../personal_langgraph_agent/).

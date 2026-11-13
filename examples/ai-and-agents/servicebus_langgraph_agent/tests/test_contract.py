@@ -9,6 +9,7 @@ from app.contract import (
     InvalidMessageError,
     map_input,
     parse_request,
+    session_thread_id,
     thread_id_for,
 )
 
@@ -69,3 +70,13 @@ def test_rejection_never_echoes_producer_content() -> None:
 def test_thread_id_is_namespaced_and_defaults_to_one_thread_per_request() -> None:
     assert thread_id_for(request(conversation_id="conv-9")) == "sb:conversation:conv-9"
     assert thread_id_for(request("req-5")) == "sb:request:req-5"
+
+
+def test_session_thread_id_is_the_session_id() -> None:
+    assert session_thread_id(request(session_id="order-77")) == "order-77"
+
+
+@pytest.mark.parametrize("session_id", [None, "", "   "])
+def test_session_thread_id_requires_a_non_blank_session_id(session_id: str | None) -> None:
+    with pytest.raises(InvalidMessageError, match="session_id"):
+        session_thread_id(request(session_id=session_id))

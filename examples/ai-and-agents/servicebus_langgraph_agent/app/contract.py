@@ -106,3 +106,15 @@ def thread_id_for(msg: MessageLike) -> str:
     if request.conversation_id is None:
         return f"{THREAD_PREFIX}request:{request.request_id}"
     return f"{THREAD_PREFIX}conversation:{request.conversation_id}"
+
+
+def session_thread_id(msg: MessageLike) -> str:
+    """``thread_id_factory`` for a session-enabled queue: the message ``session_id`` is the thread.
+
+    The trigger is bound with ``is_sessions_enabled`` so Service Bus delivers one session to one
+    receiver at a time. A missing or blank ``session_id`` is rejected before the graph runs.
+    """
+    session_id = getattr(msg, "session_id", None)
+    if not isinstance(session_id, str) or not session_id.strip():
+        raise InvalidMessageError("session mode requires a non-empty message session_id")
+    return session_id

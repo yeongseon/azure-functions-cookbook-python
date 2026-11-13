@@ -14,10 +14,12 @@ Functions host.
 
 > [!IMPORTANT]
 > The adapter's Service Bus surface is documented by that package as **experimental**: it is
-> opt-in and may change between minor releases. The recipe pins `>=0.13.0,<0.14` and uses only
-> what the released 0.13.0 wheel provides (`session`, `session_exclusive`, `thread_id_factory`,
-> `result_handler`, `lock_timeout`). It enables `session=True` as an option and does **not**
-> enable `session_exclusive`.
+> opt-in and may change between minor releases. The recipe declares `>=0.12.0,<0.14` and uses
+> only `input_mapper`, `thread_id_factory`, `result_handler` and `binding_kwargs`, which exist in
+> both the 0.12.2 and 0.13.0 releases (its offline tests pass on both, so it also runs on this
+> repository's declared floor). The 0.13.0 release adds `session=True`, `session_exclusive` and
+> `lock_timeout`; the recipe does **not** use them, and does not enable `session_exclusive`.
+> Section [Session options in 0.13](#session-options-in-013) says what they add.
 
 > [!NOTE]
 > **Verification level: unit.** Offline tests call the real generated handler with real
@@ -70,11 +72,11 @@ Validate producers upstream and inspect the dead-letter queue with the
 | --- | --- |
 | Queue or topic subscription, `conversation_id` present | `sb:conversation:<conversation_id>` |
 | Queue or topic subscription, no `conversation_id` | `sb:request:<request_id>` (one thread per request) |
-| `session=True` | the message `session_id`, required |
+| Session queue (`SERVICEBUS_SESSIONS=true`) | the message `session_id`, required |
 
-In session mode the adapter requires a non-empty `session_id` and uses it as the thread ID;
-a `thread_id_factory` may only repeat it, so the recipe supplies none. The prefixes keep
-Service Bus threads apart from HTTP thread IDs.
+In session mode the trigger is bound with `is_sessions_enabled` and `session_thread_id` uses the
+`session_id` as the thread ID, rejecting a missing or blank value before the graph runs. The
+prefixes keep Service Bus threads apart from HTTP thread IDs.
 
 > [!WARNING]
 > A thread ID is a checkpoint partition key. A producer who can guess or choose a
@@ -121,16 +123,28 @@ itself; every failure is an exception:
 
 Thread contention burns delivery count. Prefer sessions for ordered per-conversation work so
 the broker serializes a session; sessions follow the broker semantics in the
-[Service Bus sessions documentation][sessions]. Whether a session lock is held through the
-whole execution is the operator's assertion to make for `session_exclusive`; this recipe
-leaves that off and keeps the adapter's `ThreadLock`.
+[Service Bus sessions documentation][sessions]. The recipe keeps the adapter's `ThreadLock` in
+both modes. In 0.12.2 the lock is taken without waiting; in 0.13.0 it waits up to
+`lock_timeout` (default 5 seconds) before raising.
 
-Budget `lock_timeout` + model/tool time + sink time inside the message lock (default one
+Budget model/tool time + sink time (and, on 0.13, the lock wait) inside the message lock (default one
 minute, at most five minutes before renewal is needed, per the
 [locks documentation][locks]), `maxAutoLockRenewalDuration` and `functionTimeout`. The
 checked-in `host.json` sets 5 minutes for both, `maxConcurrentCalls` to 4 and
 `maxConcurrentSessions` to 4 (see the [host.json reference][hostjson]); tune them to your model
 latency. The adapter does not renew broker locks.
+
+### Session options in 0.13
+
+The 0.13.0 release adds, and this recipe does not use:
+
+- `session=True`: the adapter itself requires a non-empty `session_id` and uses it as the thread
+  ID, and enables sessions on the binding. It replaces `session_thread_id` and `binding_kwargs`.
+- `lock_timeout`: how long a delivery waits for the thread lock.
+- `session_exclusive=True`: skips the application `ThreadLock`. It is an operator assertion that
+  the entity is the only checkpoint writer and that session ownership lasts through execution,
+  and the adapter restricts the topology it accepts. Make that assertion only after verifying it
+  against your own queue; this recipe never verified it against Azure.
 
 Existing recipes cover the dedicated mechanics:
 [Service Bus Worker](../messaging-and-pubsub/servicebus-worker.md),

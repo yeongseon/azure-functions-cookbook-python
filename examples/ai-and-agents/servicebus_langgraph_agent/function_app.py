@@ -4,7 +4,7 @@ import azure.functions as func
 from azure_functions_langgraph import LangGraphApp, LoggingRunObserver
 
 from app.agent import build_graph, build_model, build_tool
-from app.contract import map_input, thread_id_for
+from app.contract import map_input, session_thread_id, thread_id_for
 from app.outcomes import InMemoryOutcomeStore, make_result_handler
 from app.settings import load_settings
 
@@ -31,11 +31,11 @@ adapter.register_service_bus(
     connection="ServiceBusConnection",
     queue_name=settings.queue_name,
     input_mapper=map_input,
-    # Session mode: the adapter requires session_id and uses it as the thread_id, so a factory
-    # must not be supplied. Otherwise the producer's conversation_id picks the thread.
-    thread_id_factory=None if settings.sessions else thread_id_for,
+    # Session queue: the session_id is the thread, and the binding enables sessions. Otherwise the
+    # producer's conversation_id picks the thread. (azure-functions-langgraph 0.13 also offers
+    # session=True and lock_timeout; this recipe avoids them so it runs on the 0.12 floor too.)
+    thread_id_factory=session_thread_id if settings.sessions else thread_id_for,
+    binding_kwargs={"is_sessions_enabled": True} if settings.sessions else None,
     result_handler=make_result_handler(store),
-    lock_timeout=settings.lock_timeout_seconds,
-    session=settings.sessions,
 )
 app = adapter.function_app

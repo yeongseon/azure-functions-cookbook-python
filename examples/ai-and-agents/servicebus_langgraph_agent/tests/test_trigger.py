@@ -12,6 +12,7 @@ from typing import Any
 
 import azure.functions as func
 import pytest
+from azure_functions_langgraph.locks import InProcessThreadLock
 from azure_functions_langgraph.triggers.service_bus import ThreadContentionError
 from conftest import make_message, request
 from langchain_core.messages import AIMessage, BaseMessage
@@ -199,19 +200,14 @@ def test_session_mode_rejects_a_message_without_a_session_id(session_setup: _Set
 
 
 def test_contended_thread_fails_for_broker_retry_without_running_the_graph(
-    monkeypatch: pytest.MonkeyPatch,
+    setup: _Setup, monkeypatch: pytest.MonkeyPatch
 ) -> None:
-    setup = _Setup(monkeypatch, SERVICEBUS_LOCK_TIMEOUT_SECONDS="0")
-    lock = setup.module.adapter.thread_lock
-    thread_id = "sb:conversation:conv-1"
-    token = lock.acquire("agent_requests", thread_id)
-    assert token is not None
+    # A lock that is always held by another delivery. Patched at the class so it works for any
+    # adapter version, whether acquire() waits (0.13 default) or returns immediately (0.12).
+    monkeypatch.setattr(InProcessThreadLock, "acquire", lambda self, *a, **k: None)
 
-    try:
-        with pytest.raises(ThreadContentionError):
-            setup.handle(request("req-1", conversation_id="conv-1"))
-    finally:
-        lock.release("agent_requests", thread_id, token)
+    with pytest.raises(ThreadContentionError):
+        setup.handle(request("req-1", conversation_id="conv-1"))
 
     assert len(setup.store) == 0
 
