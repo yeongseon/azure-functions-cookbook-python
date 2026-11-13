@@ -21,7 +21,7 @@ Each recipe should answer three questions:
 ## Scope
 
 - A clear repository README
-- 82 curated recipes covering all major Azure Functions patterns
+- 83 curated recipes covering all major Azure Functions patterns
 - A reusable recipe template
 - Published documentation with hierarchical navigation
 - Standard repository tooling, testing, and release workflows
@@ -77,7 +77,7 @@ Each recipe follows this progression:
 
 ### Recipes Inventory
 
-The published cookbook currently contains **82 published recipes**.
+The published cookbook currently contains **83 published recipes**.
 
 #### HTTP
 

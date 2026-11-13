@@ -43,5 +43,6 @@ flowchart LR
 | [Durable AI Pipeline](./durable-ai-pipeline.md) | HTTP + Durable Functions | Advanced | Multi-step LLM batch processing and pipeline orchestration |
 | [Streaming AI Response](./streaming-ai-response.md) | HTTP + SSE streaming | Intermediate | Buffered SSE response over Server-Sent Events |
 | [Embedding Vector Search](./embedding-vector-search.md) | HTTP + Azure OpenAI + AI Search | Advanced | Vector embedding generation and cosine similarity search |
+| [Durable Agent Approval](./durable-agent-approval.md) | HTTP + Durable Functions + LangGraph | Advanced | Agent draft activity, human approval or timeout, bounded idempotent completion |
 | [AI Image Generation](./ai-image-generation.md) | HTTP + DALL-E 3 | Intermediate | Image generation via Azure OpenAI DALL-E 3 returning image URLs |
 | [MCP Server Example](./mcp-server-example.md) | HTTP + Model Context Protocol | Intermediate | Exposing Function tools via standard MCP interfaces |

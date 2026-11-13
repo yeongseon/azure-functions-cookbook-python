@@ -3,7 +3,7 @@
 Not every recipe uses the Azure Functions Python DX Toolkit. Some are plain Azure Functions examples that depend only on the Azure Functions SDK and other third-party packages; others opt in to one or more toolkit packages. This page lists both kinds so you can find them without scanning source.
 
 - **47 recipes** declare at least one toolkit package.
-- **35 recipes** are plain Azure Functions examples (no toolkit package).
+- **36 recipes** are plain Azure Functions examples (no toolkit package).
 
 ## How usage is determined
 
@@ -87,6 +87,7 @@ python scripts/check_ecosystem_counts.py --print
 
 | Recipe | Category | Verification |
 |---|---|---|
+| [Durable Agent Approval](patterns/ai-and-agents/durable-agent-approval.md) | ai-and-agents | unit |
 | [MCP Server Example](patterns/ai-and-agents/mcp-server-example.md) | ai-and-agents | unit |
 | [EasyAuth Claims Extraction](patterns/apis-and-ingress/auth-easyauth-claims.md) | apis-and-ingress | unit |
 | [HTTP Auth Levels](patterns/apis-and-ingress/http-auth-levels.md) | apis-and-ingress | unit |

@@ -213,7 +213,8 @@ flowchart TD
   ```
 * **Implementation boundary (Standalone vs. Proposed Composition)**:
   - *Shipped Standalone Recipes*: The cookbook provides working standalone Durable patterns demonstrating multi-activity orchestration ([Durable AI Pipeline](durable-ai-pipeline.md)), human approval events with timer races ([Durable Human Interaction](../orchestration-and-workflows/durable-human-interaction.md)), and async status queries ([Async Job Lifecycle](../orchestration-and-workflows/async-job-lifecycle.md)).
-  - *Proposed Agent Composition*: Composing compiled LangGraph agent activities with external human-approval events and compensation logic is an architectural composition tracked under upcoming issue [#350](https://github.com/yeongseon/azure-functions-cookbook-python/issues/350).
+  - *Agent Composition*: [Durable Agent Approval](durable-agent-approval.md) composes a LangGraph draft activity with an external approval event, a timeout and an idempotent completion activity (offline-tested only). Compensation logic is not included; see [Saga Compensation](../orchestration-and-workflows/saga-compensation.md).
+* **Runnable composition**: [Durable Agent Approval](durable-agent-approval.md) implements the flow above (HTTP `202`, LangGraph draft activity, approval event raced against a timeout, idempotent completion, status and cancel routes), and states its bounds and what its offline tests do not cover.
 * **Required for capability**: `azure-functions-durable`, Durable Task Hub.
 
 ---
