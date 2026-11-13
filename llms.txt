@@ -19,7 +19,7 @@ patterns and architecture decisions; it does not provide a runtime API library.
 ## Recipe Categories
 
 Pattern pages live in `docs/patterns/<category>/<slug>.md`; the runnable app for each one lives in
-`examples/<category>/<name>/`. 83 published recipes across 14 categories:
+`examples/<category>/<name>/`. 84 published recipes across 14 categories:
 
 - APIs & Ingress (14): hello HTTP, routing/query/body, auth levels, EasyAuth claims, JWT validation,
   multi-tenant auth, GitHub webhook, APIM backend, BFF facade, full-stack CRUD, scaffold walkthrough,
