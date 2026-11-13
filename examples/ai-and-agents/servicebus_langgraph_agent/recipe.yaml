@@ -1,0 +1,6 @@
+slug: servicebus-langgraph-agent
+title: Service Bus LangGraph Agent
+category: ai-and-agents
+difficulty: Advanced
+description: Run a compiled LangGraph agent from Azure Service Bus messages with deterministic local mode, session-aware thread mapping, and idempotent results.
+verification: unit

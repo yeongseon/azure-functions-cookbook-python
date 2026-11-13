@@ -1,0 +1,13 @@
+{
+  "IsEncrypted": false,
+  "Values": {
+    "AzureWebJobsStorage": "UseDevelopmentStorage=true",
+    "FUNCTIONS_WORKER_RUNTIME": "python",
+    "ServiceBusConnection": "Endpoint=sb://<namespace>.servicebus.windows.net/;SharedAccessKeyName=<name>;SharedAccessKey=<key>",
+    "SERVICEBUS_QUEUE_NAME": "agent-requests",
+    "SERVICEBUS_SESSIONS": "false",
+    "SERVICEBUS_LOCK_TIMEOUT_SECONDS": "5",
+    "AGENT_MODEL_MODE": "fake",
+    "AGENT_MODEL_TIMEOUT_SECONDS": "30"
+  }
+}
