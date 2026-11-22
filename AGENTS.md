@@ -77,6 +77,18 @@ Use `make security-manifest`, `make security-static`, `make security-semgrep`,
 - Only local composite actions (`uses: ./...`) may skip SHA pinning; document any exception with an inline comment at the call site.
 - Dependabot updates SHA-pinned references on the configured schedule and opens PRs when new versions are available.
 
+## PR review outcomes (common decision rules)
+
+Apply the same outcome rules to human-authored and AI-assisted PRs. Review the actual diff, linked issue, compatibility, tests, documentation, safety and risks on the **current head commit**.
+
+- **`APPROVE`** when the reviewed code has no substantive blocking finding. An optional improvement may be suggested in the approval; do not leave a clean external PR at `COMMENT` solely because of non-blocking polish. Re-evaluate if the head changes.
+- **`REQUEST_CHANGES`** for a concrete must-fix correctness, regression, test, compatibility, security, safety or policy finding. Point to the affected code and an observable failure/acceptance condition; re-review after a fix.
+- **`COMMENT`** for a question, preliminary/undecided review, or a non-decisional note. For a PR authored by the same GitHub account, GitHub self-approval is unavailable: record review findings honestly instead of manufacturing an independent approval.
+- **Approval is not CI or workflow authorization.** A code review may be approved before CI finishes, but `action_required`, pending, failed, stale, skipped required checks or a workflow awaiting an external-contributor run authorization are **not** passing CI. The workflow-run authorization is separate from a PR `APPROVE`.
+- **Merge only after all applicable gates.** Check required statuses on the final head, unresolved threads, repository-specific integration/security/independent-review requirements, protected paths and the maintainer's explicit merge decision. AI/bot output is advisory, never human approval or executed-test evidence. An approval never waives a release/publishing gate, permits admin bypass of failing checks, or authorizes automatic merging of security/workflow changes.
+
+This section standardizes review **outcomes**, not branch protection, required reviewer counts, contributor reservations, release cadence or project-specific safety gates.
+
 ## Unified PR Review and Merge Policy
 
 The same standards apply to human-authored and AI-assisted changes. There is
