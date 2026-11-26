@@ -79,6 +79,9 @@ Use `make security-manifest`, `make security-static`, `make security-semgrep`,
 
 ## Unified PR Review and Merge Policy
 
+Agents must not request or re-request GitHub Copilot code review on pull requests,
+including after new pushes. Do not wait for a Copilot review before merging.
+
 The same standards apply to human-authored and AI-assisted changes. There is
 no required AI-specific design, code review or approval route. The review
 checklist, the CI-authoritative rule and the high-risk escalation live in
