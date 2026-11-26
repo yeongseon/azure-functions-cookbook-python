@@ -37,7 +37,7 @@ issue-linked PR and check it against this list.
 Treat **required GitHub CI checks** at the final PR head as authoritative.
 Local `make check-all` is recommended but not a separate mandatory gate; no
 assumption is made about CI runner hosting. Branch protection, coverage,
-security and docs gates are unchanged by this policy. Oracle, Copilot and
+security and docs gates are unchanged by this policy. Oracle and
 agent-review outputs are advisory only. Resolve or disposition findings, then
 the responsible maintainer decides on merge after verifying CI.
 
